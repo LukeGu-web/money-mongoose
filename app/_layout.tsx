@@ -1,11 +1,14 @@
 import React from 'react';
 import { AntDesign, FontAwesome } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
+import { RecordHeader } from 'components';
 
 export default function TabLayout() {
   return (
     <Tabs
       screenOptions={({ route }) => ({
+        headerStyle: { backgroundColor: '#03045E' },
+        headerTintColor: '#fff',
         tabBarActiveTintColor: '#03045e',
         tabBarStyle: {
           display: route.name === 'record' ? 'none' : 'flex',
@@ -25,7 +28,7 @@ export default function TabLayout() {
         name='record'
         options={{
           title: 'Record',
-          //   headerTitle:
+          headerTitle: () => <RecordHeader />,
           tabBarIcon: ({ color }) => (
             <AntDesign name='pluscircle' size={28} color={color} />
           ),
