@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { View, TouchableOpacity, Text, Button, StyleSheet } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
-import { StatusBar } from 'expo-status-bar';
 import { router } from 'expo-router';
 
 const recordTypes = ['expense', 'income'];
@@ -22,7 +21,10 @@ export default function RecordHeader() {
               styles.button,
               selectedTab === item && styles.selectedButton,
             ]}
-            onPress={() => setSelectedTab(item)}
+            onPress={() => {
+              setSelectedTab(item);
+              router.setParams({ recordType: item });
+            }}
           >
             <Text
               style={[
