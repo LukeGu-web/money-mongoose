@@ -5,14 +5,19 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  Platform,
+  KeyboardAvoidingView,
 } from 'react-native';
 import Keypad from './Keypad';
 
 export default function DigitalPad() {
+  const keyboardVerticalOffset = Platform.OS === 'ios' ? -150 : 0;
+
   const [integer, setInteger] = useState('0');
   const [decimal, setDecimal] = useState('00');
   const [decimalLength, setDecimalLength] = useState(0);
   const [isDecimal, setIsDecimal] = useState(false);
+
   const handlePriceInput = (item: string) => {
     switch (item) {
       case 'delete':
@@ -66,8 +71,13 @@ export default function DigitalPad() {
         break;
     }
   };
+
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      keyboardVerticalOffset={keyboardVerticalOffset}
+      style={styles.container}
+    >
       <View style={styles.noteContainer}>
         <TextInput placeholder='note' style={styles.noteInput} />
         <TouchableOpacity style={styles.amount}>
@@ -76,13 +86,13 @@ export default function DigitalPad() {
       </View>
       {/* <View>function tags</View> */}
       <Keypad onKeyInput={handlePriceInput} />
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
+    // alignItems: 'center',
   },
   noteContainer: {
     height: 50,

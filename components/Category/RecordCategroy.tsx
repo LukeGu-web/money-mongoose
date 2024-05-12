@@ -6,6 +6,7 @@ import {
   Dimensions,
   Text,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   Modal,
 } from 'react-native';
 import { useGlobalSearchParams } from 'expo-router';
@@ -26,8 +27,10 @@ export default function RecordCategory() {
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const isIncome = recordType && recordType === recordTypes[1];
   const handleSelectIcon = (item: string, hasSubcategory: boolean) => {
-    setCateL1(item);
-    setCateL2('');
+    if (item !== cateL1) {
+      setCateL1(item);
+      setCateL2('');
+    }
     if (hasSubcategory) {
       setIsVisible(true);
       if (isIncome) {
@@ -42,22 +45,24 @@ export default function RecordCategory() {
     setIsVisible(false);
   };
   return (
-    <ScrollView contentContainerStyle={styles.iconsContainer}>
-      {isIncome ? (
-        <IconTable
-          data={incomeCategory}
-          selectedCategory={cateL1}
-          selectedSubcategory={cateL2}
-          onSelectIcon={handleSelectIcon}
-        />
-      ) : (
-        <IconTable
-          data={expenseCategory}
-          selectedCategory={cateL1}
-          selectedSubcategory={cateL2}
-          onSelectIcon={handleSelectIcon}
-        />
-      )}
+    <View style={{ flex: 1 }}>
+      <ScrollView contentContainerStyle={styles.iconsContainer}>
+        {isIncome ? (
+          <IconTable
+            data={incomeCategory}
+            selectedCategory={cateL1}
+            selectedSubcategory={cateL2}
+            onSelectIcon={handleSelectIcon}
+          />
+        ) : (
+          <IconTable
+            data={expenseCategory}
+            selectedCategory={cateL1}
+            selectedSubcategory={cateL2}
+            onSelectIcon={handleSelectIcon}
+          />
+        )}
+      </ScrollView>
       <Modal
         animationType='slide'
         transparent={true}
@@ -66,30 +71,27 @@ export default function RecordCategory() {
           setIsVisible(false);
         }}
       >
-        <View style={styles.centeredView}>
-          <View
-            style={[
-              { height: iconSize * Math.round(l2DataList.length / 4 + 2) },
-              styles.modalView,
-            ]}
-          >
-            <View style={styles.modalHeader}>
-              <Text style={styles.modalText}>{cateL1}</Text>
-              <TouchableOpacity onPress={() => setIsVisible(false)}>
-                <AntDesign name='closesquareo' size={24} color='black' />
-              </TouchableOpacity>
+        <TouchableWithoutFeedback onPress={() => setIsVisible(false)}>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <View style={styles.modalHeader}>
+                <Text style={styles.modalText}>{cateL1}</Text>
+                <TouchableOpacity onPress={() => setIsVisible(false)}>
+                  <AntDesign name='closesquareo' size={24} color='black' />
+                </TouchableOpacity>
+              </View>
+              {cateL1 !== '' && (
+                <IconTable
+                  data={l2DataList}
+                  selectedCategory={cateL2}
+                  onSelectIcon={handleSelectL2Icon}
+                />
+              )}
             </View>
-            {cateL1 !== '' && (
-              <IconTable
-                data={l2DataList}
-                selectedCategory={cateL2}
-                onSelectIcon={handleSelectL2Icon}
-              />
-            )}
           </View>
-        </View>
+        </TouchableWithoutFeedback>
       </Modal>
-    </ScrollView>
+    </View>
   );
 }
 
@@ -104,7 +106,8 @@ const styles = StyleSheet.create({
   centeredView: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 40,
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    height: '100%',
   },
   modalView: {
     margin: 20,

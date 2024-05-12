@@ -26,6 +26,7 @@ export default function IconTable({
       scrollEnabled={false}
       numColumns={numColumns} // set number of columns
       keyExtractor={(_, index) => index.toString()}
+      style={{ flexGrow: 0 }}
       renderItem={({ item }) => {
         const hasSubcategory = !isArray && data[item].length > 0;
         return (
@@ -55,11 +56,9 @@ export default function IconTable({
             )}
             <View style={styles.textContainer}>
               <Text style={{ fontSize: 10 }}>{item}</Text>
-              {item === selectedCategory && selectedSubcategory && (
-                <Text style={{ fontSize: 8, opacity: 0.9 }}>
-                  {selectedSubcategory}
-                </Text>
-              )}
+              <Text style={{ fontSize: 8, opacity: 0.9 }}>
+                {item === selectedCategory ? selectedSubcategory : ''}
+              </Text>
             </View>
           </TouchableOpacity>
         );
@@ -92,7 +91,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#e9ecef',
     width: 16,
     height: 16,
-    bottom: 6,
+    bottom: 16,
     right: 0,
   },
   textContainer: {
