@@ -1,6 +1,15 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, ScrollView, Dimensions, Text } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  ScrollView,
+  Dimensions,
+  Text,
+  TouchableOpacity,
+  Modal,
+} from 'react-native';
 import { useGlobalSearchParams } from 'expo-router';
+import { AntDesign } from '@expo/vector-icons';
 import { recordTypes } from 'components/Headers/RecordHeader';
 import expenseCategory from 'static/record-expense-category.json';
 import incomeCategory from 'static/record-income-category.json';
@@ -21,15 +30,16 @@ export default function RecordCategory() {
     setCateL2('');
     if (hasSubcategory) {
       setIsVisible(true);
-      //   if (isIncome) {
-      //     setL2DataList(incomeL2List[item]);
-      //   } else {
-      //     setL2DataList(expenseL2List[item]);
-      //   }
+      if (isIncome) {
+        setL2DataList(incomeCategory[item as keyof typeof incomeCategory]);
+      } else {
+        setL2DataList(expenseCategory[item as keyof typeof expenseCategory]);
+      }
     }
   };
   const handleSelectL2Icon = (item: string) => {
     setCateL2(item);
+    setIsVisible(false);
   };
   return (
     <ScrollView contentContainerStyle={styles.iconsContainer}>
@@ -48,6 +58,37 @@ export default function RecordCategory() {
           onSelectIcon={handleSelectIcon}
         />
       )}
+      <Modal
+        animationType='slide'
+        transparent={true}
+        visible={isVisible}
+        onRequestClose={() => {
+          setIsVisible(false);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View
+            style={[
+              { height: iconSize * Math.round(l2DataList.length / 4 + 2) },
+              styles.modalView,
+            ]}
+          >
+            <View style={styles.modalHeader}>
+              <Text style={styles.modalText}>{cateL1}</Text>
+              <TouchableOpacity onPress={() => setIsVisible(false)}>
+                <AntDesign name='closesquareo' size={24} color='black' />
+              </TouchableOpacity>
+            </View>
+            {cateL1 !== '' && (
+              <IconTable
+                data={l2DataList}
+                selectedCategory={cateL2}
+                onSelectIcon={handleSelectL2Icon}
+              />
+            )}
+          </View>
+        </View>
+      </Modal>
     </ScrollView>
   );
 }
@@ -55,11 +96,38 @@ export default function RecordCategory() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'space-between',
   },
   iconsContainer: {
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  centeredView: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 40,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 20,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  modalHeader: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
   },
 });

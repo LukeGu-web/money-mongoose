@@ -18,21 +18,23 @@ export default function IconTable({
 }: IconTableProps) {
   const { width } = Dimensions.get('window');
   const iconSize = width * 0.15;
+  const isArray = Array.isArray(data);
+  const numColumns = isArray ? 4 : 5;
   return (
     <FlatList
-      data={Object.keys(data)}
+      data={isArray ? data : Object.keys(data)}
       scrollEnabled={false}
-      numColumns={5} // set number of columns
+      numColumns={numColumns} // set number of columns
       keyExtractor={(_, index) => index.toString()}
       renderItem={({ item }) => {
-        const hasSubcategory = data[item].length > 0;
+        const hasSubcategory = !isArray && data[item].length > 0;
         return (
           <TouchableOpacity onPress={() => onSelectIcon(item, hasSubcategory)}>
             <View
               style={[
                 {
                   backgroundColor:
-                    item === selectedCategory ? '#fff' : 'transparent',
+                    item === selectedCategory ? '#fcefb4' : 'transparent',
                   width: iconSize,
                   height: iconSize,
                 },
@@ -67,9 +69,11 @@ export default function IconTable({
 }
 
 type IconTableProps = {
-  data: {
-    [key: string]: string[];
-  };
+  data:
+    | string[]
+    | {
+        [key: string]: string[];
+      };
   selectedCategory: string;
   selectedSubcategory?: string;
   onSelectIcon: (item: string, hasSubcategory: boolean) => void;
@@ -85,7 +89,7 @@ const styles = StyleSheet.create({
   },
   subcategory: {
     position: 'absolute',
-    backgroundColor: '#fff',
+    backgroundColor: '#e9ecef',
     width: 16,
     height: 16,
     bottom: 6,
