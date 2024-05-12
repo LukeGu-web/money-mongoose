@@ -3,7 +3,7 @@ import { View, TouchableOpacity, Text, Button, StyleSheet } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { router } from 'expo-router';
 
-const recordTypes = ['expense', 'income'];
+export const recordTypes = ['expense', 'income'];
 
 export default function RecordHeader() {
   const [selectedTab, setSelectedTab] = useState<string>('expense');

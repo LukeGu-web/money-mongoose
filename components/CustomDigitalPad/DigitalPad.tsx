@@ -1,5 +1,11 @@
 import { useState } from 'react';
-import { StyleSheet, View, TextInput, Button } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+} from 'react-native';
 import Keypad from './Keypad';
 
 export default function DigitalPad() {
@@ -63,24 +69,10 @@ export default function DigitalPad() {
   return (
     <View style={styles.container}>
       <View style={styles.noteContainer}>
-        <TextInput
-          placeholder='note'
-          //   containerStyle={{
-          //     flex: 1,
-          //     margin: 6,
-          //   }}
-          //   inputStyle={{
-          //     fontSize: 25,
-          //   }}
-          //   onChangeText={value => this.setState({ comment: value })}
-        />
-        <Button
-          //   buttonStyle={{ borderRadius: 8 }}
-          //   titleStyle={{
-          //     fontSize: 24,
-          //   }}
-          title={`A$ ${integer}.${decimal}`}
-        />
+        <TextInput placeholder='note' style={styles.noteInput} />
+        <TouchableOpacity style={styles.amount}>
+          <Text style={styles.amountText}>{`A$ ${integer}.${decimal}`}</Text>
+        </TouchableOpacity>
       </View>
       {/* <View>function tags</View> */}
       <Keypad onKeyInput={handlePriceInput} />
@@ -93,11 +85,32 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   noteContainer: {
+    height: 50,
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
-    marginRight: 14,
-    marginBottom: -16,
+    marginHorizontal: 16,
+    borderBottomWidth: 1,
+    marginBottom: 6,
+    paddingBottom: 6,
+  },
+  noteInput: {
+    flex: 1,
+    height: '100%',
+    fontSize: 24,
+    padding: 4,
+    marginRight: 10,
+  },
+  amount: {
+    borderRadius: 8,
+    height: '100%',
+    padding: 6,
+    backgroundColor: '#48CAE4',
+    justifyContent: 'center',
+  },
+  amountText: {
+    color: '#fff',
+    fontSize: 24,
   },
 });

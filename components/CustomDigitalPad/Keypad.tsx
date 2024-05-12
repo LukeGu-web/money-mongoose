@@ -23,7 +23,7 @@ export default function Keypad({ onKeyInput }: KeypadProps) {
               style={[
                 styles.key,
                 {
-                  backgroundColor: item === '' ? 'transparent' : '#fff',
+                  backgroundColor: item === '' ? 'transparent' : '#e9ecef',
                 },
               ]}
             >

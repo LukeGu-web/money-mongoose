@@ -1,0 +1,20 @@
+{
+  "food": [
+    "fruit",
+    "vegetable",
+    "grain",
+    "meat",
+    "seafood",
+    "snack",
+    "beverage",
+    "dessert"
+  ],
+  "transportation": ["car", "bus", "taxi"],
+  "communication": [],
+  "housing": [],
+  "health": [],
+  "education": [],
+  "entertainment": ["movie", "sport", "concert"],
+  "pet": [],
+  "others": []
+}
