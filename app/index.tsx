@@ -1,10 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import 'react-native-get-random-values';
+import { v4 as uuid } from 'uuid';
 
 export default function Home() {
   return (
     <View style={styles.container}>
       <Text>Open up App.tsx to start working on your app!</Text>
+      <Text>{uuid()}</Text>
       <StatusBar style='light' />
     </View>
   );

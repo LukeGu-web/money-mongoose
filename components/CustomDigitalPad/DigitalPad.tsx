@@ -92,7 +92,7 @@ export default function DigitalPad() {
 
 const styles = StyleSheet.create({
   container: {
-    // alignItems: 'center',
+    alignItems: 'center',
   },
   noteContainer: {
     height: 50,
