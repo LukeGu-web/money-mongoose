@@ -1,5 +1,9 @@
 import React from 'react';
-import { AntDesign, FontAwesome } from '@expo/vector-icons';
+import {
+  AntDesign,
+  FontAwesome,
+  MaterialCommunityIcons,
+} from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
 import { RecordHeader } from 'components';
 
@@ -25,6 +29,15 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        name='diagram'
+        options={{
+          title: 'Diagram',
+          tabBarIcon: ({ color }) => (
+            <AntDesign name='piechart' size={28} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
         name='record'
         options={{
           title: 'Record',
@@ -35,11 +48,20 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name='diagram'
+        name='asset'
         options={{
-          title: 'Diagram',
+          title: 'Asset',
           tabBarIcon: ({ color }) => (
-            <AntDesign name='piechart' size={28} color={color} />
+            <MaterialCommunityIcons name='gold' size={28} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name='account'
+        options={{
+          title: 'Account',
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name='account' size={28} color={color} />
           ),
         }}
       />
