@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "money-mongoose",
+    "name": "Money Mongoose",
     "slug": "money-mongoose",
     "scheme": "money-mongoose",
     "version": "1.0.0",
@@ -13,7 +13,8 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.lukeguexpo.moneymongoose"
     },
     "android": {
       "adaptiveIcon": {
@@ -26,6 +27,21 @@
     },
     "plugins": [
       "expo-router"
-    ]
+    ],
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "3b869fa4-1b37-4729-a3c7-a1afe8c176b8"
+      }
+    },
+    "owner": "lukegu-expo",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/3b869fa4-1b37-4729-a3c7-a1afe8c176b8"
+    }
   }
 }
