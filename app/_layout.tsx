@@ -6,6 +6,8 @@ import {
   MaterialCommunityIcons,
 } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
+import 'react-native-get-random-values';
+
 import { RecordHeader } from 'components';
 import { APIProvider } from 'api/api-provider';
 

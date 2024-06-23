@@ -10,7 +10,8 @@ type Variables = {
   };
   accountStatus: string;
 };
-type Response = { id: string; accountStatus: string; message: string };
+// type Response = { id: string; accountStatus: string; message: string };
+type Response = { token: string };
 
 export const useDeviceRegister = createMutation<
   Response,
@@ -22,5 +23,16 @@ export const useDeviceRegister = createMutation<
       url: 'user/device-register/',
       method: 'POST',
       data: variables,
-    }).then((response) => response.data),
+    })
+      .then(() => {
+        return client({
+          url: 'user/login/',
+          method: 'POST',
+          data: variables.user,
+        });
+      })
+      .then((response) => response.data)
+      .catch((err) => {
+        console.log(err);
+      }),
 });
