@@ -10,9 +10,14 @@ import {
 } from 'react-native';
 import Keypad from './Keypad';
 
-export default function DigitalPad() {
+type DigitalPadType = {
+  onSubmit: (note: string, amount: number) => void;
+};
+
+export default function DigitalPad({ onSubmit }: DigitalPadType) {
   const keyboardVerticalOffset = Platform.OS === 'ios' ? -150 : 0;
 
+  const [note, setNote] = useState('');
   const [integer, setInteger] = useState('0');
   const [decimal, setDecimal] = useState('00');
   const [decimalLength, setDecimalLength] = useState(0);
@@ -51,6 +56,8 @@ export default function DigitalPad() {
       case 'new':
         break;
       case 'save':
+        const amount = parseFloat(`${integer}.${decimal}`);
+        onSubmit(note, amount);
         break;
       default:
         if (isDecimal) {
@@ -79,7 +86,11 @@ export default function DigitalPad() {
       style={styles.container}
     >
       <View style={styles.noteContainer}>
-        <TextInput placeholder='note' style={styles.noteInput} />
+        <TextInput
+          placeholder='note'
+          style={styles.noteInput}
+          onChangeText={setNote}
+        />
         <TouchableOpacity style={styles.amount}>
           <Text style={styles.amountText}>{`A$ ${integer}.${decimal}`}</Text>
         </TouchableOpacity>

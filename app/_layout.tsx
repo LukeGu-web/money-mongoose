@@ -7,6 +7,7 @@ import {
 } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
 import 'react-native-get-random-values';
+import Toast from 'react-native-toast-message';
 
 import { RecordHeader } from 'components';
 import { APIProvider } from 'api/api-provider';
@@ -71,6 +72,7 @@ export default function TabLayout() {
           }}
         />
       </Tabs>
+      <Toast />
     </APIProvider>
   );
 }

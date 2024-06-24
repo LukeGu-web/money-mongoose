@@ -15,17 +15,26 @@ import { recordTypes } from 'components/Headers/RecordHeader';
 import expenseCategory from 'static/record-expense-category.json';
 import incomeCategory from 'static/record-income-category.json';
 import IconTable from './IconTable';
+import { RecordTypes } from 'api/record/types';
+import type { RecordCategoryInputType } from 'app/record';
 
 const { width } = Dimensions.get('window');
 const iconSize = width * 0.15;
 
-export default function RecordCategory() {
+type RecordCategoryType = {
+  onGetCategories: (value: RecordCategoryInputType) => void;
+};
+
+export default function RecordCategory({
+  onGetCategories,
+}: RecordCategoryType) {
   const { recordType } = useGlobalSearchParams();
   const [cateL1, setCateL1] = useState<string>('');
   const [cateL2, setCateL2] = useState<string>('');
   const [l2DataList, setL2DataList] = useState<string[]>([]);
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const isIncome = recordType && recordType === recordTypes[1];
+
   const handleSelectIcon = (item: string, hasSubcategory: boolean) => {
     if (item !== cateL1) {
       setCateL1(item);
@@ -38,11 +47,22 @@ export default function RecordCategory() {
       } else {
         setL2DataList(expenseCategory[item as keyof typeof expenseCategory]);
       }
+    } else {
+      onGetCategories({
+        type: (recordType as RecordTypes) ?? RecordTypes.EXPENSE,
+        category: item,
+        subcategory: '',
+      });
     }
   };
   const handleSelectL2Icon = (item: string) => {
     setCateL2(item);
     setIsVisible(false);
+    onGetCategories({
+      type: (recordType as RecordTypes) ?? RecordTypes.EXPENSE,
+      category: cateL1,
+      subcategory: item,
+    });
   };
   return (
     <View style={{ flex: 1 }}>

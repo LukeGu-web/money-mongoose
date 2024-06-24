@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import { v4 as uuid } from 'uuid';
 import { useDeviceRegister } from 'api/account/useDeviceRegister';
 import { useIsFirstTime } from 'core/useIsFirstTime';
-import { setItem, getItem } from 'core/storage';
+import { setItem } from 'core/storage';
 import { getToken, setToken } from 'core/token';
 
 export default function Home() {
