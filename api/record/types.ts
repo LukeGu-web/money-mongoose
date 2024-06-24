@@ -5,14 +5,6 @@ export enum RecordTypes {
   INCOME = 'income',
 }
 
-// export type RecordVariables = {
-//   type: RecordTypes;
-//   category: string;
-//   subcategory: string;
-//   note: string;
-//   amount: number;
-// };
-
 export const RecordVariablesSchema = z.object({
   type: z.enum(['expense', 'income']),
   category: z.string(),

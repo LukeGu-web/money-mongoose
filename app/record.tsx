@@ -5,10 +5,12 @@ import Toast from 'react-native-toast-message';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { DigitalPad, RecordCategory } from 'components';
 import {
+  type RecordVariables,
   RecordVariablesSchema,
   type Record,
   type RecordTypes,
 } from 'api/record/types';
+import { useRecordList } from 'core/useRecordList';
 
 export type RecordCategoryInputType = {
   type: RecordTypes;
@@ -17,6 +19,7 @@ export type RecordCategoryInputType = {
 };
 
 export default function Record() {
+  const addRecord = useRecordList((state) => state.addRecord);
   const [recordCategory, setRecordCategory] =
     useState<RecordCategoryInputType>();
 
@@ -44,6 +47,8 @@ export default function Record() {
         text1: 'Missing field:',
         text2: errorMsg,
       });
+    } else {
+      addRecord(recordDetails as RecordVariables);
     }
   };
 
