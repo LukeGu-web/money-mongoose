@@ -1,8 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Alert } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { DigitalPad, RecordCategory } from 'components';
-import { type Record, type RecordTypes } from 'api/record/types';
+import type { Record, RecordTypes } from 'api/record/types';
 
 export type RecordCategoryInputType = {
   type: RecordTypes;
@@ -11,13 +11,6 @@ export type RecordCategoryInputType = {
 };
 
 export default function Record() {
-  // const [recordCategory, setRecordCategory] =
-  //   useState<RecordCategoryInputType>();
-
-  // const handleSetCategories = (value: RecordCategoryInputType) => {
-  //   setRecordCategory(value);
-  // };
-
   return (
     <SafeAreaView style={styles.container} edges={['right', 'bottom', 'left']}>
       <RecordCategory />

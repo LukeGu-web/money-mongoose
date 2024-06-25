@@ -15,10 +15,12 @@ import { useRecord } from 'core/useRecord';
 import { useRecordList } from 'core/useRecordList';
 import { useShallow } from 'zustand/react/shallow';
 import { RecordVariablesSchema } from 'api/record/types';
+import { useAddRecord } from 'api/record/useAddRecord';
 
 export default function DigitalPad() {
   const keyboardVerticalOffset = Platform.OS === 'ios' ? -150 : 0;
 
+  const { mutate: addRecordApi } = useAddRecord();
   const addRecord = useRecordList((state) => state.addRecord);
   const { record, setRecord, resetRecord } = useRecord(
     useShallow((state) => ({
@@ -122,10 +124,23 @@ export default function DigitalPad() {
         text2: errorMsg,
       });
     } else {
-      addRecord(record);
-      handleReset();
-      resetRecord();
-      if (isRedirect) router.push('/');
+      addRecordApi(
+        {
+          ...record,
+        },
+        {
+          onSuccess: (response) => {
+            console.log('addRecordApi success: ', response);
+            addRecord(response);
+            handleReset();
+            resetRecord();
+            if (isRedirect) router.push('/');
+          },
+          onError: (error) => {
+            console.log('error: ', error);
+          },
+        }
+      );
     }
   };
 

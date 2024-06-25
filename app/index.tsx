@@ -8,6 +8,7 @@ import { setItem, getItem } from 'core/storage';
 import { getToken, setToken } from 'core/token';
 import { useRecordList } from 'core/useRecordList';
 import RecordList from 'components/RecordList/RecordList';
+import { setHeaderToken } from 'api/client';
 
 export default function Home() {
   const records = useRecordList((state) => state.records);
@@ -33,6 +34,7 @@ export default function Home() {
             onSuccess: (response) => {
               console.log('success: ', response);
               setToken(response.token);
+              setHeaderToken(response.token);
               setFistTimeFlag();
             },
             onError: (error) => {
@@ -42,6 +44,7 @@ export default function Home() {
         );
       } else {
         const token = await getToken();
+        if (token) setHeaderToken(token);
         console.log('stored token', token);
       }
     })();

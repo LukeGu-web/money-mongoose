@@ -18,4 +18,6 @@ export type RecordVariables = z.infer<typeof RecordVariablesSchema>;
 export interface Record extends RecordVariables {
   id: number;
   author: string;
+  created_at: string;
+  updated_at: string;
 }
