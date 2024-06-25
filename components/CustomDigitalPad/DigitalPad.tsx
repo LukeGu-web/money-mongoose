@@ -8,20 +8,37 @@ import {
   Platform,
   KeyboardAvoidingView,
 } from 'react-native';
+import Toast from 'react-native-toast-message';
+import { router } from 'expo-router';
 import Keypad from './Keypad';
+import { useRecord } from 'core/useRecord';
+import { useRecordList } from 'core/useRecordList';
+import { useShallow } from 'zustand/react/shallow';
+import { RecordVariablesSchema } from 'api/record/types';
 
-type DigitalPadType = {
-  onSubmit: (note: string, amount: number) => void;
-};
-
-export default function DigitalPad({ onSubmit }: DigitalPadType) {
+export default function DigitalPad() {
   const keyboardVerticalOffset = Platform.OS === 'ios' ? -150 : 0;
 
-  const [note, setNote] = useState('');
+  const addRecord = useRecordList((state) => state.addRecord);
+  const { record, setRecord, resetRecord } = useRecord(
+    useShallow((state) => ({
+      record: state.record,
+      setRecord: state.setRecord,
+      resetRecord: state.resetRecord,
+    }))
+  );
+
   const [integer, setInteger] = useState('0');
   const [decimal, setDecimal] = useState('00');
   const [decimalLength, setDecimalLength] = useState(0);
   const [isDecimal, setIsDecimal] = useState(false);
+
+  const handleReset = () => {
+    setInteger('0');
+    setDecimal('00');
+    setDecimalLength(0);
+    setIsDecimal(false);
+  };
 
   const handlePriceInput = (item: string) => {
     switch (item) {
@@ -54,28 +71,61 @@ export default function DigitalPad({ onSubmit }: DigitalPadType) {
       case 'calculator':
         break;
       case 'new':
+        handleSubmit(false);
         break;
       case 'save':
-        const amount = parseFloat(`${integer}.${decimal}`);
-        onSubmit(note, amount);
+        handleSubmit(true);
         break;
       default:
+        let amount = 0;
+
         if (isDecimal) {
           if (decimalLength === 0) {
-            setDecimal(String(item) + '0');
+            const newDecimal = String(item) + '0';
+            setDecimal(newDecimal);
+            amount = parseFloat(`${integer}.${newDecimal}`);
             setDecimalLength(1);
           } else if (decimalLength === 1) {
-            setDecimal(decimal[0] + String(item));
+            const newDecimal = decimal[0] + String(item);
+            setDecimal(newDecimal);
+            amount = parseFloat(`${integer}.${decimal}`);
             setDecimalLength(2);
           }
         } else {
           if (integer === '0') {
             setInteger(String(item));
+            amount = parseFloat(`${item}.${decimal}`);
           } else {
             setInteger(integer + String(item));
+            amount = parseFloat(`${integer + String(item)}.${decimal}`);
           }
         }
+        setRecord({ amount });
         break;
+    }
+  };
+
+  const handleSubmit = (isRedirect: boolean) => {
+    const validation = RecordVariablesSchema.safeParse(record);
+    if (!validation.success) {
+      let errorMsg = '';
+      if (record.amount === 0) {
+        errorMsg += 'Please enter an amount.';
+      }
+      if ('category' in validation.error.format()) {
+        errorMsg += 'Please select a category.';
+      }
+      Toast.show({
+        type: 'error',
+        position: 'bottom',
+        text1: 'Missing field:',
+        text2: errorMsg,
+      });
+    } else {
+      addRecord(record);
+      handleReset();
+      resetRecord();
+      if (isRedirect) router.push('/');
     }
   };
 
@@ -89,7 +139,8 @@ export default function DigitalPad({ onSubmit }: DigitalPadType) {
         <TextInput
           placeholder='note'
           style={styles.noteInput}
-          onChangeText={setNote}
+          value={record.note}
+          onChangeText={(value) => setRecord({ note: value })}
         />
         <TouchableOpacity style={styles.amount}>
           <Text style={styles.amountText}>{`A$ ${integer}.${decimal}`}</Text>

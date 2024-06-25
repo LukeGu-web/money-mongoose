@@ -9,84 +9,60 @@ import {
   TouchableWithoutFeedback,
   Modal,
 } from 'react-native';
-import { useGlobalSearchParams, usePathname } from 'expo-router';
 import { AntDesign } from '@expo/vector-icons';
-import { recordTypes } from 'components/Headers/RecordHeader';
 import expenseCategory from 'static/record-expense-category.json';
 import incomeCategory from 'static/record-income-category.json';
 import IconTable from './IconTable';
 import { RecordTypes } from 'api/record/types';
-import type { RecordCategoryInputType } from 'app/record';
+import { useRecord } from 'core/useRecord';
+import { useShallow } from 'zustand/react/shallow';
 
 const { width } = Dimensions.get('window');
 const iconSize = width * 0.15;
 
-type RecordCategoryType = {
-  onGetCategories: (value: RecordCategoryInputType) => void;
-};
+export default function RecordCategory() {
+  const { record, setRecord } = useRecord(
+    useShallow((state) => ({
+      record: state.record,
+      setRecord: state.setRecord,
+    }))
+  );
 
-export default function RecordCategory({
-  onGetCategories,
-}: RecordCategoryType) {
-  const { recordType } = useGlobalSearchParams();
-  const [cateL1, setCateL1] = useState<string>('');
-  const [cateL2, setCateL2] = useState<string>('');
   const [l2DataList, setL2DataList] = useState<string[]>([]);
   const [isVisible, setIsVisible] = useState<boolean>(false);
-  const isIncome = recordType && recordType === recordTypes[1];
-
-  const pathname = usePathname();
-  console.log('pathname: ', pathname);
-
-  const handleReset = () => {
-    setCateL1('');
-    setCateL2('');
-  };
 
   const handleSelectIcon = (item: string, hasSubcategory: boolean) => {
-    if (item !== cateL1) {
-      setCateL1(item);
-      setCateL2('');
+    if (item !== record.category) {
+      setRecord({ category: item, subcategory: '' });
     }
     if (hasSubcategory) {
       setIsVisible(true);
-      if (isIncome) {
+      if (record.type === RecordTypes.INCOME) {
         setL2DataList(incomeCategory[item as keyof typeof incomeCategory]);
       } else {
         setL2DataList(expenseCategory[item as keyof typeof expenseCategory]);
       }
-    } else {
-      onGetCategories({
-        type: (recordType as RecordTypes) ?? RecordTypes.EXPENSE,
-        category: item,
-        subcategory: '',
-      });
     }
   };
   const handleSelectL2Icon = (item: string) => {
-    setCateL2(item);
+    setRecord({ subcategory: item });
     setIsVisible(false);
-    onGetCategories({
-      type: (recordType as RecordTypes) ?? RecordTypes.EXPENSE,
-      category: cateL1,
-      subcategory: item,
-    });
   };
   return (
     <View style={{ flex: 1 }}>
       <ScrollView contentContainerStyle={styles.iconsContainer}>
-        {isIncome ? (
+        {record.type === RecordTypes.INCOME ? (
           <IconTable
             data={incomeCategory}
-            selectedCategory={cateL1}
-            selectedSubcategory={cateL2}
+            selectedCategory={record.category}
+            selectedSubcategory={record.subcategory}
             onSelectIcon={handleSelectIcon}
           />
         ) : (
           <IconTable
             data={expenseCategory}
-            selectedCategory={cateL1}
-            selectedSubcategory={cateL2}
+            selectedCategory={record.category}
+            selectedSubcategory={record.subcategory}
             onSelectIcon={handleSelectIcon}
           />
         )}
@@ -103,15 +79,15 @@ export default function RecordCategory({
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
               <View style={styles.modalHeader}>
-                <Text style={styles.modalText}>{cateL1}</Text>
+                <Text style={styles.modalText}>{record.category}</Text>
                 <TouchableOpacity onPress={() => setIsVisible(false)}>
                   <AntDesign name='closesquareo' size={24} color='black' />
                 </TouchableOpacity>
               </View>
-              {cateL1 !== '' && (
+              {record.category !== '' && (
                 <IconTable
                   data={l2DataList}
-                  selectedCategory={cateL2}
+                  selectedCategory={record.subcategory as string}
                   onSelectIcon={handleSelectL2Icon}
                 />
               )}

@@ -1,35 +1,39 @@
-import { useState } from 'react';
-import { View, TouchableOpacity, Text, Button, StyleSheet } from 'react-native';
+import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { router } from 'expo-router';
 
-export const recordTypes = ['expense', 'income'];
+import { useRecord } from 'core/useRecord';
+import { useShallow } from 'zustand/react/shallow';
+import { RecordTypes } from 'api/record/types';
 
 export default function RecordHeader() {
-  const [selectedTab, setSelectedTab] = useState<string>('expense');
-
+  const { record, setRecord } = useRecord(
+    useShallow((state) => ({
+      record: state.record,
+      setRecord: state.setRecord,
+    }))
+  );
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={() => router.replace('/')}>
         <AntDesign name='left' size={24} color='#fff' />
       </TouchableOpacity>
       <View style={styles.buttonGroup}>
-        {recordTypes.map((item) => (
+        {Object.values(RecordTypes).map((item) => (
           <TouchableOpacity
             key={item}
             style={[
               styles.button,
-              selectedTab === item && styles.selectedButton,
+              record.type === item && styles.selectedButton,
             ]}
             onPress={() => {
-              setSelectedTab(item);
-              router.setParams({ recordType: item });
+              setRecord({ type: item });
             }}
           >
             <Text
               style={[
                 styles.buttonText,
-                selectedTab === item && styles.selectedButtonText,
+                record.type === item && styles.selectedButtonText,
               ]}
             >
               {item}

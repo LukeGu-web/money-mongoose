@@ -1,17 +1,8 @@
-import { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { router } from 'expo-router';
 import { StyleSheet, Text, View, Alert } from 'react-native';
-import Toast from 'react-native-toast-message';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { DigitalPad, RecordCategory } from 'components';
-import {
-  RecordVariablesSchema,
-  type Record,
-  type RecordTypes,
-  type RecordVariables,
-} from 'api/record/types';
-import { useRecordList } from 'core/useRecordList';
+import { type Record, type RecordTypes } from 'api/record/types';
 
 export type RecordCategoryInputType = {
   type: RecordTypes;
@@ -20,42 +11,17 @@ export type RecordCategoryInputType = {
 };
 
 export default function Record() {
-  const addRecord = useRecordList((state) => state.addRecord);
-  const [recordCategory, setRecordCategory] =
-    useState<RecordCategoryInputType>();
+  // const [recordCategory, setRecordCategory] =
+  //   useState<RecordCategoryInputType>();
 
-  const handleSetCategories = (value: RecordCategoryInputType) => {
-    setRecordCategory(value);
-  };
-
-  const handleSubmit = (note: string, amount: number) => {
-    const recordDetails = { ...recordCategory, note, amount };
-    const validation = RecordVariablesSchema.safeParse(recordDetails);
-    console.log(recordDetails);
-    if (!validation.success) {
-      let errorMsg = '';
-      if (amount === 0) {
-        errorMsg += 'Please enter an amount.';
-      }
-      if ('category' in validation.error.format()) {
-        errorMsg += 'Please select a category.';
-      }
-      Toast.show({
-        type: 'error',
-        position: 'bottom',
-        text1: 'Missing field:',
-        text2: errorMsg,
-      });
-    } else {
-      addRecord(recordDetails as RecordVariables);
-      router.push('/');
-    }
-  };
+  // const handleSetCategories = (value: RecordCategoryInputType) => {
+  //   setRecordCategory(value);
+  // };
 
   return (
     <SafeAreaView style={styles.container} edges={['right', 'bottom', 'left']}>
-      <RecordCategory onGetCategories={handleSetCategories} />
-      <DigitalPad onSubmit={handleSubmit} />
+      <RecordCategory />
+      <DigitalPad />
       <StatusBar style='light' />
     </SafeAreaView>
   );
