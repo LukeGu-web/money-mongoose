@@ -1,20 +1,11 @@
 {
-  "food": [
-    "fruit",
-    "vegetable",
-    "grain",
-    "meat",
-    "seafood",
-    "snack",
-    "beverage",
-    "dessert"
-  ],
-  "transportation": ["car", "bus", "taxi"],
+  "food": ["breakfast", "lunch", "dinner", "beverage", "dessert"],
+  "transportation": ["car", "bus", "taxi", "train", "ferry"],
   "communication": [],
   "housing": [],
   "health": [],
   "education": [],
-  "entertainment": ["movie", "sport", "concert"],
+  "entertainment": ["movie", "sport", "music"],
   "pet": [],
   "others": []
 }

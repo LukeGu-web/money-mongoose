@@ -5,10 +5,10 @@ import Toast from 'react-native-toast-message';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { DigitalPad, RecordCategory } from 'components';
 import {
-  type RecordVariables,
   RecordVariablesSchema,
   type Record,
   type RecordTypes,
+  type RecordVariables,
 } from 'api/record/types';
 import { useRecordList } from 'core/useRecordList';
 
@@ -37,13 +37,11 @@ export default function Record() {
         errorMsg += 'Please enter an amount.';
       }
       if ('category' in validation.error.format()) {
-        // if (errorMsg !== '') {
-        //   errorMsg += '\n';
-        // }
         errorMsg += 'Please select a category.';
       }
       Toast.show({
         type: 'error',
+        position: 'bottom',
         text1: 'Missing field:',
         text2: errorMsg,
       });

@@ -7,8 +7,7 @@ import {
   Text,
 } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
-import Icon from './Icon';
-import { iconMap } from './iconMap';
+import Icon from '../Icon/Icon';
 
 export default function IconTable({
   data,
@@ -42,12 +41,7 @@ export default function IconTable({
                 styles.container,
               ]}
             >
-              <Icon
-                name={iconMap[item as keyof typeof iconMap].type}
-                iconType={iconMap[item as keyof typeof iconMap].iconType}
-                color='#3F1D38'
-                size={30}
-              />
+              <Icon name={item} color='#3F1D38' size={30} />
             </View>
             {hasSubcategory && (
               <View style={[styles.container, styles.subcategory]}>

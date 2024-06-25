@@ -1,18 +1,20 @@
 import React from 'react';
-import {
-  AntDesign,
-  FontAwesome,
-  Ionicons,
-  MaterialCommunityIcons,
-} from '@expo/vector-icons';
+import { useFonts } from 'expo-font';
 import { Tabs } from 'expo-router';
 import 'react-native-get-random-values';
 import Toast from 'react-native-toast-message';
 
-import { RecordHeader } from 'components';
+import { RecordHeader, Icon } from 'components';
 import { APIProvider } from 'api/api-provider';
 
 export default function TabLayout() {
+  const [fontsLoaded] = useFonts({
+    fontello: require('../assets/fontello.ttf'),
+  });
+  if (!fontsLoaded) {
+    return null;
+  }
+
   return (
     <APIProvider>
       <Tabs
@@ -30,7 +32,7 @@ export default function TabLayout() {
           options={{
             title: 'Home',
             tabBarIcon: ({ color }) => (
-              <FontAwesome size={28} name='home' color={color} />
+              <Icon size={28} name='home' color={color} />
             ),
           }}
         />
@@ -39,7 +41,7 @@ export default function TabLayout() {
           options={{
             title: 'Calendar',
             tabBarIcon: ({ color }) => (
-              <Ionicons name='calendar-number' size={28} color={color} />
+              <Icon name='calendar' size={28} color={color} />
             ),
           }}
         />
@@ -49,7 +51,7 @@ export default function TabLayout() {
             title: 'Record',
             headerTitle: () => <RecordHeader />,
             tabBarIcon: ({ color }) => (
-              <AntDesign name='pluscircle' size={28} color={color} />
+              <Icon name='record' size={28} color={color} />
             ),
           }}
         />
@@ -58,7 +60,7 @@ export default function TabLayout() {
           options={{
             title: 'Asset',
             tabBarIcon: ({ color }) => (
-              <MaterialCommunityIcons name='gold' size={28} color={color} />
+              <Icon name='asset' size={28} color={color} />
             ),
           }}
         />
@@ -67,7 +69,7 @@ export default function TabLayout() {
           options={{
             title: 'Account',
             tabBarIcon: ({ color }) => (
-              <MaterialCommunityIcons name='account' size={28} color={color} />
+              <Icon name='account' size={28} color={color} />
             ),
           }}
         />

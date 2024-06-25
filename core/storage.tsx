@@ -26,3 +26,24 @@ export async function removeItem(key: string) {
     console.log(e);
   }
 }
+
+export const getAllKeys = async () => {
+  let keys: any = [];
+  try {
+    keys = await AsyncStorage.getAllKeys();
+  } catch (e) {
+    // read key error
+  }
+
+  console.log(keys);
+};
+
+export const clearAll = async () => {
+  try {
+    await AsyncStorage.clear();
+  } catch (e) {
+    // clear error
+  }
+
+  console.log('Done.');
+};
