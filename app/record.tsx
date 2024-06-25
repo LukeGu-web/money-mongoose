@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
+import { router } from 'expo-router';
 import { StyleSheet, Text, View, Alert } from 'react-native';
 import Toast from 'react-native-toast-message';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -47,6 +48,7 @@ export default function Record() {
       });
     } else {
       addRecord(recordDetails as RecordVariables);
+      router.push('/');
     }
   };
 

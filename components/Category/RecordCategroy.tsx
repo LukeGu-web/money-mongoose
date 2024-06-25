@@ -9,7 +9,7 @@ import {
   TouchableWithoutFeedback,
   Modal,
 } from 'react-native';
-import { useGlobalSearchParams } from 'expo-router';
+import { useGlobalSearchParams, usePathname } from 'expo-router';
 import { AntDesign } from '@expo/vector-icons';
 import { recordTypes } from 'components/Headers/RecordHeader';
 import expenseCategory from 'static/record-expense-category.json';
@@ -34,6 +34,14 @@ export default function RecordCategory({
   const [l2DataList, setL2DataList] = useState<string[]>([]);
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const isIncome = recordType && recordType === recordTypes[1];
+
+  const pathname = usePathname();
+  console.log('pathname: ', pathname);
+
+  const handleReset = () => {
+    setCateL1('');
+    setCateL2('');
+  };
 
   const handleSelectIcon = (item: string, hasSubcategory: boolean) => {
     if (item !== cateL1) {
