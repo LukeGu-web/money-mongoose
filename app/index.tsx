@@ -54,15 +54,7 @@ export default function Home() {
 
   return (
     <View style={styles.container}>
-      {/* <Text>Open up App.tsx to start working on your app!</Text> */}
-      {records.length === 0 ? (
-        <Text>You don't have any record.</Text>
-      ) : (
-        <RecordList />
-        // records.map((record, index) => (
-        //   <Text key={`${record.category}_${index}`}>{record.category} </Text>
-        // ))
-      )}
+      <RecordList />
       <StatusBar style='light' />
     </View>
   );

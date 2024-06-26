@@ -1,8 +1,9 @@
 import { View, Text, StyleSheet } from 'react-native';
 import Icon from 'components/Icon/Icon';
-import { RecordVariables } from 'api/record/types';
+import { Record } from 'api/record/types';
 
-export default function ListItem({ item }: { item: RecordVariables }) {
+export default function ListItem({ item }: { item: Record }) {
+  console.log('time: ', item.created_at);
   return (
     <View style={styles.container}>
       <View style={styles.iconContainer}>
@@ -12,7 +13,7 @@ export default function ListItem({ item }: { item: RecordVariables }) {
         <Text style={styles.category}>{item.category}</Text>
         <Text style={styles.date}>time</Text>
       </View>
-      <Text style={styles.date}>{item.amount.toFixed(2)}</Text>
+      <Text style={styles.date}>{Number(item.amount).toFixed(2)}</Text>
     </View>
   );
 }
