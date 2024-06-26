@@ -14,8 +14,9 @@ import Keypad from './Keypad';
 import { useRecord } from 'core/useRecord';
 import { useRecordList } from 'core/useRecordList';
 import { useShallow } from 'zustand/react/shallow';
-import { RecordVariablesSchema } from 'api/record/types';
+import { RecordTypes, RecordVariablesSchema } from 'api/record/types';
 import { useAddRecord } from 'api/record/useAddRecord';
+import { formatApiError } from 'api/errorFormat';
 
 export default function DigitalPad() {
   const keyboardVerticalOffset = Platform.OS === 'ios' ? -150 : 0;
@@ -127,17 +128,18 @@ export default function DigitalPad() {
       addRecordApi(
         {
           ...record,
+          amount:
+            record.type === RecordTypes.INCOME ? record.amount : -record.amount,
         },
         {
           onSuccess: (response) => {
-            console.log('addRecordApi success: ', response);
             addRecord(response);
             handleReset();
             resetRecord();
             if (isRedirect) router.push('/');
           },
           onError: (error) => {
-            console.log('error: ', error);
+            console.log('error: ', formatApiError(error));
           },
         }
       );

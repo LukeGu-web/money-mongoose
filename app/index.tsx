@@ -9,10 +9,11 @@ import { getToken, setToken } from 'core/token';
 import { useRecordList } from 'core/useRecordList';
 import RecordList from 'components/RecordList/RecordList';
 import { setHeaderToken } from 'api/client';
+import { formatApiError } from 'api/errorFormat';
 
 export default function Home() {
   const records = useRecordList((state) => state.records);
-  const { mutate: registerDevice } = useDeviceRegister();
+  const { mutate: registerDevice, isPending } = useDeviceRegister();
 
   useEffect(() => {
     (async function handleFirstTime() {
@@ -38,7 +39,7 @@ export default function Home() {
               setFistTimeFlag();
             },
             onError: (error) => {
-              console.log('error: ', error);
+              console.log('error: ', formatApiError(error));
             },
           }
         );
@@ -51,6 +52,10 @@ export default function Home() {
   }, []);
 
   console.log('records: ', records);
+
+  if (isPending) {
+    return <Text>Loading</Text>;
+  }
 
   return (
     <View style={styles.container}>
