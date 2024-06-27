@@ -11,8 +11,8 @@ import {
 import Toast from 'react-native-toast-message';
 import { router } from 'expo-router';
 import Keypad from './Keypad';
-import { useRecord } from 'core/useRecord';
-import { useRecordList } from 'core/useRecordList';
+import { useRecord } from 'core/stateHooks/useRecord';
+import { useRecordList } from 'core/stateHooks/useRecordList';
 import { useShallow } from 'zustand/react/shallow';
 import { RecordTypes, RecordVariablesSchema } from 'api/record/types';
 import { useAddRecord } from 'api/record/useAddRecord';

@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useGetRecordList } from 'api/record/useGetRecordList';
-import { useRecordList } from 'core/useRecordList';
+import { useRecordList } from 'core/stateHooks/useRecordList';
 import { formatApiError } from 'api/errorFormat';
 
 export default function EmptyRecordList() {

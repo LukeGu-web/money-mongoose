@@ -1,4 +1,4 @@
-import { clearAll, getAllKeys } from 'core/storage';
+import { clearAll, getAllKeys } from 'core/localStorage/storage';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button } from 'react-native';
 

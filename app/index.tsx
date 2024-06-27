@@ -3,10 +3,13 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import { v4 as uuid } from 'uuid';
 import { useDeviceRegister } from 'api/account/useDeviceRegister';
-import { getFistTimeFlag, setFistTimeFlag } from 'core/useIsFirstTime';
-import { setItem, getItem } from 'core/storage';
-import { getToken, setToken } from 'core/token';
-import { useRecordList } from 'core/useRecordList';
+import {
+  getFistTimeFlag,
+  setFistTimeFlag,
+} from 'core/localStorage/useIsFirstTime';
+import { setItem, getItem } from 'core/localStorage/storage';
+import { getToken, setToken } from 'core/localStorage/token';
+import { useRecordList } from 'core/stateHooks/useRecordList';
 import RecordList from 'components/RecordList/RecordList';
 import { setHeaderToken } from 'api/client';
 import { formatApiError } from 'api/errorFormat';

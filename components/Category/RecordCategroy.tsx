@@ -14,7 +14,7 @@ import expenseCategory from 'static/record-expense-category.json';
 import incomeCategory from 'static/record-income-category.json';
 import IconTable from './IconTable';
 import { RecordTypes } from 'api/record/types';
-import { useRecord } from 'core/useRecord';
+import { useRecord } from 'core/stateHooks/useRecord';
 import { useShallow } from 'zustand/react/shallow';
 
 const { width } = Dimensions.get('window');

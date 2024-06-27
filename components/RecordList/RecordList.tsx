@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet } from 'react-native';
 import { FlashList } from '@shopify/flash-list';
 
-import { useRecordList } from 'core/useRecordList';
+import { useRecordList } from 'core/stateHooks/useRecordList';
 import ListItem from './ListItem';
 import EmptyRecordList from './EmptyRecordList';
 

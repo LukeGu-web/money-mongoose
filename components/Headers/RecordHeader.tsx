@@ -2,7 +2,7 @@ import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { router } from 'expo-router';
 
-import { useRecord } from 'core/useRecord';
+import { useRecord } from 'core/stateHooks/useRecord';
 import { useShallow } from 'zustand/react/shallow';
 import { RecordTypes } from 'api/record/types';
 
