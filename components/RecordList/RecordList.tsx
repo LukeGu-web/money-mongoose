@@ -4,9 +4,14 @@ import { FlashList } from '@shopify/flash-list';
 import { useRecordList } from 'core/stateHooks/useRecordList';
 import ListItem from './ListItem';
 import EmptyRecordList from './EmptyRecordList';
+import { useGetRecordsByDateRange } from 'api/record/useGetRecordsByDateRange';
+import { use7DaysRecordList } from 'core/stateHooks/use7DaysRecordList';
+import ListDayItem from './ListDayItem';
 
 export default function RecordList() {
-  const records = useRecordList((state) => state.records);
+  const records = use7DaysRecordList((state) => state.recordsData);
+
+  // console.log('useGetRecordsByDateRange: ', data);
 
   return (
     <View style={styles.container}>
@@ -15,7 +20,7 @@ export default function RecordList() {
       ) : (
         <FlashList
           data={records}
-          renderItem={({ item }) => <ListItem item={item} />}
+          renderItem={({ item }) => <ListDayItem item={item} />}
           estimatedItemSize={200}
         />
       )}

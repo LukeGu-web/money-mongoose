@@ -21,3 +21,10 @@ export interface Record extends RecordVariables {
   created_at: string;
   updated_at: string;
 }
+
+export type RecordsByDay = {
+  date: string;
+  sum_of_income: number;
+  sum_of_expense: number;
+  records: Record[];
+};

@@ -3,7 +3,6 @@ import Icon from 'components/Icon/Icon';
 import { Record } from 'api/record/types';
 
 export default function ListItem({ item }: { item: Record }) {
-  console.log('time: ', item.created_at);
   return (
     <View style={styles.container}>
       <View style={styles.iconContainer}>
@@ -11,7 +10,7 @@ export default function ListItem({ item }: { item: Record }) {
       </View>
       <View style={styles.midContainer}>
         <Text style={styles.category}>{item.category}</Text>
-        <Text style={styles.date}>time</Text>
+        {item.note !== '' && <Text style={styles.date}>{item.note}</Text>}
       </View>
       <Text style={styles.date}>{Number(item.amount).toFixed(2)}</Text>
     </View>
