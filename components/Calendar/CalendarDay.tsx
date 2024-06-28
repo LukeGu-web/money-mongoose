@@ -1,3 +1,4 @@
+import { useTheme } from 'core/theme';
 import { StyleSheet, Text, View } from 'react-native';
 import { DateData } from 'react-native-calendars';
 
@@ -9,12 +10,13 @@ type CalendarDayType = {
 };
 
 export default function CalendarDay({ date, state }: CalendarDayType) {
+  const { theme } = useTheme();
   return (
     <View>
       <Text
         style={{
           textAlign: 'center',
-          color: state === 'disabled' ? 'gray' : 'black',
+          color: state === 'disabled' ? 'gray' : theme.textPrimary,
         }}
       >
         {date?.day}

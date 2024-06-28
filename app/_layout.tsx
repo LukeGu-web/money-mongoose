@@ -18,6 +18,7 @@ export default function TabLayout() {
   }
 
   const colorScheme = useColorScheme();
+  // const colorScheme = 'dark';
   const { theme, setTheme } = useTheme();
 
   useEffect(() => {
@@ -28,9 +29,9 @@ export default function TabLayout() {
     <APIProvider>
       <Tabs
         screenOptions={({ route }) => ({
-          headerStyle: { backgroundColor: '#03045E' },
-          headerTintColor: '#fff',
-          tabBarActiveTintColor: '#03045e',
+          headerStyle: { backgroundColor: theme.primary },
+          headerTintColor: theme.textSecondary,
+          tabBarActiveTintColor: theme.primary,
           tabBarStyle: {
             display: route.name === 'record' ? 'none' : 'flex',
           },

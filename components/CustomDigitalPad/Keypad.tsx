@@ -6,11 +6,13 @@ import {
   StyleSheet,
 } from 'react-native';
 import Key from './Key';
+import { useStyles, TColors } from 'core/theme';
 
 const { width } = Dimensions.get('window');
 const dialPadSize = width * 0.225;
 
 export default function Keypad({ onKeyInput }: KeypadProps) {
+  const { theme, styles } = useStyles(createStyles);
   return (
     <FlatList
       data={dialPadContent}
@@ -23,7 +25,8 @@ export default function Keypad({ onKeyInput }: KeypadProps) {
               style={[
                 styles.key,
                 {
-                  backgroundColor: item === '' ? 'transparent' : '#e9ecef',
+                  backgroundColor:
+                    item === '' ? 'transparent' : theme.bgPrimary,
                 },
               ]}
             >
@@ -40,17 +43,18 @@ type KeypadProps = {
   onKeyInput: (item: string) => void;
 };
 
-const styles = StyleSheet.create({
-  key: {
-    width: dialPadSize,
-    height: dialPadSize * 0.65,
-    justifyContent: 'center',
-    alignItems: 'center',
-    margin: 2,
-    borderRadius: 8,
-    borderColor: 'transparent',
-  },
-});
+const createStyles = (theme: TColors) =>
+  StyleSheet.create({
+    key: {
+      width: dialPadSize,
+      height: dialPadSize * 0.65,
+      justifyContent: 'center',
+      alignItems: 'center',
+      margin: 2,
+      borderRadius: 8,
+      borderColor: 'transparent',
+    },
+  });
 
 const dialPadContent = [
   '1',

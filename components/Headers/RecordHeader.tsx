@@ -1,10 +1,11 @@
 import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { router } from 'expo-router';
-
-import { useRecord } from 'core/stateHooks/useRecord';
 import { useShallow } from 'zustand/react/shallow';
+
 import { RecordTypes } from 'api/record/types';
+import { useRecord } from 'core/stateHooks/useRecord';
+import { useStyles, TColors } from 'core/theme';
 
 export default function RecordHeader() {
   const { record, setRecord } = useRecord(
@@ -13,10 +14,11 @@ export default function RecordHeader() {
       setRecord: state.setRecord,
     }))
   );
+  const { theme, styles } = useStyles(createStyles);
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={() => router.replace('/')}>
-        <AntDesign name='left' size={24} color='#fff' />
+        <AntDesign name='left' size={24} color={theme.textSecondary} />
       </TouchableOpacity>
       <View style={styles.buttonGroup}>
         {Object.values(RecordTypes).map((item) => (
@@ -42,43 +44,44 @@ export default function RecordHeader() {
         ))}
       </View>
       <TouchableOpacity>
-        <AntDesign name='setting' size={24} color='#fff' />
+        <AntDesign name='setting' size={24} color={theme.textSecondary} />
       </TouchableOpacity>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  buttonGroup: {
-    flex: 0.5,
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderWidth: 2,
-    borderColor: '#fff',
-    borderRadius: 5,
-  },
-  button: {
-    flex: 1,
-    padding: 4,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  selectedButton: {
-    backgroundColor: '#fff',
-  },
-  buttonText: {
-    textAlign: 'center',
-    fontSize: 14,
-    color: '#fff',
-  },
-  selectedButtonText: {
-    color: '#000',
-  },
-});
+const createStyles = (theme: TColors) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      width: '100%',
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+    },
+    buttonGroup: {
+      flex: 0.5,
+      flexDirection: 'row',
+      alignItems: 'center',
+      borderWidth: 2,
+      borderColor: theme.textSecondary,
+      borderRadius: 5,
+    },
+    button: {
+      flex: 1,
+      padding: 4,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    selectedButton: {
+      backgroundColor: theme.textSecondary,
+    },
+    buttonText: {
+      textAlign: 'center',
+      fontSize: 14,
+      color: theme.textSecondary,
+    },
+    selectedButtonText: {
+      color: theme.textPrimary,
+    },
+  });

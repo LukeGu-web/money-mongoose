@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
 import Icon from '../Icon/Icon';
+import { useStyles, TColors } from 'core/theme';
 
 export default function IconTable({
   data,
@@ -19,6 +20,7 @@ export default function IconTable({
   const iconSize = width * 0.15;
   const isArray = Array.isArray(data);
   const numColumns = isArray ? 4 : 5;
+  const { theme, styles } = useStyles(createStyles);
   return (
     <FlatList
       data={isArray ? data : Object.keys(data)}
@@ -34,18 +36,24 @@ export default function IconTable({
               style={[
                 {
                   backgroundColor:
-                    item === selectedCategory ? '#fcefb4' : 'transparent',
+                    item === selectedCategory
+                      ? theme.iconBgColor
+                      : 'transparent',
                   width: iconSize,
                   height: iconSize,
                 },
                 styles.container,
               ]}
             >
-              <Icon name={item} color='#3F1D38' size={30} />
+              <Icon name={item} color={theme.iconColor} size={30} />
             </View>
             {hasSubcategory && (
               <View style={[styles.container, styles.subcategory]}>
-                <Entypo name='dots-three-vertical' size={10} color='black' />
+                <Entypo
+                  name='dots-three-vertical'
+                  size={10}
+                  color={theme.textPrimary}
+                />
               </View>
             )}
             <View style={styles.textContainer}>
@@ -72,24 +80,25 @@ type IconTableProps = {
   onSelectIcon: (item: string, hasSubcategory: boolean) => void;
 };
 
-const styles = StyleSheet.create({
-  container: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    margin: 10,
-    borderRadius: 50,
-    borderColor: 'transparent',
-  },
-  subcategory: {
-    position: 'absolute',
-    backgroundColor: '#e9ecef',
-    width: 16,
-    height: 16,
-    bottom: 16,
-    right: 0,
-  },
-  textContainer: {
-    alignItems: 'center',
-    marginTop: -4,
-  },
-});
+const createStyles = (theme: TColors) =>
+  StyleSheet.create({
+    container: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      margin: 10,
+      borderRadius: 50,
+      borderColor: 'transparent',
+    },
+    subcategory: {
+      position: 'absolute',
+      backgroundColor: theme.bgPrimary,
+      width: 16,
+      height: 16,
+      bottom: 16,
+      right: 0,
+    },
+    textContainer: {
+      alignItems: 'center',
+      marginTop: -4,
+    },
+  });

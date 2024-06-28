@@ -10,13 +10,15 @@ import {
 } from 'react-native';
 import Toast from 'react-native-toast-message';
 import { router } from 'expo-router';
-import Keypad from './Keypad';
-import { useRecord } from 'core/stateHooks/useRecord';
-import { useRecordList } from 'core/stateHooks/useRecordList';
 import { useShallow } from 'zustand/react/shallow';
+import Keypad from './Keypad';
+
 import { RecordTypes, RecordVariablesSchema } from 'api/record/types';
 import { useAddRecord } from 'api/record/useAddRecord';
 import { formatApiError } from 'api/errorFormat';
+import { useStyles, TColors } from 'core/theme';
+import { useRecord } from 'core/stateHooks/useRecord';
+import { useRecordList } from 'core/stateHooks/useRecordList';
 
 export default function DigitalPad() {
   const keyboardVerticalOffset = Platform.OS === 'ios' ? -150 : 0;
@@ -30,6 +32,8 @@ export default function DigitalPad() {
       resetRecord: state.resetRecord,
     }))
   );
+
+  const { theme, styles } = useStyles(createStyles);
 
   const [integer, setInteger] = useState('0');
   const [decimal, setDecimal] = useState('00');
@@ -169,37 +173,38 @@ export default function DigitalPad() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    alignItems: 'center',
-  },
-  noteContainer: {
-    height: 50,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
-    marginHorizontal: 16,
-    borderBottomWidth: 1,
-    marginBottom: 6,
-    paddingBottom: 6,
-  },
-  noteInput: {
-    flex: 1,
-    height: '100%',
-    fontSize: 24,
-    padding: 4,
-    marginRight: 10,
-  },
-  amount: {
-    borderRadius: 8,
-    height: '100%',
-    padding: 6,
-    backgroundColor: '#48CAE4',
-    justifyContent: 'center',
-  },
-  amountText: {
-    color: '#fff',
-    fontSize: 24,
-  },
-});
+const createStyles = (theme: TColors) =>
+  StyleSheet.create({
+    container: {
+      alignItems: 'center',
+    },
+    noteContainer: {
+      height: 50,
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      justifyContent: 'space-between',
+      alignItems: 'flex-start',
+      marginHorizontal: 16,
+      borderBottomWidth: 1,
+      marginBottom: 6,
+      paddingBottom: 6,
+    },
+    noteInput: {
+      flex: 1,
+      height: '100%',
+      fontSize: 24,
+      padding: 4,
+      marginRight: 10,
+    },
+    amount: {
+      borderRadius: 8,
+      height: '100%',
+      padding: 6,
+      backgroundColor: theme.secondary,
+      justifyContent: 'center',
+    },
+    amountText: {
+      color: theme.white,
+      fontSize: 24,
+    },
+  });
