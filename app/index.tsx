@@ -54,8 +54,6 @@ export default function Home() {
     })();
   }, []);
 
-  console.log('records: ', records);
-
   if (isPending) {
     return <Text>Loading</Text>;
   }

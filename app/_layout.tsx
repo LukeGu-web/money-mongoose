@@ -1,4 +1,5 @@
-import React from 'react';
+import { useEffect } from 'react';
+import { useColorScheme } from 'react-native';
 import { useFonts } from 'expo-font';
 import { Tabs } from 'expo-router';
 import 'react-native-get-random-values';
@@ -6,6 +7,7 @@ import Toast from 'react-native-toast-message';
 
 import { RecordHeader, Icon } from 'components';
 import { APIProvider } from 'api/api-provider';
+import { Colors, useTheme } from 'core/theme';
 
 export default function TabLayout() {
   const [fontsLoaded] = useFonts({
@@ -14,6 +16,13 @@ export default function TabLayout() {
   if (!fontsLoaded) {
     return null;
   }
+
+  const colorScheme = useColorScheme();
+  const { theme, setTheme } = useTheme();
+
+  useEffect(() => {
+    setTheme(colorScheme === 'dark' ? Colors.dark : Colors.light);
+  }, [colorScheme]);
 
   return (
     <APIProvider>

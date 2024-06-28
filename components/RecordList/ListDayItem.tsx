@@ -19,8 +19,8 @@ export default function ListDayItem({ item }: { item: RecordsByDay }) {
         </View>
       </View>
       <View style={styles.midContainer}>
-        {item.records.map((record) => (
-          <ListItem item={record} />
+        {item.records.map((record, index) => (
+          <ListItem key={`${record.created_at}`} item={record} />
         ))}
       </View>
       {/*<Text style={styles.date}>{Number(item.amount).toFixed(2)}</Text> */}
