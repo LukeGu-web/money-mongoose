@@ -6,8 +6,8 @@ import type { RecordsByDay } from './types';
 type Variables = {
   start_date: string; //'2024-06-29'
   end_date: string;
-  group_by_date: boolean;
-  is_decreasing: boolean;
+  group_by_date?: boolean;
+  is_decreasing?: boolean;
 };
 type Response = RecordsByDay[];
 

@@ -24,8 +24,6 @@ export default function EmptyRecordList() {
     if (data) set7DaysRecords(data);
   }, [data]);
 
-  console.log('useGetRecordsByDateRange: ', data);
-
   if (isLoading) return <Text>is loading...</Text>;
 
   if (isError) {
