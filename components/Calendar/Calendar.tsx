@@ -4,19 +4,17 @@ import {
   Calendar as ClendarPicker,
   LocaleConfig,
 } from 'react-native-calendars';
+import dayjs from 'dayjs';
+
 import CalendarDay from './CalendarDay';
 import { formatApiError } from 'api/errorFormat';
 import { useGetRecordsByDateRange } from 'api/record/useGetRecordsByDateRange';
 
 export default function Calendar() {
   const [selected, setSelected] = useState('');
-  const date = new Date();
-  const firstDay = new Date(date.getFullYear(), date.getMonth(), 1)
-    .toISOString()
-    .split('T')[0];
-  const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 1)
-    .toISOString()
-    .split('T')[0];
+  const now = dayjs();
+  const firstDay = now.subtract(1, 'month').format('YYYY-MM-DD');
+  const lastDay = now.add(1, 'month').format('YYYY-MM-DD');
   const variables = {
     start_date: firstDay,
     end_date: lastDay,

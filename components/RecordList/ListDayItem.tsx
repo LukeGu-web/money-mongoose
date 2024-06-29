@@ -1,18 +1,13 @@
 import { View, Text, StyleSheet } from 'react-native';
+import dayjs from 'dayjs';
+
 import { RecordsByDay } from 'api/record/types';
 import ListItem from './ListItem';
 import { useStyles, TColors } from 'core/theme';
 
 export default function ListDayItem({ item }: { item: RecordsByDay }) {
   const { theme, styles } = useStyles(createStyles);
-  let formattedDate = new Date(item.date).toLocaleDateString('en-gb', {
-    month: 'short',
-    day: 'numeric',
-    weekday: 'short',
-  });
-  if (item.date === new Date().toISOString().split('T')[0]) {
-    formattedDate = 'Today ' + formattedDate;
-  }
+  let formattedDate = dayjs(item.date).format('MMM DD ddd');
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
