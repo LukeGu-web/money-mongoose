@@ -9,7 +9,6 @@ export default function ListItem({ item }: { item: Record }) {
     <View
       style={{
         ...styles.container,
-        backgroundColor: theme[`${item.type}BgColor`],
         borderColor: theme[`${item.type}TextColor`],
       }}
     >
@@ -17,10 +16,17 @@ export default function ListItem({ item }: { item: Record }) {
         <Icon name={item.category} size={28} color='black' />
       </View>
       <View style={styles.midContainer}>
-        <Text style={styles.category}>{item.category}</Text>
+        <View style={styles.categoryContainer}>
+          <Text style={styles.category}>{item.category}</Text>
+          {item.subcategory && (
+            <Text style={styles.category}> - {item.subcategory}</Text>
+          )}
+        </View>
         {item.note !== '' && <Text>{item.note}</Text>}
       </View>
-      <Text style={styles.amount}>{Number(item.amount).toFixed(2)}</Text>
+      <Text style={{ ...styles.amount, color: theme[`${item.type}TextColor`] }}>
+        {Number(item.amount).toFixed(2)}
+      </Text>
     </View>
   );
 }
@@ -41,6 +47,9 @@ const createStyles = (theme: TColors) =>
     },
     midContainer: {
       flex: 0.8,
+    },
+    categoryContainer: {
+      flexDirection: 'row',
     },
     category: {
       paddingBottom: 4,

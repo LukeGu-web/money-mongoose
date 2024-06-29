@@ -1,5 +1,5 @@
-import { useEffect } from 'react';
-import { useColorScheme } from 'react-native';
+// import { useEffect } from 'react';
+// import { useColorScheme } from 'react-native';
 import { useFonts } from 'expo-font';
 import { Tabs } from 'expo-router';
 import 'react-native-get-random-values';
@@ -7,7 +7,7 @@ import Toast from 'react-native-toast-message';
 
 import { RecordHeader, Icon } from 'components';
 import { APIProvider } from 'api/api-provider';
-import { Colors, useTheme } from 'core/theme';
+// import { Colors, useTheme } from 'core/theme';
 
 export default function TabLayout() {
   const [fontsLoaded] = useFonts({
@@ -17,21 +17,21 @@ export default function TabLayout() {
     return null;
   }
 
-  const colorScheme = useColorScheme();
+  // const colorScheme = useColorScheme();
   // const colorScheme = 'dark';
-  const { theme, setTheme } = useTheme();
+  // const { theme } = useTheme();
 
-  useEffect(() => {
-    setTheme(colorScheme === 'dark' ? Colors.dark : Colors.light);
-  }, [colorScheme]);
+  // useEffect(() => {
+  //   setTheme(colorScheme === 'dark' ? Colors.dark : Colors.light);
+  // }, []);
 
   return (
     <APIProvider>
       <Tabs
         screenOptions={({ route }) => ({
-          headerStyle: { backgroundColor: theme.primary },
-          headerTintColor: theme.textSecondary,
-          tabBarActiveTintColor: theme.primary,
+          headerStyle: { backgroundColor: '#03045E' },
+          headerTintColor: '#fff',
+          tabBarActiveTintColor: '#03045E',
           tabBarStyle: {
             display: route.name === 'record' ? 'none' : 'flex',
           },

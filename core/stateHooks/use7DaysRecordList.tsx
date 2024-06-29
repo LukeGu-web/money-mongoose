@@ -4,7 +4,7 @@ import { create } from 'zustand';
 type RecordState = {
   recordsData: RecordsByDay[];
   set7DaysRecords: (recordsData: RecordsByDay[]) => void;
-  // addRecord: (record: Record) => void;
+  addRecord: (record: Record) => void;
 };
 
 export const use7DaysRecordList = create<RecordState>((set) => ({
@@ -12,7 +12,15 @@ export const use7DaysRecordList = create<RecordState>((set) => ({
   set7DaysRecords: (recordsData) => {
     set(() => ({ recordsData }));
   },
-  // addRecord: (record) => {
-  //   set((state) => ({ recordsData: [...state.recordsData, state.recordsData[0]:{...state.recordsData[0], records: [...state.recordsData[0].records,record]}] }));
-  // },
+  addRecord: (record) => {
+    set((state) => {
+      const newRecords = [...state.recordsData];
+      newRecords[0] = {
+        ...newRecords[0],
+        records: [...newRecords[0].records, record],
+      };
+      console.log('use7DaysRecordList: ', newRecords);
+      return { recordsData: newRecords };
+    });
+  },
 }));

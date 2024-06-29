@@ -18,13 +18,13 @@ import { useAddRecord } from 'api/record/useAddRecord';
 import { formatApiError } from 'api/errorFormat';
 import { useStyles, TColors } from 'core/theme';
 import { useRecord } from 'core/stateHooks/useRecord';
-import { useRecordList } from 'core/stateHooks/useRecordList';
+import { use7DaysRecordList } from 'core/stateHooks/use7DaysRecordList';
 
 export default function DigitalPad() {
   const keyboardVerticalOffset = Platform.OS === 'ios' ? -150 : 0;
 
   const { mutate: addRecordApi } = useAddRecord();
-  const addRecord = useRecordList((state) => state.addRecord);
+  const addRecord = use7DaysRecordList((state) => state.addRecord);
   const { record, setRecord, resetRecord } = useRecord(
     useShallow((state) => ({
       record: state.record,
@@ -129,6 +129,7 @@ export default function DigitalPad() {
         text2: errorMsg,
       });
     } else {
+      console.log('submit');
       addRecordApi(
         {
           ...record,
@@ -137,6 +138,7 @@ export default function DigitalPad() {
         },
         {
           onSuccess: (response) => {
+            console.log('submit success:', response);
             addRecord(response);
             handleReset();
             resetRecord();

@@ -5,16 +5,28 @@ import { useStyles, TColors } from 'core/theme';
 
 export default function ListDayItem({ item }: { item: RecordsByDay }) {
   const { theme, styles } = useStyles(createStyles);
+  let formattedDate = new Date(item.date).toLocaleDateString('en-gb', {
+    month: 'short',
+    day: 'numeric',
+    weekday: 'short',
+  });
+  if (item.date === new Date().toISOString().split('T')[0]) {
+    formattedDate = 'Today ' + formattedDate;
+  }
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
-        <Text style={styles.category}>{item.date}</Text>
+        <Text style={styles.category}>{formattedDate}</Text>
         <View style={styles.amountContainer}>
           {item.sum_of_income > 0 && (
-            <Text style={styles.category}>Income: {item.sum_of_income}</Text>
+            <Text style={{ ...styles.category, color: theme.incomeTextColor }}>
+              Income: {item.sum_of_income}
+            </Text>
           )}
           {item.sum_of_expense < 0 && (
-            <Text style={styles.category}>Expense: {item.sum_of_expense}</Text>
+            <Text style={{ ...styles.category, color: theme.expenseTextColor }}>
+              Expense: {item.sum_of_expense}
+            </Text>
           )}
         </View>
       </View>

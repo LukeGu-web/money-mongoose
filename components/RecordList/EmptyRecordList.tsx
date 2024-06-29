@@ -3,12 +3,15 @@ import { View, Text, StyleSheet } from 'react-native';
 import { useGetRecordsByDateRange } from 'api/record/useGetRecordsByDateRange';
 import { formatApiError } from 'api/errorFormat';
 import { use7DaysRecordList } from 'core/stateHooks/use7DaysRecordList';
+import { calculateDate } from 'core/utils';
 
 export default function EmptyRecordList() {
   const set7DaysRecords = use7DaysRecordList((state) => state.set7DaysRecords);
+  const startDate = calculateDate(new Date(), -6);
+  const endDate = calculateDate(new Date(), 1);
   const variables = {
-    start_date: '2024-06-25',
-    end_date: '2024-06-29',
+    start_date: startDate,
+    end_date: endDate,
     group_by_date: true,
     is_decreasing: true,
   };
