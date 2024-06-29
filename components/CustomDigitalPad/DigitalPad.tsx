@@ -17,8 +17,7 @@ import { RecordTypes, RecordVariablesSchema } from 'api/record/types';
 import { useAddRecord } from 'api/record/useAddRecord';
 import { formatApiError } from 'api/errorFormat';
 import { useStyles, TColors } from 'core/theme';
-import { useRecord } from 'core/stateHooks/useRecord';
-import { use7DaysRecordList } from 'core/stateHooks/use7DaysRecordList';
+import { useRecord, use7DaysRecordList } from 'core/stateHooks';
 
 export default function DigitalPad() {
   const keyboardVerticalOffset = Platform.OS === 'ios' ? -150 : 0;

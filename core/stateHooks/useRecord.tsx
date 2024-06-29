@@ -7,7 +7,7 @@ type RecordState = {
   resetRecord: () => void;
 };
 
-export const useRecord = create<RecordState>((set) => ({
+const useRecord = create<RecordState>((set) => ({
   record: {
     type: 'expense',
     category: '',
@@ -30,3 +30,5 @@ export const useRecord = create<RecordState>((set) => ({
     }));
   },
 }));
+
+export default useRecord;

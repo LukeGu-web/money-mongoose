@@ -2,7 +2,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import { FlashList } from '@shopify/flash-list';
 
 import EmptyRecordList from './EmptyRecordList';
-import { use7DaysRecordList } from 'core/stateHooks/use7DaysRecordList';
+import { use7DaysRecordList } from 'core/stateHooks';
 import ListDayItem from './ListDayItem';
 
 import { useStyles, TColors } from 'core/theme';

@@ -14,7 +14,7 @@ import { AntDesign } from '@expo/vector-icons';
 import IconTable from './IconTable';
 
 import { RecordTypes } from 'api/record/types';
-import { useRecord } from 'core/stateHooks/useRecord';
+import { useRecord } from 'core/stateHooks';
 import { useStyles, TColors } from 'core/theme';
 
 import expenseCategory from 'static/record-expense-category.json';

@@ -7,7 +7,7 @@ type RecordState = {
   addRecord: (record: Record) => void;
 };
 
-const useRecordList = create<RecordState>((set) => ({
+const useRecordCalendar = create<RecordState>((set) => ({
   records: [],
   setRecords: (records) => {
     set(() => ({ records }));
@@ -17,4 +17,4 @@ const useRecordList = create<RecordState>((set) => ({
   },
 }));
 
-export default useRecordList;
+export default useRecordCalendar;

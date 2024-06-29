@@ -4,7 +4,7 @@ import { router } from 'expo-router';
 import { useShallow } from 'zustand/react/shallow';
 
 import { RecordTypes } from 'api/record/types';
-import { useRecord } from 'core/stateHooks/useRecord';
+import { useRecord } from 'core/stateHooks';
 import { useStyles, TColors } from 'core/theme';
 
 export default function RecordHeader() {

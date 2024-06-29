@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useGetRecordsByDateRange } from 'api/record/useGetRecordsByDateRange';
 import { formatApiError } from 'api/errorFormat';
-import { use7DaysRecordList } from 'core/stateHooks/use7DaysRecordList';
+import { use7DaysRecordList } from 'core/stateHooks';
 import { calculateDate } from 'core/utils';
 
 export default function EmptyRecordList() {
