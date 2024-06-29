@@ -1,26 +1,28 @@
 import { View, Text, StyleSheet } from 'react-native';
 import { FlashList } from '@shopify/flash-list';
+import dayjs from 'dayjs';
 
 import EmptyRecordList from './EmptyRecordList';
-import { use7DaysRecordList } from 'core/stateHooks';
+import { useRecordStore } from 'core/stateHooks';
 import ListDayItem from './ListDayItem';
-
 import { useStyles, TColors } from 'core/theme';
 
 export default function RecordList() {
-  const records = use7DaysRecordList((state) => state.recordsData);
+  const records = useRecordStore((state) => state.records);
   const { theme, styles } = useStyles(createStyles);
+  const isUpdated =
+    records.length !== 0 && dayjs().isAfter(dayjs(records[0].date));
 
   return (
     <View style={styles.container}>
-      {records.length === 0 ? (
-        <EmptyRecordList />
-      ) : (
+      {isUpdated ? (
         <FlashList
           data={records}
           renderItem={({ item }) => <ListDayItem item={item} />}
           estimatedItemSize={200}
         />
+      ) : (
+        <EmptyRecordList />
       )}
     </View>
   );

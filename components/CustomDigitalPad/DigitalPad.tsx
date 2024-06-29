@@ -17,13 +17,13 @@ import { RecordTypes, RecordVariablesSchema } from 'api/record/types';
 import { useAddRecord } from 'api/record/useAddRecord';
 import { formatApiError } from 'api/errorFormat';
 import { useStyles, TColors } from 'core/theme';
-import { useRecord, use7DaysRecordList } from 'core/stateHooks';
+import { useRecord, useRecordStore } from 'core/stateHooks';
 
 export default function DigitalPad() {
   const keyboardVerticalOffset = Platform.OS === 'ios' ? -150 : 0;
 
   const { mutate: addRecordApi } = useAddRecord();
-  const addRecord = use7DaysRecordList((state) => state.addRecord);
+  const addRecord = useRecordStore((state) => state.addRecord);
   const { record, setRecord, resetRecord } = useRecord(
     useShallow((state) => ({
       record: state.record,

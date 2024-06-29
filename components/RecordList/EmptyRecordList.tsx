@@ -4,12 +4,13 @@ import dayjs from 'dayjs';
 
 import { useGetRecordsByDateRange } from 'api/record/useGetRecordsByDateRange';
 import { formatApiError } from 'api/errorFormat';
-import { use7DaysRecordList } from 'core/stateHooks';
+import { useRecordStore } from 'core/stateHooks';
 
 export default function EmptyRecordList() {
-  const set7DaysRecords = use7DaysRecordList((state) => state.set7DaysRecords);
+  const setRecords = useRecordStore((state) => state.setRecords);
+
   const now = dayjs();
-  const startDate = now.subtract(6, 'day').format('YYYY-MM-DD');
+  const startDate = now.subtract(3, 'month').format('YYYY-MM-DD');
   const endDate = now.add(1, 'day').format('YYYY-MM-DD');
   const variables = {
     start_date: startDate,
@@ -18,12 +19,14 @@ export default function EmptyRecordList() {
     is_decreasing: true,
   };
 
+  // Here is the entry of querying records from DB
+  // First query will grab recent 3 months' records
   const { isLoading, isError, data, error } = useGetRecordsByDateRange({
     variables,
   });
 
   useEffect(() => {
-    if (data) set7DaysRecords(data);
+    if (data) setRecords(data);
   }, [data]);
 
   if (isLoading) return <Text>is loading...</Text>;
