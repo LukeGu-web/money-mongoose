@@ -9,11 +9,10 @@ import {
 } from 'core/localStorage/useIsFirstTime';
 import { setItem } from 'core/localStorage/storage';
 import { getToken, setToken } from 'core/localStorage/token';
-import RecordList from 'components/RecordList/RecordList';
 import { setHeaderToken } from 'api/client';
 import { formatApiError } from 'api/errorFormat';
 import { useStyles, useTheme, TColors } from 'core/theme';
-import { ExpenseCard } from 'components';
+import { BudgetCard, ExpenseCard, RecordList } from 'components';
 
 export default function Home() {
   const { theme, styles } = useStyles(createStyles);
@@ -66,7 +65,7 @@ export default function Home() {
         <ExpenseCard />
       </View>
       <View style={styles.budgetContainer}>
-        <Text>budget</Text>
+        <BudgetCard />
       </View>
       <View style={styles.listContainer}>
         <RecordList />
@@ -90,7 +89,7 @@ const createStyles = (theme: TColors) =>
       backgroundColor: 'powderblue',
     },
     budgetContainer: {
-      height: 120,
+      height: 160,
       borderRadius: 10,
       backgroundColor: 'skyblue',
     },
