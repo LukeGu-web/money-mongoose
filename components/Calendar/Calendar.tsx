@@ -9,34 +9,36 @@ import dayjs from 'dayjs';
 import CalendarDay from './CalendarDay';
 import { formatApiError } from 'api/errorFormat';
 import { useGetRecordsByDateRange } from 'api/record/useGetRecordsByDateRange';
+import { useRecordStore } from 'core/stateHooks';
 
 export default function Calendar() {
   const [selected, setSelected] = useState('');
-  const now = dayjs();
-  const firstDay = now.subtract(1, 'month').format('YYYY-MM-DD');
-  const lastDay = now.add(1, 'month').format('YYYY-MM-DD');
-  const variables = {
-    start_date: firstDay,
-    end_date: lastDay,
-    group_by_date: true,
-  };
+  const records = useRecordStore((state) => state.records);
+  // const now = dayjs();
+  // const firstDay = now.subtract(1, 'month').format('YYYY-MM-DD');
+  // const lastDay = now.add(1, 'month').format('YYYY-MM-DD');
+  // const variables = {
+  //   start_date: firstDay,
+  //   end_date: lastDay,
+  //   group_by_date: true,
+  // };
 
-  const { isLoading, isError, data, error } = useGetRecordsByDateRange({
-    variables,
-  });
+  // const { isLoading, isError, data, error } = useGetRecordsByDateRange({
+  //   variables,
+  // });
 
-  console.log('Calendar - useGetRecordsByDateRange: ', data);
+  // console.log('Calendar - useGetRecordsByDateRange: ', data);
 
-  if (isLoading) return <Text>is loading...</Text>;
+  // if (isLoading) return <Text>is loading...</Text>;
 
-  if (isError) {
-    const formattedError = formatApiError(error);
-    if (formattedError.status !== 404)
-      return <Text>Sorry, something went wrong. Please try it again.</Text>;
-  }
+  // if (isError) {
+  //   const formattedError = formatApiError(error);
+  //   if (formattedError.status !== 404)
+  //     return <Text>Sorry, something went wrong. Please try it again.</Text>;
+  // }
 
   let formattedData = {};
-  data?.map((item) => {
+  records.map((item) => {
     formattedData = { ...formattedData, [item.date]: item };
   });
   console.log(formattedData);

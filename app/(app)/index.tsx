@@ -12,8 +12,12 @@ import { getToken, setToken } from 'core/localStorage/token';
 import RecordList from 'components/RecordList/RecordList';
 import { setHeaderToken } from 'api/client';
 import { formatApiError } from 'api/errorFormat';
+import { useStyles, useTheme, TColors } from 'core/theme';
+import { ExpenseCard } from 'components';
 
 export default function Home() {
+  const { theme, styles } = useStyles(createStyles);
+  // TODO: move registerDevice to onboarding page
   const { mutate: registerDevice, isPending } = useDeviceRegister();
 
   useEffect(() => {
@@ -58,15 +62,41 @@ export default function Home() {
 
   return (
     <View style={styles.container}>
-      <RecordList />
+      <View style={styles.expenseContainer}>
+        <ExpenseCard />
+      </View>
+      <View style={styles.budgetContainer}>
+        <Text>budget</Text>
+      </View>
+      <View style={styles.listContainer}>
+        <RecordList />
+      </View>
       <StatusBar style='light' />
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-});
+const createStyles = (theme: TColors) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: theme.white,
+      gap: 5,
+      padding: 5,
+    },
+    expenseContainer: {
+      height: 120,
+      borderRadius: 10,
+      backgroundColor: 'powderblue',
+    },
+    budgetContainer: {
+      height: 120,
+      borderRadius: 10,
+      backgroundColor: 'skyblue',
+    },
+    listContainer: {
+      flex: 1,
+      borderRadius: 10,
+      backgroundColor: 'steelblue',
+    },
+  });

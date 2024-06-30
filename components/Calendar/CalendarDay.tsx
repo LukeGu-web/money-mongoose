@@ -1,7 +1,7 @@
-import { RecordsByDay } from 'api/record/types';
-import { useTheme } from 'core/theme';
 import { StyleSheet, Text, View } from 'react-native';
+import { RecordsByDay } from 'api/record/types';
 import { DateData } from 'react-native-calendars';
+import { useStyles, useTheme, TColors } from 'core/theme';
 
 type CalendarDayType = {
   date: (string & DateData) | undefined;
@@ -14,20 +14,45 @@ export default function CalendarDay({
   state,
   recordData,
 }: CalendarDayType) {
-  const { theme } = useTheme();
+  const { theme, styles } = useStyles(createStyles);
   // console.log('CalendarDay date: ', date);
   return (
-    <View>
+    <View style={styles.container}>
       <Text
-        style={{
-          textAlign: 'center',
-          color: state === 'disabled' ? 'gray' : theme.textPrimary,
-        }}
+        style={[
+          styles.day,
+          {
+            color: state === 'disabled' ? 'gray' : theme.textPrimary,
+          },
+        ]}
       >
         {date?.day}
       </Text>
-      <Text>{recordData?.sum_of_income}</Text>
-      <Text>{recordData?.sum_of_expense}</Text>
+      <Text style={styles.income}>
+        {Math.abs(recordData?.sum_of_income as number) > 0 &&
+          '+' + recordData?.sum_of_income}
+      </Text>
+      <Text style={styles.expense}>
+        {Math.abs(recordData?.sum_of_expense as number) > 0 &&
+          recordData?.sum_of_expense}
+      </Text>
     </View>
   );
 }
+
+const createStyles = (theme: TColors) =>
+  StyleSheet.create({
+    container: {},
+    day: { textAlign: 'center' },
+    income: {
+      marginTop: 2,
+      textAlign: 'center',
+      color: theme.incomeTextColor,
+      fontSize: 10,
+    },
+    expense: {
+      textAlign: 'center',
+      color: theme.expenseTextColor,
+      fontSize: 10,
+    },
+  });
