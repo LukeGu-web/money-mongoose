@@ -15,7 +15,6 @@ export default function CalendarDay({
   recordData,
 }: CalendarDayType) {
   const { theme, styles } = useStyles(createStyles);
-  // console.log('CalendarDay date: ', date);
   return (
     <View style={styles.container}>
       <Text

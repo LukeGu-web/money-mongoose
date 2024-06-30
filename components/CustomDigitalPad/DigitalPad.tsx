@@ -128,7 +128,6 @@ export default function DigitalPad() {
         text2: errorMsg,
       });
     } else {
-      console.log('submit');
       addRecordApi(
         {
           ...record,

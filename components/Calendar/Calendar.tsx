@@ -10,11 +10,19 @@ import CalendarDay from './CalendarDay';
 import { formatApiError } from 'api/errorFormat';
 import { useGetRecordsByDateRange } from 'api/record/useGetRecordsByDateRange';
 import { useRecordStore } from 'core/stateHooks';
+import { useStyles, useTheme, TColors } from 'core/theme';
 
 export default function Calendar() {
-  const [selected, setSelected] = useState('');
+  const now = dayjs();
+  const [selectedDay, setSelectedDay] = useState('');
+  const [selctedMonth, setSelectedMonth] = useState(now.format('YYYY-MM-DD'));
   const records = useRecordStore((state) => state.records);
-  // const now = dayjs();
+  const { theme, styles } = useStyles(createStyles);
+
+  const handleBackToday = () => {
+    setSelectedMonth(now.format('YYYY-MM-DD'));
+  };
+
   // const firstDay = now.subtract(1, 'month').format('YYYY-MM-DD');
   // const lastDay = now.add(1, 'month').format('YYYY-MM-DD');
   // const variables = {
@@ -41,13 +49,14 @@ export default function Calendar() {
   records.map((item) => {
     formattedData = { ...formattedData, [item.date]: item };
   });
-  console.log(formattedData);
+  // console.log(formattedData);
 
   //recordData={formattedData[date]}
   return (
     <View style={styles.container}>
       <ClendarPicker
-        // initialDate={selected}
+        style={styles.clendarContainer}
+        initialDate={selctedMonth}
         dayComponent={({ date, state }) => (
           <CalendarDay
             date={date}
@@ -58,30 +67,40 @@ export default function Calendar() {
           />
         )}
         onDayPress={(day) => {
-          setSelected(day.dateString);
+          setSelectedDay(day.dateString);
         }}
-        // onMonthChange={(data) => {
-        //   console.log('onMonthChange: ', data);
-        // }}
+        onMonthChange={(data) => {
+          // console.log('onMonthChange: ', data);
+          setSelectedMonth(data.dateString);
+        }}
         hideExtraDays={true}
         markedDates={{
-          [selected]: {
+          [selectedDay]: {
             selected: true,
-            disableTouchEvent: true,
+            // disableTouchEvent: true,
             selectedColor: 'green',
           },
         }}
       />
-      <Button title='back today' onPress={() => setSelected('2024-06-29')} />
+      <Button
+        title='back today'
+        onPress={() => setSelectedMonth('2024-06-29')}
+      />
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    //   backgroundColor: '#fff',
-    // alignItems: 'center',
-    // justifyContent: 'center',
-  },
-});
+const createStyles = (theme: TColors) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      // backgroundColor: 'red',
+      // alignItems: 'center',
+      // justifyContent: 'center',
+    },
+    clendarContainer: {
+      backgroundColor: theme.bgPrimary,
+      borderRadius: 10,
+      padding: 6,
+    },
+  });

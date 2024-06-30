@@ -29,7 +29,6 @@ export default function RootLayoutNav() {
 
 function Providers({ children }: { children: React.ReactNode }) {
   const colorScheme = useColorScheme();
-  console.log('colorScheme: ', colorScheme);
   //   const colorScheme = 'dark';
   const { setTheme } = useTheme();
 

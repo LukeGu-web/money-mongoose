@@ -15,6 +15,8 @@ export default function Calendar() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    gap: 5,
+    padding: 5,
     backgroundColor: '#fff',
     // alignItems: 'center',
     // justifyContent: 'center',
