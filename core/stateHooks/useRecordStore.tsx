@@ -1,7 +1,8 @@
 import { create } from 'zustand';
 import { devtools, persist, createJSONStorage } from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Record, RecordsByDay } from 'api/record/types';
+import dayjs from 'dayjs';
+import { Record, RecordTypes, RecordsByDay } from 'api/record/types';
 
 type RecordState = {
   records: RecordsByDay[];
@@ -18,13 +19,27 @@ export const useRecordStore = create<RecordState>()(
       },
       addRecord: (record) => {
         set(() => {
-          const newRecords = [...get().records];
-          newRecords[0] = {
-            ...newRecords[0],
-            records: [...newRecords[0].records, record],
-          };
-          console.log('useRecordStore: ', newRecords);
-          return { records: newRecords };
+          if (get().records.length === 0) {
+            return {
+              records: [
+                {
+                  date: dayjs(record.date).format('YYYY-MM-DD'),
+                  sum_of_income:
+                    record.type === RecordTypes.INCOME ? record.amount : 0,
+                  sum_of_expense:
+                    record.type === RecordTypes.EXPENSE ? record.amount : 0,
+                  records: [record],
+                },
+              ],
+            };
+          } else {
+            const newRecords = [...get().records];
+            newRecords[0] = {
+              ...newRecords[0],
+              records: [...newRecords[0].records, record],
+            };
+            return { records: newRecords };
+          }
         });
       },
     })),

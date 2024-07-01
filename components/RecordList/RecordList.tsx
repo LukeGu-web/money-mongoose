@@ -11,9 +11,9 @@ export default function RecordList() {
   const records = useRecordStore((state) => state.records);
   const { theme, styles } = useStyles(createStyles);
   const isUpdated =
-    records.length !== 0 && dayjs().isAfter(dayjs(records[0].date));
+    records.length > 0 && dayjs().isAfter(dayjs(records[0].date));
   const lastDay = dayjs().subtract(6, 'day').format('YYYY-MM-DD');
-  // console.log('lastDay: ', lastDay);
+  console.log('RecordList: ', isUpdated, records);
   // const recentRecords =
 
   return (

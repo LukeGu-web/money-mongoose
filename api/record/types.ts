@@ -20,6 +20,7 @@ export interface Record extends RecordVariables {
   author: string;
   created_at: string;
   updated_at: string;
+  date: string;
 }
 
 export type RecordsByDay = {
