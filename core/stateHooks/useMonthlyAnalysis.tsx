@@ -2,12 +2,12 @@ import { create } from 'zustand';
 import { devtools, persist, createJSONStorage } from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-type GoalState = {
+type MonthlyAnalysisState = {
   goal: number | null;
   setGoal: (goal: number) => void;
 };
 
-const useGoal = create<GoalState>()(
+const useMonthlyAnalysis = create<MonthlyAnalysisState>()(
   persist(
     devtools((set) => ({
       goal: null,
@@ -22,4 +22,4 @@ const useGoal = create<GoalState>()(
   )
 );
 
-export default useGoal;
+export default useMonthlyAnalysis;

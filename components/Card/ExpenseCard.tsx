@@ -29,12 +29,20 @@ export default function ExpenseCard() {
         {month}
         <Text style={{ fontSize: 16 }}>&#183; Expense</Text>
       </Text>
-      <Text style={{ fontSize: 32 }}>{monthExpense.toLocaleString()}</Text>
+      <Text style={{ fontSize: 32 }}>
+        {monthExpense.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+      </Text>
       <View style={styles.textContainer}>
         <Text style={{ fontWeight: '800' }}>Income</Text>
-        <Text>{monthIncome.toLocaleString()}</Text>
+        <Text>
+          {monthIncome.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+        </Text>
         <Text style={{ fontWeight: '800' }}>Balance</Text>
-        <Text>{(monthIncome + monthExpense).toLocaleString()}</Text>
+        <Text>
+          {(monthIncome + monthExpense).toLocaleString('en-US', {
+            minimumFractionDigits: 2,
+          })}
+        </Text>
       </View>
     </View>
   );
