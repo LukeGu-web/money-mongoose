@@ -9,12 +9,9 @@ import { useStyles, TColors } from 'core/theme';
 
 export default function RecordList() {
   const records = useRecordStore((state) => state.records);
-  const { theme, styles } = useStyles(createStyles);
+  const { styles } = useStyles(createStyles);
   const isUpdated =
     records.length > 0 && dayjs().isAfter(dayjs(records[0].date));
-  const lastDay = dayjs().subtract(6, 'day').format('YYYY-MM-DD');
-  console.log('RecordList: ', isUpdated, records);
-  // const recentRecords =
 
   return (
     <View style={styles.container}>
@@ -31,7 +28,9 @@ export default function RecordList() {
           />
         </View>
       ) : (
-        <EmptyRecordList />
+        <View style={styles.emptyContainer}>
+          <EmptyRecordList />
+        </View>
       )}
     </View>
   );
@@ -40,6 +39,11 @@ const createStyles = (theme: TColors) =>
   StyleSheet.create({
     container: {
       flex: 1,
+    },
+    emptyContainer: {
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
     },
     listContainer: {
       flex: 1,

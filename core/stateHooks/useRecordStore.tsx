@@ -8,6 +8,7 @@ type RecordState = {
   records: RecordsByDay[];
   setRecords: (records: RecordsByDay[]) => void;
   addRecord: (record: Record) => void;
+  resetRecords: () => void;
 };
 
 export const useRecordStore = create<RecordState>()(
@@ -37,10 +38,23 @@ export const useRecordStore = create<RecordState>()(
             newRecords[0] = {
               ...newRecords[0],
               records: [...newRecords[0].records, record],
+              sum_of_income:
+                record.type === RecordTypes.INCOME
+                  ? newRecords[0].sum_of_income + Number(record.amount)
+                  : newRecords[0].sum_of_income,
+              sum_of_expense:
+                record.type === RecordTypes.EXPENSE
+                  ? newRecords[0].sum_of_expense + Number(record.amount)
+                  : newRecords[0].sum_of_expense,
             };
             return { records: newRecords };
           }
         });
+      },
+      resetRecords: () => {
+        set(() => ({
+          records: [],
+        }));
       },
     })),
     {

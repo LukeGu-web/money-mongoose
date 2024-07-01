@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { useShallow } from 'zustand/react/shallow';
 import dayjs from 'dayjs';
 
 import { useGetRecordsByDateRange } from 'api/record/useGetRecordsByDateRange';
@@ -7,10 +8,21 @@ import { formatApiError } from 'api/errorFormat';
 import { useRecordStore } from 'core/stateHooks';
 
 export default function EmptyRecordList() {
-  const setRecords = useRecordStore((state) => state.setRecords);
-
+  const { records, setRecords } = useRecordStore(
+    useShallow((state) => ({
+      records: state.records,
+      setRecords: state.setRecords,
+    }))
+  );
   const now = dayjs();
-  const startDate = now.subtract(3, 'month').format('YYYY-MM-DD');
+  let startDate = '';
+  if (records.length > 0) {
+    // If the latest local data is not today's data
+    startDate = dayjs(records[0].date).format('YYYY-MM-DD');
+  } else {
+    startDate = now.subtract(3, 'month').format('YYYY-MM-DD');
+  }
+
   const endDate = now.add(1, 'day').format('YYYY-MM-DD');
   const variables = {
     start_date: startDate,

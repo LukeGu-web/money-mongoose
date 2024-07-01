@@ -5,9 +5,10 @@ import { useStyles, TColors } from 'core/theme';
 import { useRecordStore } from 'core/stateHooks';
 
 export default function ExpenseCard() {
-  const { theme, styles } = useStyles(createStyles);
+  const { styles } = useStyles(createStyles);
   const records = useRecordStore((state) => state.records);
 
+  console.log('records: ', records);
   const currentMonth = dayjs().month();
   let n = 0,
     monthIncome = 0,
@@ -16,8 +17,8 @@ export default function ExpenseCard() {
     dayjs(records[n]?.date).month() === currentMonth &&
     records.length > n
   ) {
-    monthIncome += records[n].sum_of_income;
-    monthExpense += records[n].sum_of_expense;
+    monthIncome += Number(records[n].sum_of_income);
+    monthExpense += Number(records[n].sum_of_expense);
     n++;
   }
   const month = dayjs().format('MMMM');
@@ -31,9 +32,9 @@ export default function ExpenseCard() {
       <Text style={{ fontSize: 32 }}>{monthExpense.toLocaleString()}</Text>
       <View style={styles.textContainer}>
         <Text style={{ fontWeight: '800' }}>Income</Text>
-        <Text>{monthIncome}</Text>
+        <Text>{monthIncome.toLocaleString()}</Text>
         <Text style={{ fontWeight: '800' }}>Balance</Text>
-        <Text>{monthIncome + monthExpense}</Text>
+        <Text>{(monthIncome + monthExpense).toLocaleString()}</Text>
       </View>
     </View>
   );
