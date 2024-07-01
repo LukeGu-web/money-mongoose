@@ -4,6 +4,11 @@ import dayjs from 'dayjs';
 import { useStyles, TColors } from 'core/theme';
 import { useRecordStore } from 'core/stateHooks';
 
+const formatter = (num: number) =>
+  num.toLocaleString('en-US', {
+    minimumFractionDigits: 2,
+  });
+
 export default function ExpenseCard() {
   const { styles } = useStyles(createStyles);
   const records = useRecordStore((state) => state.records);
@@ -29,20 +34,12 @@ export default function ExpenseCard() {
         {month}
         <Text style={{ fontSize: 16 }}>&#183; Expense</Text>
       </Text>
-      <Text style={{ fontSize: 32 }}>
-        {monthExpense.toLocaleString('en-US', { minimumFractionDigits: 2 })}
-      </Text>
+      <Text style={{ fontSize: 32 }}>{formatter(monthExpense)}</Text>
       <View style={styles.textContainer}>
         <Text style={{ fontWeight: '800' }}>Income</Text>
-        <Text>
-          {monthIncome.toLocaleString('en-US', { minimumFractionDigits: 2 })}
-        </Text>
+        <Text>{formatter(monthIncome)}</Text>
         <Text style={{ fontWeight: '800' }}>Balance</Text>
-        <Text>
-          {(monthIncome + monthExpense).toLocaleString('en-US', {
-            minimumFractionDigits: 2,
-          })}
-        </Text>
+        <Text>{formatter(monthIncome + monthExpense)}</Text>
       </View>
     </View>
   );

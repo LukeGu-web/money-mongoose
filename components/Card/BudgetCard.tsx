@@ -75,7 +75,6 @@ const createStyles = (theme: TColors) =>
       padding: 8,
     },
     verticalContainer: {
-      // flex: 1,
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'space-between',

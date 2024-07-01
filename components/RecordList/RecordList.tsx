@@ -1,4 +1,5 @@
-import { Button, View, Text, StyleSheet } from 'react-native';
+import { Button, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { AntDesign } from '@expo/vector-icons';
 import { FlashList } from '@shopify/flash-list';
 import dayjs from 'dayjs';
 
@@ -18,8 +19,11 @@ export default function RecordList() {
       {isUpdated ? (
         <View style={styles.listContainer}>
           <View style={styles.headerContainer}>
-            <Text>Last 7 days</Text>
-            <Button title='All bills >' />
+            <Text style={{ fontSize: 18, fontWeight: '600' }}>Last 7 days</Text>
+            <TouchableOpacity style={styles.verticalContainer}>
+              <Text>All records</Text>
+              <AntDesign name='doubleright' size={14} color='black' />
+            </TouchableOpacity>
           </View>
           <FlashList
             data={records}
@@ -40,6 +44,11 @@ const createStyles = (theme: TColors) =>
     container: {
       flex: 1,
     },
+    verticalContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+    },
     emptyContainer: {
       flex: 1,
       alignItems: 'center',
@@ -51,7 +60,7 @@ const createStyles = (theme: TColors) =>
       backgroundColor: theme.bgPrimary,
     },
     headerContainer: {
-      padding: 5,
+      padding: 8,
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'space-between',
