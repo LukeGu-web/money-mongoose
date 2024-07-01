@@ -32,7 +32,7 @@ export default function DigitalPad() {
     }))
   );
 
-  const { theme, styles } = useStyles(createStyles);
+  const { styles } = useStyles(createStyles);
 
   const [integer, setInteger] = useState('0');
   const [decimal, setDecimal] = useState('00');

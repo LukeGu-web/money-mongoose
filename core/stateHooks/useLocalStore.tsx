@@ -35,7 +35,7 @@ const useLocalStore = create<LocalState>()(
       },
       reset: () => {
         set(() => ({
-          deviceId: '',
+          deviceId: '', // 851bfd8c-9017-4e4f-8fd2-82d560c7d67f
           token: '', //41631ca394cd7441f37766dafebb220736e54644
           isOnBoarding: false,
           isAcceptedAgreement: false,

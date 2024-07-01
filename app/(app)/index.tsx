@@ -1,10 +1,18 @@
+import { useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View } from 'react-native';
 import { useStyles, TColors } from 'core/theme';
 import { BudgetCard, ExpenseCard, RecordList } from 'components';
 
+import { client, setHeaderToken } from 'api/client';
+import { useLocalStore } from 'core/stateHooks';
+
 export default function Home() {
   const { styles } = useStyles(createStyles);
+  const token = useLocalStore((state) => state.token);
+  useEffect(() => {
+    setHeaderToken(token);
+  }, []);
 
   return (
     <View style={styles.container}>

@@ -82,10 +82,7 @@ export default function Calendar() {
           },
         }}
       />
-      <Button
-        title='back today'
-        onPress={() => setSelectedMonth('2024-06-29')}
-      />
+      <Button title='back today' onPress={handleBackToday} />
     </View>
   );
 }
