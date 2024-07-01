@@ -1,10 +1,15 @@
 import { Tabs, SplashScreen, Redirect } from 'expo-router';
 import { RecordHeader, Icon } from 'components';
+import { useLocalStore } from 'core/stateHooks';
 
 export default function TabLayout() {
   // const hideSplash = useCallback(async () => {
   //   await SplashScreen.hideAsync();
   // }, []);
+  const isOnBoarding = useLocalStore((state) => state.isOnBoarding);
+  if (!isOnBoarding) {
+    return <Redirect href='/onboarding' />;
+  }
 
   return (
     <Tabs
