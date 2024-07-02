@@ -1,31 +1,22 @@
-import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import dayjs from 'dayjs';
 import { useStyles, TColors } from 'core/theme';
-import { useRecordStore } from 'core/stateHooks';
 
 const formatter = (num: number) =>
   num.toLocaleString('en-US', {
     minimumFractionDigits: 2,
   });
 
-export default function ExpenseCard() {
-  const { styles } = useStyles(createStyles);
-  const records = useRecordStore((state) => state.records);
+type ExpenseCardProps = {
+  monthExpense: number;
+  monthIncome: number;
+};
 
-  console.log('records: ', records);
-  const currentMonth = dayjs().month();
-  let n = 0,
-    monthIncome = 0,
-    monthExpense = 0;
-  while (
-    dayjs(records[n]?.date).month() === currentMonth &&
-    records.length > n
-  ) {
-    monthIncome += Number(records[n].sum_of_income);
-    monthExpense += Number(records[n].sum_of_expense);
-    n++;
-  }
+export default function ExpenseCard({
+  monthExpense,
+  monthIncome,
+}: ExpenseCardProps) {
+  const { styles } = useStyles(createStyles);
   const month = dayjs().format('MMMM');
 
   return (

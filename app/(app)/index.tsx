@@ -1,26 +1,41 @@
 import { useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View } from 'react-native';
-import { useStyles, TColors } from 'core/theme';
-import { BudgetCard, ExpenseCard, RecordList } from 'components';
+import dayjs from 'dayjs';
 
-import { client, setHeaderToken } from 'api/client';
-import { useLocalStore } from 'core/stateHooks';
+import { setHeaderToken } from 'api/client';
+import { BudgetCard, ExpenseCard, RecordList } from 'components';
+import { useStyles, TColors } from 'core/theme';
+import { useLocalStore, useRecordStore } from 'core/stateHooks';
 
 export default function Home() {
   const { styles } = useStyles(createStyles);
   const token = useLocalStore((state) => state.token);
+  const records = useRecordStore((state) => state.records);
   useEffect(() => {
     setHeaderToken(token);
   }, []);
 
+  const currentMonth = dayjs().month();
+  let n = 0,
+    monthIncome = 0,
+    monthExpense = 0;
+  while (
+    dayjs(records[n]?.date).month() === currentMonth &&
+    records.length > n
+  ) {
+    monthIncome += Number(records[n].sum_of_income);
+    monthExpense += Number(records[n].sum_of_expense);
+    n++;
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.expenseContainer}>
-        <ExpenseCard />
+        <ExpenseCard monthIncome={monthIncome} monthExpense={monthExpense} />
       </View>
       <View style={styles.budgetContainer}>
-        <BudgetCard />
+        <BudgetCard monthExpense={monthExpense} />
       </View>
       <View style={styles.listContainer}>
         <RecordList />

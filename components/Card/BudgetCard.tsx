@@ -3,29 +3,22 @@ import { Feather } from '@expo/vector-icons';
 import dayjs from 'dayjs';
 
 import { useStyles, TColors } from 'core/theme';
-import { useMonthlyAnalysis, useRecordStore } from 'core/stateHooks';
+import { useMonthlyAnalysis } from 'core/stateHooks';
+
+type BudgetCardProps = {
+  monthExpense: number;
+};
 
 const formatter = (num: number) =>
   Math.abs(num).toLocaleString('en-US', {
     minimumFractionDigits: 2,
   });
 
-export default function BudgetCard() {
+export default function BudgetCard({ monthExpense }: BudgetCardProps) {
   const { styles } = useStyles(createStyles);
-  const records = useRecordStore((state) => state.records);
-  const goal = useMonthlyAnalysis((state) => state.goal);
 
-  const currentMonth = dayjs().month();
+  const goal = useMonthlyAnalysis((state) => state.goal);
   const days = dayjs().date();
-  let n = 0,
-    monthExpense = 0;
-  while (
-    dayjs(records[n]?.date).month() === currentMonth &&
-    records.length > n
-  ) {
-    monthExpense += Number(records[n].sum_of_expense);
-    n++;
-  }
   const remaining = (goal ?? 0) + monthExpense;
   const dailyRemaining =
     remaining > 0 ? remaining / (dayjs().daysInMonth() - days) : 0;
