@@ -1,3 +1,4 @@
+export { default as CalendarHeader } from 'components/Headers/CalendarHeader';
 export { default as RecordHeader } from 'components/Headers/RecordHeader';
 export { default as RecordCategory } from 'components/Category/RecordCategroy';
 export { default as RecordList } from 'components/RecordList/RecordList';

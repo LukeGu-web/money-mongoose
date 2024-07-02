@@ -1,33 +1,36 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import {
   Calendar as ClendarPicker,
   LocaleConfig,
 } from 'react-native-calendars';
 import { FlashList } from '@shopify/flash-list';
+import { useShallow } from 'zustand/react/shallow';
 import dayjs from 'dayjs';
 
 import CalendarDay from './CalendarDay';
 import ListDayItem from '../RecordList/ListDayItem';
+import { RecordsByDay } from 'api/record/types';
 import { formatApiError } from 'api/errorFormat';
 import { useGetRecordsByDateRange } from 'api/record/useGetRecordsByDateRange';
-import { useRecordStore } from 'core/stateHooks';
-import { useStyles, useTheme, TColors } from 'core/theme';
-import { RecordsByDay } from 'api/record/types';
+import { useRecordStore, useCalendar } from 'core/stateHooks';
+import { useStyles, TColors } from 'core/theme';
 
 export default function Calendar() {
+  const { styles } = useStyles(createStyles);
+
   const now = dayjs();
   const today = now.format('YYYY-MM-DD');
 
-  const [selectedDay, setSelectedDay] = useState('');
-  const [selctedMonth, setSelectedMonth] = useState(now.format('YYYY-MM-DD'));
+  const [selectedDay, setSelectedDay] = useState(today);
   const [dailyRecords, setDailyRecords] = useState<RecordsByDay[]>([]);
   const records = useRecordStore((state) => state.records);
-  const { theme, styles } = useStyles(createStyles);
-
-  const handleBackToday = () => {
-    setSelectedMonth(today);
-  };
+  const { visiableMonth, setVisiableMonth } = useCalendar(
+    useShallow((state) => ({
+      visiableMonth: state.visiableMonth,
+      setVisiableMonth: state.setVisiableMonth,
+    }))
+  );
 
   // const firstDay = now.subtract(1, 'month').format('YYYY-MM-DD');
   // const lastDay = now.add(1, 'month').format('YYYY-MM-DD');
@@ -69,7 +72,7 @@ export default function Calendar() {
     <View style={styles.container}>
       <ClendarPicker
         style={styles.clendarContainer}
-        initialDate={selctedMonth}
+        initialDate={visiableMonth}
         dayComponent={({ date, state }) => (
           <CalendarDay
             date={date}
@@ -82,10 +85,9 @@ export default function Calendar() {
           />
         )}
         onMonthChange={(data) => {
-          setSelectedMonth(data.dateString);
+          setVisiableMonth(data.dateString);
         }}
       />
-      <Button title='back today' onPress={handleBackToday} />
       <View style={styles.recordsContainer}>
         {dailyRecords.length > 0 ? (
           <FlashList
@@ -107,9 +109,8 @@ const createStyles = (theme: TColors) =>
       flex: 1,
     },
     clendarContainer: {
-      backgroundColor: theme.bgPrimary,
       borderRadius: 10,
-      padding: 6,
+      padding: 8,
     },
     recordsContainer: {
       flex: 1,

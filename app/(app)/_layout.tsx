@@ -1,5 +1,5 @@
 import { Tabs, SplashScreen, Redirect } from 'expo-router';
-import { RecordHeader, Icon } from 'components';
+import { CalendarHeader, RecordHeader, Icon } from 'components';
 import { useLocalStore } from 'core/stateHooks';
 
 export default function TabLayout() {
@@ -35,6 +35,7 @@ export default function TabLayout() {
         name='calendar'
         options={{
           title: 'Calendar',
+          headerTitle: () => <CalendarHeader />,
           tabBarIcon: ({ color }) => (
             <Icon name='calendar' size={28} color={color} />
           ),
