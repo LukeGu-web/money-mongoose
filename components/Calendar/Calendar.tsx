@@ -4,23 +4,29 @@ import {
   Calendar as ClendarPicker,
   LocaleConfig,
 } from 'react-native-calendars';
+import { FlashList } from '@shopify/flash-list';
 import dayjs from 'dayjs';
 
 import CalendarDay from './CalendarDay';
+import ListDayItem from '../RecordList/ListDayItem';
 import { formatApiError } from 'api/errorFormat';
 import { useGetRecordsByDateRange } from 'api/record/useGetRecordsByDateRange';
 import { useRecordStore } from 'core/stateHooks';
 import { useStyles, useTheme, TColors } from 'core/theme';
+import { RecordsByDay } from 'api/record/types';
 
 export default function Calendar() {
   const now = dayjs();
+  const today = now.format('YYYY-MM-DD');
+
   const [selectedDay, setSelectedDay] = useState('');
   const [selctedMonth, setSelectedMonth] = useState(now.format('YYYY-MM-DD'));
+  const [dailyRecords, setDailyRecords] = useState<RecordsByDay[]>([]);
   const records = useRecordStore((state) => state.records);
   const { theme, styles } = useStyles(createStyles);
 
   const handleBackToday = () => {
-    setSelectedMonth(now.format('YYYY-MM-DD'));
+    setSelectedMonth(today);
   };
 
   // const firstDay = now.subtract(1, 'month').format('YYYY-MM-DD');
@@ -49,9 +55,16 @@ export default function Calendar() {
   records.map((item) => {
     formattedData = { ...formattedData, [item.date]: item };
   });
-  // console.log(formattedData);
 
-  //recordData={formattedData[date]}
+  const handleSelectDay = (day: string, records: RecordsByDay) => {
+    setSelectedDay(day);
+    if (records) {
+      setDailyRecords([records]);
+    } else {
+      setDailyRecords([]);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <ClendarPicker
@@ -61,28 +74,29 @@ export default function Calendar() {
           <CalendarDay
             date={date}
             state={state}
+            selectedDate={selectedDay}
+            onSelectDay={handleSelectDay}
             recordData={
               formattedData[date?.dateString! as keyof typeof formattedData]
             }
           />
         )}
-        onDayPress={(day) => {
-          setSelectedDay(day.dateString);
-        }}
         onMonthChange={(data) => {
-          // console.log('onMonthChange: ', data);
           setSelectedMonth(data.dateString);
-        }}
-        hideExtraDays={true}
-        markedDates={{
-          [selectedDay]: {
-            selected: true,
-            // disableTouchEvent: true,
-            selectedColor: 'green',
-          },
         }}
       />
       <Button title='back today' onPress={handleBackToday} />
+      <View style={styles.recordsContainer}>
+        {dailyRecords.length > 0 ? (
+          <FlashList
+            data={dailyRecords}
+            renderItem={({ item }) => <ListDayItem item={item} />}
+            estimatedItemSize={20}
+          />
+        ) : (
+          <Text>No records</Text>
+        )}
+      </View>
     </View>
   );
 }
@@ -91,13 +105,16 @@ const createStyles = (theme: TColors) =>
   StyleSheet.create({
     container: {
       flex: 1,
-      // backgroundColor: 'red',
-      // alignItems: 'center',
-      // justifyContent: 'center',
     },
     clendarContainer: {
       backgroundColor: theme.bgPrimary,
       borderRadius: 10,
       padding: 6,
+    },
+    recordsContainer: {
+      flex: 1,
+      borderRadius: 10,
+      padding: 8,
+      backgroundColor: '#ecf8f8',
     },
   });
