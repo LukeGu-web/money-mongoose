@@ -1,11 +1,16 @@
 import { View, Text, StyleSheet } from 'react-native';
 import dayjs from 'dayjs';
 
-import { RecordsByDay } from 'api/record/types';
+import { Record, RecordsByDay } from 'api/record/types';
 import ListItem from './ListItem';
 import { useStyles, TColors } from 'core/theme';
 
-export default function ListDayItem({ item }: { item: RecordsByDay }) {
+type ListDayItemProps = {
+  item: RecordsByDay;
+  onPress: (item: Record) => void;
+};
+
+export default function ListDayItem({ item, onPress }: ListDayItemProps) {
   const { theme, styles } = useStyles(createStyles);
   let formattedDate = dayjs(item.date).format('MMM DD ddd');
   return (
@@ -26,8 +31,12 @@ export default function ListDayItem({ item }: { item: RecordsByDay }) {
         </View>
       </View>
       <View style={styles.midContainer}>
-        {item.records.map((record, index) => (
-          <ListItem key={`${record.created_at}`} item={record} />
+        {item.records.map((record) => (
+          <ListItem
+            key={`${record.created_at}`}
+            item={record}
+            onPress={onPress}
+          />
         ))}
       </View>
     </View>

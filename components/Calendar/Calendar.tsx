@@ -34,15 +34,20 @@ export default function Calendar() {
   const [dailyRecords, setDailyRecords] = useState<RecordsByDay[]>([]);
 
   useEffect(() => {
+    setVisiableMonth(today);
+  }, []);
+
+  useEffect(() => {
     let format = {};
     records.map((item) => {
       format = { ...format, [item.date]: item };
     });
     setFormattedData(format);
-    setVisiableMonth(today);
-    const todayRecords = format[today as keyof typeof format];
-    if (todayRecords) setDailyRecords([todayRecords]);
-  }, []);
+    if (selectedDay === today) {
+      const todayRecords = format[today as keyof typeof format];
+      if (todayRecords) setDailyRecords([todayRecords]);
+    }
+  }, [records]);
 
   // const firstDay = now.subtract(1, 'month').format('YYYY-MM-DD');
   // const lastDay = now.add(1, 'month').format('YYYY-MM-DD');

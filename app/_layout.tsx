@@ -1,7 +1,10 @@
 import { SplashScreen, Stack } from 'expo-router';
+import { useFonts } from 'expo-font';
 import { useEffect } from 'react';
 import { useColorScheme } from 'react-native';
-import { useFonts } from 'expo-font';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
+
 import { APIProvider } from 'api/api-provider';
 import { Colors, useTheme } from 'core/theme';
 import Toast from 'react-native-toast-message';
@@ -36,9 +39,11 @@ function Providers({ children }: { children: React.ReactNode }) {
     setTheme(colorScheme === 'dark' ? Colors.dark : Colors.light);
   }, []);
   return (
-    <APIProvider>
-      {children}
-      <Toast />
-    </APIProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <APIProvider>
+        <BottomSheetModalProvider>{children}</BottomSheetModalProvider>
+        <Toast />
+      </APIProvider>
+    </GestureHandlerRootView>
   );
 }
