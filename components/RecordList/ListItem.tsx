@@ -2,14 +2,16 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'components/Icon/Icon';
 import { Record } from 'api/record/types';
 import { useStyles, TColors } from 'core/theme';
+import { useRecord } from 'core/stateHooks';
 
 type ListItemProps = {
   item: Record;
-  onPress: (item: Record) => void;
+  onPress: () => void;
 };
 
 export default function ListItem({ item, onPress }: ListItemProps) {
   const { theme, styles } = useStyles(createStyles);
+  const setSelectedRecord = useRecord((state) => state.setSelectedRecord);
   return (
     <TouchableOpacity
       style={{
@@ -17,8 +19,8 @@ export default function ListItem({ item, onPress }: ListItemProps) {
         borderColor: theme[`${item.type}TextColor`],
       }}
       onPress={() => {
-        console.log(item);
-        onPress(item);
+        setSelectedRecord(item);
+        onPress();
       }}
     >
       <View style={styles.iconContainer}>

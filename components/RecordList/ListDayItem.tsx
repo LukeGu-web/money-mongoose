@@ -1,13 +1,13 @@
 import { View, Text, StyleSheet } from 'react-native';
 import dayjs from 'dayjs';
 
-import { Record, RecordsByDay } from 'api/record/types';
+import { RecordsByDay } from 'api/record/types';
 import ListItem from './ListItem';
 import { useStyles, TColors } from 'core/theme';
 
 type ListDayItemProps = {
   item: RecordsByDay;
-  onPress: (item: Record) => void;
+  onPress: () => void;
 };
 
 export default function ListDayItem({ item, onPress }: ListDayItemProps) {

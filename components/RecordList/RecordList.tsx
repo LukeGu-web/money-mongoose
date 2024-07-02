@@ -9,7 +9,6 @@ import EmptyRecordList from './EmptyRecordList';
 import { useRecordStore } from 'core/stateHooks';
 import ListDayItem from './ListDayItem';
 import { useStyles, TColors } from 'core/theme';
-import { Record } from 'api/record/types';
 import RecordBottomSheet from 'components/BottomSheet/RecordBottomSheet';
 
 export default function RecordList() {
@@ -18,9 +17,9 @@ export default function RecordList() {
   const isUpdated =
     records.length > 0 && dayjs().isAfter(dayjs(records[0].date));
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-  const handlePressItem = useCallback((item: Record) => {
+
+  const handlePressItem = useCallback(() => {
     bottomSheetModalRef.current?.present();
-    console.log('handlePressItem: ', item);
   }, []);
 
   return (
