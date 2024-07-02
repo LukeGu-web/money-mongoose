@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import {
-  Calendar as ClendarPicker,
-  LocaleConfig,
-} from 'react-native-calendars';
+import { Calendar as ClendarPicker } from 'react-native-calendars';
 import { FlashList } from '@shopify/flash-list';
 import { useShallow } from 'zustand/react/shallow';
+import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import dayjs from 'dayjs';
 
+import RecordBottomSheet from '../BottomSheet/RecordBottomSheet';
 import CalendarDay from './CalendarDay';
 import ListDayItem from '../RecordList/ListDayItem';
 import { RecordsByDay } from 'api/record/types';
@@ -32,6 +31,8 @@ export default function Calendar() {
   const [selectedDay, setSelectedDay] = useState(today);
   const [formattedData, setFormattedData] = useState({});
   const [dailyRecords, setDailyRecords] = useState<RecordsByDay[]>([]);
+
+  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
   useEffect(() => {
     setVisiableMonth(today);
@@ -80,6 +81,10 @@ export default function Calendar() {
     }
   };
 
+  const handlePressItem = useCallback(() => {
+    bottomSheetModalRef.current?.present();
+  }, []);
+
   return (
     <View style={styles.container}>
       <ClendarPicker
@@ -104,12 +109,15 @@ export default function Calendar() {
         {dailyRecords.length > 0 ? (
           <FlashList
             data={dailyRecords}
-            renderItem={({ item }) => <ListDayItem item={item} />}
+            renderItem={({ item }) => (
+              <ListDayItem item={item} onPress={handlePressItem} />
+            )}
             estimatedItemSize={20}
           />
         ) : (
           <Text>No records</Text>
         )}
+        <RecordBottomSheet bottomSheetModalRef={bottomSheetModalRef} />
       </View>
     </View>
   );

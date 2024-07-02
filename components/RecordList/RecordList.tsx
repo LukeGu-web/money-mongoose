@@ -9,7 +9,7 @@ import EmptyRecordList from './EmptyRecordList';
 import { useRecordStore } from 'core/stateHooks';
 import ListDayItem from './ListDayItem';
 import { useStyles, TColors } from 'core/theme';
-import RecordBottomSheet from 'components/BottomSheet/RecordBottomSheet';
+import { RecordBottomSheet } from 'components';
 
 export default function RecordList() {
   const records = useRecordStore((state) => state.records);
@@ -40,7 +40,6 @@ export default function RecordList() {
             )}
             estimatedItemSize={200}
           />
-
           <RecordBottomSheet bottomSheetModalRef={bottomSheetModalRef} />
         </View>
       ) : (

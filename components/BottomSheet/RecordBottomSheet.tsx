@@ -1,15 +1,11 @@
-import { useCallback, useMemo } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import {
-  BottomSheetModal,
-  BottomSheetView,
-  BottomSheetBackdrop,
-} from '@gorhom/bottom-sheet';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { BottomSheetModal } from '@gorhom/bottom-sheet';
+import { AntDesign, Feather } from '@expo/vector-icons';
 
 import Icon from 'components/Icon/Icon';
-import { Record } from 'api/record/types';
 import { useStyles, TColors } from 'core/theme';
 import { useRecord } from 'core/stateHooks';
+import BottomSheet from './BottomSheet';
 
 type RecordBottomSheetProps = {
   bottomSheetModalRef: React.RefObject<BottomSheetModal>;
@@ -22,28 +18,9 @@ export default function RecordBottomSheet({
   const selectedRecord = useRecord((state) => state.selectedRecord);
 
   console.log('selectedRecord: ', selectedRecord);
-  const snapPoints = useMemo(() => ['30%', '30%'], []);
-
-  const handleSheetChanges = useCallback((index: number) => {
-    console.log('handleSheetChanges', index);
-  }, []);
   return (
-    <BottomSheetModal
-      ref={bottomSheetModalRef}
-      style={styles.modal}
-      index={1}
-      snapPoints={snapPoints}
-      backdropComponent={(backdropProps) => (
-        <BottomSheetBackdrop
-          {...backdropProps}
-          enableTouchThrough={true}
-          opacity={0.2}
-        />
-      )}
-      onChange={handleSheetChanges}
-      enableDismissOnClose
-    >
-      <BottomSheetView style={styles.container}>
+    <BottomSheet bottomSheetModalRef={bottomSheetModalRef}>
+      <View style={styles.container}>
         <View style={styles.contentContainer}>
           <View style={styles.iconContainer}>
             <Icon name={selectedRecord.category} size={28} color='black' />
@@ -53,7 +30,6 @@ export default function RecordBottomSheet({
               <Text style={styles.category}>{selectedRecord.category}</Text>
               {selectedRecord.subcategory && (
                 <Text style={styles.category}>
-                  {' '}
                   - {selectedRecord.subcategory}
                 </Text>
               )}
@@ -64,9 +40,22 @@ export default function RecordBottomSheet({
             {Number(selectedRecord.amount).toFixed(2)}
           </Text>
         </View>
-        <View></View>
-      </BottomSheetView>
-    </BottomSheetModal>
+        <View style={styles.functionContainer}>
+          <TouchableOpacity style={styles.iconButton}>
+            <Feather name='edit' size={24} color='black' />
+            <Text>Edit</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.iconButton}>
+            <AntDesign name='delete' size={24} color='black' />
+            <Text>Delete</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.iconButton}>
+            <Feather name='copy' size={24} color='black' />
+            <Text>Copy</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </BottomSheet>
   );
 }
 
@@ -77,6 +66,7 @@ const createStyles = (theme: TColors) =>
       alignItems: 'center',
     },
     contentContainer: {
+      //   flex: 1,
       padding: 8,
       flexDirection: 'row',
       justifyContent: 'space-between',
@@ -114,5 +104,21 @@ const createStyles = (theme: TColors) =>
       color: theme.textPrimary,
       fontSize: 16,
       fontWeight: 'bold',
+    },
+    functionContainer: {
+      gap: 40,
+      height: 70,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      backgroundColor: theme.bgSecondary,
+      marginVertical: 16,
+      paddingVertical: 10,
+      paddingHorizontal: 28,
+      borderRadius: 40,
+    },
+    iconButton: {
+      alignItems: 'center',
+      justifyContent: 'center',
     },
   });
