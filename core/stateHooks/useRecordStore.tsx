@@ -20,33 +20,39 @@ export const useRecordStore = create<RecordState>()(
       },
       addRecord: (record) => {
         set(() => {
+          const newRecordDateString = dayjs(record.date).format('YYYY-MM-DD');
+          const newRecord = {
+            date: newRecordDateString,
+            sum_of_income:
+              record.type === RecordTypes.INCOME ? record.amount : 0,
+            sum_of_expense:
+              record.type === RecordTypes.EXPENSE ? record.amount : 0,
+            records: [record],
+          };
+
           if (get().records.length === 0) {
             return {
-              records: [
-                {
-                  date: dayjs(record.date).format('YYYY-MM-DD'),
-                  sum_of_income:
-                    record.type === RecordTypes.INCOME ? record.amount : 0,
-                  sum_of_expense:
-                    record.type === RecordTypes.EXPENSE ? record.amount : 0,
-                  records: [record],
-                },
-              ],
+              records: [newRecord],
             };
           } else {
             const newRecords = [...get().records];
-            newRecords[0] = {
-              ...newRecords[0],
-              records: [...newRecords[0].records, record],
-              sum_of_income:
-                record.type === RecordTypes.INCOME
-                  ? newRecords[0].sum_of_income + Number(record.amount)
-                  : newRecords[0].sum_of_income,
-              sum_of_expense:
-                record.type === RecordTypes.EXPENSE
-                  ? newRecords[0].sum_of_expense + Number(record.amount)
-                  : newRecords[0].sum_of_expense,
-            };
+
+            if (newRecords[0].date === newRecordDateString) {
+              newRecords[0] = {
+                ...newRecords[0],
+                records: [...newRecords[0].records, record],
+                sum_of_income:
+                  record.type === RecordTypes.INCOME
+                    ? newRecords[0].sum_of_income + Number(record.amount)
+                    : newRecords[0].sum_of_income,
+                sum_of_expense:
+                  record.type === RecordTypes.EXPENSE
+                    ? newRecords[0].sum_of_expense + Number(record.amount)
+                    : newRecords[0].sum_of_expense,
+              };
+            } else {
+              newRecords.unshift(newRecord);
+            }
             return { records: newRecords };
           }
         });

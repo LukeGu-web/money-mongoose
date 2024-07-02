@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import {
   Calendar as ClendarPicker,
@@ -18,12 +18,6 @@ import { useStyles, TColors } from 'core/theme';
 
 export default function Calendar() {
   const { styles } = useStyles(createStyles);
-
-  const now = dayjs();
-  const today = now.format('YYYY-MM-DD');
-
-  const [selectedDay, setSelectedDay] = useState(today);
-  const [dailyRecords, setDailyRecords] = useState<RecordsByDay[]>([]);
   const records = useRecordStore((state) => state.records);
   const { visiableMonth, setVisiableMonth } = useCalendar(
     useShallow((state) => ({
@@ -31,6 +25,24 @@ export default function Calendar() {
       setVisiableMonth: state.setVisiableMonth,
     }))
   );
+
+  const now = dayjs();
+  const today = now.format('YYYY-MM-DD');
+
+  const [selectedDay, setSelectedDay] = useState(today);
+  const [formattedData, setFormattedData] = useState({});
+  const [dailyRecords, setDailyRecords] = useState<RecordsByDay[]>([]);
+
+  useEffect(() => {
+    let format = {};
+    records.map((item) => {
+      format = { ...format, [item.date]: item };
+    });
+    setFormattedData(format);
+    setVisiableMonth(today);
+    const todayRecords = format[today as keyof typeof format];
+    if (todayRecords) setDailyRecords([todayRecords]);
+  }, []);
 
   // const firstDay = now.subtract(1, 'month').format('YYYY-MM-DD');
   // const lastDay = now.add(1, 'month').format('YYYY-MM-DD');
@@ -53,11 +65,6 @@ export default function Calendar() {
   //   if (formattedError.status !== 404)
   //     return <Text>Sorry, something went wrong. Please try it again.</Text>;
   // }
-
-  let formattedData = {};
-  records.map((item) => {
-    formattedData = { ...formattedData, [item.date]: item };
-  });
 
   const handleSelectDay = (day: string, records: RecordsByDay) => {
     setSelectedDay(day);
