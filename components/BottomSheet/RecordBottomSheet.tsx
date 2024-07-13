@@ -17,7 +17,6 @@ export default function RecordBottomSheet({
   const { styles } = useStyles(createStyles);
   const selectedRecord = useRecord((state) => state.selectedRecord);
 
-  console.log('selectedRecord: ', selectedRecord);
   return (
     <BottomSheet bottomSheetModalRef={bottomSheetModalRef}>
       <View style={styles.container}>

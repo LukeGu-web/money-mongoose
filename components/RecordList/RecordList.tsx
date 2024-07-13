@@ -9,7 +9,7 @@ import EmptyRecordList from './EmptyRecordList';
 import { useRecordStore } from 'core/stateHooks';
 import ListDayItem from './ListDayItem';
 import { useStyles, TColors } from 'core/theme';
-import { RecordBottomSheet } from 'components';
+import RecordBottomSheet from '../BottomSheet/RecordBottomSheet';
 
 export default function RecordList() {
   const records = useRecordStore((state) => state.records);
