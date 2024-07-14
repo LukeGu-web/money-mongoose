@@ -1,4 +1,15 @@
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { useState } from 'react';
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  Modal,
+  TouchableOpacity,
+  Button,
+  TextInputChangeEventData,
+} from 'react-native';
+import { useShallow } from 'zustand/react/shallow';
 import { Feather } from '@expo/vector-icons';
 import dayjs from 'dayjs';
 
@@ -17,8 +28,23 @@ const formatter = (num: number) =>
 
 export default function BudgetCard({ monthExpense }: BudgetCardProps) {
   const { styles } = useStyles(createStyles);
+  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const [amount, setAmount] = useState<string>('');
+  const { goal, setGoal } = useMonthlyAnalysis(
+    useShallow((state) => ({
+      goal: state.goal,
+      setGoal: state.setGoal,
+    }))
+  );
+  const handleCancel = () => {
+    setIsVisible(false);
+  };
 
-  const goal = useMonthlyAnalysis((state) => state.goal);
+  const handleConfirm = () => {
+    setGoal(Number(amount));
+    setIsVisible(false);
+  };
+
   const days = dayjs().date();
   const remaining = (goal ?? 0) + monthExpense;
   const dailyRemaining =
@@ -28,7 +54,12 @@ export default function BudgetCard({ monthExpense }: BudgetCardProps) {
     <View style={styles.container}>
       <View style={styles.verticalContainer}>
         <Text style={{ fontSize: 20, fontWeight: '700' }}>Month Budget</Text>
-        <TouchableOpacity style={{ ...styles.verticalContainer, gap: 5 }}>
+        <TouchableOpacity
+          style={{ ...styles.verticalContainer, gap: 5 }}
+          onPress={() => {
+            setIsVisible(true);
+          }}
+        >
           <Text>{goal === null ? 'set goal' : goal}</Text>
           <Feather name='edit' size={14} color='black' />
         </TouchableOpacity>
@@ -40,7 +71,9 @@ export default function BudgetCard({ monthExpense }: BudgetCardProps) {
             paddingTop: 6,
           }}
         >
-          <GoalProcess targetPercentage={0.2} />
+          <GoalProcess
+            targetPercentage={goal ? Math.abs(monthExpense / goal) : 0}
+          />
         </View>
         <View style={styles.midBlock}>
           <Text>{formatter(monthExpense)}</Text>
@@ -61,6 +94,30 @@ export default function BudgetCard({ monthExpense }: BudgetCardProps) {
           <Text>{formatter(dailyRemaining)}</Text>
         </View>
       </View>
+      <Modal
+        animationType='slide'
+        transparent={true}
+        visible={isVisible}
+        onRequestClose={() => {
+          setIsVisible(false);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={{ fontSize: 24 }}>Monthly Budget</Text>
+            <TextInput
+              style={styles.numInput}
+              placeholder='Please enter the budget amount'
+              keyboardType='numeric'
+              onChangeText={setAmount}
+            />
+            <View style={styles.buttonGroup}>
+              <Button color='gray' title='Cancel' onPress={handleCancel} />
+              <Button title='Confirm' onPress={handleConfirm} />
+            </View>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -97,5 +154,38 @@ const createStyles = (theme: TColors) =>
       borderBottomWidth: 0,
       borderColor: 'red',
       borderStyle: 'dashed',
+    },
+    centeredView: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: 'rgba(0, 0, 0, 0.6)',
+      height: '100%',
+    },
+    modalView: {
+      width: '90%',
+      backgroundColor: theme.white,
+      borderRadius: 20,
+      padding: 20,
+      alignItems: 'center',
+      shadowColor: theme.black,
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 4,
+      elevation: 5,
+      gap: 16,
+    },
+    numInput: {
+      width: '90%',
+      borderWidth: 1,
+      padding: 10,
+      borderRadius: 8,
+    },
+    buttonGroup: {
+      width: '90%',
+      flexDirection: 'row',
+      justifyContent: 'space-evenly',
     },
   });

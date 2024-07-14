@@ -31,7 +31,7 @@ export const GoalProcess = ({
     fontSize: 16,
   };
   const font = matchFont(fontStyle);
-  const width = targetPercentage < 0.1 ? 6 : targetPercentage === 1 ? 16 : 12;
+  const width = String(targetText).length * 5;
 
   return (
     <View style={styles.container}>
