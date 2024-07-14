@@ -4,6 +4,7 @@ import dayjs from 'dayjs';
 
 import { useStyles, TColors } from 'core/theme';
 import { useMonthlyAnalysis } from 'core/stateHooks';
+import { GoalProcess } from 'components/Chart/GoalProcess';
 
 type BudgetCardProps = {
   monthExpense: number;
@@ -33,8 +34,13 @@ export default function BudgetCard({ monthExpense }: BudgetCardProps) {
         </TouchableOpacity>
       </View>
       <View style={[styles.verticalContainer, styles.midContainer]}>
-        <View style={styles.midBlock}>
-          <Text>Placeholder</Text>
+        <View
+          style={{
+            ...styles.midBlock,
+            paddingTop: 6,
+          }}
+        >
+          <GoalProcess targetPercentage={0.2} />
         </View>
         <View style={styles.midBlock}>
           <Text>{formatter(monthExpense)}</Text>
