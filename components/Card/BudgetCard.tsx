@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Button,
 } from 'react-native';
+import { useForm, Controller } from 'react-hook-form';
 import { useShallow } from 'zustand/react/shallow';
 import dayjs from 'dayjs';
 
@@ -24,21 +25,31 @@ type BudgetCardProps = {
 export default function BudgetCard({ monthExpense }: BudgetCardProps) {
   const { styles, theme } = useStyles(createStyles);
   const [isVisible, setIsVisible] = useState<boolean>(false);
-  const [amount, setAmount] = useState<string>('');
   const { goal, setGoal } = useMonthlyAnalysis(
     useShallow((state) => ({
       goal: state.goal,
       setGoal: state.setGoal,
     }))
   );
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      amount: '',
+    },
+  });
+
   const handleCancel = () => {
     setIsVisible(false);
   };
 
-  const handleConfirm = () => {
-    setGoal(Number(amount));
+  const handleConfirm = handleSubmit((data) => {
+    setGoal(Number(data.amount));
     setIsVisible(false);
-  };
+  });
 
   const days = dayjs().date();
   const remaining = (goal ?? 0) + monthExpense;
@@ -100,12 +111,21 @@ export default function BudgetCard({ monthExpense }: BudgetCardProps) {
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <Text style={{ fontSize: 24 }}>Monthly Budget</Text>
-            <TextInput
-              style={styles.numInput}
-              placeholder='Please enter the budget amount'
-              keyboardType='numeric'
-              onChangeText={setAmount}
+            <Controller
+              control={control}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <TextInput
+                  style={styles.numInput}
+                  placeholder='Please enter the budget amount'
+                  keyboardType='numeric'
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value}
+                />
+              )}
+              name='amount'
             />
+
             <View style={styles.buttonGroup}>
               <Button color='gray' title='Cancel' onPress={handleCancel} />
               <Button title='Confirm' onPress={handleConfirm} />
