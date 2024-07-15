@@ -57,7 +57,7 @@ const createStyles = (theme: TColors) =>
     },
     amountContainer: {
       flexDirection: 'row',
-      gap: 5,
+      gap: 6,
     },
     midContainer: {
       flex: 0.8,

@@ -15,16 +15,12 @@ import dayjs from 'dayjs';
 
 import { useStyles, TColors } from 'core/theme';
 import { useMonthlyAnalysis } from 'core/stateHooks';
+import { formatter } from 'core/utils';
 import { GoalProcess } from 'components/Chart/GoalProcess';
 
 type BudgetCardProps = {
   monthExpense: number;
 };
-
-const formatter = (num: number) =>
-  Math.abs(num).toLocaleString('en-US', {
-    minimumFractionDigits: 2,
-  });
 
 export default function BudgetCard({ monthExpense }: BudgetCardProps) {
   const { styles } = useStyles(createStyles);
@@ -137,7 +133,7 @@ const createStyles = (theme: TColors) =>
     },
     midContainer: {
       flex: 1,
-      gap: 5,
+      gap: 6,
       alignItems: 'stretch',
       justifyContent: 'space-between',
       paddingVertical: 4,

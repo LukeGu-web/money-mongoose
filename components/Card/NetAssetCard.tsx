@@ -3,30 +3,19 @@ import dayjs from 'dayjs';
 import { useStyles, TColors } from 'core/theme';
 import { formatter } from 'core/utils';
 
-type ExpenseCardProps = {
-  monthExpense: number;
-  monthIncome: number;
-};
-
-export default function ExpenseCard({
-  monthExpense,
-  monthIncome,
-}: ExpenseCardProps) {
+export default function NetAssetCard() {
   const { styles } = useStyles(createStyles);
   const month = dayjs().format('MMMM');
 
   return (
     <View style={styles.container}>
-      <Text style={{ fontSize: 24 }}>
-        {month}
-        <Text style={{ fontSize: 16 }}>&#183; Expense</Text>
-      </Text>
-      <Text style={{ fontSize: 32 }}>{formatter(monthExpense)}</Text>
+      <Text style={{ fontSize: 24 }}>Net Asset</Text>
+      <Text style={{ fontSize: 32 }}>0.00</Text>
       <View style={styles.textContainer}>
-        <Text style={{ fontWeight: '800' }}>Income</Text>
-        <Text>{formatter(monthIncome)}</Text>
-        <Text style={{ fontWeight: '800' }}>Balance</Text>
-        <Text>{formatter(monthIncome + monthExpense)}</Text>
+        <Text style={{ fontWeight: '800' }}>Assets</Text>
+        <Text>0.00</Text>
+        <Text style={{ fontWeight: '800' }}>Liabilities</Text>
+        <Text>0.00</Text>
       </View>
     </View>
   );
