@@ -1,57 +1,32 @@
-import { useCallback, useRef, useEffect, useState } from 'react';
+import { useCallback, useRef } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
 import { router } from 'expo-router';
 import { AntDesign } from '@expo/vector-icons';
 import { FlashList } from '@shopify/flash-list';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import dayjs from 'dayjs';
 
-import { RecordsByDay } from 'api/record/types';
-import EmptyRecordList from './EmptyRecordList';
 import { useRecordStore } from 'core/stateHooks';
-import ListDayItem from './ListDayItem';
 import { useStyles, TColors } from 'core/theme';
-import RecordBottomSheet from '../BottomSheet/RecordBottomSheet';
+import { RecordBottomSheet, EmptyRecordList, ListDayItem } from 'components';
 
-export default function RecordList() {
-  const { styles } = useStyles(createStyles);
+export default function Records() {
   const records = useRecordStore((state) => state.records);
-  const [latestRecords, setLatestRecords] = useState<RecordsByDay[]>([]);
-
-  useEffect(() => {
-    let n = 0;
-    while (dayjs(records[n]?.date).isAfter(dayjs().subtract(6, 'day'), 'day')) {
-      const tmpList = [];
-      tmpList.push(records[n]);
-      setLatestRecords(tmpList);
-      n++;
-    }
-  }, [records]);
-
+  const { styles } = useStyles(createStyles);
   const isUpdated =
-    latestRecords.length > 0 && dayjs().isAfter(dayjs(latestRecords[0].date));
+    records.length > 0 && dayjs().isAfter(dayjs(records[0].date));
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
   const handlePressItem = useCallback(() => {
     bottomSheetModalRef.current?.present();
   }, []);
-
   return (
     <View style={styles.container}>
-      <View style={styles.headerContainer}>
-        <Text style={{ fontSize: 18, fontWeight: '600' }}>Last 7 days</Text>
-        <TouchableOpacity
-          style={styles.verticalContainer}
-          onPress={() => router.navigate('/records')}
-        >
-          <Text>All records</Text>
-          <AntDesign name='doubleright' size={14} color='black' />
-        </TouchableOpacity>
-      </View>
       {isUpdated ? (
         <View style={styles.listContainer}>
           <FlashList
-            data={latestRecords}
+            data={records}
             renderItem={({ item }) => (
               <ListDayItem item={item} onPress={handlePressItem} />
             )}
@@ -64,15 +39,15 @@ export default function RecordList() {
           <EmptyRecordList />
         </View>
       )}
+      <StatusBar style='light' />
     </View>
   );
 }
+
 const createStyles = (theme: TColors) =>
   StyleSheet.create({
     container: {
       flex: 1,
-      borderRadius: 10,
-      backgroundColor: theme.bgPrimary,
     },
     verticalContainer: {
       flexDirection: 'row',
@@ -86,6 +61,8 @@ const createStyles = (theme: TColors) =>
     },
     listContainer: {
       flex: 1,
+      borderRadius: 10,
+      backgroundColor: theme.bgPrimary,
     },
     headerContainer: {
       padding: 8,

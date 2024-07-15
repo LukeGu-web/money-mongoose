@@ -17,9 +17,10 @@ export default function EmptyRecordList() {
   const now = dayjs();
   let startDate = '';
   if (records.length > 0) {
-    // If the latest local data is not today's data
+    // If the latest local data is not today's data, only get missed latest records
     startDate = dayjs(records[0].date).format('YYYY-MM-DD');
   } else {
+    // Get last 3 month records
     startDate = now.subtract(3, 'month').format('YYYY-MM-DD');
   }
 
@@ -38,8 +39,17 @@ export default function EmptyRecordList() {
   });
 
   useEffect(() => {
-    if (data) setRecords(data);
-  }, [data]);
+    if (data) {
+      if (records.length > 0) {
+        if (dayjs(data[0].date).isAfter(records[0].date)) {
+          const updatedRecords = data.concat(records);
+          setRecords(updatedRecords);
+        }
+      } else {
+        setRecords(data);
+      }
+    }
+  }, [isLoading]);
 
   if (isLoading) return <Text>is loading...</Text>;
 

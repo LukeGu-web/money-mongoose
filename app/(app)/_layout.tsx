@@ -1,5 +1,5 @@
 import { Tabs, SplashScreen, Redirect } from 'expo-router';
-import { CalendarHeader, RecordHeader, Icon } from 'components';
+import { CalendarHeader, RecordHeader, RecordsHeader, Icon } from 'components';
 import { useLocalStore } from 'core/stateHooks';
 
 export default function TabLayout() {
@@ -18,7 +18,7 @@ export default function TabLayout() {
         headerTintColor: '#fff',
         tabBarActiveTintColor: '#03045E',
         tabBarStyle: {
-          display: route.name === 'record' ? 'none' : 'flex',
+          display: route.name.includes('record') ? 'none' : 'flex',
         },
       })}
     >
@@ -67,6 +67,13 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => (
             <Icon name='account' size={28} color={color} />
           ),
+        }}
+      />
+      <Tabs.Screen
+        name='records/index'
+        options={{
+          headerTitle: () => <RecordsHeader />,
+          href: null,
         }}
       />
     </Tabs>

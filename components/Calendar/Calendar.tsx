@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { Calendar as ClendarPicker } from 'react-native-calendars';
+import { Calendar as ClendarPicker, DateData } from 'react-native-calendars';
 import { FlashList } from '@shopify/flash-list';
 import { useShallow } from 'zustand/react/shallow';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
@@ -90,7 +90,7 @@ export default function Calendar() {
       <ClendarPicker
         style={styles.clendarContainer}
         initialDate={visiableMonth}
-        dayComponent={({ date, state }) => (
+        dayComponent={({ date, state }: { date: any; state: any }) => (
           <CalendarDay
             date={date}
             state={state}
@@ -101,7 +101,7 @@ export default function Calendar() {
             }
           />
         )}
-        onMonthChange={(data) => {
+        onMonthChange={(data: DateData) => {
           setVisiableMonth(data.dateString);
         }}
       />
