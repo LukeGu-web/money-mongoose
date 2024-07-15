@@ -1,3 +1,4 @@
+import { useCallback, useEffect } from 'react';
 import { Tabs, SplashScreen, Redirect } from 'expo-router';
 import {
   CalendarHeader,
@@ -9,9 +10,15 @@ import {
 import { useLocalStore } from 'core/stateHooks';
 
 export default function TabLayout() {
-  // const hideSplash = useCallback(async () => {
-  //   await SplashScreen.hideAsync();
-  // }, []);
+  const hideSplash = useCallback(async () => {
+    await SplashScreen.hideAsync();
+  }, []);
+  useEffect(() => {
+    setTimeout(() => {
+      hideSplash();
+    }, 1000);
+  }, [hideSplash]);
+
   const isOnBoarding = useLocalStore((state) => state.isOnBoarding);
   if (!isOnBoarding) {
     return <Redirect href='/onboarding' />;
