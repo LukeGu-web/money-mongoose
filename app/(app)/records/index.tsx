@@ -1,8 +1,6 @@
 import { useCallback, useRef } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
-import { router } from 'expo-router';
-import { AntDesign } from '@expo/vector-icons';
 import { FlashList } from '@shopify/flash-list';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import dayjs from 'dayjs';

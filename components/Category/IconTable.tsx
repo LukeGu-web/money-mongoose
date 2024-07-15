@@ -6,7 +6,6 @@ import {
   Dimensions,
   Text,
 } from 'react-native';
-import { Entypo } from '@expo/vector-icons';
 import Icon from '../Icon/Icon';
 import { useStyles, TColors } from 'core/theme';
 
@@ -49,7 +48,7 @@ export default function IconTable({
             </View>
             {hasSubcategory && (
               <View style={[styles.container, styles.subcategory]}>
-                <Entypo
+                <Icon
                   name='dots-three-vertical'
                   size={10}
                   color={theme.textPrimary}

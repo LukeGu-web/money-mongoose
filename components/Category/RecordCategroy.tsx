@@ -10,8 +10,8 @@ import {
   Modal,
 } from 'react-native';
 import { useShallow } from 'zustand/react/shallow';
-import { AntDesign } from '@expo/vector-icons';
 import IconTable from './IconTable';
+import Icon from '../Icon/Icon';
 
 import { RecordTypes } from 'api/record/types';
 import { useRecord } from 'core/stateHooks';
@@ -30,7 +30,7 @@ export default function RecordCategory() {
       setRecord: state.setRecord,
     }))
   );
-  const { styles } = useStyles(createStyles);
+  const { styles, theme } = useStyles(createStyles);
 
   const [l2DataList, setL2DataList] = useState<string[]>([]);
   const [isVisible, setIsVisible] = useState<boolean>(false);
@@ -85,7 +85,7 @@ export default function RecordCategory() {
               <View style={styles.modalHeader}>
                 <Text style={styles.modalText}>{record.category}</Text>
                 <TouchableOpacity onPress={() => setIsVisible(false)}>
-                  <AntDesign name='closesquareo' size={24} color='black' />
+                  <Icon name='close' size={24} color={theme.black} />
                 </TouchableOpacity>
               </View>
               {record.category !== '' && (

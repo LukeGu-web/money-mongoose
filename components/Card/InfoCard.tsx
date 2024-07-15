@@ -43,7 +43,7 @@ const createStyles = (theme: TColors) =>
     infoBox: {
       flex: 1,
       borderRadius: 10,
-      backgroundColor: 'powderblue',
+      backgroundColor: theme.bgPrimary,
       padding: 6,
     },
     infoRow: {

@@ -1,11 +1,10 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
-import { AntDesign, Feather } from '@expo/vector-icons';
 
-import Icon from 'components/Icon/Icon';
 import { useStyles, TColors } from 'core/theme';
 import { useRecord } from 'core/stateHooks';
 import BottomSheet from './BottomSheet';
+import Icon from '../Icon/Icon';
 
 type RecordBottomSheetProps = {
   bottomSheetModalRef: React.RefObject<BottomSheetModal>;
@@ -14,7 +13,7 @@ type RecordBottomSheetProps = {
 export default function RecordBottomSheet({
   bottomSheetModalRef,
 }: RecordBottomSheetProps) {
-  const { styles } = useStyles(createStyles);
+  const { styles, theme } = useStyles(createStyles);
   const selectedRecord = useRecord((state) => state.selectedRecord);
 
   return (
@@ -41,15 +40,15 @@ export default function RecordBottomSheet({
         </View>
         <View style={styles.functionContainer}>
           <TouchableOpacity style={styles.iconButton}>
-            <Feather name='edit' size={24} color='black' />
+            <Icon name='edit' size={24} color={theme.black} />
             <Text>Edit</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.iconButton}>
-            <AntDesign name='delete' size={24} color='black' />
+            <Icon name='delete' size={24} color={theme.black} />
             <Text>Delete</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.iconButton}>
-            <Feather name='copy' size={24} color='black' />
+            <Icon name='copy' size={24} color={theme.black} />
             <Text>Copy</Text>
           </TouchableOpacity>
         </View>

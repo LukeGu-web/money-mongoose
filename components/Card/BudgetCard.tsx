@@ -7,23 +7,22 @@ import {
   Modal,
   TouchableOpacity,
   Button,
-  TextInputChangeEventData,
 } from 'react-native';
 import { useShallow } from 'zustand/react/shallow';
-import { Feather } from '@expo/vector-icons';
 import dayjs from 'dayjs';
 
 import { useStyles, TColors } from 'core/theme';
 import { useMonthlyAnalysis } from 'core/stateHooks';
 import { formatter } from 'core/utils';
-import { GoalProcess } from 'components/Chart/GoalProcess';
+import { GoalProcess } from '../Chart/GoalProcess';
+import Icon from '../Icon/Icon';
 
 type BudgetCardProps = {
   monthExpense: number;
 };
 
 export default function BudgetCard({ monthExpense }: BudgetCardProps) {
-  const { styles } = useStyles(createStyles);
+  const { styles, theme } = useStyles(createStyles);
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [amount, setAmount] = useState<string>('');
   const { goal, setGoal } = useMonthlyAnalysis(
@@ -57,7 +56,7 @@ export default function BudgetCard({ monthExpense }: BudgetCardProps) {
           }}
         >
           <Text>{goal === null ? 'set goal' : goal}</Text>
-          <Feather name='edit' size={14} color='black' />
+          <Icon name='edit' size={14} color={theme.black} />
         </TouchableOpacity>
       </View>
       <View style={[styles.verticalContainer, styles.midContainer]}>

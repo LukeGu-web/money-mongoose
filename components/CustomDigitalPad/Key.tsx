@@ -1,16 +1,14 @@
 import { StyleSheet, Text } from 'react-native';
-import { FontAwesome6, AntDesign } from '@expo/vector-icons';
 import { useStyles, TColors } from 'core/theme';
+import Icon from '../Icon/Icon';
 
 export default function Key({ value }: { value: string }) {
   const { theme, styles } = useStyles(createStyles);
   switch (value) {
     case 'delete':
-      return (
-        <FontAwesome6 name='delete-left' size={40} color={theme.primary} />
-      );
+      return <Icon name='delete-left' size={40} color={theme.primary} />;
     case 'calculator':
-      return <AntDesign name='calculator' size={40} color={theme.primary} />;
+      return <Icon name='calculator' size={40} color={theme.primary} />;
     case 'clear':
     case 'new':
     case 'save':

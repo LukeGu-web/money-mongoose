@@ -206,7 +206,7 @@
     },
     {
       "uid": "7ea9b77145ddfb21fe492e54be5ce03e",
-      "css": "movie",
+      "css": "video",
       "code": 59414,
       "src": "custom_icons",
       "selected": true,
@@ -393,45 +393,99 @@
       "src": "fontawesome"
     },
     {
-      "uid": "4535ef4a462c3540ccf1028473aad1bc",
-      "css": "beverage-1",
-      "code": 59406,
-      "src": "custom_icons",
-      "selected": false,
-      "svg": {
-        "path": "M834 834V750H541V834H834ZM541 435.6V500H834V435.6L793 421.9Q757.8 410.2 733.4 375T709 302.7V291H666V302.7Q666 392.6 582 421.9ZM666 166V209H709V166H666ZM859.4 355.5Q916 375 916 435.6V834Q916 867.2 891.6 891.6T834 916H541Q507.8 916 483.4 891.6T459 834V435.6Q459 375 515.7 355.5L554.7 343.8Q584 334 584 302.7V125Q584 107.4 595.7 95.7T625.1 83.9H750.1Q767.7 83.9 779.4 95.7T791.1 125V302.7Q791.1 330.1 820.4 341.8ZM209 334V459H291V334H209ZM125 584V250H375V584Q375 625 351.6 656.3T291 701.2V834H375V916.1H125V834H209V701.2Q171.9 687.5 148.4 656.3T125 584Z",
-        "width": 1000
-      },
-      "search": [
-        "beverage"
-      ]
+      "uid": "41087bc74d4b20b55059c60a33bf4008",
+      "css": "edit",
+      "code": 59398,
+      "src": "fontawesome"
     },
     {
-      "uid": "e05e7e66745798f781d9ce8790a68842",
-      "css": "breakfast-1",
+      "uid": "f48ae54adfb27d8ada53d0fd9e34ee10",
+      "css": "delete",
+      "code": 59399,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "c8585e1e5b0467f28b70bce765d5840c",
+      "css": "copy",
+      "code": 61637,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "1dq4tek4k8ea7zlj4kc3w83itnutaxg5",
+      "css": "close",
+      "code": 59406,
+      "src": "typicons"
+    },
+    {
+      "uid": "l11ixzfrief0chds7elurdm2ot98xp4l",
+      "css": "delete-left",
       "code": 59408,
-      "src": "custom_icons",
-      "selected": false,
-      "svg": {
-        "path": "M584 625V459H416V625H584ZM750 125Q818.4 125 867.2 173.8T916 291Q916 386.8 834 435.6V791Q834 824.2 808.6 849.6T750 875H250Q216.8 875 191.4 849.6T166 791V435.6Q84 386.7 84 291 84 222.7 132.8 173.8T250 125H750Z",
-        "width": 1000
-      },
-      "search": [
-        "breakfast"
-      ]
+      "src": "typicons"
+    },
+    {
+      "uid": "2de0dab5fbbc467b51692895fcce11e2",
+      "css": "calculator",
+      "code": 59427,
+      "src": "typicons"
+    },
+    {
+      "uid": "wlri7uftq4zbi82q2xuf08ayd8kpijlk",
+      "css": "left",
+      "code": 59428,
+      "src": "typicons"
+    },
+    {
+      "uid": "bc64550dd022ce21604f97309b346cea",
+      "css": "setting",
+      "code": 59429,
+      "src": "entypo"
+    },
+    {
+      "uid": "fdfbd1fcbd4cb229716a810801a5f207",
+      "css": "double-right",
+      "code": 61697,
+      "src": "fontawesome"
     },
     {
       "uid": "e7819122b0de29ed0e3f0588efcd9daa",
       "css": "movie",
       "code": 59407,
       "src": "custom_icons",
-      "selected": false,
+      "selected": true,
       "svg": {
         "path": "M750 166H916V750Q916 783.2 891.6 808.6T834 834H166Q132.8 834 108.4 808.6T84 750V250Q84 216.8 108.4 191.4T166 166H209L291 334H416L334 166H416L500 334H625L541 166H625L709 334H834Z",
         "width": 1000
       },
       "search": [
         "movie"
+      ]
+    },
+    {
+      "uid": "52ef7fc9fcca68ed31def256005c0e84",
+      "css": "center_focus",
+      "code": 59430,
+      "src": "custom_icons",
+      "selected": true,
+      "svg": {
+        "path": "M791 791V625H875V791Q875 824.2 849.6 849.6T791 875H625V791H791ZM791 125Q824.2 125 849.6 150.4T875 209V375H791V209H625V125H791ZM209 209V375H125V209Q125 175.8 150.4 150.4T209 125H375V209H209ZM209 625V791H375V875H209Q175.8 875 150.4 849.6T125 791V625H209ZM500 334Q568.4 334 617.2 382.8T666 500 617.2 617.3 500 666.1 382.8 617.3 334 500 382.8 382.8 500 334Z",
+        "width": 1000
+      },
+      "search": [
+        "center_focus_strong"
+      ]
+    },
+    {
+      "uid": "4b2a48285371b6cc57e8462aeebed575",
+      "css": "dots-three-vertical",
+      "code": 59431,
+      "src": "custom_icons",
+      "selected": true,
+      "svg": {
+        "path": "M500 390C439.3 390 390 439.3 390 500S439.3 610 500 610C560.8 610 610 560.8 610 500S560.8 390 500 390ZM500 260C560.8 260 610 210.7 610 150S560.8 40 500 40C439.3 40 390 89.2 390 150S439.3 260 500 260ZM500 740C439.3 740 390 789.3 390 850S439.3 960 500 960C560.8 960 610 910.8 610 850S560.8 740 500 740Z",
+        "width": 1000
+      },
+      "search": [
+        "dots-three-vertical"
       ]
     }
   ]

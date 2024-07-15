@@ -1,7 +1,6 @@
 import { useCallback, useRef, useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { router } from 'expo-router';
-import { AntDesign } from '@expo/vector-icons';
 import { FlashList } from '@shopify/flash-list';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import dayjs from 'dayjs';
@@ -12,6 +11,7 @@ import { useRecordStore } from 'core/stateHooks';
 import ListDayItem from './ListDayItem';
 import { useStyles, TColors } from 'core/theme';
 import RecordBottomSheet from '../BottomSheet/RecordBottomSheet';
+import Icon from '../Icon/Icon';
 
 export default function RecordList() {
   const { styles } = useStyles(createStyles);
@@ -45,7 +45,7 @@ export default function RecordList() {
           onPress={() => router.navigate('/records')}
         >
           <Text>All records</Text>
-          <AntDesign name='doubleright' size={14} color='black' />
+          <Icon name='double-right' size={14} color='black' />
         </TouchableOpacity>
       </View>
       {isUpdated ? (

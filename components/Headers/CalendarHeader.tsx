@@ -1,8 +1,8 @@
 import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
 import dayjs from 'dayjs';
 import { useCalendar } from 'core/stateHooks';
 import { useStyles, TColors } from 'core/theme';
+import Icon from '../Icon/Icon';
 
 export default function CalendarHeader() {
   const { theme, styles } = useStyles(createStyles);
@@ -21,11 +21,7 @@ export default function CalendarHeader() {
       </View>
       <View>
         <TouchableOpacity onPress={handleBackToday}>
-          <MaterialIcons
-            name='center-focus-strong'
-            size={24}
-            color={theme.textSecondary}
-          />
+          <Icon name='center_focus' size={24} color={theme.textSecondary} />
         </TouchableOpacity>
       </View>
     </View>
