@@ -22,7 +22,7 @@ export const GoalProcess = ({
   const m = Skia.Matrix();
   m.translate(radius, radius);
   m.rotate(-1.5);
-  m.translate(-radius, -radius - 1);
+  m.translate(-radius, -radius);
   const path = Skia.Path.Make().addCircle(radius, radius, innerRadius);
   path.transform(m);
   const fontFamily = Platform.select({ ios: 'Helvetica', default: 'serif' });

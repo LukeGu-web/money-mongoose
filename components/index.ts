@@ -1,3 +1,4 @@
+export { default as AddBankHeader } from 'components/Headers/AddBankHeader';
 export { default as BudgetCard } from 'components/Card/BudgetCard';
 export { default as Calendar } from 'components/Calendar/Calendar';
 export { default as CalendarHeader } from 'components/Headers/CalendarHeader';

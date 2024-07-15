@@ -1,4 +1,5 @@
 import { View, Text, TouchableOpacity, StyleSheet, Button } from 'react-native';
+import { router } from 'expo-router';
 import { useStyles, TColors } from 'core/theme';
 
 export default function AccountList() {
@@ -7,7 +8,11 @@ export default function AccountList() {
     <View style={styles.container}>
       <View style={styles.emptyContainer}>
         <Text>No account yet</Text>
-        <Button title='Add account' color='white' />
+        <Button
+          title='Add account'
+          color='white'
+          onPress={() => router.navigate('/add-bank-account')}
+        />
       </View>
     </View>
   );

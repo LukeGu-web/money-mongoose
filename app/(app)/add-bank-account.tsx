@@ -3,10 +3,10 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import { Calendar as CalendarView } from 'components';
 
-export default function Calendar() {
+export default function AddBankAccount() {
   return (
     <View style={styles.container}>
-      <CalendarView />
+      <Text>Add bank</Text>
       <StatusBar style='light' />
     </View>
   );

@@ -1,5 +1,11 @@
 import { Tabs, SplashScreen, Redirect } from 'expo-router';
-import { CalendarHeader, RecordHeader, RecordsHeader, Icon } from 'components';
+import {
+  CalendarHeader,
+  RecordHeader,
+  RecordsHeader,
+  Icon,
+  AddBankHeader,
+} from 'components';
 import { useLocalStore } from 'core/stateHooks';
 
 export default function TabLayout() {
@@ -10,7 +16,7 @@ export default function TabLayout() {
   if (!isOnBoarding) {
     return <Redirect href='/onboarding' />;
   }
-
+  const hideTab = ['record', 'add-bank-account', 'records/index'];
   return (
     <Tabs
       screenOptions={({ route }) => ({
@@ -18,7 +24,7 @@ export default function TabLayout() {
         headerTintColor: '#fff',
         tabBarActiveTintColor: '#03045E',
         tabBarStyle: {
-          display: route.name.includes('record') ? 'none' : 'flex',
+          display: hideTab.includes(route.name) ? 'none' : 'flex',
         },
       })}
     >
@@ -73,6 +79,13 @@ export default function TabLayout() {
         name='records/index'
         options={{
           headerTitle: () => <RecordsHeader />,
+          href: null,
+        }}
+      />
+      <Tabs.Screen
+        name='add-bank-account'
+        options={{
+          headerTitle: () => <AddBankHeader />,
           href: null,
         }}
       />
