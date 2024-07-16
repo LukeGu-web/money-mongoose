@@ -17,7 +17,7 @@ export default function RecordsHeader() {
   const { theme, styles } = useStyles(createStyles);
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => router.replace('/')}>
+      <TouchableOpacity onPress={() => router.navigate('/')}>
         <Icon name='left' size={24} color={theme.textSecondary} />
       </TouchableOpacity>
       <Text style={styles.headerText}>Record list</Text>

@@ -8,7 +8,7 @@ export default function Onboarding() {
   );
   const handleAgree = () => {
     setIsAcceptedAgreement(true);
-    router.replace('/onboarding');
+    router.navigate('/onboarding');
   };
   return (
     <View style={styles.container}>

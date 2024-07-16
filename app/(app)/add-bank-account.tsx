@@ -1,23 +1,78 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { useFocusEffect } from 'expo-router';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useForm, FormProvider } from 'react-hook-form';
+import { AntDesign } from '@expo/vector-icons';
+
 import { useStyles, TColors } from 'core/theme';
+import { AssetAccountBasicForm, AssetAccountOtherForm } from 'components';
 
 export default function AddBankAccount() {
   const { styles } = useStyles(createStyles);
+  const [isMore, setIsMore] = useState(false);
+  const methods = useForm({
+    defaultValues: {
+      accountName: '',
+      group: '',
+      balance: '',
+      isCredit: false,
+      isTotalAssets: true,
+      isNoBudget: false,
+      note: '',
+    },
+  });
+
+  useFocusEffect(
+    useCallback(() => {
+      return () => {
+        setIsMore(false);
+        methods.reset();
+      };
+    }, [])
+  );
+
+  const handleCreate = methods.handleSubmit((data) => {
+    console.log(data);
+    // setGoal(Number(data.amount));
+    // setIsVisible(false);
+  });
+
   return (
-    <View style={styles.container}>
-      <View style={styles.logoContainer}></View>
-      <View>
-        <Text>Basic information</Text>
-        <View style={styles.basicContainer}></View>
-      </View>
-      <View>
-        <Text>Other settings</Text>
-        <View style={styles.moreContainer}></View>
-      </View>
+    <SafeAreaView style={styles.container} edges={['bottom']}>
+      <FormProvider {...methods}>
+        <View style={styles.logoContainer}></View>
+        <View>
+          <Text style={styles.formHeader}>Basic information</Text>
+          <View style={styles.basicContainer}>
+            <AssetAccountBasicForm />
+          </View>
+        </View>
+        <View style={{ flex: 1 }}>
+          {isMore ? (
+            <View style={{ flex: 1 }}>
+              <Text style={styles.formHeader}>Other settings</Text>
+              <View style={styles.moreContainer}>
+                <AssetAccountOtherForm />
+              </View>
+            </View>
+          ) : (
+            <TouchableOpacity
+              style={styles.moreBtn}
+              onPress={() => setIsMore(true)}
+            >
+              <Text>More settings</Text>
+              <AntDesign name='down' size={18} color='black' />
+            </TouchableOpacity>
+          )}
+        </View>
+        <TouchableOpacity style={styles.createBtn} onPress={handleCreate}>
+          <Text style={styles.createText}>Create</Text>
+        </TouchableOpacity>
+      </FormProvider>
       <StatusBar style='light' />
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -37,11 +92,33 @@ const createStyles = (theme: TColors) =>
     basicContainer: {
       height: 200,
       borderRadius: 10,
-      backgroundColor: 'powderblue',
+      backgroundColor: theme.bgPrimary,
     },
     moreContainer: {
       flex: 1,
       borderRadius: 10,
-      backgroundColor: 'green',
+      backgroundColor: theme.bgPrimary,
+    },
+    formHeader: {
+      fontSize: 12,
+      color: 'gray',
+    },
+    createText: {
+      fontWeight: '400',
+    },
+    moreBtn: {
+      width: '100%',
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
+      padding: 8,
+      borderRadius: 8,
+    },
+    createBtn: {
+      width: '100%',
+      backgroundColor: 'yellow',
+      padding: 8,
+      alignItems: 'center',
+      borderRadius: 8,
     },
   });
