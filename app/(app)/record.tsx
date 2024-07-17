@@ -22,11 +22,15 @@ export default function Record() {
       amount: 0,
     },
   });
+  const handleSubmit = methods.handleSubmit((data) => {
+    console.log(data);
+  });
+
   return (
     <SafeAreaView style={styles.container} edges={['right', 'bottom', 'left']}>
       <FormProvider {...methods}>
         <RecordCategory />
-        <DigitalPad />
+        <DigitalPad onSubmit={handleSubmit} />
       </FormProvider>
       <StatusBar style='light' />
     </SafeAreaView>
