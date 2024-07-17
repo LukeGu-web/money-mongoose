@@ -12,6 +12,7 @@ export { default as RecordsHeader } from 'components/Header/RecordsHeader';
 export { default as RecordCategory } from 'components/Category/RecordCategroy';
 export { default as RecordList } from 'components/RecordList/RecordList';
 export { default as RecordBottomSheet } from 'components/BottomSheet/RecordBottomSheet';
+export { default as SelectGroupBottomSheet } from 'components/BottomSheet/SelectGroupBottomSheet';
 export { default as ListDayItem } from 'components/RecordList/ListDayItem';
 
 export { default as Icon } from 'components/Icon/Icon';

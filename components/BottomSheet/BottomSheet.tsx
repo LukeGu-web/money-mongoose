@@ -26,7 +26,6 @@ export default function BottomSheet({
     () => [height + bottomSafeArea, height + bottomSafeArea],
     [bottomSafeArea]
   );
-  console.log('snapPoints: ', snapPoints);
 
   // const handleSheetChanges = useCallback((index: number) => {
   //   console.log('handleSheetChanges', index);

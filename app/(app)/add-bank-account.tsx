@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { useFocusEffect } from 'expo-router';
+import { useFocusEffect, router } from 'expo-router';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useForm, FormProvider } from 'react-hook-form';
@@ -35,8 +35,7 @@ export default function AddBankAccount() {
 
   const handleCreate = methods.handleSubmit((data) => {
     console.log(data);
-    // setGoal(Number(data.amount));
-    // setIsVisible(false);
+    router.navigate('/asset');
   });
 
   return (
