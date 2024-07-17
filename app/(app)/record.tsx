@@ -1,8 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useForm, FormProvider } from 'react-hook-form';
+
 import { DigitalPad, RecordCategory } from 'components';
-import type { Record, RecordTypes } from 'api/record/types';
+import { type Record, RecordTypes } from 'api/record/types';
 
 export type RecordCategoryInputType = {
   type: RecordTypes;
@@ -11,10 +13,21 @@ export type RecordCategoryInputType = {
 };
 
 export default function Record() {
+  const methods = useForm({
+    defaultValues: {
+      // type: RecordTypes.EXPENSE,
+      category: '',
+      subcategory: '',
+      note: '',
+      amount: 0,
+    },
+  });
   return (
     <SafeAreaView style={styles.container} edges={['right', 'bottom', 'left']}>
-      <RecordCategory />
-      <DigitalPad />
+      <FormProvider {...methods}>
+        <RecordCategory />
+        <DigitalPad />
+      </FormProvider>
       <StatusBar style='light' />
     </SafeAreaView>
   );

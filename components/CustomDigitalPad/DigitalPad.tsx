@@ -9,6 +9,7 @@ import {
   KeyboardAvoidingView,
 } from 'react-native';
 import Toast from 'react-native-toast-message';
+import { useFormContext, Controller } from 'react-hook-form';
 import { router } from 'expo-router';
 import { useShallow } from 'zustand/react/shallow';
 import Keypad from './Keypad';
@@ -19,9 +20,10 @@ import { formatApiError } from 'api/errorFormat';
 import { useStyles, TColors } from 'core/theme';
 import { useRecord, useRecordStore } from 'core/stateHooks';
 
-export default function DigitalPad() {
-  const keyboardVerticalOffset = Platform.OS === 'ios' ? -150 : 0;
+const keyboardVerticalOffset = Platform.OS === 'ios' ? -150 : 0;
 
+export default function DigitalPad() {
+  const { styles } = useStyles(createStyles);
   const { mutate: addRecordApi } = useAddRecord();
   const addRecord = useRecordStore((state) => state.addRecord);
   const { record, setRecord, resetRecord } = useRecord(
@@ -31,8 +33,7 @@ export default function DigitalPad() {
       resetRecord: state.resetRecord,
     }))
   );
-
-  const { styles } = useStyles(createStyles);
+  const { control, getValues, setValue } = useFormContext();
 
   const [integer, setInteger] = useState('0');
   const [decimal, setDecimal] = useState('00');
@@ -157,18 +158,28 @@ export default function DigitalPad() {
       style={styles.container}
     >
       <View style={styles.noteContainer}>
-        <TextInput
-          placeholder='note'
-          style={styles.noteInput}
-          value={record.note}
-          onChangeText={(value) => setRecord({ note: value })}
+        <Controller
+          control={control}
+          render={({ field: { onChange, value } }) => (
+            <TextInput
+              placeholder='note'
+              style={styles.noteInput}
+              value={value}
+              onChangeText={onChange}
+            />
+          )}
+          name='note'
         />
         <TouchableOpacity style={styles.amount}>
           <Text style={styles.amountText}>{`A$ ${integer}.${decimal}`}</Text>
         </TouchableOpacity>
       </View>
       {/* <View>function tags</View> */}
-      <Keypad onKeyInput={handlePriceInput} />
+      <Controller
+        control={control}
+        render={() => <Keypad onKeyInput={handlePriceInput} />}
+        name='amount'
+      />
     </KeyboardAvoidingView>
   );
 }
