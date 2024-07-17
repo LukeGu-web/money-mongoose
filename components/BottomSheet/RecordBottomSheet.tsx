@@ -17,7 +17,7 @@ export default function RecordBottomSheet({
   const selectedRecord = useRecord((state) => state.selectedRecord);
 
   return (
-    <BottomSheet bottomSheetModalRef={bottomSheetModalRef}>
+    <BottomSheet bottomSheetModalRef={bottomSheetModalRef} height={160}>
       <View style={styles.container}>
         <View style={styles.contentContainer}>
           <View style={styles.iconContainer}>

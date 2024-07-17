@@ -17,7 +17,7 @@ export default function AssetAccountOtherForm() {
             <Text style={styles.headerText}>Include in total assets</Text>
             <Switch
               trackColor={{ false: '#767577', true: '#81b0ff' }}
-              ios_backgroundColor='#3e3e3e'
+              ios_backgroundColor='#f8f9fa'
               onValueChange={onChange}
               value={value}
             />
@@ -32,7 +32,7 @@ export default function AssetAccountOtherForm() {
             <Text style={styles.headerText}>No budget</Text>
             <Switch
               trackColor={{ false: '#767577', true: '#81b0ff' }}
-              ios_backgroundColor='#3e3e3e'
+              ios_backgroundColor='#f8f9fa'
               onValueChange={onChange}
               value={value}
             />
@@ -49,7 +49,7 @@ export default function AssetAccountOtherForm() {
               style={styles.noteInput}
               multiline={true}
               numberOfLines={6}
-              placeholder='Enter the amount name'
+              placeholder='Enter a note'
               onBlur={onBlur}
               onChangeText={onChange}
               value={value}
@@ -70,6 +70,7 @@ const createStyles = (theme: TColors) =>
       justifyContent: 'space-between',
       alignItems: 'center',
       padding: 8,
+      gap: 8,
     },
     rowWrapper: {
       height: 40,
@@ -86,6 +87,8 @@ const createStyles = (theme: TColors) =>
     noteInput: {
       flex: 1,
       borderWidth: 1,
+      borderColor: '#6c757d',
+      borderRadius: 4,
       alignItems: 'flex-start',
       padding: 8,
     },

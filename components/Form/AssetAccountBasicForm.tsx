@@ -32,7 +32,7 @@ export default function AssetAccountBasicForm() {
             <Text style={styles.headerText}>Group</Text>
             <TextInput
               //   style={styles.numInput}
-              placeholder='Enter the amount name'
+              placeholder='Select group'
               onBlur={onBlur}
               onChangeText={onChange}
               value={value}
@@ -65,7 +65,7 @@ export default function AssetAccountBasicForm() {
             <Text style={styles.headerText}>Credit</Text>
             <Switch
               trackColor={{ false: '#767577', true: '#81b0ff' }}
-              ios_backgroundColor='#3e3e3e'
+              ios_backgroundColor='#f8f9fa'
               onValueChange={onChange}
               value={value}
             />
@@ -85,6 +85,7 @@ const createStyles = (theme: TColors) =>
       justifyContent: 'space-between',
       alignItems: 'center',
       padding: 8,
+      gap: 8,
     },
     rowWrapper: {
       height: 40,

@@ -1,5 +1,6 @@
 import { useCallback, useMemo, type RefObject, type ReactNode } from 'react';
 import { StyleSheet } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
   BottomSheetModal,
   BottomSheetView,
@@ -10,18 +11,27 @@ import { useStyles, TColors } from 'core/theme';
 type RecordBottomSheetProps = {
   bottomSheetModalRef: RefObject<BottomSheetModal>;
   children: ReactNode;
+  height: number;
 };
 
 export default function BottomSheet({
   bottomSheetModalRef,
   children,
+  height,
 }: RecordBottomSheetProps) {
   const { styles } = useStyles(createStyles);
-  const snapPoints = useMemo(() => ['20%', '20%'], []);
+  const { bottom: bottomSafeArea } = useSafeAreaInsets();
 
-  const handleSheetChanges = useCallback((index: number) => {
-    console.log('handleSheetChanges', index);
-  }, []);
+  const snapPoints = useMemo(
+    () => [height + bottomSafeArea, height + bottomSafeArea],
+    [bottomSafeArea]
+  );
+  console.log('snapPoints: ', snapPoints);
+
+  // const handleSheetChanges = useCallback((index: number) => {
+  //   console.log('handleSheetChanges', index);
+  // }, []);
+
   return (
     <BottomSheetModal
       ref={bottomSheetModalRef}
@@ -34,7 +44,7 @@ export default function BottomSheet({
           opacity={0.2}
         />
       )}
-      onChange={handleSheetChanges}
+      // onChange={handleSheetChanges}
       enableDismissOnClose
     >
       <BottomSheetView style={styles.container}>{children}</BottomSheetView>

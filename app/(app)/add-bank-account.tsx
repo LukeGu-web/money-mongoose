@@ -10,7 +10,7 @@ import { useStyles, TColors } from 'core/theme';
 import { AssetAccountBasicForm, AssetAccountOtherForm } from 'components';
 
 export default function AddBankAccount() {
-  const { styles } = useStyles(createStyles);
+  const { styles, theme } = useStyles(createStyles);
   const [isMore, setIsMore] = useState(false);
   const methods = useForm({
     defaultValues: {
@@ -62,8 +62,8 @@ export default function AddBankAccount() {
               style={styles.moreBtn}
               onPress={() => setIsMore(true)}
             >
-              <Text>More settings</Text>
-              <AntDesign name='down' size={18} color='black' />
+              <Text style={{ color: theme.secondary }}>More settings</Text>
+              <AntDesign name='down' size={18} color={theme.secondary} />
             </TouchableOpacity>
           )}
         </View>
