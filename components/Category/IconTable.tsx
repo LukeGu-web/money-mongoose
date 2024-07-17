@@ -6,7 +6,7 @@ import {
   Dimensions,
   Text,
 } from 'react-native';
-import { useFormContext, Controller } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 
 import Icon from '../Icon/Icon';
 import { useStyles, TColors } from 'core/theme';
@@ -14,25 +14,12 @@ import { useStyles, TColors } from 'core/theme';
 const { width } = Dimensions.get('window');
 const iconSize = width * 0.15;
 
-export default function IconTable({
-  data,
-  name,
-  onSelectSubcategory,
-}: IconTableProps) {
+export default function IconTable({ data, onSelect }: IconTableProps) {
   const { theme, styles } = useStyles(createStyles);
-  const { control, getValues, setValue } = useFormContext();
+  const { getValues } = useFormContext();
   const isArray = Array.isArray(data);
   const numColumns = isArray ? 4 : 5;
 
-  const handleSelect = (item: string, hasSubcategory: boolean) => {
-    setValue(name, item, { shouldValidate: true });
-    if (name === 'category' && hasSubcategory) {
-      onSelectSubcategory(true, item);
-    }
-    if (name === 'subcategory') {
-      onSelectSubcategory(false, item);
-    }
-  };
   return (
     <FlatList
       data={isArray ? data : Object.keys(data)}
@@ -43,48 +30,38 @@ export default function IconTable({
       renderItem={({ item }) => {
         const hasSubcategory = !isArray && data[item].length > 0;
         return (
-          <Controller
-            control={control}
-            render={() => (
-              <TouchableOpacity
-                onPress={() => handleSelect(item, hasSubcategory)}
-              >
-                <View
-                  style={[
-                    {
-                      backgroundColor:
-                        item === getValues('category')
-                          ? theme.iconBgColor
-                          : 'transparent',
-                      width: iconSize,
-                      height: iconSize,
-                    },
-                    styles.container,
-                  ]}
-                >
-                  <Icon name={item} color={theme.iconColor} size={30} />
-                </View>
-                {hasSubcategory && (
-                  <View style={[styles.container, styles.subcategory]}>
-                    <Icon
-                      name='dots-three-vertical'
-                      size={10}
-                      color={theme.textPrimary}
-                    />
-                  </View>
-                )}
-                <View style={styles.textContainer}>
-                  <Text style={{ fontSize: 10 }}>{item}</Text>
-                  <Text style={{ fontSize: 8, opacity: 0.9 }}>
-                    {item === getValues('category')
-                      ? getValues('subcategory')
-                      : ''}
-                  </Text>
-                </View>
-              </TouchableOpacity>
+          <TouchableOpacity onPress={() => onSelect(item, hasSubcategory)}>
+            <View
+              style={[
+                {
+                  backgroundColor:
+                    item === getValues('category')
+                      ? theme.iconBgColor
+                      : 'transparent',
+                  width: iconSize,
+                  height: iconSize,
+                },
+                styles.container,
+              ]}
+            >
+              <Icon name={item} color={theme.iconColor} size={30} />
+            </View>
+            {hasSubcategory && (
+              <View style={[styles.container, styles.subcategory]}>
+                <Icon
+                  name='dots-three-vertical'
+                  size={10}
+                  color={theme.textPrimary}
+                />
+              </View>
             )}
-            name={name}
-          />
+            <View style={styles.textContainer}>
+              <Text style={{ fontSize: 10 }}>{item}</Text>
+              <Text style={{ fontSize: 8, opacity: 0.9 }}>
+                {item === getValues('category') ? getValues('subcategory') : ''}
+              </Text>
+            </View>
+          </TouchableOpacity>
         );
       }}
     />
@@ -97,8 +74,7 @@ type IconTableProps = {
     | {
         [key: string]: string[];
       };
-  name: string;
-  onSelectSubcategory: (visible: boolean, item: string) => void;
+  onSelect: (item: string, hasSubcategory: boolean) => void;
 };
 
 const createStyles = (theme: TColors) =>

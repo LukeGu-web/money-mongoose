@@ -30,6 +30,7 @@ type DigitalPadProps = {
 export default function DigitalPad({ onSubmit }: DigitalPadProps) {
   const { styles } = useStyles(createStyles);
   const { mutate: addRecordApi } = useAddRecord();
+
   const addRecord = useRecordStore((state) => state.addRecord);
   const { record, setRecord, resetRecord } = useRecord(
     useShallow((state) => ({
@@ -43,17 +44,14 @@ export default function DigitalPad({ onSubmit }: DigitalPadProps) {
   const [decimalLength, setDecimalLength] = useState(0);
   const [isDecimal, setIsDecimal] = useState(false);
 
-  // const [num, setNum] = useState(0);
-
   const handleReset = () => {
-    // setNum(0);
     setDecimalLength(0);
     setIsDecimal(false);
   };
 
   const handlePriceInput = (item: string) => {
-    let amount: number = 0;
     const num: number = getValues('amount');
+    let amount: number = num;
     switch (item) {
       case 'delete':
         if (num === 0) {
@@ -85,13 +83,13 @@ export default function DigitalPad({ onSubmit }: DigitalPadProps) {
         setDecimalLength(0);
         break;
       case '.':
-        amount = num;
         setIsDecimal(true);
         break;
       case 'calculator':
         break;
       case 'new':
-        handleSubmit(false);
+        // handleSubmit(false);
+        onSubmit();
         break;
       case 'save':
         onSubmit();
@@ -113,7 +111,6 @@ export default function DigitalPad({ onSubmit }: DigitalPadProps) {
         }
         break;
     }
-    // useWatch({ name: 'amount' });
     setValue('amount', amount, { shouldValidate: true });
   };
 
@@ -186,6 +183,12 @@ export default function DigitalPad({ onSubmit }: DigitalPadProps) {
       {/* <View>function tags</View> */}
       <Controller
         control={control}
+        rules={{
+          min: {
+            value: 0.01,
+            message: 'Please enter an amount.',
+          },
+        }}
         render={() => <Keypad onKeyInput={handlePriceInput} />}
         name='amount'
       />

@@ -8,7 +8,7 @@ import {
   TouchableWithoutFeedback,
   Modal,
 } from 'react-native';
-import { useFormContext } from 'react-hook-form';
+import { useFormContext, Controller } from 'react-hook-form';
 
 import IconTable from './IconTable';
 import Icon from '../Icon/Icon';
@@ -22,37 +22,47 @@ import incomeCategory from 'static/record-income-category.json';
 export default function RecordCategory() {
   const { styles, theme } = useStyles(createStyles);
   const record = useRecord((state) => state.record);
-  const { getValues } = useFormContext();
+  const { control, getValues, setValue } = useFormContext();
+  const category =
+    record.type === RecordTypes.INCOME ? incomeCategory : expenseCategory;
 
   const [subcategory, setSubcategory] = useState<string[]>([]);
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
-  const handleSubcategory = (visible: boolean, item: string) => {
-    if (visible) {
+  const handleCategory = (item: string, hasSubcategory: boolean) => {
+    setValue('category', item, { shouldValidate: true });
+    setIsVisible(hasSubcategory);
+    if (hasSubcategory) {
       if (record.type === RecordTypes.INCOME) {
         setSubcategory(incomeCategory[item as keyof typeof incomeCategory]);
       } else {
         setSubcategory(expenseCategory[item as keyof typeof expenseCategory]);
       }
     }
-    setIsVisible(visible);
+  };
+
+  const handleSubcategory = (item: string, hasSubcategory: boolean) => {
+    setValue('subcategory', item, { shouldValidate: true });
+    setIsVisible(false);
   };
   return (
     <View style={{ flex: 1 }}>
       <ScrollView contentContainerStyle={styles.iconsContainer}>
-        {record.type === RecordTypes.INCOME ? (
-          <IconTable
-            data={incomeCategory}
-            name='category'
-            onSelectSubcategory={handleSubcategory}
-          />
-        ) : (
-          <IconTable
-            data={expenseCategory}
-            name='category'
-            onSelectSubcategory={handleSubcategory}
-          />
-        )}
+        <Controller
+          control={control}
+          rules={{
+            pattern: {
+              value: /^[A-Za-z]+$/i,
+              message: 'Please select a category.',
+            },
+            minLength: {
+              value: 2,
+              message: 'min length',
+            },
+          }}
+          render={() => <IconTable data={category} onSelect={handleCategory} />}
+          name='category'
+        />
       </ScrollView>
       <Modal
         animationType='slide'
@@ -71,11 +81,12 @@ export default function RecordCategory() {
                   <Icon name='close' size={24} color={theme.black} />
                 </TouchableOpacity>
               </View>
-
-              <IconTable
-                data={subcategory}
+              <Controller
+                control={control}
+                render={() => (
+                  <IconTable data={subcategory} onSelect={handleSubcategory} />
+                )}
                 name='subcategory'
-                onSelectSubcategory={handleSubcategory}
               />
             </View>
           </View>

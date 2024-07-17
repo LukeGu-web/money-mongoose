@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useForm, FormProvider } from 'react-hook-form';
 
@@ -21,11 +21,15 @@ export default function Record() {
       note: '',
       amount: 0,
     },
+    criteriaMode: 'all',
   });
+  const { errors } = methods.formState;
   const handleSubmit = methods.handleSubmit((data) => {
-    console.log(data);
+    // console.log(methods.formState);
+    console.log('handleSubmit: ', data);
+    // methods.reset();
   });
-
+  console.log('errors: ', errors);
   return (
     <SafeAreaView style={styles.container} edges={['right', 'bottom', 'left']}>
       <FormProvider {...methods}>
