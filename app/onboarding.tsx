@@ -58,7 +58,11 @@ export default function Onboarding() {
   };
 
   if (isPending) {
-    return <Text>Loading</Text>;
+    return (
+      <View style={styles.container}>
+        <Text>Loading</Text>
+      </View>
+    );
   }
 
   if (isOnBoarding) {
