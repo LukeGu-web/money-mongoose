@@ -51,13 +51,9 @@ export default function RecordCategory() {
         <Controller
           control={control}
           rules={{
-            pattern: {
-              value: /^[A-Za-z]+$/i,
+            required: {
+              value: true,
               message: 'Please select a category.',
-            },
-            minLength: {
-              value: 2,
-              message: 'min length',
             },
           }}
           render={() => <IconTable data={category} onSelect={handleCategory} />}
