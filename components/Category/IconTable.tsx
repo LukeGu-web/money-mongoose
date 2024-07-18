@@ -6,20 +6,20 @@ import {
   Dimensions,
   Text,
 } from 'react-native';
+import { useFormContext } from 'react-hook-form';
+
 import Icon from '../Icon/Icon';
 import { useStyles, TColors } from 'core/theme';
 
-export default function IconTable({
-  data,
-  selectedCategory,
-  selectedSubcategory,
-  onSelectIcon,
-}: IconTableProps) {
-  const { width } = Dimensions.get('window');
-  const iconSize = width * 0.15;
+const { width } = Dimensions.get('window');
+const iconSize = width * 0.15;
+
+export default function IconTable({ data, onSelect }: IconTableProps) {
+  const { theme, styles } = useStyles(createStyles);
+  const { getValues } = useFormContext();
   const isArray = Array.isArray(data);
   const numColumns = isArray ? 4 : 5;
-  const { theme, styles } = useStyles(createStyles);
+
   return (
     <FlatList
       data={isArray ? data : Object.keys(data)}
@@ -30,12 +30,12 @@ export default function IconTable({
       renderItem={({ item }) => {
         const hasSubcategory = !isArray && data[item].length > 0;
         return (
-          <TouchableOpacity onPress={() => onSelectIcon(item, hasSubcategory)}>
+          <TouchableOpacity onPress={() => onSelect(item, hasSubcategory)}>
             <View
               style={[
                 {
                   backgroundColor:
-                    item === selectedCategory
+                    item === getValues('category')
                       ? theme.iconBgColor
                       : 'transparent',
                   width: iconSize,
@@ -58,7 +58,7 @@ export default function IconTable({
             <View style={styles.textContainer}>
               <Text style={{ fontSize: 10 }}>{item}</Text>
               <Text style={{ fontSize: 8, opacity: 0.9 }}>
-                {item === selectedCategory ? selectedSubcategory : ''}
+                {item === getValues('category') ? getValues('subcategory') : ''}
               </Text>
             </View>
           </TouchableOpacity>
@@ -74,9 +74,7 @@ type IconTableProps = {
     | {
         [key: string]: string[];
       };
-  selectedCategory: string;
-  selectedSubcategory?: string;
-  onSelectIcon: (item: string, hasSubcategory: boolean) => void;
+  onSelect: (item: string, hasSubcategory: boolean) => void;
 };
 
 const createStyles = (theme: TColors) =>

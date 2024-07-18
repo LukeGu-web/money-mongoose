@@ -3,16 +3,15 @@ import {
   StyleSheet,
   View,
   ScrollView,
-  Dimensions,
   Text,
   TouchableOpacity,
   TouchableWithoutFeedback,
   Modal,
 } from 'react-native';
-import { useShallow } from 'zustand/react/shallow';
+import { useFormContext, Controller } from 'react-hook-form';
+
 import IconTable from './IconTable';
 import Icon from '../Icon/Icon';
-
 import { RecordTypes } from 'api/record/types';
 import { useRecord } from 'core/stateHooks';
 import { useStyles, TColors } from 'core/theme';
@@ -20,56 +19,46 @@ import { useStyles, TColors } from 'core/theme';
 import expenseCategory from 'static/record-expense-category.json';
 import incomeCategory from 'static/record-income-category.json';
 
-const { width } = Dimensions.get('window');
-const iconSize = width * 0.15;
-
 export default function RecordCategory() {
-  const { record, setRecord } = useRecord(
-    useShallow((state) => ({
-      record: state.record,
-      setRecord: state.setRecord,
-    }))
-  );
   const { styles, theme } = useStyles(createStyles);
+  const record = useRecord((state) => state.record);
+  const { control, getValues, setValue } = useFormContext();
+  const category =
+    record.type === RecordTypes.INCOME ? incomeCategory : expenseCategory;
 
-  const [l2DataList, setL2DataList] = useState<string[]>([]);
+  const [subcategory, setSubcategory] = useState<string[]>([]);
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
-  const handleSelectIcon = (item: string, hasSubcategory: boolean) => {
-    if (item !== record.category) {
-      setRecord({ category: item, subcategory: '' });
-    }
+  const handleCategory = (item: string, hasSubcategory: boolean) => {
+    setValue('category', item, { shouldValidate: true });
+    setIsVisible(hasSubcategory);
     if (hasSubcategory) {
-      setIsVisible(true);
       if (record.type === RecordTypes.INCOME) {
-        setL2DataList(incomeCategory[item as keyof typeof incomeCategory]);
+        setSubcategory(incomeCategory[item as keyof typeof incomeCategory]);
       } else {
-        setL2DataList(expenseCategory[item as keyof typeof expenseCategory]);
+        setSubcategory(expenseCategory[item as keyof typeof expenseCategory]);
       }
     }
   };
-  const handleSelectL2Icon = (item: string) => {
-    setRecord({ subcategory: item });
+
+  const handleSubcategory = (item: string, hasSubcategory: boolean) => {
+    setValue('subcategory', item, { shouldValidate: true });
     setIsVisible(false);
   };
   return (
     <View style={{ flex: 1 }}>
       <ScrollView contentContainerStyle={styles.iconsContainer}>
-        {record.type === RecordTypes.INCOME ? (
-          <IconTable
-            data={incomeCategory}
-            selectedCategory={record.category}
-            selectedSubcategory={record.subcategory}
-            onSelectIcon={handleSelectIcon}
-          />
-        ) : (
-          <IconTable
-            data={expenseCategory}
-            selectedCategory={record.category}
-            selectedSubcategory={record.subcategory}
-            onSelectIcon={handleSelectIcon}
-          />
-        )}
+        <Controller
+          control={control}
+          rules={{
+            required: {
+              value: true,
+              message: 'Please select a category.',
+            },
+          }}
+          render={() => <IconTable data={category} onSelect={handleCategory} />}
+          name='category'
+        />
       </ScrollView>
       <Modal
         animationType='slide'
@@ -83,18 +72,18 @@ export default function RecordCategory() {
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
               <View style={styles.modalHeader}>
-                <Text style={styles.modalText}>{record.category}</Text>
+                <Text style={styles.modalText}>{getValues('category')}</Text>
                 <TouchableOpacity onPress={() => setIsVisible(false)}>
                   <Icon name='close' size={24} color={theme.black} />
                 </TouchableOpacity>
               </View>
-              {record.category !== '' && (
-                <IconTable
-                  data={l2DataList}
-                  selectedCategory={record.subcategory as string}
-                  onSelectIcon={handleSelectL2Icon}
-                />
-              )}
+              <Controller
+                control={control}
+                render={() => (
+                  <IconTable data={subcategory} onSelect={handleSubcategory} />
+                )}
+                name='subcategory'
+              />
             </View>
           </View>
         </TouchableWithoutFeedback>
