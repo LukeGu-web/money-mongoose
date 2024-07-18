@@ -19,12 +19,16 @@ export default function RecordList() {
   const [latestRecords, setLatestRecords] = useState<RecordsByDay[]>([]);
 
   useEffect(() => {
-    let n = 0;
-    while (dayjs(records[n]?.date).isAfter(dayjs().subtract(6, 'day'), 'day')) {
-      const tmpList = [];
-      tmpList.push(records[n]);
-      setLatestRecords(tmpList);
-      n++;
+    if (records.length > 0) {
+      let n = 0;
+      while (
+        dayjs(records[n]?.date).isAfter(dayjs().subtract(6, 'day'), 'day')
+      ) {
+        const tmpList = [];
+        tmpList.push(records[n]);
+        setLatestRecords(tmpList);
+        n++;
+      }
     }
   }, [records]);
 
