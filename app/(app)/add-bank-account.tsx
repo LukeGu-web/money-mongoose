@@ -7,7 +7,11 @@ import { useForm, FormProvider } from 'react-hook-form';
 import { AntDesign } from '@expo/vector-icons';
 
 import { useStyles, TColors } from 'core/theme';
-import { AssetAccountBasicForm, AssetAccountOtherForm } from 'components';
+import {
+  AssetAccountBasicForm,
+  AssetAccountOtherForm,
+  AssetCreditForm,
+} from 'components';
 
 export default function AddBankAccount() {
   const { styles, theme } = useStyles(createStyles);
@@ -18,11 +22,15 @@ export default function AddBankAccount() {
       group: '',
       balance: '',
       isCredit: false,
+      creditLimit: '',
+      repaymentDay: '',
       isTotalAssets: true,
       isNoBudget: false,
       note: '',
     },
   });
+  const { getValues, watch } = methods;
+  watch(['isCredit']);
 
   useFocusEffect(
     useCallback(() => {
@@ -48,6 +56,14 @@ export default function AddBankAccount() {
             <AssetAccountBasicForm />
           </View>
         </View>
+        {getValues('isCredit') && (
+          <View>
+            <Text style={styles.formHeader}>Credit information</Text>
+            <View style={{ ...styles.basicContainer, height: 100 }}>
+              <AssetCreditForm />
+            </View>
+          </View>
+        )}
         <View style={{ flex: 1 }}>
           {isMore ? (
             <View style={{ flex: 1 }}>
