@@ -1,15 +1,29 @@
 import { View, Text, TouchableOpacity, StyleSheet, Button } from 'react-native';
 import { router } from 'expo-router';
+import { FlashList } from '@shopify/flash-list';
+import ListItem from './ListItem';
+
 import { useStyles, TColors } from 'core/theme';
 import { useAccounts } from 'core/stateHooks';
 
 export default function AccountList() {
   const { styles } = useStyles(createStyles);
   const accounts = useAccounts((state) => state.accounts);
+  const handlePressItem = () => {};
   return (
     <View style={styles.container}>
-      <View style={styles.emptyContainer}>
-        {accounts.length > 0 ? <Text>list</Text> : <Text>No account yet</Text>}
+      <View style={styles.listContainer}>
+        {accounts.length > 0 ? (
+          <FlashList
+            data={accounts}
+            renderItem={({ item }) => (
+              <ListItem item={item} onPress={handlePressItem} />
+            )}
+            estimatedItemSize={200}
+          />
+        ) : (
+          <Text>No account yet</Text>
+        )}
         <Button
           title='Add account'
           color='white'
@@ -25,9 +39,10 @@ const createStyles = (theme: TColors) =>
     container: {
       flex: 1,
     },
-    emptyContainer: {
+    listContainer: {
       flex: 1,
-      alignItems: 'center',
-      justifyContent: 'center',
+      // width: '100%',
+      // alignItems: 'center',
+      // justifyContent: 'center',
     },
   });

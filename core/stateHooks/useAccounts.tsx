@@ -1,16 +1,5 @@
 import { create } from 'zustand';
-
-type AccountType = {
-  accountName: string;
-  group: string;
-  balance: string;
-  isCredit: boolean;
-  creditLimit: string;
-  repaymentDay: string;
-  isTotalAssets: boolean;
-  isNoBudget: boolean;
-  note: string;
-};
+import { AccountType } from 'api/asset/types';
 
 type AccountState = {
   accounts: AccountType[];
