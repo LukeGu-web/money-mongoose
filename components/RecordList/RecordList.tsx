@@ -1,11 +1,10 @@
-import { useCallback, useRef, useEffect, useState } from 'react';
+import { useCallback, useRef } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { router } from 'expo-router';
 import { FlashList } from '@shopify/flash-list';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import dayjs from 'dayjs';
 
-import { RecordsByDay } from 'api/record/types';
 import EmptyRecordList from './EmptyRecordList';
 import { useRecordStore } from 'core/stateHooks';
 import ListDayItem from './ListDayItem';
@@ -16,22 +15,10 @@ import Icon from '../Icon/Icon';
 export default function RecordList() {
   const { styles } = useStyles(createStyles);
   const records = useRecordStore((state) => state.records);
-  const [latestRecords, setLatestRecords] = useState<RecordsByDay[]>([]);
 
-  useEffect(() => {
-    if (records.length > 0) {
-      let n = 0;
-      while (
-        dayjs(records[n]?.date).isAfter(dayjs().subtract(6, 'day'), 'day')
-      ) {
-        const tmpList = [];
-        tmpList.push(records[n]);
-        setLatestRecords(tmpList);
-        n++;
-      }
-    }
-  }, [records]);
-
+  const latestRecords = records.filter((item) =>
+    dayjs(item?.date).isAfter(dayjs().subtract(6, 'day'), 'day')
+  );
   const isUpdated =
     latestRecords.length > 0 && dayjs().isAfter(dayjs(latestRecords[0].date));
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);

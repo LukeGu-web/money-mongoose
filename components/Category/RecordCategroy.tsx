@@ -3,7 +3,6 @@ import {
   StyleSheet,
   View,
   ScrollView,
-  Dimensions,
   Text,
   TouchableOpacity,
   TouchableWithoutFeedback,
@@ -20,9 +19,6 @@ import { useStyles, TColors } from 'core/theme';
 import expenseCategory from 'static/record-expense-category.json';
 import incomeCategory from 'static/record-income-category.json';
 
-const { width } = Dimensions.get('window');
-const iconSize = width * 0.15;
-
 export default function RecordCategory() {
   const { record, setRecord } = useRecord(
     useShallow((state) => ({
@@ -32,8 +28,10 @@ export default function RecordCategory() {
   );
   const { styles, theme } = useStyles(createStyles);
 
-  const [l2DataList, setL2DataList] = useState<string[]>([]);
+  const [subcategory, setSubcategory] = useState<string[]>([]);
   const [isVisible, setIsVisible] = useState<boolean>(false);
+  const category =
+    record.type === RecordTypes.INCOME ? incomeCategory : expenseCategory;
 
   const handleSelectIcon = (item: string, hasSubcategory: boolean) => {
     if (item !== record.category) {
@@ -42,9 +40,9 @@ export default function RecordCategory() {
     if (hasSubcategory) {
       setIsVisible(true);
       if (record.type === RecordTypes.INCOME) {
-        setL2DataList(incomeCategory[item as keyof typeof incomeCategory]);
+        setSubcategory(incomeCategory[item as keyof typeof incomeCategory]);
       } else {
-        setL2DataList(expenseCategory[item as keyof typeof expenseCategory]);
+        setSubcategory(expenseCategory[item as keyof typeof expenseCategory]);
       }
     }
   };
@@ -55,21 +53,12 @@ export default function RecordCategory() {
   return (
     <View style={{ flex: 1 }}>
       <ScrollView contentContainerStyle={styles.iconsContainer}>
-        {record.type === RecordTypes.INCOME ? (
-          <IconTable
-            data={incomeCategory}
-            selectedCategory={record.category}
-            selectedSubcategory={record.subcategory}
-            onSelectIcon={handleSelectIcon}
-          />
-        ) : (
-          <IconTable
-            data={expenseCategory}
-            selectedCategory={record.category}
-            selectedSubcategory={record.subcategory}
-            onSelectIcon={handleSelectIcon}
-          />
-        )}
+        <IconTable
+          data={category}
+          selectedCategory={record.category}
+          selectedSubcategory={record.subcategory}
+          onSelectIcon={handleSelectIcon}
+        />
       </ScrollView>
       <Modal
         animationType='slide'
@@ -90,7 +79,7 @@ export default function RecordCategory() {
               </View>
               {record.category !== '' && (
                 <IconTable
-                  data={l2DataList}
+                  data={subcategory}
                   selectedCategory={record.subcategory as string}
                   onSelectIcon={handleSelectL2Icon}
                 />

@@ -7,10 +7,10 @@ export enum RecordTypes {
 
 export const RecordVariablesSchema = z.object({
   type: z.enum(['expense', 'income']),
-  category: z.string(),
+  category: z.string().trim().min(1, { message: 'Required' }),
   subcategory: z.string().optional(),
   note: z.string(),
-  amount: z.number(),
+  amount: z.number().gt(0),
 });
 
 export type RecordVariables = z.infer<typeof RecordVariablesSchema>;

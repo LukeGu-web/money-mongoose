@@ -8,16 +8,21 @@ import { useStyles, TColors } from 'core/theme';
 import Icon from '../Icon/Icon';
 
 export default function RecordHeader() {
-  const { record, setRecord } = useRecord(
+  const { record, setRecord, resetRecord } = useRecord(
     useShallow((state) => ({
       record: state.record,
       setRecord: state.setRecord,
+      resetRecord: state.resetRecord,
     }))
   );
   const { theme, styles } = useStyles(createStyles);
+  const handleGoBack = () => {
+    router.navigate('/');
+    resetRecord();
+  };
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => router.navigate('/')}>
+      <TouchableOpacity onPress={handleGoBack}>
         <Icon name='left' size={24} color={theme.textSecondary} />
       </TouchableOpacity>
       <View style={styles.buttonGroup}>

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import {
+  Alert,
   StyleSheet,
   View,
   Text,
@@ -8,7 +9,6 @@ import {
   Platform,
   KeyboardAvoidingView,
 } from 'react-native';
-import Toast from 'react-native-toast-message';
 import { router } from 'expo-router';
 import { useShallow } from 'zustand/react/shallow';
 import Keypad from './Keypad';
@@ -18,6 +18,7 @@ import { useAddRecord } from 'api/record/useAddRecord';
 import { formatApiError } from 'api/errorFormat';
 import { useStyles, TColors } from 'core/theme';
 import { useRecord, useRecordStore } from 'core/stateHooks';
+import { formatter } from 'core/utils';
 
 export default function DigitalPad() {
   const keyboardVerticalOffset = Platform.OS === 'ios' ? -150 : 0;
@@ -34,40 +35,45 @@ export default function DigitalPad() {
 
   const { styles } = useStyles(createStyles);
 
-  const [integer, setInteger] = useState('0');
-  const [decimal, setDecimal] = useState('00');
   const [decimalLength, setDecimalLength] = useState(0);
   const [isDecimal, setIsDecimal] = useState(false);
 
   const handleReset = () => {
-    setInteger('0');
-    setDecimal('00');
     setDecimalLength(0);
     setIsDecimal(false);
   };
 
   const handlePriceInput = (item: string) => {
+    const num: number = record.amount;
+    let newAmount: number = num;
     switch (item) {
       case 'delete':
-        if (integer === '0' && decimal === '00') {
+        if (num === 0) {
           setIsDecimal(false);
           setDecimalLength(0);
-        }
-        if (decimal[1] !== '0') {
-          setDecimal(decimal[0] + '0');
-          setDecimalLength(1);
-        } else if (decimal[0] !== '0') {
-          setDecimal('00');
-          setDecimalLength(0);
-        } else if (integer.length === 1 && integer !== '0') {
-          setInteger('0');
-        } else if (integer.length > 1) {
-          setInteger(integer.slice(0, -1));
+        } else {
+          const integer = String(num).split('.')[0];
+          const decimal = String(num).split('.')[1] ?? 0;
+          switch (decimalLength) {
+            case 0:
+              if (integer.length >= 1) {
+                newAmount = Number(integer.slice(0, -1) + '.' + decimal);
+              }
+              break;
+            case 1:
+              newAmount = num - Number(decimal[0]) / 10;
+              setDecimalLength(0);
+              setIsDecimal(false);
+              break;
+            case 2:
+              newAmount = Number((num - Number(decimal[1]) / 100).toFixed(2));
+              setDecimalLength(1);
+              break;
+          }
         }
         break;
       case 'clear':
-        setInteger('0');
-        setDecimal('00');
+        newAmount = 0;
         setIsDecimal(false);
         setDecimalLength(0);
         break;
@@ -83,32 +89,22 @@ export default function DigitalPad() {
         handleSubmit(true);
         break;
       default:
-        let amount = 0;
-
         if (isDecimal) {
           if (decimalLength === 0) {
-            const newDecimal = String(item) + '0';
-            setDecimal(newDecimal);
-            amount = parseFloat(`${integer}.${newDecimal}`);
+            newAmount = num + Number(item) / 10;
             setDecimalLength(1);
           } else if (decimalLength === 1) {
-            const newDecimal = decimal[0] + String(item);
-            setDecimal(newDecimal);
-            amount = parseFloat(`${integer}.${decimal}`);
+            newAmount = Number((num + Number(item) / 100).toFixed(2));
             setDecimalLength(2);
+          } else {
+            newAmount = num;
           }
         } else {
-          if (integer === '0') {
-            setInteger(String(item));
-            amount = parseFloat(`${item}.${decimal}`);
-          } else {
-            setInteger(integer + String(item));
-            amount = parseFloat(`${integer + String(item)}.${decimal}`);
-          }
+          newAmount = Number(num + item);
         }
-        setRecord({ amount });
         break;
     }
+    setRecord({ amount: newAmount });
   };
 
   const handleSubmit = (isRedirect: boolean) => {
@@ -121,12 +117,9 @@ export default function DigitalPad() {
       if ('category' in validation.error.format()) {
         errorMsg += 'Please select a category.';
       }
-      Toast.show({
-        type: 'error',
-        position: 'bottom',
-        text1: 'Missing field:',
-        text2: errorMsg,
-      });
+      Alert.alert('Tip', errorMsg, [
+        { text: 'OK', onPress: () => console.log('OK Pressed') },
+      ]);
     } else {
       addRecordApi(
         {
@@ -164,7 +157,9 @@ export default function DigitalPad() {
           onChangeText={(value) => setRecord({ note: value })}
         />
         <TouchableOpacity style={styles.amount}>
-          <Text style={styles.amountText}>{`A$ ${integer}.${decimal}`}</Text>
+          <Text style={styles.amountText}>{`A$ ${formatter(
+            record.amount
+          )}`}</Text>
         </TouchableOpacity>
       </View>
       {/* <View>function tags</View> */}
