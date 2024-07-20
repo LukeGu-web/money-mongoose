@@ -6,11 +6,11 @@ type AccountState = {
   addAccount: (account: AccountType) => void;
 };
 
-const useAccounts = create<AccountState>((set, get) => ({
+const useAccounts = create<AccountState>((set) => ({
   accounts: [],
   addAccount: (account) => {
-    set(() => ({
-      accounts: [...get().accounts, account],
+    set((state) => ({
+      accounts: [...state.accounts, account],
     }));
   },
 }));

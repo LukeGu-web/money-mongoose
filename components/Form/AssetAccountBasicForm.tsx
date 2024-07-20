@@ -68,6 +68,8 @@ export default function AssetAccountBasicForm() {
               </TouchableOpacity>
               <SelectGroupBottomSheet
                 bottomSheetModalRef={bottomSheetModalRef}
+                value={value}
+                onChange={onChange}
               />
             </View>
           </View>
