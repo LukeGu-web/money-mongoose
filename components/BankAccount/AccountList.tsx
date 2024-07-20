@@ -5,6 +5,7 @@ import ListItem from './ListItem';
 
 import { useStyles, TColors } from 'core/theme';
 import { useAccounts } from 'core/stateHooks';
+import ExpandView from 'components/ExpandView/ExpandView';
 
 export default function AccountList() {
   const { styles } = useStyles(createStyles);
@@ -12,24 +13,26 @@ export default function AccountList() {
   const handlePressItem = () => {};
   return (
     <View style={styles.container}>
-      <View style={styles.listContainer}>
-        {accounts.length > 0 ? (
-          <FlashList
-            data={accounts}
-            renderItem={({ item }) => (
-              <ListItem item={item} onPress={handlePressItem} />
-            )}
-            estimatedItemSize={200}
-          />
-        ) : (
-          <Text>No account yet</Text>
-        )}
-        <Button
-          title='Add account'
-          color='white'
-          onPress={() => router.navigate('/add-bank-account')}
-        />
-      </View>
+      {accounts.length > 0 ? (
+        <ExpandView title='Saving' height={40 * accounts.length}>
+          <View style={styles.listContainer}>
+            <FlashList
+              data={accounts}
+              renderItem={({ item }) => (
+                <ListItem item={item} onPress={handlePressItem} />
+              )}
+              estimatedItemSize={10}
+            />
+          </View>
+        </ExpandView>
+      ) : (
+        <Text>No account yet</Text>
+      )}
+      <Button
+        title='Add account'
+        color='white'
+        onPress={() => router.navigate('/add-bank-account')}
+      />
     </View>
   );
 }
@@ -41,7 +44,8 @@ const createStyles = (theme: TColors) =>
     },
     listContainer: {
       flex: 1,
-      // width: '100%',
+      width: '100%',
+      height: 100,
       // alignItems: 'center',
       // justifyContent: 'center',
     },

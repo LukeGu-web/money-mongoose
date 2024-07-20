@@ -16,9 +16,11 @@ export default function RecordList() {
   const { styles } = useStyles(createStyles);
   const records = useRecordStore((state) => state.records);
 
-  const latestRecords = records.filter((item) =>
-    dayjs(item?.date).isAfter(dayjs().subtract(6, 'day'), 'day')
-  );
+  const latestRecords = records
+    .slice(0, 8)
+    .filter((item) =>
+      dayjs(item?.date).isAfter(dayjs().subtract(6, 'day'), 'day')
+    );
   const isUpdated =
     latestRecords.length > 0 && dayjs().isAfter(dayjs(latestRecords[0].date));
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
