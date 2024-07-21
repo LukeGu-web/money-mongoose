@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, StyleSheet, Button } from 'react-native';
+import { View, Text, StyleSheet, Button } from 'react-native';
 import { router } from 'expo-router';
 import { FlashList } from '@shopify/flash-list';
 import ListItem from './ListItem';
@@ -13,24 +13,30 @@ export default function AccountList() {
   const handlePressItem = () => {};
   return (
     <View style={styles.container}>
-      {accounts.length > 0 ? (
-        <ExpandView title='Saving' height={40 * accounts.length}>
-          <View style={styles.listContainer}>
-            <FlashList
-              data={accounts}
-              renderItem={({ item }) => (
-                <ListItem item={item} onPress={handlePressItem} />
-              )}
-              estimatedItemSize={10}
-            />
-          </View>
-        </ExpandView>
-      ) : (
-        <Text>No account yet</Text>
-      )}
+      {Object.keys(accounts).map((group) => {
+        if (accounts[group].length > 0) {
+          return (
+            <ExpandView
+              key={group}
+              title={group}
+              height={40 * accounts[group].length}
+            >
+              <View style={styles.listContainer}>
+                <FlashList
+                  data={accounts[group]}
+                  renderItem={({ item }) => (
+                    <ListItem item={item} onPress={handlePressItem} />
+                  )}
+                  estimatedItemSize={10}
+                />
+              </View>
+            </ExpandView>
+          );
+        }
+      })}
+      {/* {numOfDisplayGroup === 0 && <Text>No account yet</Text>} */}
       <Button
         title='Add account'
-        color='white'
         onPress={() => router.navigate('/add-bank-account')}
       />
     </View>
@@ -41,6 +47,7 @@ const createStyles = (theme: TColors) =>
   StyleSheet.create({
     container: {
       flex: 1,
+      gap: 5,
     },
     listContainer: {
       flex: 1,

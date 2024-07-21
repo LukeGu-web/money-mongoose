@@ -1,4 +1,4 @@
-import React, { ReactNode, useState, useEffect } from 'react';
+import React, { ReactNode, useState, useEffect, useRef } from 'react';
 import {
   View,
   Text,
@@ -30,6 +30,7 @@ export default function ExpandView({
   height,
 }: ExpandViewProps) {
   const { styles } = useStyles(createStyles);
+
   const [expanded, setExpanded] = useState(false);
   const [containerHeight, setContainerHeight] = useState(40);
   const spinValue = new Animated.Value(0);
@@ -37,6 +38,8 @@ export default function ExpandView({
     inputRange: [0, 1],
     outputRange: expanded ? ['0deg', '180deg'] : ['180deg', '0deg'],
   });
+
+  const isScreenMountedRef = useRef(false);
 
   useEffect(() => {
     Animated.timing(spinValue, {
@@ -48,6 +51,7 @@ export default function ExpandView({
   }, [expanded]);
 
   const toggleExpand = () => {
+    if (!isScreenMountedRef.current) isScreenMountedRef.current = true;
     setExpanded(!expanded);
     if (height) {
       LayoutAnimation.easeInEaseOut();
@@ -64,7 +68,11 @@ export default function ExpandView({
         </View>
         <View style={{ ...styles.titleWrapper, alignItems: 'center' }}>
           <Text style={styles.titleInfo}>{1000}</Text>
-          <Animated.View style={{ transform: [{ rotate }] }}>
+          <Animated.View
+            style={
+              isScreenMountedRef.current ? { transform: [{ rotate }] } : null
+            }
+          >
             <AntDesign name='caretdown' size={14} color='black' />
           </Animated.View>
         </View>

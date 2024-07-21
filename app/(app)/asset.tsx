@@ -42,7 +42,5 @@ const createStyles = (theme: TColors) =>
     },
     accountContainer: {
       flex: 1,
-      borderRadius: 10,
-      backgroundColor: 'steelblue',
     },
   });

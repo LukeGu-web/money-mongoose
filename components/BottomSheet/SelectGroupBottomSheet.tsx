@@ -1,23 +1,13 @@
 import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Modal,
-  TextInput,
-  Button,
-} from 'react-native';
-import { useFormContext } from 'react-hook-form';
+import { View, Text, StyleSheet, Modal, TextInput, Button } from 'react-native';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm, useFormContext, Controller } from 'react-hook-form';
 import { useShallow } from 'zustand/react/shallow';
 import { PickerIOS } from '@react-native-picker/picker';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { AntDesign } from '@expo/vector-icons';
 
 import { useStyles, TColors } from 'core/theme';
-import { useAssetGroups } from 'core/stateHooks';
+import { useAccounts } from 'core/stateHooks';
 import BottomSheet from './BottomSheet';
 import Icon from '../Icon/Icon';
 
@@ -33,25 +23,20 @@ export default function SelectGroupBottomSheet({
   onChange,
 }: SelectGroupBottomSheetProps) {
   const { styles, theme } = useStyles(createStyles);
-  const { groups, addGroup } = useAssetGroups(
+  const { accounts, addGroup } = useAccounts(
     useShallow((state) => ({
-      groups: state.groups,
+      accounts: state.accounts,
       addGroup: state.addGroup,
     }))
   );
   const [isVisible, setIsVisible] = useState<boolean>(false);
-  const { setValue, getValues } = useFormContext();
 
+  const { setValue } = useFormContext();
   const { control, handleSubmit, reset } = useForm({
     defaultValues: {
       groupName: '',
     },
   });
-
-  const handleSelect = (item: string) => {
-    setValue('group', item, { shouldValidate: true });
-    bottomSheetModalRef.current?.dismiss();
-  };
 
   const handleCancel = () => {
     reset();
@@ -60,6 +45,7 @@ export default function SelectGroupBottomSheet({
 
   const handleConfirm = handleSubmit((data) => {
     addGroup(data.groupName);
+    setValue('group', data.groupName);
     reset();
     setIsVisible(false);
   });
@@ -83,7 +69,7 @@ export default function SelectGroupBottomSheet({
             onValueChange={onChange}
             style={{ flex: 1, width: '100%' }}
           >
-            {groups.map((item) => (
+            {Object.keys(accounts).map((item) => (
               <PickerIOS.Item key={item} label={item} value={item} />
             ))}
           </PickerIOS>
