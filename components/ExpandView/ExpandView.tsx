@@ -19,7 +19,7 @@ type TitleType = {
 };
 
 type ExpandViewProps = {
-  title: string;
+  title: TitleType;
   children: ReactNode;
   height?: number;
 };
@@ -63,11 +63,11 @@ export default function ExpandView({
     <View style={{ ...styles.itemContainer, height: containerHeight }}>
       <TouchableOpacity onPress={toggleExpand} style={styles.itemTouchable}>
         <View style={styles.titleWrapper}>
-          <Text style={styles.itemTitle}>{title}</Text>
-          <Text style={styles.titleInfo}>(2)</Text>
+          <Text style={styles.itemTitle}>{title.text}</Text>
+          <Text style={styles.titleInfo}>({title.number})</Text>
         </View>
         <View style={{ ...styles.titleWrapper, alignItems: 'center' }}>
-          <Text style={styles.titleInfo}>{1000}</Text>
+          <Text style={styles.titleInfo}>{title.amount}</Text>
           <Animated.View
             style={
               isScreenMountedRef.current ? { transform: [{ rotate }] } : null

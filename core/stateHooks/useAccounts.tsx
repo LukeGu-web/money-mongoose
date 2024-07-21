@@ -20,7 +20,7 @@ const useAccounts = create<AccountState>((set) => ({
         ...state.accounts,
         [account.group]: [...state.accounts[account.group], account],
       },
-      numOfGroups: state.numOfGroups++,
+      numOfGroups: state.numOfGroups + 1,
     }));
   },
 }));
