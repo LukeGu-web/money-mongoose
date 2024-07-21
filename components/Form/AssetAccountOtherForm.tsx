@@ -1,11 +1,4 @@
-import {
-  View,
-  Text,
-  Switch,
-  StyleSheet,
-  Keyboard,
-  TouchableWithoutFeedback,
-} from 'react-native';
+import { View, Text, Switch, StyleSheet, Keyboard } from 'react-native';
 import { useFormContext, Controller } from 'react-hook-form';
 
 import { useStyles, TColors } from 'core/theme';
@@ -16,64 +9,62 @@ export default function AssetAccountOtherForm() {
   const { control } = useFormContext();
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-      <View style={styles.container}>
-        <Controller
-          control={control}
-          render={({ field: { onChange, value } }) => (
-            <View style={styles.rowWrapper}>
-              <Text style={styles.headerText}>Include in total assets</Text>
-              <Switch
-                trackColor={{ false: '#767577', true: '#81b0ff' }}
-                ios_backgroundColor='#f8f9fa'
-                onValueChange={(e) => {
-                  onChange(e);
-                  Keyboard.dismiss();
-                }}
-                value={value}
-              />
-            </View>
-          )}
-          name='isTotalAssets'
-        />
-        <Controller
-          control={control}
-          render={({ field: { onChange, value } }) => (
-            <View style={styles.rowWrapper}>
-              <Text style={styles.headerText}>No budget</Text>
-              <Switch
-                trackColor={{ false: '#767577', true: '#81b0ff' }}
-                ios_backgroundColor='#f8f9fa'
-                onValueChange={(e) => {
-                  onChange(e);
-                  Keyboard.dismiss();
-                }}
-                value={value}
-              />
-            </View>
-          )}
-          name='isNoBudget'
-        />
-        <Controller
-          control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <View style={styles.noteWrapper}>
-              <Text style={styles.headerText}>Note</Text>
-              <TextInput
-                style={styles.noteInput}
-                multiline={true}
-                numberOfLines={6}
-                placeholder='Enter a note'
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-              />
-            </View>
-          )}
-          name='note'
-        />
-      </View>
-    </TouchableWithoutFeedback>
+    <View style={styles.container}>
+      <Controller
+        control={control}
+        render={({ field: { onChange, value } }) => (
+          <View style={styles.rowWrapper}>
+            <Text style={styles.headerText}>Include in total assets</Text>
+            <Switch
+              trackColor={{ false: '#767577', true: '#81b0ff' }}
+              ios_backgroundColor='#f8f9fa'
+              onValueChange={(e) => {
+                onChange(e);
+                Keyboard.dismiss();
+              }}
+              value={value}
+            />
+          </View>
+        )}
+        name='isTotalAssets'
+      />
+      <Controller
+        control={control}
+        render={({ field: { onChange, value } }) => (
+          <View style={styles.rowWrapper}>
+            <Text style={styles.headerText}>No budget</Text>
+            <Switch
+              trackColor={{ false: '#767577', true: '#81b0ff' }}
+              ios_backgroundColor='#f8f9fa'
+              onValueChange={(e) => {
+                onChange(e);
+                Keyboard.dismiss();
+              }}
+              value={value}
+            />
+          </View>
+        )}
+        name='isNoBudget'
+      />
+      <Controller
+        control={control}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <View style={styles.noteWrapper}>
+            <Text style={styles.headerText}>Note</Text>
+            <TextInput
+              style={styles.noteInput}
+              multiline={true}
+              numberOfLines={6}
+              placeholder='Enter a note'
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+            />
+          </View>
+        )}
+        name='note'
+      />
+    </View>
   );
 }
 

@@ -1,7 +1,14 @@
 import React, { useState, useCallback } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { useFocusEffect, router } from 'expo-router';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  Keyboard,
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useForm, FormProvider } from 'react-hook-form';
 import { AntDesign } from '@expo/vector-icons';
@@ -50,47 +57,49 @@ export default function AddBankAccount() {
   });
 
   return (
-    <SafeAreaView style={styles.container} edges={['bottom']}>
-      <FormProvider {...methods}>
-        <View style={styles.logoContainer}></View>
-        <View>
-          <Text style={styles.formHeader}>Basic information</Text>
-          <View style={styles.basicContainer}>
-            <AssetAccountBasicForm />
-          </View>
-        </View>
-        {getValues('isCredit') && (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <SafeAreaView style={styles.container} edges={['bottom']}>
+        <FormProvider {...methods}>
+          <View style={styles.logoContainer}></View>
           <View>
-            <Text style={styles.formHeader}>Credit information</Text>
-            <View style={{ ...styles.basicContainer, height: 100 }}>
-              <AssetCreditForm />
+            <Text style={styles.formHeader}>Basic information</Text>
+            <View style={styles.basicContainer}>
+              <AssetAccountBasicForm />
             </View>
           </View>
-        )}
-        <View style={{ flex: 1 }}>
-          {isMore ? (
-            <View style={{ flex: 1 }}>
-              <Text style={styles.formHeader}>Other settings</Text>
-              <View style={styles.moreContainer}>
-                <AssetAccountOtherForm />
+          {getValues('isCredit') && (
+            <View>
+              <Text style={styles.formHeader}>Credit information</Text>
+              <View style={{ ...styles.basicContainer, height: 100 }}>
+                <AssetCreditForm />
               </View>
             </View>
-          ) : (
-            <TouchableOpacity
-              style={styles.moreBtn}
-              onPress={() => setIsMore(true)}
-            >
-              <Text style={{ color: theme.secondary }}>More settings</Text>
-              <AntDesign name='down' size={18} color={theme.secondary} />
-            </TouchableOpacity>
           )}
-        </View>
-        <TouchableOpacity style={styles.createBtn} onPress={handleCreate}>
-          <Text style={styles.createText}>Create</Text>
-        </TouchableOpacity>
-      </FormProvider>
-      <StatusBar style='light' />
-    </SafeAreaView>
+          <View style={{ flex: 1 }}>
+            {isMore ? (
+              <View style={{ flex: 1 }}>
+                <Text style={styles.formHeader}>Other settings</Text>
+                <View style={styles.moreContainer}>
+                  <AssetAccountOtherForm />
+                </View>
+              </View>
+            ) : (
+              <TouchableOpacity
+                style={styles.moreBtn}
+                onPress={() => setIsMore(true)}
+              >
+                <Text style={{ color: theme.secondary }}>More settings</Text>
+                <AntDesign name='down' size={18} color={theme.secondary} />
+              </TouchableOpacity>
+            )}
+          </View>
+          <TouchableOpacity style={styles.createBtn} onPress={handleCreate}>
+            <Text style={styles.createText}>Create</Text>
+          </TouchableOpacity>
+        </FormProvider>
+        <StatusBar style='light' />
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 }
 

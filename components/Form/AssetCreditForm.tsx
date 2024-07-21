@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   StyleSheet,
   Keyboard,
-  TouchableWithoutFeedback,
 } from 'react-native';
 import { useFormContext, Controller } from 'react-hook-form';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
@@ -27,63 +26,61 @@ export default function AssetCreditForm() {
   }, []);
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-      <View style={styles.container}>
-        <Controller
-          control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <View style={styles.rowWrapper}>
-              <Text style={styles.headerText}>Credit limit</Text>
-              <TextInput
-                placeholder='0.00'
-                keyboardType='numeric'
-                onBlur={onBlur}
-                onChangeText={onChange}
+    <View style={styles.container}>
+      <Controller
+        control={control}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <View style={styles.rowWrapper}>
+            <Text style={styles.headerText}>Credit limit</Text>
+            <TextInput
+              placeholder='0.00'
+              keyboardType='numeric'
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+            />
+          </View>
+        )}
+        name='creditLimit'
+      />
+      <Controller
+        control={control}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <View style={styles.rowWrapper}>
+            <Text style={styles.headerText}>Repayment Day</Text>
+            <View>
+              <TouchableOpacity onPress={handlePressSelect}>
+                {value ? (
+                  <Text>{value}</Text>
+                ) : (
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      gap: 4,
+                    }}
+                  >
+                    <Text style={{ color: '#bfc0c0' }}>Select the day</Text>
+                    <FontAwesome6
+                      name='angle-right'
+                      size={14}
+                      color='#bfc0c0'
+                    />
+                  </View>
+                )}
+              </TouchableOpacity>
+              <PickerBottomSheet
+                bottomSheetModalRef={bottomSheetModalRef}
+                data={monthlyDay}
                 value={value}
+                onChange={onChange}
               />
             </View>
-          )}
-          name='creditLimit'
-        />
-        <Controller
-          control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <View style={styles.rowWrapper}>
-              <Text style={styles.headerText}>Repayment Day</Text>
-              <View>
-                <TouchableOpacity onPress={handlePressSelect}>
-                  {value ? (
-                    <Text>{value}</Text>
-                  ) : (
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        gap: 4,
-                      }}
-                    >
-                      <Text style={{ color: '#bfc0c0' }}>Select the day</Text>
-                      <FontAwesome6
-                        name='angle-right'
-                        size={14}
-                        color='#bfc0c0'
-                      />
-                    </View>
-                  )}
-                </TouchableOpacity>
-                <PickerBottomSheet
-                  bottomSheetModalRef={bottomSheetModalRef}
-                  data={monthlyDay}
-                  value={value}
-                  onChange={onChange}
-                />
-              </View>
-            </View>
-          )}
-          name='repaymentDay'
-        />
-      </View>
-    </TouchableWithoutFeedback>
+          </View>
+        )}
+        name='repaymentDay'
+      />
+    </View>
   );
 }
 
