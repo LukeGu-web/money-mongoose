@@ -20,11 +20,11 @@ export default function InfoCard() {
       </View>
       <View style={styles.infoBox}>
         <View style={styles.infoRow}>
-          <Text>Reimbursed</Text>
+          <Text>Unreimbursed</Text>
           <Text>0.00</Text>
         </View>
         <View style={styles.infoRow}>
-          <Text>To Reimburse</Text>
+          <Text>Reimbursed</Text>
           <Text>0.00</Text>
         </View>
       </View>

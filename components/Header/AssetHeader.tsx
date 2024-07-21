@@ -1,20 +1,25 @@
 import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { router } from 'expo-router';
+import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
+
 import { useStyles, TColors } from 'core/theme';
 import Icon from '../Icon/Icon';
 
-export default function AddBankHeader() {
+export default function AssetHeader() {
   const { theme, styles } = useStyles(createStyles);
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => router.navigate('/asset')}>
-        <Icon name='left' size={24} color={theme.textSecondary} />
+      <TouchableOpacity onPress={() => router.navigate('/')}>
+        <AntDesign name='linechart' size={24} color={theme.textSecondary} />
       </TouchableOpacity>
-      <Text style={styles.headerText}>Add Bank Account</Text>
-      <View></View>
-      {/* <TouchableOpacity>
-        <Text style={styles.saveText}>Save</Text>
-      </TouchableOpacity> */}
+      <Text style={styles.headerText}>Asset</Text>
+      <TouchableOpacity>
+        <MaterialCommunityIcons
+          name='credit-card-multiple-outline'
+          size={24}
+          color={theme.textSecondary}
+        />
+      </TouchableOpacity>
     </View>
   );
 }
@@ -31,10 +36,6 @@ const createStyles = (theme: TColors) =>
     headerText: {
       fontSize: 18,
       fontWeight: '600',
-      color: theme.textSecondary,
-    },
-    saveText: {
-      fontWeight: '400',
       color: theme.textSecondary,
     },
   });

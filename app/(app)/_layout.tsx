@@ -1,12 +1,6 @@
 import { useCallback, useEffect } from 'react';
 import { Tabs, SplashScreen, Redirect } from 'expo-router';
-import {
-  CalendarHeader,
-  RecordHeader,
-  RecordsHeader,
-  Icon,
-  AddBankHeader,
-} from 'components';
+import { AssetHeader, CalendarHeader, RecordHeader, Icon } from 'components';
 import { useLocalStore } from 'core/stateHooks';
 
 export default function TabLayout() {
@@ -68,6 +62,7 @@ export default function TabLayout() {
         name='asset'
         options={{
           title: 'Asset',
+          headerTitle: () => <AssetHeader />,
           tabBarIcon: ({ color }) => (
             <Icon name='asset' size={28} color={color} />
           ),
@@ -80,20 +75,6 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => (
             <Icon name='account' size={28} color={color} />
           ),
-        }}
-      />
-      <Tabs.Screen
-        name='records/index'
-        options={{
-          headerTitle: () => <RecordsHeader />,
-          href: null,
-        }}
-      />
-      <Tabs.Screen
-        name='add-bank-account'
-        options={{
-          headerTitle: () => <AddBankHeader />,
-          href: null,
         }}
       />
     </Tabs>

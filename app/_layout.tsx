@@ -1,12 +1,13 @@
-import { SplashScreen, Stack } from 'expo-router';
+import { SplashScreen, Stack, router } from 'expo-router';
 import { useFonts } from 'expo-font';
 import { useEffect } from 'react';
-import { useColorScheme } from 'react-native';
+import { useColorScheme, TouchableOpacity } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 
 import { APIProvider } from 'api/api-provider';
 import { Colors, useTheme } from 'core/theme';
+import { Icon } from 'components';
 import Toast from 'react-native-toast-message';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
@@ -21,10 +22,42 @@ export default function RootLayoutNav() {
   }
   return (
     <Providers>
-      <Stack>
+      <Stack
+        screenOptions={{
+          headerStyle: { backgroundColor: '#03045E' },
+          headerTintColor: '#fff',
+        }}
+      >
         <Stack.Screen name='(app)' options={{ headerShown: false }} />
         <Stack.Screen name='onboarding' options={{ headerShown: false }} />
         <Stack.Screen name='agreement' options={{ headerShown: false }} />
+        <Stack.Screen
+          name='records/index'
+          options={{
+            title: 'Record list',
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => router.navigate('/')}>
+                <Icon name='left' size={24} color='#fff' />
+              </TouchableOpacity>
+            ),
+            headerRight: () => (
+              <TouchableOpacity>
+                <Icon name='setting' size={24} color='#fff' />
+              </TouchableOpacity>
+            ),
+          }}
+        />
+        <Stack.Screen
+          name='asset/add-bank-account'
+          options={{
+            title: 'Add Bank Account',
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => router.navigate('/asset')}>
+                <Icon name='left' size={24} color='#fff' />
+              </TouchableOpacity>
+            ),
+          }}
+        />
       </Stack>
     </Providers>
   );

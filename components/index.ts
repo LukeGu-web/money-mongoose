@@ -1,4 +1,4 @@
-export { default as AddBankHeader } from 'components/Header/AddBankHeader';
+export { default as AssetHeader } from 'components/Header/AssetHeader';
 export { default as AssetAccountBasicForm } from 'components/Form/AssetAccountBasicForm';
 export { default as AssetAccountOtherForm } from 'components/Form/AssetAccountOtherForm';
 export { default as AssetCreditForm } from 'components/Form/AssetCreditForm';
@@ -9,7 +9,6 @@ export { default as DigitalPad } from 'components/CustomDigitalPad/DigitalPad';
 export { default as EmptyRecordList } from 'components/RecordList/EmptyRecordList';
 export { default as ExpenseCard } from 'components/Card/ExpenseCard';
 export { default as RecordHeader } from 'components/Header/RecordHeader';
-export { default as RecordsHeader } from 'components/Header/RecordsHeader';
 export { default as RecordCategory } from 'components/Category/RecordCategroy';
 export { default as RecordList } from 'components/RecordList/RecordList';
 export { default as RecordBottomSheet } from 'components/BottomSheet/RecordBottomSheet';

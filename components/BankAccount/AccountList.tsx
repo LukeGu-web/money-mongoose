@@ -1,7 +1,8 @@
-import { View, Text, StyleSheet, Button } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { router } from 'expo-router';
 import { FlashList } from '@shopify/flash-list';
 import { useShallow } from 'zustand/react/shallow';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import ListItem from './ListItem';
 
 import { useStyles, TColors } from 'core/theme';
@@ -9,7 +10,7 @@ import { useAccounts } from 'core/stateHooks';
 import ExpandView from 'components/ExpandView/ExpandView';
 
 export default function AccountList() {
-  const { styles } = useStyles(createStyles);
+  const { styles, theme } = useStyles(createStyles);
   const { accounts, numOfGroups } = useAccounts(
     useShallow((state) => ({
       accounts: state.accounts,
@@ -53,10 +54,17 @@ export default function AccountList() {
           <Text>No account yet</Text>
         </View>
       )}
-      <Button
-        title='Add account'
-        onPress={() => router.navigate('/add-bank-account')}
-      />
+      <TouchableOpacity
+        style={styles.addBtn}
+        onPress={() => router.navigate('/asset/add-bank-account')}
+      >
+        <Text style={{ color: theme.secondary }}>Add account</Text>
+        <MaterialCommunityIcons
+          name='credit-card-plus-outline'
+          size={20}
+          color={theme.secondary}
+        />
+      </TouchableOpacity>
     </View>
   );
 }
@@ -76,6 +84,15 @@ const createStyles = (theme: TColors) =>
       alignItems: 'center',
       backgroundColor: theme.bgPrimary,
       paddingVertical: 16,
+      borderRadius: 8,
+    },
+    addBtn: {
+      width: '100%',
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
+      gap: 6,
+      padding: 8,
       borderRadius: 8,
     },
   });
