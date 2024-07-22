@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View, ScrollView } from 'react-native';
 
 import NetAssetCard from 'components/Card/NetAssetCard';
 import { useStyles, TColors } from 'core/theme';
@@ -9,7 +9,7 @@ import AccountList from 'components/BankAccount/AccountList';
 export default function Asset() {
   const { styles } = useStyles(createStyles);
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <View style={styles.netContainer}>
         <NetAssetCard />
       </View>
@@ -20,7 +20,7 @@ export default function Asset() {
         <AccountList />
       </View>
       <StatusBar style='light' />
-    </View>
+    </ScrollView>
   );
 }
 
@@ -29,18 +29,20 @@ const createStyles = (theme: TColors) =>
     container: {
       flex: 1,
       backgroundColor: theme.white,
-      gap: 6,
       padding: 5,
     },
     netContainer: {
       height: 160,
       borderRadius: 10,
       backgroundColor: 'skyblue',
+      marginBottom: 6,
     },
     infoContainer: {
       height: 60,
+      marginBottom: 6,
     },
     accountContainer: {
       flex: 1,
+      marginBottom: 12,
     },
   });

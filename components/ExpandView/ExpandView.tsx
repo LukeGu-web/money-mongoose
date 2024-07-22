@@ -55,7 +55,7 @@ export default function ExpandView({
     setExpanded(!expanded);
     if (height) {
       LayoutAnimation.easeInEaseOut();
-      setContainerHeight(!expanded ? 40 + height : 40);
+      setContainerHeight(!expanded ? 60 + height : 40);
     }
   };
 

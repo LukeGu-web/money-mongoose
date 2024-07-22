@@ -78,7 +78,6 @@ const createStyles = (theme: TColors) =>
     listContainer: {
       flex: 1,
       width: '100%',
-      height: 100,
     },
     noItemContainer: {
       alignItems: 'center',

@@ -99,15 +99,14 @@ export default function AddBankAccount() {
                 </TouchableOpacity>
               )}
             </View>
-
-            <InputAccessoryView nativeID={inputAccessoryViewID}>
-              <TouchableOpacity style={styles.createBtn} onPress={handleCreate}>
-                <Text style={styles.createText}>Create</Text>
-              </TouchableOpacity>
-            </InputAccessoryView>
           </FormProvider>
         </TouchableWithoutFeedback>
       </KeyboardAwareScrollView>
+      <InputAccessoryView nativeID={inputAccessoryViewID}>
+        <TouchableOpacity style={styles.createBtn} onPress={handleCreate}>
+          <Text style={styles.createText}>Create</Text>
+        </TouchableOpacity>
+      </InputAccessoryView>
       <TouchableOpacity style={styles.createBtn} onPress={handleCreate}>
         <Text style={styles.createText}>Create</Text>
       </TouchableOpacity>
