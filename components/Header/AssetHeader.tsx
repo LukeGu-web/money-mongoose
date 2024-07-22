@@ -13,7 +13,7 @@ export default function AssetHeader() {
         <AntDesign name='linechart' size={24} color={theme.textSecondary} />
       </TouchableOpacity>
       <Text style={styles.headerText}>Asset</Text>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => router.navigate('/asset/edit-accounts')}>
         <MaterialCommunityIcons
           name='credit-card-multiple-outline'
           size={24}

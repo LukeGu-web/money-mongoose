@@ -35,11 +35,7 @@ export default function RootLayoutNav() {
           name='records/index'
           options={{
             title: 'Record list',
-            headerLeft: () => (
-              <TouchableOpacity onPress={() => router.navigate('/')}>
-                <Icon name='left' size={24} color='#fff' />
-              </TouchableOpacity>
-            ),
+            headerLeft: () => <GoBack path='/' />,
             headerRight: () => (
               <TouchableOpacity>
                 <Icon name='setting' size={24} color='#fff' />
@@ -51,17 +47,26 @@ export default function RootLayoutNav() {
           name='asset/add-bank-account'
           options={{
             title: 'Add Bank Account',
-            headerLeft: () => (
-              <TouchableOpacity onPress={() => router.navigate('/asset')}>
-                <Icon name='left' size={24} color='#fff' />
-              </TouchableOpacity>
-            ),
+            headerLeft: () => <GoBack path='/asset' />,
+          }}
+        />
+        <Stack.Screen
+          name='asset/edit-accounts'
+          options={{
+            title: ' Accounts',
+            headerLeft: () => <GoBack path='/asset' />,
           }}
         />
       </Stack>
     </Providers>
   );
 }
+
+const GoBack = ({ path }: { path: string }) => (
+  <TouchableOpacity onPress={() => router.navigate(path)}>
+    <Icon name='left' size={24} color='#fff' />
+  </TouchableOpacity>
+);
 
 function Providers({ children }: { children: React.ReactNode }) {
   const colorScheme = useColorScheme();
