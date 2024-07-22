@@ -9,7 +9,6 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   InputAccessoryView,
-  ScrollView,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -23,9 +22,9 @@ import {
   AssetAccountOtherForm,
   AssetCreditForm,
 } from 'components';
+import { inputAccessoryCreateBtnID } from 'components/Form/static';
 
 export default function AddBankAccount() {
-  const inputAccessoryViewID = 'uniqueID';
   const { styles, theme } = useStyles(createStyles);
   const addAccount = useAccounts((state) => state.addAccount);
   const [isMore, setIsMore] = useState(false);
@@ -61,7 +60,6 @@ export default function AddBankAccount() {
   });
 
   return (
-    //
     <SafeAreaView style={styles.container} edges={['bottom']}>
       <KeyboardAwareScrollView extraScrollHeight={50}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -83,7 +81,7 @@ export default function AddBankAccount() {
             )}
             <View style={{ flex: 1 }}>
               {isMore ? (
-                <View style={{ flex: 1 }}>
+                <View style={{ flex: 1, marginBottom: 16 }}>
                   <Text style={styles.formHeader}>Other settings</Text>
                   <View style={styles.moreContainer}>
                     <AssetAccountOtherForm />
@@ -102,7 +100,7 @@ export default function AddBankAccount() {
           </FormProvider>
         </TouchableWithoutFeedback>
       </KeyboardAwareScrollView>
-      <InputAccessoryView nativeID={inputAccessoryViewID}>
+      <InputAccessoryView nativeID={inputAccessoryCreateBtnID}>
         <TouchableOpacity style={styles.createBtn} onPress={handleCreate}>
           <Text style={styles.createText}>Create</Text>
         </TouchableOpacity>
@@ -120,23 +118,25 @@ const createStyles = (theme: TColors) =>
     container: {
       flex: 1,
       backgroundColor: theme.white,
-      gap: 6,
-      padding: 5,
+      padding: 8,
     },
     logoContainer: {
       height: 100,
       borderRadius: 10,
       backgroundColor: 'skyblue',
+      marginBottom: 8,
     },
     basicContainer: {
       height: 200,
       borderRadius: 10,
       backgroundColor: theme.bgPrimary,
+      marginBottom: 8,
     },
     moreContainer: {
       flex: 1,
       borderRadius: 10,
       backgroundColor: theme.bgPrimary,
+      marginBottom: 8,
     },
     formHeader: {
       fontSize: 12,

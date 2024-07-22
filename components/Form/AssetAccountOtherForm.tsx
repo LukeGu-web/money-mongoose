@@ -3,11 +3,11 @@ import { useFormContext, Controller } from 'react-hook-form';
 
 import { useStyles, TColors } from 'core/theme';
 import { TextInput } from 'react-native-gesture-handler';
+import { inputAccessoryCreateBtnID } from './static';
 
 export default function AssetAccountOtherForm() {
   const { theme, styles } = useStyles(createStyles);
   const { control } = useFormContext();
-
   return (
     <View style={styles.container}>
       <Controller
@@ -52,7 +52,7 @@ export default function AssetAccountOtherForm() {
           <View style={styles.noteWrapper}>
             <Text style={styles.headerText}>Note</Text>
             <TextInput
-              inputAccessoryViewID='uniqueID'
+              inputAccessoryViewID={inputAccessoryCreateBtnID}
               style={styles.noteInput}
               multiline={true}
               numberOfLines={6}

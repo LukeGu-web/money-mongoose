@@ -16,6 +16,7 @@ import { FontAwesome6 } from '@expo/vector-icons';
 import { useStyles, TColors } from 'core/theme';
 import { useAccounts } from 'core/stateHooks';
 import SelectGroupBottomSheet from '../BottomSheet/SelectGroupBottomSheet';
+import { inputAccessoryCreateBtnID } from './static';
 
 export default function AssetAccountBasicForm() {
   const { theme, styles } = useStyles(createStyles);
@@ -37,6 +38,7 @@ export default function AssetAccountBasicForm() {
           <View style={styles.rowWrapper}>
             <Text style={styles.headerText}>Account Name</Text>
             <TextInput
+              inputAccessoryViewID={inputAccessoryCreateBtnID}
               placeholder='Enter the amount name'
               onBlur={onBlur}
               onChangeText={onChange}
@@ -88,7 +90,7 @@ export default function AssetAccountBasicForm() {
           <View style={styles.rowWrapper}>
             <Text style={styles.headerText}>Balance</Text>
             <TextInput
-              //   style={styles.numInput}
+              inputAccessoryViewID={inputAccessoryCreateBtnID}
               placeholder='0.00'
               keyboardType='numeric'
               onBlur={onBlur}
