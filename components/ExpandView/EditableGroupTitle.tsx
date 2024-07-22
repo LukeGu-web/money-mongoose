@@ -1,4 +1,4 @@
-import React, { ReactNode, useState, useEffect, useRef } from 'react';
+import { ReactNode, useState, useEffect, useRef, useCallback } from 'react';
 import {
   View,
   Text,
@@ -8,9 +8,13 @@ import {
   Easing,
   LayoutAnimation,
 } from 'react-native';
+import { router } from 'expo-router';
+import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { AntDesign } from '@expo/vector-icons';
 
+import Icon from '../Icon/Icon';
 import { useStyles, TColors } from 'core/theme';
+import EditAssetGroupBottomSheet from '../BottomSheet/EditAssetGroupBottomSheet';
 
 type TitleType = {
   text: string;
@@ -18,21 +22,22 @@ type TitleType = {
   amount: number;
 };
 
-type ExpandViewProps = {
+type EditableGroupTitleProps = {
   title: TitleType;
   children: ReactNode;
   height?: number;
 };
 
-export default function ExpandView({
+export default function EditableGroupTitle({
   title,
   children,
   height,
-}: ExpandViewProps) {
-  const { styles } = useStyles(createStyles);
+}: EditableGroupTitleProps) {
+  const { styles, theme } = useStyles(createStyles);
 
   const [expanded, setExpanded] = useState(false);
   const [containerHeight, setContainerHeight] = useState(40);
+
   const spinValue = new Animated.Value(0);
   const rotate = spinValue.interpolate({
     inputRange: [0, 1],
@@ -40,6 +45,13 @@ export default function ExpandView({
   });
 
   const isScreenMountedRef = useRef(false);
+  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+
+  const functions = {
+    'Add Account': () => router.navigate('/asset/add-bank-account'),
+    Edit: () => router.navigate('/asset/add-bank-account'),
+    Delete: () => router.navigate('/asset/add-bank-account'),
+  };
 
   useEffect(() => {
     Animated.timing(spinValue, {
@@ -58,26 +70,41 @@ export default function ExpandView({
       setContainerHeight(!expanded ? 60 + height : 40);
     }
   };
+  const handlePressSelect = useCallback(() => {
+    bottomSheetModalRef.current?.present();
+  }, []);
 
   return (
     <View style={{ ...styles.itemContainer, height: containerHeight }}>
-      <TouchableOpacity onPress={toggleExpand} style={styles.itemTouchable}>
-        <View style={styles.titleWrapper}>
+      <View style={styles.itemTouchable}>
+        <TouchableOpacity
+          style={styles.titleWrapper}
+          onPress={handlePressSelect}
+        >
+          <Icon name='edit' size={16} color={theme.black} />
           <Text style={styles.itemTitle}>{title.text}</Text>
           <Text style={styles.titleInfo}>({title.number})</Text>
-        </View>
-        <View style={{ ...styles.titleWrapper, alignItems: 'center' }}>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.titleWrapper, styles.amountWrapper]}
+          onPress={toggleExpand}
+        >
           <Text style={styles.titleInfo}>{title.amount}</Text>
           <Animated.View
             style={
               isScreenMountedRef.current ? { transform: [{ rotate }] } : null
             }
           >
-            <AntDesign name='caretdown' size={14} color='black' />
+            <AntDesign name='caretdown' size={14} color={theme.black} />
           </Animated.View>
-        </View>
-      </TouchableOpacity>
+        </TouchableOpacity>
+      </View>
       {expanded && <View style={styles.itemContent}>{children}</View>}
+      <EditAssetGroupBottomSheet
+        bottomSheetModalRef={bottomSheetModalRef}
+        funtions={functions}
+        title={title.text}
+      />
     </View>
   );
 }
@@ -109,7 +136,13 @@ const createStyles = (theme: TColors) =>
     titleWrapper: {
       flexDirection: 'row',
       alignItems: 'flex-end',
+      paddingHorizontal: 4,
       gap: 4,
+    },
+    amountWrapper: {
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'flex-end',
     },
     titleInfo: {
       color: 'gray',

@@ -1,15 +1,13 @@
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { router } from 'expo-router';
+import { View, Text, StyleSheet } from 'react-native';
 import { FlashList } from '@shopify/flash-list';
 import { useShallow } from 'zustand/react/shallow';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import ListItem from './ListItem';
 
 import { useStyles, TColors } from 'core/theme';
 import { useAccounts } from 'core/stateHooks';
-import ExpandGroupTitle from '../ExpandView/ExpandGroupTitle';
+import EditableGroupTitle from 'components/ExpandView/EditableGroupTitle';
 
-export default function AccountList() {
+export default function EditableAccountList() {
   const { styles, theme } = useStyles(createStyles);
   const { accounts, numOfGroups } = useAccounts(
     useShallow((state) => ({
@@ -31,7 +29,7 @@ export default function AccountList() {
             ),
           };
           return (
-            <ExpandGroupTitle
+            <EditableGroupTitle
               key={group}
               title={title}
               height={40 * accounts[group].length}
@@ -45,7 +43,7 @@ export default function AccountList() {
                   estimatedItemSize={10}
                 />
               </View>
-            </ExpandGroupTitle>
+            </EditableGroupTitle>
           );
         }
       })}
@@ -54,17 +52,6 @@ export default function AccountList() {
           <Text>No account yet</Text>
         </View>
       )}
-      <TouchableOpacity
-        style={styles.addBtn}
-        onPress={() => router.navigate('/asset/add-bank-account')}
-      >
-        <Text style={{ color: theme.secondary }}>Add account</Text>
-        <MaterialCommunityIcons
-          name='credit-card-plus-outline'
-          size={20}
-          color={theme.secondary}
-        />
-      </TouchableOpacity>
     </View>
   );
 }
@@ -73,7 +60,7 @@ const createStyles = (theme: TColors) =>
   StyleSheet.create({
     container: {
       flex: 1,
-      gap: 5,
+      gap: 8,
     },
     listContainer: {
       flex: 1,

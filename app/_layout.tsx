@@ -35,7 +35,7 @@ export default function RootLayoutNav() {
           name='records/index'
           options={{
             title: 'Record list',
-            headerLeft: () => <GoBack path='/' />,
+            headerLeft: () => <GoBack />,
             headerRight: () => (
               <TouchableOpacity>
                 <Icon name='setting' size={24} color='#fff' />
@@ -47,14 +47,14 @@ export default function RootLayoutNav() {
           name='asset/add-bank-account'
           options={{
             title: 'Add Bank Account',
-            headerLeft: () => <GoBack path='/asset' />,
+            headerLeft: () => <GoBack />,
           }}
         />
         <Stack.Screen
-          name='asset/edit-accounts'
+          name='asset/asset-management'
           options={{
-            title: ' Accounts',
-            headerLeft: () => <GoBack path='/asset' />,
+            title: ' Asset Management',
+            headerLeft: () => <GoBack />,
           }}
         />
       </Stack>
@@ -62,8 +62,8 @@ export default function RootLayoutNav() {
   );
 }
 
-const GoBack = ({ path }: { path: string }) => (
-  <TouchableOpacity onPress={() => router.navigate(path)}>
+const GoBack = () => (
+  <TouchableOpacity onPress={() => router.back()}>
     <Icon name='left' size={24} color='#fff' />
   </TouchableOpacity>
 );
