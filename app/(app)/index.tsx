@@ -50,8 +50,8 @@ const createStyles = (theme: TColors) =>
     container: {
       flex: 1,
       backgroundColor: theme.white,
-      gap: 6,
-      padding: 5,
+      gap: 8,
+      padding: 8,
     },
     expenseContainer: {
       height: 120,

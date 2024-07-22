@@ -44,7 +44,7 @@ const createStyles = (theme: TColors) =>
       flex: 1,
       borderRadius: 10,
       backgroundColor: theme.bgPrimary,
-      padding: 6,
+      padding: 8,
     },
     infoRow: {
       flex: 1,

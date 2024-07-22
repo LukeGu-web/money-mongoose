@@ -29,17 +29,17 @@ const createStyles = (theme: TColors) =>
     container: {
       flex: 1,
       backgroundColor: theme.white,
-      padding: 5,
+      padding: 8,
     },
     netContainer: {
-      height: 160,
+      height: 140,
       borderRadius: 10,
       backgroundColor: 'skyblue',
-      marginBottom: 6,
+      marginBottom: 8,
     },
     infoContainer: {
       height: 60,
-      marginBottom: 6,
+      marginBottom: 8,
     },
     accountContainer: {
       flex: 1,

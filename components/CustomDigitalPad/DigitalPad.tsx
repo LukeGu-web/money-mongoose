@@ -181,8 +181,8 @@ const createStyles = (theme: TColors) =>
       alignItems: 'flex-start',
       marginHorizontal: 16,
       borderBottomWidth: 1,
-      marginBottom: 6,
-      paddingBottom: 6,
+      marginBottom: 8,
+      paddingBottom: 8,
     },
     noteInput: {
       flex: 1,
@@ -194,7 +194,7 @@ const createStyles = (theme: TColors) =>
     amount: {
       borderRadius: 8,
       height: '100%',
-      padding: 6,
+      padding: 8,
       backgroundColor: theme.secondary,
       justifyContent: 'center',
     },
