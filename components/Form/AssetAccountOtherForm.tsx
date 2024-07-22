@@ -52,6 +52,7 @@ export default function AssetAccountOtherForm() {
           <View style={styles.noteWrapper}>
             <Text style={styles.headerText}>Note</Text>
             <TextInput
+              inputAccessoryViewID='uniqueID'
               style={styles.noteInput}
               multiline={true}
               numberOfLines={6}
@@ -91,7 +92,7 @@ const createStyles = (theme: TColors) =>
       gap: 5,
     },
     noteInput: {
-      flex: 1,
+      minHeight: 300,
       borderWidth: 1,
       borderColor: '#6c757d',
       borderRadius: 4,
