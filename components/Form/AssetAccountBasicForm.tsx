@@ -14,14 +14,14 @@ import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { FontAwesome6 } from '@expo/vector-icons';
 
 import { useStyles, TColors } from 'core/theme';
-import { useAccounts } from 'core/stateHooks';
+import { useAssetStore } from 'core/stateHooks';
 import SelectGroupBottomSheet from '../BottomSheet/SelectGroupBottomSheet';
 import { inputAccessoryCreateBtnID } from './static';
 
 export default function AssetAccountBasicForm() {
   const { theme, styles } = useStyles(createStyles);
   const { control, setValue, getValues } = useFormContext();
-  const accounts = useAccounts((state) => state.accounts);
+  const accounts = useAssetStore((state) => state.accounts);
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
   const handlePressSelect = useCallback(() => {

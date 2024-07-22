@@ -16,7 +16,7 @@ import { useForm, FormProvider } from 'react-hook-form';
 import { AntDesign } from '@expo/vector-icons';
 
 import { useStyles, TColors } from 'core/theme';
-import { useAccounts } from 'core/stateHooks';
+import { useAssetStore } from 'core/stateHooks';
 import {
   AssetAccountBasicForm,
   AssetAccountOtherForm,
@@ -26,7 +26,7 @@ import { inputAccessoryCreateBtnID } from 'components/Form/static';
 
 export default function AddBankAccount() {
   const { styles, theme } = useStyles(createStyles);
-  const addAccount = useAccounts((state) => state.addAccount);
+  const addAccount = useAssetStore((state) => state.addAccount);
   const [isMore, setIsMore] = useState(false);
   const methods = useForm({
     defaultValues: {

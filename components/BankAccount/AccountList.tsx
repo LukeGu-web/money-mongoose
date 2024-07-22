@@ -6,12 +6,12 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import ListItem from './ListItem';
 
 import { useStyles, TColors } from 'core/theme';
-import { useAccounts } from 'core/stateHooks';
+import { useAssetStore } from 'core/stateHooks';
 import ExpandGroupTitle from '../ExpandView/ExpandGroupTitle';
 
 export default function AccountList() {
   const { styles, theme } = useStyles(createStyles);
-  const { accounts, numOfGroups } = useAccounts(
+  const { accounts, numOfGroups } = useAssetStore(
     useShallow((state) => ({
       accounts: state.accounts,
       numOfGroups: state.numOfGroups,

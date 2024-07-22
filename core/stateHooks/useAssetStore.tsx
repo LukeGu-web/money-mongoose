@@ -3,7 +3,7 @@ import { devtools, persist, createJSONStorage } from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AccountType } from 'api/asset/types';
 
-type AccountState = {
+type AssetState = {
   accounts: { [groupName: string]: AccountType[] };
   numOfGroups: number;
   addGroup: (name: string) => void;
@@ -11,7 +11,7 @@ type AccountState = {
   resetAccounts: () => void;
 };
 
-const useAccounts = create<AccountState>()(
+const useAssetStore = create<AssetState>()(
   persist(
     devtools((set) => ({
       accounts: { Saving: [], Credit: [], Investment: [] },
@@ -35,10 +35,10 @@ const useAccounts = create<AccountState>()(
       },
     })),
     {
-      name: 'account-storage', // unique name
+      name: 'asset-storage', // unique name
       storage: createJSONStorage(() => AsyncStorage), // Add this here!
     }
   )
 );
 
-export default useAccounts;
+export default useAssetStore;

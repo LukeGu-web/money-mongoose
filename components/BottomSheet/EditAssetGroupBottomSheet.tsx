@@ -4,7 +4,7 @@ import { PickerIOS } from '@react-native-picker/picker';
 import { useShallow } from 'zustand/react/shallow';
 
 import { useStyles, TColors } from 'core/theme';
-import { useAccounts } from 'core/stateHooks';
+import { useAssetStore } from 'core/stateHooks';
 import BottomSheet from './BottomSheet';
 
 type EditAssetGroupBottomSheetProps = {

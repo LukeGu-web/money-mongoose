@@ -4,12 +4,12 @@ import { useShallow } from 'zustand/react/shallow';
 import ListItem from './ListItem';
 
 import { useStyles, TColors } from 'core/theme';
-import { useAccounts } from 'core/stateHooks';
+import { useAssetStore } from 'core/stateHooks';
 import EditableGroupTitle from 'components/ExpandView/EditableGroupTitle';
 
 export default function EditableAccountList() {
   const { styles, theme } = useStyles(createStyles);
-  const { accounts, numOfGroups } = useAccounts(
+  const { accounts, numOfGroups } = useAssetStore(
     useShallow((state) => ({
       accounts: state.accounts,
       numOfGroups: state.numOfGroups,

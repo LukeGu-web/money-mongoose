@@ -7,7 +7,7 @@ import { PickerIOS } from '@react-native-picker/picker';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { useStyles, TColors } from 'core/theme';
-import { useAccounts } from 'core/stateHooks';
+import { useAssetStore } from 'core/stateHooks';
 import BottomSheet from './BottomSheet';
 import Icon from '../Icon/Icon';
 
@@ -23,7 +23,7 @@ export default function SelectGroupBottomSheet({
   onChange,
 }: SelectGroupBottomSheetProps) {
   const { styles, theme } = useStyles(createStyles);
-  const { accounts, addGroup } = useAccounts(
+  const { accounts, addGroup } = useAssetStore(
     useShallow((state) => ({
       accounts: state.accounts,
       addGroup: state.addGroup,
