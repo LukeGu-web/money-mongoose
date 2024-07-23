@@ -6,7 +6,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import ListItem from './ListItem';
 
 import { useStyles, TColors } from 'core/theme';
-import { useAssetStore } from 'core/stateHooks';
+import { useAssetStore, useAsset } from 'core/stateHooks';
 import ExpandGroupTitle from '../ExpandView/ExpandGroupTitle';
 
 export default function AccountList() {
@@ -17,6 +17,7 @@ export default function AccountList() {
       numOfGroups: state.numOfGroups,
     }))
   );
+  const resetAccount = useAsset((state) => state.resetAccount);
   const handlePressItem = () => {};
   return (
     <View style={styles.container}>
@@ -56,7 +57,10 @@ export default function AccountList() {
       )}
       <TouchableOpacity
         style={styles.addBtn}
-        onPress={() => router.navigate('/asset/add-bank-account')}
+        onPress={() => {
+          resetAccount();
+          router.navigate('/asset/add-bank-account');
+        }}
       >
         <Text style={{ color: theme.secondary }}>Add account</Text>
         <MaterialCommunityIcons

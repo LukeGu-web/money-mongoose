@@ -14,6 +14,7 @@ import { AntDesign } from '@expo/vector-icons';
 
 import Icon from '../Icon/Icon';
 import { useStyles, TColors } from 'core/theme';
+import { useAsset } from 'core/stateHooks';
 import EditAssetGroupBottomSheet from '../BottomSheet/EditAssetGroupBottomSheet';
 
 type TitleType = {
@@ -34,6 +35,7 @@ export default function EditableGroupTitle({
   height,
 }: EditableGroupTitleProps) {
   const { styles, theme } = useStyles(createStyles);
+  const resetAccount = useAsset((state) => state.resetAccount);
 
   const [expanded, setExpanded] = useState(false);
   const [containerHeight, setContainerHeight] = useState(40);
@@ -48,7 +50,10 @@ export default function EditableGroupTitle({
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
   const functions = {
-    'Add Account': () => router.navigate('/asset/add-bank-account'),
+    'Add Account': () => {
+      resetAccount();
+      router.navigate('/asset/add-bank-account');
+    },
     Edit: () => router.navigate('/asset/add-bank-account'),
     Delete: () => router.navigate('/asset/add-bank-account'),
   };

@@ -4,6 +4,7 @@ import { AccountType } from 'api/asset/types';
 type CalendarState = {
   account: AccountType;
   setSelect: (value: { group: string } | AccountType) => void;
+  resetAccount: () => void;
 };
 
 const defaultValue = {
@@ -23,6 +24,11 @@ const useAsset = create<CalendarState>((set) => ({
   account: defaultValue,
   setSelect: (value) => {
     set((state) => ({ account: { ...state.account, ...value } }));
+  },
+  resetAccount: () => {
+    set(() => ({
+      account: defaultValue,
+    }));
   },
 }));
 
