@@ -85,7 +85,7 @@ export default function SelectGroupBottomSheet({
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={{ fontSize: 24 }}>Monthly Budget</Text>
+            <Text style={{ fontSize: 24 }}>Group Name</Text>
             <Controller
               control={control}
               render={({ field: { onChange, onBlur, value } }) => (

@@ -16,6 +16,7 @@ import Icon from '../Icon/Icon';
 import { useStyles, TColors } from 'core/theme';
 import { useAsset } from 'core/stateHooks';
 import EditAssetGroupBottomSheet from '../BottomSheet/EditAssetGroupBottomSheet';
+import AssetGroupModal from 'components/Modal/AssetGroupModal';
 
 type TitleType = {
   text: string;
@@ -38,6 +39,7 @@ export default function EditableGroupTitle({
   const resetAccount = useAsset((state) => state.resetAccount);
 
   const [expanded, setExpanded] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const [containerHeight, setContainerHeight] = useState(40);
 
   const spinValue = new Animated.Value(0);
@@ -54,7 +56,7 @@ export default function EditableGroupTitle({
       resetAccount();
       router.navigate('/asset/add-bank-account');
     },
-    Edit: () => router.navigate('/asset/add-bank-account'),
+    Edit: () => setShowModal(true),
     Delete: () => router.navigate('/asset/add-bank-account'),
   };
 
@@ -114,6 +116,11 @@ export default function EditableGroupTitle({
         funtions={functions}
         title={title.text}
         onCancel={handleCloseSheet}
+      />
+      <AssetGroupModal
+        name={title.text}
+        isVisible={showModal}
+        onClose={() => setShowModal(false)}
       />
     </View>
   );

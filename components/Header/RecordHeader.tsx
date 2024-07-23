@@ -22,7 +22,13 @@ export default function RecordHeader() {
   };
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={handleGoBack}>
+      <TouchableOpacity
+        style={{
+          paddingVertical: 8,
+          paddingRight: 24,
+        }}
+        onPress={handleGoBack}
+      >
         <Icon name='left' size={24} color={theme.textSecondary} />
       </TouchableOpacity>
       <View style={styles.buttonGroup}>
@@ -71,6 +77,7 @@ const createStyles = (theme: TColors) =>
       borderWidth: 2,
       borderColor: theme.textSecondary,
       borderRadius: 5,
+      marginLeft: -12,
     },
     button: {
       flex: 1,
