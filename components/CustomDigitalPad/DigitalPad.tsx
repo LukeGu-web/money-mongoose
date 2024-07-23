@@ -80,11 +80,13 @@ export default function DigitalPad() {
       case '.':
         setIsDecimal(true);
         break;
-      case 'calculator':
+      case 'camera':
         break;
-      case 'new':
-        handleSubmit(false);
+      case 'tax':
         break;
+      // case 'new':
+      //   handleSubmit(false);
+      //   break;
       case 'save':
         handleSubmit(true);
         break;

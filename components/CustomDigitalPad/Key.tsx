@@ -7,10 +7,11 @@ export default function Key({ value }: { value: string }) {
   switch (value) {
     case 'delete':
       return <Icon name='delete-left' size={40} color={theme.primary} />;
-    case 'calculator':
-      return <Icon name='calculator' size={40} color={theme.primary} />;
+    case 'camera':
+      return <Icon name='camera' size={40} color={theme.primary} />;
+    case 'tax':
+      return <Icon name='tax' size={36} color={theme.primary} />;
     case 'clear':
-    case 'new':
     case 'save':
       return <Text style={styles.text}>{value}</Text>;
     default:

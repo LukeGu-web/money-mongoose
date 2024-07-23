@@ -12,7 +12,7 @@ export default function NetAssetCard() {
       accounts[group].reduce((sum, item) => sum + Number(item.balance), 0)
     )
     .reduce((sum, item) => sum + item, 0);
-  console.log('netAsset: ', netAsset);
+
   return (
     <View style={styles.container}>
       <Text style={{ fontSize: 24 }}>Net Asset</Text>

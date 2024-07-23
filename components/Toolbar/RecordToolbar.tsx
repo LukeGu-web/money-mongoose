@@ -14,14 +14,14 @@ export default function RecordToolbar() {
         <Text style={{ fontSize: 16 }}>Jun 20</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.textWrapper}>
-        <Text style={{ fontSize: 16 }}>account details</Text>
+        <Text style={{ fontSize: 16 }}>no account</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={{ ...styles.iconWrapper, marginVertical: 4 }}>
+      {/* <TouchableOpacity style={{ ...styles.iconWrapper, marginVertical: 4 }}>
         <Icon name='tax' size={24} color='black' />
       </TouchableOpacity>
       <TouchableOpacity style={styles.iconWrapper}>
         <Icon name='camera' size={32} color='black' />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 }
@@ -31,7 +31,7 @@ const createStyles = (theme: TColors) =>
     container: {
       height: 64,
       flexDirection: 'row',
-      justifyContent: 'space-between',
+      justifyContent: 'flex-start',
       paddingVertical: 8,
       paddingHorizontal: 16,
       gap: 6,
