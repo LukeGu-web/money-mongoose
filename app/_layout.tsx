@@ -63,7 +63,13 @@ export default function RootLayoutNav() {
 }
 
 const GoBack = () => (
-  <TouchableOpacity onPress={() => router.back()}>
+  <TouchableOpacity
+    style={{
+      paddingVertical: 8,
+      paddingRight: 24,
+    }}
+    onPress={() => router.back()}
+  >
     <Icon name='left' size={24} color='#fff' />
   </TouchableOpacity>
 );

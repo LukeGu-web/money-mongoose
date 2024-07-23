@@ -66,27 +66,26 @@ const createStyles = (theme: TColors) =>
     contentContainer: {
       width: '100%',
       borderRadius: 10,
-      borderWidth: 2,
-      borderColor: theme.primary,
+      backgroundColor: theme.bgPrimary,
     },
     button: {
       paddingVertical: 8,
-      borderColor: theme.primary,
+      borderColor: theme.white,
     },
     btnText: {
       textAlign: 'center',
-      color: theme.primary,
+      color: '#333',
     },
     cancelBtn: {
       width: '100%',
       borderRadius: 10,
       paddingVertical: 8,
+
       borderWidth: 2,
       borderColor: 'gray',
       marginTop: 8,
     },
     cancelText: {
       textAlign: 'center',
-      color: 'gray',
     },
   });

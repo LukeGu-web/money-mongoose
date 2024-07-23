@@ -18,11 +18,17 @@ import monthlyDay from 'static/monthly-day.json';
 export default function AssetCreditForm() {
   const { theme, styles } = useStyles(createStyles);
   const { control } = useFormContext();
-  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+  const billDayRef = useRef<BottomSheetModal>(null);
+  const repayDayRef = useRef<BottomSheetModal>(null);
 
-  const handlePressSelect = useCallback(() => {
+  const handlePressBillDay = useCallback(() => {
     Keyboard.dismiss();
-    bottomSheetModalRef.current?.present();
+    billDayRef.current?.present();
+  }, []);
+
+  const handlePressRepayDay = useCallback(() => {
+    Keyboard.dismiss();
+    repayDayRef.current?.present();
   }, []);
 
   return (
@@ -47,9 +53,9 @@ export default function AssetCreditForm() {
         control={control}
         render={({ field: { onChange, onBlur, value } }) => (
           <View style={styles.rowWrapper}>
-            <Text style={styles.headerText}>Repayment Day</Text>
+            <Text style={styles.headerText}>Bill Day</Text>
             <View>
-              <TouchableOpacity onPress={handlePressSelect}>
+              <TouchableOpacity onPress={handlePressBillDay}>
                 {value ? (
                   <Text>{value}</Text>
                 ) : (
@@ -70,7 +76,46 @@ export default function AssetCreditForm() {
                 )}
               </TouchableOpacity>
               <PickerBottomSheet
-                bottomSheetModalRef={bottomSheetModalRef}
+                key='billDay'
+                bottomSheetModalRef={billDayRef}
+                data={monthlyDay}
+                value={value}
+                onChange={onChange}
+              />
+            </View>
+          </View>
+        )}
+        name='billDay'
+      />
+      <Controller
+        control={control}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <View style={styles.rowWrapper}>
+            <Text style={styles.headerText}>Repayment Day</Text>
+            <View>
+              <TouchableOpacity onPress={handlePressRepayDay}>
+                {value ? (
+                  <Text>{value}</Text>
+                ) : (
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      gap: 4,
+                    }}
+                  >
+                    <Text style={{ color: '#bfc0c0' }}>Select the day</Text>
+                    <FontAwesome6
+                      name='angle-right'
+                      size={14}
+                      color='#bfc0c0'
+                    />
+                  </View>
+                )}
+              </TouchableOpacity>
+              <PickerBottomSheet
+                key='repaymentDay'
+                bottomSheetModalRef={repayDayRef}
                 data={monthlyDay}
                 value={value}
                 onChange={onChange}

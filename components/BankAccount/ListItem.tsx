@@ -21,14 +21,14 @@ export default function ListItem({ item, onPress }: ListItemProps) {
       }}
     >
       {/* <View style={styles.iconContainer}>
-        <Icon name={item.category} size={28} color='black' />
+        <Icon name={item.name} size={28} color='black' />
       </View> */}
       <View style={styles.midContainer}>
-        <View style={styles.categoryContainer}>
-          <Text style={styles.category}>{item.accountName}</Text>
-          {item.isCredit && <Text style={styles.category}> '[credit]'</Text>}
+        <View style={styles.nameContainer}>
+          <Text style={styles.name}>{item.accountName}</Text>
+          {item.isCredit && <Text style={styles.credit}>[credit]</Text>}
         </View>
-        {item.note !== '' && <Text>{item.note}</Text>}
+        {item.note !== '' && <Text style={styles.note}>{item.note}</Text>}
       </View>
       <Text style={styles.amount}>{Number(item.balance).toFixed(2)}</Text>
     </TouchableOpacity>
@@ -52,14 +52,24 @@ const createStyles = (theme: TColors) =>
     midContainer: {
       flex: 0.8,
     },
-    categoryContainer: {
+    nameContainer: {
       flexDirection: 'row',
-    },
-    category: {
+      alignItems: 'flex-end',
+      gap: 4,
       paddingBottom: 4,
+    },
+    name: {
       color: theme.textPrimary,
       fontSize: 16,
       fontWeight: 'bold',
+    },
+    credit: {
+      color: 'red',
+      fontSize: 10,
+      marginBottom: 2,
+    },
+    note: {
+      color: '#6c757d',
     },
     amount: {
       color: theme.textPrimary,

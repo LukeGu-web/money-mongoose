@@ -16,7 +16,7 @@ import { useForm, FormProvider } from 'react-hook-form';
 import { AntDesign } from '@expo/vector-icons';
 
 import { useStyles, TColors } from 'core/theme';
-import { useAssetStore } from 'core/stateHooks';
+import { useAssetStore, useAsset } from 'core/stateHooks';
 import {
   AssetAccountBasicForm,
   AssetAccountOtherForm,
@@ -27,19 +27,10 @@ import { inputAccessoryCreateBtnID } from 'components/Form/static';
 export default function AddBankAccount() {
   const { styles, theme } = useStyles(createStyles);
   const addAccount = useAssetStore((state) => state.addAccount);
+  const defaultAccount = useAsset((state) => state.account);
   const [isMore, setIsMore] = useState(false);
   const methods = useForm({
-    defaultValues: {
-      accountName: '',
-      group: '',
-      balance: '',
-      isCredit: false,
-      creditLimit: '',
-      repaymentDay: '',
-      isTotalAssets: true,
-      isNoBudget: false,
-      note: '',
-    },
+    defaultValues: defaultAccount,
   });
   const { getValues, watch } = methods;
   watch(['isCredit']);
@@ -74,7 +65,7 @@ export default function AddBankAccount() {
             {getValues('isCredit') && (
               <View>
                 <Text style={styles.formHeader}>Credit information</Text>
-                <View style={{ ...styles.basicContainer, height: 100 }}>
+                <View style={{ ...styles.basicContainer, height: 150 }}>
                   <AssetCreditForm />
                 </View>
               </View>
