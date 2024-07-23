@@ -11,12 +11,14 @@ type EditAssetGroupBottomSheetProps = {
   bottomSheetModalRef: React.RefObject<BottomSheetModal>;
   funtions: { [functionName: string]: () => void };
   title: string;
+  onCancel: () => void;
 };
 
 export default function EditAssetGroupBottomSheet({
   bottomSheetModalRef,
   funtions,
   title,
+  onCancel,
 }: EditAssetGroupBottomSheetProps) {
   const { styles } = useStyles(createStyles);
 
@@ -39,10 +41,7 @@ export default function EditAssetGroupBottomSheet({
             </TouchableOpacity>
           ))}
         </View>
-        <TouchableOpacity
-          style={styles.cancelBtn}
-          // onPress={funtions[item]}
-        >
+        <TouchableOpacity style={styles.cancelBtn} onPress={onCancel}>
           <Text style={styles.cancelText}>Cancel</Text>
         </TouchableOpacity>
       </View>

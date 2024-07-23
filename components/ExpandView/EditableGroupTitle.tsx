@@ -74,6 +74,10 @@ export default function EditableGroupTitle({
     bottomSheetModalRef.current?.present();
   }, []);
 
+  const handleCloseSheet = useCallback(() => {
+    bottomSheetModalRef.current?.dismiss();
+  }, []);
+
   return (
     <View style={{ ...styles.itemContainer, height: containerHeight }}>
       <View style={styles.itemTouchable}>
@@ -104,6 +108,7 @@ export default function EditableGroupTitle({
         bottomSheetModalRef={bottomSheetModalRef}
         funtions={functions}
         title={title.text}
+        onCancel={handleCloseSheet}
       />
     </View>
   );

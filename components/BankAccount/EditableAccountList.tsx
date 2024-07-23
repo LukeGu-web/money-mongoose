@@ -1,11 +1,15 @@
+import { ReactNode, useState, useEffect, useRef, useCallback } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { FlashList } from '@shopify/flash-list';
 import { useShallow } from 'zustand/react/shallow';
+import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import ListItem from './ListItem';
+import EditableGroupTitle from '../ExpandView/EditableGroupTitle';
+import EditAssetGroupBottomSheet from '../BottomSheet/EditAssetGroupBottomSheet';
 
 import { useStyles, TColors } from 'core/theme';
-import { useAssetStore } from 'core/stateHooks';
-import EditableGroupTitle from 'components/ExpandView/EditableGroupTitle';
+import { useAssetStore, useAsset } from 'core/stateHooks';
+import { AccountType } from 'api/asset/types';
 
 export default function EditableAccountList() {
   const { styles, theme } = useStyles(createStyles);
@@ -15,7 +19,20 @@ export default function EditableAccountList() {
       numOfGroups: state.numOfGroups,
     }))
   );
-  const handlePressItem = () => {};
+  const account = useAsset((state) => state.account);
+
+  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+
+  const handleCloseSheet = useCallback(() => {
+    bottomSheetModalRef.current?.dismiss();
+  }, []);
+  const functions = {
+    'View Details': () => {},
+    'Move to another group': () => {},
+  };
+  const handlePressItem = () => {
+    bottomSheetModalRef.current?.present();
+  };
   return (
     <View style={styles.container}>
       {Object.keys(accounts).map((group) => {
@@ -52,6 +69,12 @@ export default function EditableAccountList() {
           <Text>No account yet</Text>
         </View>
       )}
+      <EditAssetGroupBottomSheet
+        bottomSheetModalRef={bottomSheetModalRef}
+        funtions={functions}
+        title={account.accountName}
+        onCancel={handleCloseSheet}
+      />
     </View>
   );
 }

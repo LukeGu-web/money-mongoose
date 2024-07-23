@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'components/Icon/Icon';
 import { AccountType } from 'api/asset/types';
 import { useStyles, TColors } from 'core/theme';
-import { useRecord } from 'core/stateHooks';
+import { useAsset } from 'core/stateHooks';
 
 type ListItemProps = {
   item: AccountType;
@@ -12,11 +12,12 @@ type ListItemProps = {
 export default function ListItem({ item, onPress }: ListItemProps) {
   const { theme, styles } = useStyles(createStyles);
   // const setSelectedRecord = useRecord((state) => state.setSelectedRecord);
+  const setSelect = useAsset((state) => state.setSelect);
   return (
     <TouchableOpacity
       style={styles.container}
       onPress={() => {
-        // setSelectedRecord(item);
+        setSelect(item);
         onPress();
       }}
     >
