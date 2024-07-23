@@ -1,10 +1,9 @@
-import { createIconSetFromFontello } from '@expo/vector-icons';
-import fontelloConfig from 'assets/config.json';
+import createIconSetFromIcoMoon from '@expo/vector-icons/createIconSetFromIcoMoon';
 
-const Icon = createIconSetFromFontello(
-  fontelloConfig,
-  'fontello',
-  'fontello.ttf'
+const Icon = createIconSetFromIcoMoon(
+  require('../../assets/selection.json'),
+  'IcoMoon',
+  'icomoon.ttf'
 );
 
 export default Icon;

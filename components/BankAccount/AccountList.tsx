@@ -2,11 +2,11 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { router } from 'expo-router';
 import { FlashList } from '@shopify/flash-list';
 import { useShallow } from 'zustand/react/shallow';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import ListItem from './ListItem';
 
 import { useStyles, TColors } from 'core/theme';
 import { useAssetStore, useAsset } from 'core/stateHooks';
+import Icon from '../Icon/Icon';
 import ExpandGroupTitle from '../ExpandView/ExpandGroupTitle';
 
 export default function AccountList() {
@@ -63,11 +63,7 @@ export default function AccountList() {
         }}
       >
         <Text style={{ color: theme.secondary }}>Add account</Text>
-        <MaterialCommunityIcons
-          name='credit-card-plus-outline'
-          size={20}
-          color={theme.secondary}
-        />
+        <Icon name='credit-card-plus' size={20} color={theme.secondary} />
       </TouchableOpacity>
     </View>
   );

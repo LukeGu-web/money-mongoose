@@ -9,8 +9,8 @@ import {
 } from 'react-native';
 import { useFormContext, Controller } from 'react-hook-form';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
-import { FontAwesome6 } from '@expo/vector-icons';
 
+import Icon from '../Icon/Icon';
 import { useStyles, TColors } from 'core/theme';
 import PickerBottomSheet from 'components/BottomSheet/PickerBottomSheet';
 import monthlyDay from 'static/monthly-day.json';
@@ -67,11 +67,7 @@ export default function AssetCreditForm() {
                     }}
                   >
                     <Text style={{ color: '#bfc0c0' }}>Select the day</Text>
-                    <FontAwesome6
-                      name='angle-right'
-                      size={14}
-                      color='#bfc0c0'
-                    />
+                    <Icon name='arrow-right' size={14} color='#bfc0c0' />
                   </View>
                 )}
               </TouchableOpacity>
@@ -105,11 +101,7 @@ export default function AssetCreditForm() {
                     }}
                   >
                     <Text style={{ color: '#bfc0c0' }}>Select the day</Text>
-                    <FontAwesome6
-                      name='angle-right'
-                      size={14}
-                      color='#bfc0c0'
-                    />
+                    <Icon name='arrow-right' size={14} color='#bfc0c0' />
                   </View>
                 )}
               </TouchableOpacity>

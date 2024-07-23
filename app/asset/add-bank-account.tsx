@@ -13,7 +13,6 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useForm, FormProvider } from 'react-hook-form';
-import { AntDesign } from '@expo/vector-icons';
 
 import { useStyles, TColors } from 'core/theme';
 import { useAssetStore, useAsset } from 'core/stateHooks';
@@ -21,6 +20,7 @@ import {
   AssetAccountBasicForm,
   AssetAccountOtherForm,
   AssetCreditForm,
+  Icon,
 } from 'components';
 import { inputAccessoryCreateBtnID } from 'components/Form/static';
 
@@ -84,7 +84,7 @@ export default function AddBankAccount() {
                   onPress={() => setIsMore(true)}
                 >
                   <Text style={{ color: theme.secondary }}>More settings</Text>
-                  <AntDesign name='down' size={18} color={theme.secondary} />
+                  <Icon name='arrow-down' size={18} color={theme.secondary} />
                 </TouchableOpacity>
               )}
             </View>

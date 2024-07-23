@@ -8,8 +8,7 @@ import {
   Easing,
   LayoutAnimation,
 } from 'react-native';
-import { AntDesign } from '@expo/vector-icons';
-
+import Icon from '../Icon/Icon';
 import { useStyles, TColors } from 'core/theme';
 
 type TitleType = {
@@ -73,7 +72,7 @@ export default function ExpandGroupTitle({
               isScreenMountedRef.current ? { transform: [{ rotate }] } : null
             }
           >
-            <AntDesign name='caretdown' size={14} color='black' />
+            <Icon name='menu-down' size={14} color='black' />
           </Animated.View>
         </View>
       </TouchableOpacity>

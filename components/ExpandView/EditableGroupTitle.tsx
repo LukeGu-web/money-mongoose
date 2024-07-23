@@ -10,7 +10,6 @@ import {
 } from 'react-native';
 import { router } from 'expo-router';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
-import { AntDesign } from '@expo/vector-icons';
 
 import Icon from '../Icon/Icon';
 import { useStyles, TColors } from 'core/theme';
@@ -106,7 +105,7 @@ export default function EditableGroupTitle({
               isScreenMountedRef.current ? { transform: [{ rotate }] } : null
             }
           >
-            <AntDesign name='caretdown' size={14} color={theme.black} />
+            <Icon name='menu-down' size={14} color={theme.black} />
           </Animated.View>
         </TouchableOpacity>
       </View>

@@ -1,6 +1,5 @@
 import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { router } from 'expo-router';
-import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { useStyles, TColors } from 'core/theme';
 import Icon from '../Icon/Icon';
@@ -10,14 +9,14 @@ export default function AssetHeader() {
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={() => router.navigate('/')}>
-        <AntDesign name='linechart' size={24} color={theme.textSecondary} />
+        <Icon name='chart-line' size={24} color={theme.textSecondary} />
       </TouchableOpacity>
       <Text style={styles.headerText}>Asset</Text>
       <TouchableOpacity
         onPress={() => router.navigate('/asset/asset-management')}
       >
-        <MaterialCommunityIcons
-          name='credit-card-multiple-outline'
+        <Icon
+          name='credit-card-multiple'
           size={24}
           color={theme.textSecondary}
         />

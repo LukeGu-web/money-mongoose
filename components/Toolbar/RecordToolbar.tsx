@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import dayjs from 'dayjs';
-import { FontAwesome5, MaterialCommunityIcons } from '@expo/vector-icons';
 
+import Icon from '../Icon/Icon';
 import { useStyles, TColors } from 'core/theme';
 import { formatter } from 'core/utils';
 
@@ -17,10 +17,10 @@ export default function RecordToolbar() {
         <Text style={{ fontSize: 16 }}>account details</Text>
       </TouchableOpacity>
       <TouchableOpacity style={{ ...styles.iconWrapper, marginVertical: 4 }}>
-        <MaterialCommunityIcons name='cash-refund' size={24} color='black' />
+        <Icon name='tax' size={24} color='black' />
       </TouchableOpacity>
       <TouchableOpacity style={styles.iconWrapper}>
-        <FontAwesome5 name='camera-retro' size={32} color='black' />
+        <Icon name='camera' size={32} color='black' />
       </TouchableOpacity>
     </View>
   );

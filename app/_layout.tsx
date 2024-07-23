@@ -15,7 +15,7 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayoutNav() {
   const [fontsLoaded] = useFonts({
-    fontello: require('../assets/fontello.ttf'),
+    IcoMoon: require('../assets/icomoon.ttf'),
   });
   if (!fontsLoaded) {
     return null;

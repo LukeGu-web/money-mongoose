@@ -4,7 +4,6 @@ import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { useForm, useFormContext, Controller } from 'react-hook-form';
 import { useShallow } from 'zustand/react/shallow';
 import { PickerIOS } from '@react-native-picker/picker';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { useStyles, TColors } from 'core/theme';
 import { useAssetStore } from 'core/stateHooks';
@@ -56,8 +55,8 @@ export default function SelectGroupBottomSheet({
         <View style={styles.titleWrapper}>
           <View style={{ width: 30 }}></View>
           <Text style={styles.headerText}>Select Group</Text>
-          <MaterialCommunityIcons
-            name='plus-box-multiple-outline'
+          <Icon
+            name='plus-box-multiple'
             size={24}
             color='black'
             onPress={() => setIsVisible(true)}

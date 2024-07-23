@@ -11,8 +11,8 @@ import {
 } from 'react-native';
 import { useFormContext, Controller } from 'react-hook-form';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
-import { FontAwesome6 } from '@expo/vector-icons';
 
+import Icon from '../Icon/Icon';
 import { useStyles, TColors } from 'core/theme';
 import { useAssetStore } from 'core/stateHooks';
 import SelectGroupBottomSheet from '../BottomSheet/SelectGroupBottomSheet';
@@ -66,11 +66,7 @@ export default function AssetAccountBasicForm() {
                     }}
                   >
                     <Text style={{ color: '#bfc0c0' }}>Select group</Text>
-                    <FontAwesome6
-                      name='angle-right'
-                      size={14}
-                      color='#bfc0c0'
-                    />
+                    <Icon name='arrow-right' size={14} color='#bfc0c0' />
                   </View>
                 )}
               </TouchableOpacity>
