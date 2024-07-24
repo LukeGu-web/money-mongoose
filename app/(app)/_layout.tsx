@@ -1,7 +1,12 @@
 import { useCallback, useEffect } from 'react';
-import { Tabs, SplashScreen, Redirect } from 'expo-router';
-import { AssetHeader, CalendarHeader, RecordHeader, Icon } from 'components';
+import { StyleSheet, TouchableOpacity } from 'react-native';
+import { Tabs, SplashScreen, Redirect, Link } from 'expo-router';
+import { Entypo } from '@expo/vector-icons';
+import dayjs from 'dayjs';
+
+import { RecordHeader, Icon } from 'components';
 import { useLocalStore } from 'core/stateHooks';
+import { useCalendar } from 'core/stateHooks';
 
 export default function TabLayout() {
   const hideSplash = useCallback(async () => {
@@ -17,7 +22,15 @@ export default function TabLayout() {
   if (!isOnBoarding) {
     return <Redirect href='/onboarding' />;
   }
-  const hideTab = ['record', 'add-bank-account', 'records/index'];
+
+  const setVisiableMonth = useCalendar((state) => state.setVisiableMonth);
+
+  const handleBackToday = () => {
+    console.log('Back Today');
+    setVisiableMonth(dayjs().format('YYYY-MM-DD'));
+  };
+
+  const hideTab = ['record'];
   return (
     <Tabs
       screenOptions={({ route }) => ({
@@ -33,6 +46,11 @@ export default function TabLayout() {
         name='index'
         options={{
           title: 'Home',
+          headerRight: () => (
+            <Link href='/records' style={styles.navRight}>
+              <Entypo name='text-document' size={24} color='#fff' />
+            </Link>
+          ),
           tabBarIcon: ({ color }) => (
             <Icon size={28} name='home' color={color} />
           ),
@@ -42,7 +60,11 @@ export default function TabLayout() {
         name='calendar'
         options={{
           title: 'Calendar',
-          headerTitle: () => <CalendarHeader />,
+          headerRight: () => (
+            <TouchableOpacity style={styles.navRight} onPress={handleBackToday}>
+              <Icon name='center_focus' size={24} color='#fff' />
+            </TouchableOpacity>
+          ),
           tabBarIcon: ({ color }) => (
             <Icon name='calendar' size={28} color={color} />
           ),
@@ -62,7 +84,16 @@ export default function TabLayout() {
         name='asset'
         options={{
           title: 'Asset',
-          headerTitle: () => <AssetHeader />,
+          headerLeft: () => (
+            <Link href='/' style={styles.navLeft}>
+              <Icon name='chart-line' size={24} color='#fff' />
+            </Link>
+          ),
+          headerRight: () => (
+            <Link href='/asset/asset-management' style={styles.navRight}>
+              <Icon name='credit-card-multiple' size={24} color='#fff' />
+            </Link>
+          ),
           tabBarIcon: ({ color }) => (
             <Icon name='asset' size={28} color={color} />
           ),
@@ -80,3 +111,12 @@ export default function TabLayout() {
     </Tabs>
   );
 }
+
+const styles = StyleSheet.create({
+  navLeft: {
+    paddingLeft: 12,
+  },
+  navRight: {
+    paddingRight: 12,
+  },
+});
