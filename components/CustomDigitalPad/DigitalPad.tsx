@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import {
   Alert,
   StyleSheet,
@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { router } from 'expo-router';
 import { useShallow } from 'zustand/react/shallow';
+import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import Keypad from './Keypad';
 
 import { RecordTypes, RecordVariablesSchema } from 'api/record/types';
@@ -19,10 +20,11 @@ import { formatApiError } from 'api/errorFormat';
 import { useStyles, TColors } from 'core/theme';
 import { useRecord, useRecordStore } from 'core/stateHooks';
 import { formatter } from 'core/utils';
+import CameraBottomSheet from 'components/BottomSheet/CameraBottomSheet';
 
 export default function DigitalPad() {
   const keyboardVerticalOffset = Platform.OS === 'ios' ? -150 : 0;
-
+  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const { mutate: addRecordApi } = useAddRecord();
   const addRecord = useRecordStore((state) => state.addRecord);
   const { record, setRecord, resetRecord } = useRecord(
@@ -37,6 +39,10 @@ export default function DigitalPad() {
 
   const [decimalLength, setDecimalLength] = useState(0);
   const [isDecimal, setIsDecimal] = useState(false);
+
+  const handlePressSelect = useCallback(() => {
+    bottomSheetModalRef.current?.present();
+  }, []);
 
   const handleReset = () => {
     setDecimalLength(0);
@@ -81,6 +87,7 @@ export default function DigitalPad() {
         setIsDecimal(true);
         break;
       case 'camera':
+        bottomSheetModalRef.current?.present();
         break;
       case 'tax':
         break;
@@ -165,6 +172,7 @@ export default function DigitalPad() {
         </TouchableOpacity>
       </View>
       <Keypad onKeyInput={handlePriceInput} />
+      <CameraBottomSheet bottomSheetModalRef={bottomSheetModalRef} />
     </KeyboardAvoidingView>
   );
 }
