@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, Modal, TextInput, Button } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
-import { useForm, useFormContext, Controller } from 'react-hook-form';
 import { PickerIOS } from '@react-native-picker/picker';
 
+import { AccountType } from 'api/asset/types';
 import { useStyles, TColors } from 'core/theme';
 import { useAssetStore } from 'core/stateHooks';
 import BottomSheet from './BottomSheet';
@@ -12,7 +11,7 @@ import Icon from '../Icon/Icon';
 type SelectAssetBottomSheetProps = {
   bottomSheetModalRef: React.RefObject<BottomSheetModal>;
   value: string;
-  onChange: (itemValue: number | string, itemIndex: number) => void;
+  onChange: (item: AccountType) => void;
 };
 
 export default function SelectAssetBottomSheet({
@@ -22,8 +21,14 @@ export default function SelectAssetBottomSheet({
 }: SelectAssetBottomSheetProps) {
   const { styles, theme } = useStyles(createStyles);
   const accounts = useAssetStore((state) => state.accounts);
+  const flatAccounts = Object.values(accounts).flat();
 
-  // const { setValue } = useFormContext();
+  const handleSelectItem = (itemValue: number | string, itemIndex: number) => {
+    const selectItem = flatAccounts.find(
+      (item) => item.accountName === itemValue
+    );
+    onChange(selectItem as AccountType);
+  };
 
   return (
     <BottomSheet bottomSheetModalRef={bottomSheetModalRef} height={280}>
@@ -34,11 +39,15 @@ export default function SelectAssetBottomSheet({
         <View style={styles.contentContainer}>
           <PickerIOS
             selectedValue={value}
-            onValueChange={onChange}
+            onValueChange={handleSelectItem}
             style={{ flex: 1, width: '100%' }}
           >
-            {Object.keys(accounts).map((item) => (
-              <PickerIOS.Item key={item} label={item} value={item} />
+            {flatAccounts.map((item) => (
+              <PickerIOS.Item
+                key={item.accountName}
+                label={item.accountName}
+                value={item.accountName}
+              />
             ))}
           </PickerIOS>
         </View>

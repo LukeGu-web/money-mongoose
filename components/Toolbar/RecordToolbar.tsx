@@ -1,19 +1,37 @@
-import { SetStateAction, useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { useState, useRef, useCallback } from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Keyboard,
+} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import dayjs from 'dayjs';
+import { BottomSheetModal } from '@gorhom/bottom-sheet';
 
-import Icon from '../Icon/Icon';
+import { AccountType } from 'api/asset/types';
 import { useStyles, TColors } from 'core/theme';
-import { formatter } from 'core/utils';
+import SelectAssetBottomSheet from 'components/BottomSheet/SelectAssetBottomSheet';
 
 export default function RecordToolbar() {
   const { styles } = useStyles(createStyles);
-  const [date, setDate] = useState(new Date());
+  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
-  const onChange = (e: any, selectedDate: any) => {
+  const [date, setDate] = useState<Date>(new Date());
+  const [account, setAccount] = useState<AccountType>();
+
+  const onDateChange = (e: any, selectedDate: any) => {
     setDate(selectedDate);
   };
+
+  const onAccountChange = (item: AccountType) => {
+    setAccount(item);
+  };
+
+  const handlePressSelect = useCallback(() => {
+    bottomSheetModalRef.current?.present();
+    Keyboard.dismiss();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -22,17 +40,16 @@ export default function RecordToolbar() {
         value={date}
         mode={'date'}
         display='calendar'
-        onChange={onChange}
+        onChange={onDateChange}
       />
-      <TouchableOpacity style={styles.textWrapper}>
-        <Text style={styles.text}>no account</Text>
+      <TouchableOpacity style={styles.textWrapper} onPress={handlePressSelect}>
+        <Text style={styles.text}>{account?.accountName ?? 'no account'}</Text>
       </TouchableOpacity>
-      {/* <TouchableOpacity style={{ ...styles.iconWrapper, marginVertical: 4 }}>
-        <Icon name='tax' size={24} color='black' />
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.iconWrapper}>
-        <Icon name='camera' size={32} color='black' />
-      </TouchableOpacity> */}
+      <SelectAssetBottomSheet
+        bottomSheetModalRef={bottomSheetModalRef}
+        value={account?.accountName as string}
+        onChange={onAccountChange}
+      />
     </View>
   );
 }
@@ -60,12 +77,5 @@ const createStyles = (theme: TColors) =>
     },
     text: {
       fontSize: 16,
-    },
-    iconWrapper: {
-      alignItems: 'center',
-      justifyContent: 'center',
-      padding: 8,
-      borderRadius: 10,
-      backgroundColor: theme.bgPrimary,
     },
   });

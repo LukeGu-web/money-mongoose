@@ -7,7 +7,6 @@ import {
   StyleSheet,
   TouchableOpacity,
   Keyboard,
-  TouchableWithoutFeedback,
 } from 'react-native';
 import { useFormContext, Controller } from 'react-hook-form';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
