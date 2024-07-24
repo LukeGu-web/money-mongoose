@@ -85,7 +85,7 @@ export default function EditableGroupTitle({
   }, []);
 
   return (
-    <View style={{ ...styles.itemContainer, height: containerHeight }}>
+    <View style={{ ...styles.itemContainer, minHeight: containerHeight }}>
       <View style={styles.itemTouchable}>
         <TouchableOpacity
           style={styles.titleWrapper}
@@ -105,7 +105,7 @@ export default function EditableGroupTitle({
               isScreenMountedRef.current ? { transform: [{ rotate }] } : null
             }
           >
-            <Icon name='menu-down' size={14} color={theme.black} />
+            <Icon name='menu-down' size={24} color={theme.black} />
           </Animated.View>
         </TouchableOpacity>
       </View>

@@ -59,7 +59,7 @@ export default function ExpandGroupTitle({
   };
 
   return (
-    <View style={{ ...styles.itemContainer, height: containerHeight }}>
+    <View style={{ ...styles.itemContainer, minHeight: containerHeight }}>
       <TouchableOpacity onPress={toggleExpand} style={styles.itemTouchable}>
         <View style={styles.titleWrapper}>
           <Text style={styles.itemTitle}>{title.text}</Text>
@@ -72,7 +72,7 @@ export default function ExpandGroupTitle({
               isScreenMountedRef.current ? { transform: [{ rotate }] } : null
             }
           >
-            <Icon name='menu-down' size={14} color='black' />
+            <Icon name='menu-down' size={24} color='black' />
           </Animated.View>
         </View>
       </TouchableOpacity>
