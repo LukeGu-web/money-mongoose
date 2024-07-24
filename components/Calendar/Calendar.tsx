@@ -88,6 +88,7 @@ export default function Calendar() {
   return (
     <View style={styles.container}>
       <ClendarPicker
+        enableSwipeMonths={true}
         style={styles.clendarContainer}
         initialDate={visiableMonth}
         dayComponent={({ date, state }: { date: any; state: any }) => (

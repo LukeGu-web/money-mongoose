@@ -1,4 +1,6 @@
+import { SetStateAction, useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import dayjs from 'dayjs';
 
 import Icon from '../Icon/Icon';
@@ -7,14 +9,23 @@ import { formatter } from 'core/utils';
 
 export default function RecordToolbar() {
   const { styles } = useStyles(createStyles);
+  const [date, setDate] = useState(new Date());
+
+  const onChange = (e: any, selectedDate: any) => {
+    setDate(selectedDate);
+  };
 
   return (
     <View style={styles.container}>
+      <DateTimePicker
+        style={{ width: 90 }}
+        value={date}
+        mode={'date'}
+        display='calendar'
+        onChange={onChange}
+      />
       <TouchableOpacity style={styles.textWrapper}>
-        <Text style={{ fontSize: 16 }}>Jun 20</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.textWrapper}>
-        <Text style={{ fontSize: 16 }}>no account</Text>
+        <Text style={styles.text}>no account</Text>
       </TouchableOpacity>
       {/* <TouchableOpacity style={{ ...styles.iconWrapper, marginVertical: 4 }}>
         <Icon name='tax' size={24} color='black' />
@@ -29,25 +40,26 @@ export default function RecordToolbar() {
 const createStyles = (theme: TColors) =>
   StyleSheet.create({
     container: {
-      height: 64,
+      height: 48,
       flexDirection: 'row',
       justifyContent: 'flex-start',
       paddingVertical: 8,
       paddingHorizontal: 16,
-      gap: 6,
+      gap: 8,
       marginBottom: 8,
       borderBottomWidth: 1,
       borderColor: '#faf3dd',
-      //   backgroundColor: '#faf3dd',
     },
     textWrapper: {
       alignItems: 'center',
       justifyContent: 'center',
-      marginVertical: 8,
       paddingHorizontal: 8,
       paddingVertical: 4,
-      borderRadius: 10,
+      borderRadius: 8,
       backgroundColor: theme.bgPrimary,
+    },
+    text: {
+      fontSize: 16,
     },
     iconWrapper: {
       alignItems: 'center',

@@ -11,6 +11,7 @@ import { useFormContext, Controller } from 'react-hook-form';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 
 import Icon from '../Icon/Icon';
+import { inputAccessoryCreateBtnID } from './static';
 import { useStyles, TColors } from 'core/theme';
 import PickerBottomSheet from 'components/BottomSheet/PickerBottomSheet';
 import monthlyDay from 'static/monthly-day.json';
@@ -39,6 +40,7 @@ export default function AssetCreditForm() {
           <View style={styles.rowWrapper}>
             <Text style={styles.headerText}>Credit limit</Text>
             <TextInput
+              inputAccessoryViewID={inputAccessoryCreateBtnID}
               placeholder='0.00'
               keyboardType='numeric'
               onBlur={onBlur}

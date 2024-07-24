@@ -164,7 +164,6 @@ export default function DigitalPad() {
           )}`}</Text>
         </TouchableOpacity>
       </View>
-      {/* <View>function tags</View> */}
       <Keypad onKeyInput={handlePriceInput} />
     </KeyboardAvoidingView>
   );
