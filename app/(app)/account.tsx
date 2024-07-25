@@ -1,6 +1,8 @@
+import Camera from 'components/Media/Camera';
 import { clearAll, getAllKeys } from 'core/localStorage/storage';
 import { useLocalStore, useRecordStore, useAssetStore } from 'core/stateHooks';
 import { StatusBar } from 'expo-status-bar';
+import { Link } from 'expo-router';
 import { StyleSheet, Text, View, Button } from 'react-native';
 
 export default function Account() {
@@ -20,6 +22,7 @@ export default function Account() {
       <Button onPress={reset} title='Reset local store' />
       <Button onPress={resetRecords} title='Reset records store' />
       <Button onPress={resetAccounts} title='Reset accounts store' />
+      <Link href='/test'>Test</Link>
       <StatusBar style='light' />
     </View>
   );

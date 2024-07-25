@@ -31,6 +31,7 @@ export default function RootLayoutNav() {
         <Stack.Screen name='(app)' options={{ headerShown: false }} />
         <Stack.Screen name='onboarding' options={{ headerShown: false }} />
         <Stack.Screen name='agreement' options={{ headerShown: false }} />
+        <Stack.Screen name='test' options={{ headerShown: false }} />
         <Stack.Screen
           name='records/index'
           options={{
