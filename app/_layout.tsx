@@ -28,7 +28,7 @@ export default function RootLayoutNav() {
           headerTintColor: '#fff',
         }}
       >
-        <Stack.Screen name='(app)' options={{ headerShown: false }} />
+        <Stack.Screen name='(drawer)' options={{ headerShown: false }} />
         <Stack.Screen name='onboarding' options={{ headerShown: false }} />
         <Stack.Screen name='agreement' options={{ headerShown: false }} />
         <Stack.Screen name='test' options={{ headerShown: false }} />

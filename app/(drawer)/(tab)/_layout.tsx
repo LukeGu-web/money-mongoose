@@ -1,6 +1,7 @@
 import { useCallback, useEffect } from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
-import { Tabs, SplashScreen, Redirect, Link } from 'expo-router';
+import { Tabs, SplashScreen, Redirect, Link, useNavigation } from 'expo-router';
+import { DrawerToggleButton } from '@react-navigation/drawer';
 import { Entypo } from '@expo/vector-icons';
 import dayjs from 'dayjs';
 
@@ -24,6 +25,7 @@ export default function TabLayout() {
   }
 
   const setVisiableMonth = useCalendar((state) => state.setVisiableMonth);
+  const navigation = useNavigation();
 
   const handleBackToday = () => {
     console.log('Back Today');
@@ -46,6 +48,7 @@ export default function TabLayout() {
         name='index'
         options={{
           title: 'Home',
+          headerLeft: () => <DrawerToggleButton tintColor='#fff' />,
           headerRight: () => (
             <Link href='/records' style={styles.navRight}>
               <Entypo name='text-document' size={24} color='#fff' />
