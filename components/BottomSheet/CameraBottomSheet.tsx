@@ -2,11 +2,10 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { router } from 'expo-router';
 import { useCameraPermissions } from 'expo-camera';
-// import * as MediaLibrary from 'expo-media-library';
+import * as ImagePicker from 'expo-image-picker';
 import { FontAwesome, FontAwesome5 } from '@expo/vector-icons';
 
 import { useStyles, TColors } from 'core/theme';
-import { useAssetStore } from 'core/stateHooks';
 import BottomSheet from './BottomSheet';
 import Icon from '../Icon/Icon';
 
@@ -19,13 +18,24 @@ export default function CameraBottomSheet({
 }: CameraBottomSheetProps) {
   const { styles, theme } = useStyles(createStyles);
   const [permission, requestPermission] = useCameraPermissions();
-  // const MediaLibraryPermission = MediaLibrary.usePermissions();
-  const accounts = useAssetStore((state) => state.accounts);
 
   const handleOpenCamera = () => {
     bottomSheetModalRef.current?.dismiss();
     if (!permission?.granted) requestPermission();
     router.navigate('/media/camera');
+  };
+
+  const handleOpenCameraRoll = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      console.log(result.assets[0].uri);
+    } else {
+      alert('You did not select any image.');
+    }
   };
 
   return (
@@ -41,7 +51,7 @@ export default function CameraBottomSheet({
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.button}
-            // onPress={() => router.back()}
+            onPress={handleOpenCameraRoll}
           >
             <FontAwesome5 name='photo-video' size={24} color={theme.white} />
             <Text style={styles.buttonText}>Gallery</Text>

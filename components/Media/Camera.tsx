@@ -15,6 +15,7 @@ import {
 import { router } from 'expo-router';
 import { MaterialIcons } from '@expo/vector-icons';
 import * as MediaLibrary from 'expo-media-library';
+import * as ImagePicker from 'expo-image-picker';
 import Icon from '../Icon/Icon';
 
 const flashOptions = ['auto', 'on', 'off'];
@@ -55,6 +56,19 @@ export default function Camera() {
     let n = flashOptions.indexOf(flash);
     n = n < 2 ? n + 1 : 0;
     setFlash(flashOptions[n] as FlashMode);
+  };
+
+  const handleOpenCameraRoll = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      console.log(result.assets[0].uri);
+    } else {
+      alert('You did not select any image.');
+    }
   };
 
   return (
@@ -104,7 +118,7 @@ export default function Camera() {
               </TouchableOpacity>
             </View>
             <View style={styles.camBottomBtnGroup}>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={handleOpenCameraRoll}>
                 <MaterialIcons name='photo-library' size={32} color='#fff' />
               </TouchableOpacity>
               <View style={styles.takeBtnWrapper}>
