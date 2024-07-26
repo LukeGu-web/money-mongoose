@@ -11,6 +11,7 @@ type EditAssetGroupBottomSheetProps = {
   bottomSheetModalRef: React.RefObject<BottomSheetModal>;
   funtions: { [functionName: string]: () => void };
   title: string;
+  height?: number;
   onCancel: () => void;
 };
 
@@ -18,12 +19,16 @@ export default function EditAssetGroupBottomSheet({
   bottomSheetModalRef,
   funtions,
   title,
+  height,
   onCancel,
 }: EditAssetGroupBottomSheetProps) {
   const { styles } = useStyles(createStyles);
 
   return (
-    <BottomSheet bottomSheetModalRef={bottomSheetModalRef} height={240}>
+    <BottomSheet
+      bottomSheetModalRef={bottomSheetModalRef}
+      height={height ?? 240}
+    >
       <View style={styles.container}>
         <Text style={styles.headerText}>{title}</Text>
         <View style={styles.contentContainer}>
@@ -68,7 +73,7 @@ const createStyles = (theme: TColors) =>
       backgroundColor: theme.bgPrimary,
     },
     button: {
-      paddingVertical: 8,
+      paddingVertical: 16,
       borderColor: theme.white,
     },
     btnText: {
@@ -78,7 +83,7 @@ const createStyles = (theme: TColors) =>
     cancelBtn: {
       width: '100%',
       borderRadius: 10,
-      paddingVertical: 8,
+      paddingVertical: 16,
 
       borderWidth: 2,
       borderColor: 'gray',

@@ -30,7 +30,9 @@ export default function AssetGroupModal({
     >
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
-          <Text style={{ fontSize: 24 }}>Edit Group</Text>
+          <Text style={{ fontSize: 24 }}>
+            {name === '' ? 'Create' : 'Edit'} Group
+          </Text>
 
           <TextInput
             style={styles.input}

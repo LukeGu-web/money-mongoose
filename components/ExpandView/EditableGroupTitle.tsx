@@ -114,6 +114,7 @@ export default function EditableGroupTitle({
         bottomSheetModalRef={bottomSheetModalRef}
         funtions={functions}
         title={title.text}
+        height={300}
         onCancel={handleCloseSheet}
       />
       <AssetGroupModal

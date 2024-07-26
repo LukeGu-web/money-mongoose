@@ -1,5 +1,6 @@
+import { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { useFocusEffect, router } from 'expo-router';
+import { router } from 'expo-router';
 import {
   StyleSheet,
   Text,
@@ -9,8 +10,10 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import EditableAccountList from 'components/BankAccount/EditableAccountList';
+import AssetGroupModal from 'components/Modal/AssetGroupModal';
 
 export default function Account() {
+  const [showModal, setShowModal] = useState(false);
   return (
     <SafeAreaView style={styles.container} edges={['bottom']}>
       <ScrollView>
@@ -19,7 +22,7 @@ export default function Account() {
       <View style={styles.btnGroup}>
         <TouchableOpacity
           style={[styles.createBtn, styles.groupBtn]}
-          onPress={() => router.navigate('/asset')}
+          onPress={() => setShowModal(true)}
         >
           <Text style={styles.createText}>Add Group</Text>
         </TouchableOpacity>
@@ -30,6 +33,11 @@ export default function Account() {
           <Text style={styles.createText}>Create Account</Text>
         </TouchableOpacity>
       </View>
+      <AssetGroupModal
+        name=''
+        isVisible={showModal}
+        onClose={() => setShowModal(false)}
+      />
       <StatusBar style='light' />
     </SafeAreaView>
   );
