@@ -34,7 +34,7 @@ export default function Records() {
         </View>
       ) : (
         <View style={styles.emptyContainer}>
-          <EmptyRecordList />
+          <EmptyRecordList noItemMsg="You don't have any record in last 7 days." />
         </View>
       )}
       <StatusBar style='light' />

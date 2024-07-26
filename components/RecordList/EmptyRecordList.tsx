@@ -7,7 +7,11 @@ import { useGetRecordsByDateRange } from 'api/record/useGetRecordsByDateRange';
 import { formatApiError } from 'api/errorFormat';
 import { useRecordStore } from 'core/stateHooks';
 
-export default function EmptyRecordList() {
+type EmptyRecordList = {
+  noItemMsg?: string;
+};
+
+export default function EmptyRecordList({ noItemMsg }: EmptyRecordList) {
   const { records, setRecords } = useRecordStore(
     useShallow((state) => ({
       records: state.records,
@@ -59,5 +63,5 @@ export default function EmptyRecordList() {
       return <Text>Sorry, something went wrong. Please try it again.</Text>;
   }
 
-  return <Text>You don't have any record.</Text>;
+  return <Text>{noItemMsg ?? "You don't have any record."} </Text>;
 }

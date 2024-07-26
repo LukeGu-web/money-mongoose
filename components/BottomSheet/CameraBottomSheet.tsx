@@ -2,6 +2,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { router } from 'expo-router';
 import { useCameraPermissions } from 'expo-camera';
+// import * as MediaLibrary from 'expo-media-library';
 import { FontAwesome, FontAwesome5 } from '@expo/vector-icons';
 
 import { useStyles, TColors } from 'core/theme';
@@ -18,6 +19,7 @@ export default function CameraBottomSheet({
 }: CameraBottomSheetProps) {
   const { styles, theme } = useStyles(createStyles);
   const [permission, requestPermission] = useCameraPermissions();
+  // const MediaLibraryPermission = MediaLibrary.usePermissions();
   const accounts = useAssetStore((state) => state.accounts);
 
   const handleOpenCamera = () => {

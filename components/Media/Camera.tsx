@@ -8,28 +8,27 @@ import {
 } from 'react-native';
 import {
   CameraView,
-  CameraType,
-  useCameraPermissions,
+  type CameraType,
+  type FlashMode,
   type CameraCapturedPicture,
 } from 'expo-camera';
 import { router } from 'expo-router';
-
 import { MaterialIcons } from '@expo/vector-icons';
-import MediaLibrary from 'expo-media-library';
-
+import * as MediaLibrary from 'expo-media-library';
 import Icon from '../Icon/Icon';
 
-type CameraProps = {
-  onClose: () => void;
-};
+const flashOptions = ['auto', 'on', 'off'];
 
 export default function Camera() {
+  const [permissionResponse, requestPermission] = MediaLibrary.usePermissions();
+
   const [type, setType] = useState<CameraType>('back');
+  const [flash, setFlash] = useState<FlashMode>('auto');
   const [previewVisible, setPreviewVisible] = useState(false);
   const [capturedImage, setCapturedImage] = useState<CameraCapturedPicture>();
 
   const cameraRef = useRef(null);
-  const onTakePicture = () => {
+  const handleTakePicture = () => {
     if (cameraRef.current) {
       (cameraRef.current as any)
         .takePictureAsync({
@@ -40,6 +39,22 @@ export default function Camera() {
           setCapturedImage(photoData);
         });
     }
+  };
+
+  const handleSavePhoto = () => {
+    if (!permissionResponse?.granted) requestPermission();
+    MediaLibrary.saveToLibraryAsync(
+      (capturedImage as CameraCapturedPicture).uri
+    ).then(() => {
+      setCapturedImage(undefined);
+      router.navigate('record');
+    });
+  };
+
+  const handleFlash = () => {
+    let n = flashOptions.indexOf(flash);
+    n = n < 2 ? n + 1 : 0;
+    setFlash(flashOptions[n] as FlashMode);
   };
 
   return (
@@ -54,6 +69,7 @@ export default function Camera() {
               style={{
                 flexDirection: 'row',
                 justifyContent: 'space-between',
+                padding: 30,
               }}
             >
               <TouchableOpacity
@@ -63,23 +79,28 @@ export default function Camera() {
                 <Text style={styles.textBtntext}>Re-take</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                // onPress={savePhoto}
+                onPress={handleSavePhoto}
                 style={styles.textBtn}
               >
-                <Text style={styles.textBtntext}>save photo</Text>
+                <Text style={styles.textBtntext}>Save</Text>
               </TouchableOpacity>
             </View>
           </View>
         </ImageBackground>
       ) : (
-        <CameraView style={{ flex: 1 }} ref={cameraRef} facing={type}>
+        <CameraView
+          style={{ flex: 1 }}
+          ref={cameraRef}
+          facing={type}
+          flash={flash}
+        >
           <View style={styles.cameraContainer}>
             <View style={styles.camTopBtnGroup}>
               <TouchableOpacity onPress={() => router.navigate('record')}>
                 <Icon name='close' size={24} color='#fff' />
               </TouchableOpacity>
-              <TouchableOpacity>
-                <MaterialIcons name='flash-auto' size={24} color='#fff' />
+              <TouchableOpacity onPress={handleFlash}>
+                <MaterialIcons name={`flash-${flash}`} size={24} color='#fff' />
               </TouchableOpacity>
             </View>
             <View style={styles.camBottomBtnGroup}>
@@ -88,7 +109,7 @@ export default function Camera() {
               </TouchableOpacity>
               <View style={styles.takeBtnWrapper}>
                 <TouchableOpacity
-                  onPress={onTakePicture}
+                  onPress={handleTakePicture}
                   style={styles.takeBtn}
                 />
               </View>
@@ -115,13 +136,15 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'flex-end',
-    padding: 15,
+    marginBottom: 20,
   },
   textBtn: {
-    width: 130,
+    width: 120,
     height: 40,
+    justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 4,
+    borderRadius: 10,
+    backgroundColor: 'black',
   },
   textBtntext: {
     color: '#fff',
