@@ -77,10 +77,9 @@ export default function TabLayout() {
         name='record'
         options={{
           title: 'Record',
+          tabBarLabelStyle: { color: '#ffaa00', fontWeight: 600 },
           headerTitle: () => <RecordHeader />,
-          tabBarIcon: ({ color }) => (
-            <Icon name='record' size={28} color={color} />
-          ),
+          tabBarIcon: () => <Icon name='record' size={32} color='#ffd400' />,
         }}
       />
       <Tabs.Screen

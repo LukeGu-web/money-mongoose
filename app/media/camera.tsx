@@ -1,4 +1,4 @@
-import Camera from 'components/Media/Camera';
+import { Camera } from 'components';
 
 export default function CameraPage() {
   return <Camera />;

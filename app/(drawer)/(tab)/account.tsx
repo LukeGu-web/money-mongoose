@@ -1,4 +1,4 @@
-import Camera from 'components/Media/Camera';
+import Camera from 'components/Camera/Camera';
 import { clearAll, getAllKeys } from 'core/localStorage/storage';
 import { useLocalStore, useRecordStore, useAssetStore } from 'core/stateHooks';
 import { StatusBar } from 'expo-status-bar';

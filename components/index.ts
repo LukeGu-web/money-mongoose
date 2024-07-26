@@ -3,6 +3,7 @@ export { default as AssetAccountOtherForm } from 'components/Form/AssetAccountOt
 export { default as AssetCreditForm } from 'components/Form/AssetCreditForm';
 export { default as BudgetCard } from 'components/Card/BudgetCard';
 export { default as Calendar } from 'components/Calendar/Calendar';
+export { default as Camera } from 'components/Camera/Camera';
 export { default as DigitalPad } from 'components/CustomDigitalPad/DigitalPad';
 export { default as EmptyRecordList } from 'components/RecordList/EmptyRecordList';
 export { default as ExpenseCard } from 'components/Card/ExpenseCard';
