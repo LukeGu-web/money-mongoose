@@ -12,23 +12,26 @@ import {
   useCameraPermissions,
   type CameraCapturedPicture,
 } from 'expo-camera';
+import { router } from 'expo-router';
+
+import { MaterialIcons } from '@expo/vector-icons';
 import MediaLibrary from 'expo-media-library';
 
-const tag = '[CAMERA]';
+import Icon from '../Icon/Icon';
+
+type CameraProps = {
+  onClose: () => void;
+};
+
 export default function Camera() {
-  const [permission, requestPermission] = useCameraPermissions();
-  // const [hasPermission, setHasPermission] = useState<any>(null);
+  const [type, setType] = useState<CameraType>('back');
   const [previewVisible, setPreviewVisible] = useState(false);
   const [capturedImage, setCapturedImage] = useState<CameraCapturedPicture>();
-  const [startOver, setStartOver] = useState(true);
-  const [type, setType] = useState<CameraType>('back');
 
-  let camera: CameraView;
   const cameraRef = useRef(null);
-
-  const takePicture = () => {
+  const onTakePicture = () => {
     if (cameraRef.current) {
-      cameraRef.current
+      (cameraRef.current as any)
         .takePictureAsync({
           skipProcessing: true,
         })
@@ -39,208 +42,66 @@ export default function Camera() {
     }
   };
 
-  const handleOpen = () => {
-    requestPermission();
-    setStartOver(false);
-  };
-
-  const __closeCamera = () => {
-    setStartOver(true);
-  };
-
-  const savePhoto = async () => {
-    console.log('capturedImage: ', capturedImage);
-    await MediaLibrary.saveToLibraryAsync(
-      (capturedImage as CameraCapturedPicture)?.uri
-    )
-      .then(() => console.log('saved!'))
-      .catch((error) => console.log(error));
-  };
   return (
-    <View
-      style={{
-        flex: 1,
-      }}
-    >
-      {startOver ? (
-        <View
-          style={{
-            flex: 1,
-            backgroundColor: '#fff',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
+    <View style={styles.container}>
+      {previewVisible ? (
+        <ImageBackground
+          source={{ uri: capturedImage && capturedImage.uri }}
+          style={styles.container}
         >
-          <TouchableOpacity
-            onPress={handleOpen}
-            style={{
-              width: 130,
-              borderRadius: 4,
-              backgroundColor: '#14274e',
-              flexDirection: 'row',
-              justifyContent: 'center',
-              alignItems: 'center',
-              height: 40,
-            }}
-          >
-            <Text
+          <View style={styles.btnGroup}>
+            <View
               style={{
-                color: '#fff',
-                fontWeight: 'bold',
-                textAlign: 'center',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
               }}
             >
-              Take picture
-            </Text>
-          </TouchableOpacity>
-        </View>
+              <TouchableOpacity
+                onPress={() => setPreviewVisible(false)}
+                style={styles.textBtn}
+              >
+                <Text style={styles.textBtntext}>Re-take</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                // onPress={savePhoto}
+                style={styles.textBtn}
+              >
+                <Text style={styles.textBtntext}>save photo</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </ImageBackground>
       ) : (
-        <View
-          style={{
-            flex: 1,
-          }}
-        >
-          {previewVisible ? (
-            <ImageBackground
-              source={{ uri: capturedImage && capturedImage.uri }}
-              style={{
-                flex: 1,
-              }}
-            >
-              <View
-                style={{
-                  flex: 1,
-                  flexDirection: 'column',
-                  padding: 15,
-                  justifyContent: 'flex-end',
-                }}
-              >
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                  }}
-                >
-                  <TouchableOpacity
-                    onPress={() => setPreviewVisible(false)}
-                    style={{
-                      width: 130,
-                      height: 40,
-
-                      alignItems: 'center',
-                      borderRadius: 4,
-                    }}
-                  >
-                    <Text
-                      style={{
-                        color: '#fff',
-                        fontSize: 20,
-                      }}
-                    >
-                      Re-take
-                    </Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    onPress={savePhoto}
-                    style={{
-                      width: 130,
-                      height: 40,
-
-                      alignItems: 'center',
-                      borderRadius: 4,
-                    }}
-                  >
-                    <Text
-                      style={{
-                        color: '#fff',
-                        fontSize: 20,
-                      }}
-                    >
-                      save photo
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-            </ImageBackground>
-          ) : (
-            <CameraView style={{ flex: 1 }} ref={cameraRef} facing={type}>
-              <View
-                style={{
-                  flex: 1,
-                  backgroundColor: 'transparent',
-                  flexDirection: 'row',
-                }}
-              >
-                <View
-                  style={{
-                    position: 'absolute',
-                    top: '5%',
-                    right: '5%',
-                  }}
-                >
-                  <TouchableOpacity onPress={__closeCamera}>
-                    <Text
-                      style={{
-                        color: '#fff',
-                        fontSize: 20,
-                      }}
-                    >
-                      X
-                    </Text>
-                  </TouchableOpacity>
-                </View>
+        <CameraView style={{ flex: 1 }} ref={cameraRef} facing={type}>
+          <View style={styles.cameraContainer}>
+            <View style={styles.camTopBtnGroup}>
+              <TouchableOpacity onPress={() => router.navigate('record')}>
+                <Icon name='close' size={24} color='#fff' />
+              </TouchableOpacity>
+              <TouchableOpacity>
+                <MaterialIcons name='flash-auto' size={24} color='#fff' />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.camBottomBtnGroup}>
+              <TouchableOpacity>
+                <MaterialIcons name='photo-library' size={32} color='#fff' />
+              </TouchableOpacity>
+              <View style={styles.takeBtnWrapper}>
                 <TouchableOpacity
-                  style={{
-                    position: 'absolute',
-                    top: '5%',
-                    left: '5%',
-                  }}
-                  onPress={() => {
-                    setType((current) =>
-                      current === 'back' ? 'front' : 'back'
-                    );
-                  }}
-                >
-                  <Text
-                    style={{ fontSize: 18, marginBottom: 10, color: 'white' }}
-                  >
-                    Flip
-                  </Text>
-                </TouchableOpacity>
-                <View
-                  style={{
-                    position: 'absolute',
-                    bottom: 0,
-                    flexDirection: 'row',
-                    flex: 1,
-                    width: '100%',
-                    padding: 20,
-                    justifyContent: 'space-between',
-                  }}
-                >
-                  <View
-                    style={{
-                      alignSelf: 'center',
-                      flex: 1,
-                      alignItems: 'center',
-                    }}
-                  >
-                    <TouchableOpacity
-                      onPress={takePicture}
-                      style={{
-                        width: 70,
-                        height: 70,
-                        bottom: 0,
-                        borderRadius: 50,
-                        backgroundColor: '#fff',
-                      }}
-                    />
-                  </View>
-                </View>
+                  onPress={onTakePicture}
+                  style={styles.takeBtn}
+                />
               </View>
-            </CameraView>
-          )}
-        </View>
+              <TouchableOpacity
+                onPress={() => {
+                  setType((current) => (current === 'back' ? 'front' : 'back'));
+                }}
+              >
+                <MaterialIcons name='flip-camera-ios' size={32} color='#fff' />
+              </TouchableOpacity>
+            </View>
+          </View>
+        </CameraView>
       )}
     </View>
   );
@@ -249,8 +110,60 @@ export default function Camera() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000',
+  },
+  btnGroup: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'flex-end',
+    padding: 15,
+  },
+  textBtn: {
+    width: 130,
+    height: 40,
     alignItems: 'center',
-    justifyContent: 'center',
+    borderRadius: 4,
+  },
+  textBtntext: {
+    color: '#fff',
+    fontSize: 20,
+  },
+  cameraContainer: {
+    flex: 1,
+    backgroundColor: 'transparent',
+    flexDirection: 'row',
+  },
+  camTopBtnGroup: {
+    position: 'absolute',
+    top: '10%',
+    width: '100%',
+    paddingHorizontal: 30,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  camBottomBtnGroup: {
+    position: 'absolute',
+    bottom: '5%',
+    width: '100%',
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 30,
+  },
+  takeBtnWrapper: {
+    alignSelf: 'center',
+    alignItems: 'center',
+    borderRadius: 50,
+    borderWidth: 2,
+    borderColor: '#fff',
+    padding: 4,
+  },
+  takeBtn: {
+    width: 60,
+    height: 60,
+    bottom: 0,
+    borderRadius: 50,
+    backgroundColor: '#fff',
   },
 });

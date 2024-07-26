@@ -1,5 +1,7 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
+import { router } from 'expo-router';
+import { useCameraPermissions } from 'expo-camera';
 import { FontAwesome, FontAwesome5 } from '@expo/vector-icons';
 
 import { useStyles, TColors } from 'core/theme';
@@ -15,8 +17,14 @@ export default function CameraBottomSheet({
   bottomSheetModalRef,
 }: CameraBottomSheetProps) {
   const { styles, theme } = useStyles(createStyles);
+  const [permission, requestPermission] = useCameraPermissions();
   const accounts = useAssetStore((state) => state.accounts);
-  ['Gallery', 'Camera'];
+
+  const handleOpenCamera = () => {
+    bottomSheetModalRef.current?.dismiss();
+    if (!permission?.granted) requestPermission();
+    router.navigate('/media/camera');
+  };
 
   return (
     <BottomSheet bottomSheetModalRef={bottomSheetModalRef} height={250}>
@@ -25,10 +33,7 @@ export default function CameraBottomSheet({
           <Text style={styles.headerText}>Select Picture</Text>
         </View>
         <View style={styles.contentContainer}>
-          <TouchableOpacity
-            style={styles.button}
-            // onPress={() => router.back()}
-          >
+          <TouchableOpacity style={styles.button} onPress={handleOpenCamera}>
             <FontAwesome name='camera-retro' size={24} color={theme.white} />
             <Text style={styles.buttonText}>Camera</Text>
           </TouchableOpacity>
