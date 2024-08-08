@@ -1,22 +1,12 @@
-import React, { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { View } from 'react-native';
 import { Calendar as CalendarView } from 'components';
 
 export default function Calendar() {
   return (
-    <View style={styles.container}>
+    <View className='flex-1 gap-2 p-2 bg-white'>
       <CalendarView />
       <StatusBar style='light' />
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    gap: 6,
-    padding: 8,
-    backgroundColor: '#fff',
-  },
-});

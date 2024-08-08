@@ -1,4 +1,4 @@
-import { View, Text, Button, StyleSheet } from 'react-native';
+import { View, Text, Button } from 'react-native';
 import { Redirect } from 'expo-router';
 import 'react-native-get-random-values'; // for uuid
 import { v4 as uuid } from 'uuid';
@@ -59,7 +59,7 @@ export default function Onboarding() {
 
   if (isPending) {
     return (
-      <View style={styles.container}>
+      <View className='items-center justify-center flex-1 bg-white'>
         <Text>Loading</Text>
       </View>
     );
@@ -70,17 +70,9 @@ export default function Onboarding() {
   }
 
   return (
-    <View style={styles.container}>
+    <View className='items-center justify-center flex-1 bg-white'>
       <Text>On boarding</Text>
       <Button title='start' onPress={handleStart} />
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});

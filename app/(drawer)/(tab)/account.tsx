@@ -11,7 +11,7 @@ export default function Account() {
   const resetRecords = useRecordStore((state) => state.resetRecords);
   const resetAccounts = useAssetStore((state) => state.resetAccounts);
   return (
-    <View className='flex-1 items-center justify-center bg-white'>
+    <View className='items-center justify-center flex-1 bg-white'>
       {/* <Button onPress={getAllKeys} title='Get all keys' /> */}
 
       <Button onPress={clearAll} title='Clear all keys' />

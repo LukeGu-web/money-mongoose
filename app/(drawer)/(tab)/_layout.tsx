@@ -50,7 +50,7 @@ export default function TabLayout() {
           title: 'Home',
           headerLeft: () => <DrawerToggleButton tintColor='#fff' />,
           headerRight: () => (
-            <Link href='/records' style={styles.navRight}>
+            <Link href='/records' className='pr-3'>
               <Entypo name='text-document' size={24} color='#fff' />
             </Link>
           ),
@@ -64,7 +64,7 @@ export default function TabLayout() {
         options={{
           title: 'Calendar',
           headerRight: () => (
-            <TouchableOpacity style={styles.navRight} onPress={handleBackToday}>
+            <TouchableOpacity className='pr-3' onPress={handleBackToday}>
               <Icon name='center_focus' size={24} color='#fff' />
             </TouchableOpacity>
           ),
@@ -87,12 +87,12 @@ export default function TabLayout() {
         options={{
           title: 'Asset',
           headerLeft: () => (
-            <Link href='/' style={styles.navLeft}>
+            <Link href='/' className='pl-3'>
               <Icon name='chart-line' size={24} color='#fff' />
             </Link>
           ),
           headerRight: () => (
-            <Link href='/asset/asset-management' style={styles.navRight}>
+            <Link href='/asset/asset-management' className='pr-3'>
               <Icon name='credit-card-multiple' size={24} color='#fff' />
             </Link>
           ),
@@ -113,12 +113,3 @@ export default function TabLayout() {
     </Tabs>
   );
 }
-
-const styles = StyleSheet.create({
-  navLeft: {
-    paddingLeft: 12,
-  },
-  navRight: {
-    paddingRight: 12,
-  },
-});
