@@ -11,7 +11,7 @@ export default function Account() {
   const resetRecords = useRecordStore((state) => state.resetRecords);
   const resetAccounts = useAssetStore((state) => state.resetAccounts);
   return (
-    <View style={styles.container}>
+    <View className='flex-1 items-center justify-center bg-white'>
       {/* <Button onPress={getAllKeys} title='Get all keys' /> */}
 
       <Button onPress={clearAll} title='Clear all keys' />
@@ -27,12 +27,3 @@ export default function Account() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

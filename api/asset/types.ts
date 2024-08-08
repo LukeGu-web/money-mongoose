@@ -4,7 +4,8 @@ export type AccountType = {
   balance: string;
   isCredit: boolean;
   creditLimit: string;
-  repaymentDay: string;
+  billDay: Date;
+  repaymentDay: Date;
   isTotalAssets: boolean;
   isNoBudget: boolean;
   note: string;

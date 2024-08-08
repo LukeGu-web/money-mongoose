@@ -8,6 +8,7 @@ import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { APIProvider } from 'api/api-provider';
 import { Colors, useTheme } from 'core/theme';
 import { Icon } from 'components';
+import '../global.css';
 import Toast from 'react-native-toast-message';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
