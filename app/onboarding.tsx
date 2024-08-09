@@ -4,7 +4,6 @@ import 'react-native-get-random-values'; // for uuid
 import { v4 as uuid } from 'uuid';
 import { useShallow } from 'zustand/react/shallow';
 
-import { setHeaderToken } from 'api/client';
 import { formatApiError } from 'api/errorFormat';
 import { useDeviceRegister } from 'api/account/useDeviceRegister';
 import { useLocalStore } from 'core/stateHooks';
@@ -47,7 +46,6 @@ export default function Onboarding() {
         onSuccess: (response) => {
           console.log('success: ', response);
           setToken(response.token);
-          setHeaderToken(response.token);
           setIsOnBoarding(true);
         },
         onError: (error) => {

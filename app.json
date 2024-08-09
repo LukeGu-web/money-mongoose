@@ -32,7 +32,7 @@
       [
         "expo-font",
         {
-          "fonts": ["./assets/fonts/Montserrat-Italic-VariableFont_wght.ttf"]
+          "fonts": ["./assets/fonts/PermanentMarker-Regular.ttf"]
         }
       ],
       [
