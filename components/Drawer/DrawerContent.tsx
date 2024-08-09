@@ -1,9 +1,18 @@
 import { StyleSheet, View, Image, Text } from 'react-native';
 import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
+import { useShallow } from 'zustand/react/shallow';
+import { useBookStore } from 'core/stateHooks';
 
 const avatarImage = require('../../assets/icon.png');
 
 export default function DrawerContent(props: any) {
+  const { books, currentBook } = useBookStore(
+    useShallow((state) => ({
+      books: state.books,
+      currentBook: state.currentBook,
+    }))
+  );
+
   return (
     <DrawerContentScrollView
       {...props}
@@ -15,8 +24,11 @@ export default function DrawerContent(props: any) {
         <Text style={styles.name}>Luke</Text>
       </View>
       <View style={styles.navContainer}>
+        {books.map((book) => (
+          <DrawerItem key={book.name} label={book.name} onPress={() => {}} />
+        ))}
         {/* <DrawerItemList {...props} /> */}
-        <DrawerItem label='Logout' onPress={() => {}} />
+        {/* <DrawerItem label='Logout' onPress={() => {}} /> */}
       </View>
     </DrawerContentScrollView>
   );

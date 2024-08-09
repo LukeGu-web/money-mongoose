@@ -1,7 +1,8 @@
 import type { AxiosError } from 'axios';
 import { createMutation } from 'react-query-kit';
 
-import { client } from '../client';
+import { client, setHeaderToken } from '../client';
+import { AssetGroupType } from '../book/types';
 
 type Variables = {
   user: {
@@ -11,7 +12,20 @@ type Variables = {
   accountStatus: string;
 };
 // type Response = { id: string; accountStatus: string; message: string };
-type Response = { token: string };
+type Response = {
+  id: number;
+  groups: AssetGroupType[];
+  name: string;
+  note: string;
+  token: string;
+};
+
+const defaultBook = {
+  name: 'Daily Life',
+  note: 'Default book',
+};
+
+let token = '';
 
 export const useDeviceRegister = createMutation<
   Response,
@@ -24,14 +38,16 @@ export const useDeviceRegister = createMutation<
       method: 'POST',
       data: variables,
     })
-      .then(() => {
+      .then((response) => {
+        token = response.data.token;
+        setHeaderToken(token);
         return client({
-          url: 'user/login/',
+          url: 'book/',
           method: 'POST',
-          data: variables.user,
+          data: defaultBook,
         });
       })
-      .then((response) => response.data)
+      .then((response) => ({ ...response.data, token }))
       .catch((err) => {
         console.log(err);
       }),

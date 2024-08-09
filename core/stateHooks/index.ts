@@ -1,5 +1,6 @@
 export { default as useAsset } from './useAsset';
 export { default as useAssetStore } from './useAssetStore';
+export { default as useBookStore } from './useBookStore';
 export { default as useCalendar } from './useCalendar';
 export { default as useRecord } from './useRecord';
 export { default as useRecordStore } from './useRecordStore';

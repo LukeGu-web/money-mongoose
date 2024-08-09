@@ -13,7 +13,7 @@ import { useShallow } from 'zustand/react/shallow';
 
 import { formatApiError } from 'api/errorFormat';
 import { useDeviceRegister } from 'api/account/useDeviceRegister';
-import { useLocalStore } from 'core/stateHooks';
+import { useBookStore, useLocalStore } from 'core/stateHooks';
 
 const avatarImage = require('../assets/icon.png');
 
@@ -31,6 +31,13 @@ export default function Onboarding() {
       setDeviceId: state.setDeviceId,
       setToken: state.setToken,
       setIsOnBoarding: state.setIsOnBoarding,
+    }))
+  );
+
+  const { setBooks, selectBook } = useBookStore(
+    useShallow((state) => ({
+      setBooks: state.setBooks,
+      selectBook: state.selectBook,
     }))
   );
 
@@ -54,7 +61,10 @@ export default function Onboarding() {
       {
         onSuccess: (response) => {
           console.log('success: ', response);
+          const { token, ...rest } = response;
           setToken(response.token);
+          setBooks([rest]);
+          selectBook(rest);
           setIsOnBoarding(true);
         },
         onError: (error) => {
