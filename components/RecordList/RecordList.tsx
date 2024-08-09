@@ -54,7 +54,7 @@ export default function RecordList() {
         </View>
       ) : (
         <View style={styles.emptyContainer}>
-          <EmptyRecordList />
+          <EmptyRecordList noItemMsg='No record in last 7 days' />
         </View>
       )}
     </View>

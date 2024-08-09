@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, ActivityIndicator } from 'react-native';
 import { useShallow } from 'zustand/react/shallow';
 import dayjs from 'dayjs';
 
@@ -55,7 +55,13 @@ export default function EmptyRecordList({ noItemMsg }: EmptyRecordList) {
     }
   }, [isLoading]);
 
-  if (isLoading) return <Text>is loading...</Text>;
+  if (isLoading)
+    return (
+      <View className='items-center justify-center gap-2'>
+        <ActivityIndicator size='large' />
+        <Text>Checking data...</Text>
+      </View>
+    );
 
   if (isError) {
     const formattedError = formatApiError(error);

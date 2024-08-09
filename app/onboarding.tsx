@@ -1,4 +1,11 @@
-import { View, Text, Button } from 'react-native';
+import {
+  ActivityIndicator,
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { Redirect } from 'expo-router';
 import 'react-native-get-random-values'; // for uuid
 import { v4 as uuid } from 'uuid';
@@ -7,6 +14,8 @@ import { useShallow } from 'zustand/react/shallow';
 import { formatApiError } from 'api/errorFormat';
 import { useDeviceRegister } from 'api/account/useDeviceRegister';
 import { useLocalStore } from 'core/stateHooks';
+
+const avatarImage = require('../assets/icon.png');
 
 export default function Onboarding() {
   const {
@@ -57,8 +66,9 @@ export default function Onboarding() {
 
   if (isPending) {
     return (
-      <View className='items-center justify-center flex-1 bg-white'>
-        <Text>Loading</Text>
+      <View className='items-center justify-center flex-1 gap-4 bg-white'>
+        <ActivityIndicator size='large' />
+        <Text>Preparing data for you</Text>
       </View>
     );
   }
@@ -68,9 +78,19 @@ export default function Onboarding() {
   }
 
   return (
-    <View className='items-center justify-center flex-1 bg-white'>
-      <Text>On boarding</Text>
-      <Button title='start' onPress={handleStart} />
-    </View>
+    <SafeAreaView style={{ flex: 1 }} edges={['right', 'bottom', 'left']}>
+      <View className='flex-1 py-48'>
+        <View className='items-center justify-between flex-1 gap-4'>
+          <Text className='text-6xl text-blue-500'>Welcome</Text>
+          <Image className='w-32 h-32' source={avatarImage} />
+          <TouchableOpacity
+            className='items-center justify-center w-1/2 p-2 border-2 border-black rounded-3xl'
+            onPress={handleStart}
+          >
+            <Text>Start</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </SafeAreaView>
   );
 }
