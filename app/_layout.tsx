@@ -17,7 +17,6 @@ SplashScreen.preventAutoHideAsync();
 export default function RootLayoutNav() {
   const [fontsLoaded] = useFonts({
     IcoMoon: require('../assets/icomoon.ttf'),
-    permanentMarker: require('../assets/fonts/PermanentMarker-Regular.ttf'),
   });
   if (!fontsLoaded) {
     return null;
