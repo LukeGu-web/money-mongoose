@@ -59,6 +59,13 @@ export default function RootLayoutNav() {
             headerLeft: () => <GoBack />,
           }}
         />
+        <Stack.Screen
+          name='book/book-management'
+          options={{
+            title: ' Book Management',
+            headerLeft: () => <GoBack />,
+          }}
+        />
       </Stack>
     </Providers>
   );

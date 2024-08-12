@@ -33,7 +33,11 @@ export default function DrawerContent(props: any) {
           book.id === currentBook?.id ? (
             <View key={book.id} className='mb-2 border-b-2'>
               <Text className='p-2'>Current books:</Text>
-              <DrawerItem key={book.id} label={book.name} onPress={() => {}} />
+              <DrawerItem
+                key={book.id}
+                label={book.name}
+                onPress={() => router.navigate('/book/book-management')}
+              />
             </View>
           ) : (
             <DrawerItem key={book.id} label={book.name} onPress={() => {}} />

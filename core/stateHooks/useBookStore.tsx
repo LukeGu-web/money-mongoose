@@ -6,7 +6,9 @@ import { BookType } from 'api/book/types';
 type BookState = {
   books: BookType[];
   currentBook: BookType | null;
+  selectedBook: BookType | null;
   setBooks: (books: BookType[]) => void;
+  setCurrentBook: (book: BookType) => void;
   selectBook: (book: BookType) => void;
   addBook: (account: BookType) => void;
   // resetAccounts: () => void;
@@ -17,11 +19,15 @@ const useBookStore = create<BookState>()(
     devtools((set) => ({
       books: [],
       currentBook: null,
+      selectedBook: null,
       setBooks: (books) => {
         set(() => ({ books }));
       },
-      selectBook: (book) => {
+      setCurrentBook: (book) => {
         set(() => ({ currentBook: book }));
+      },
+      selectBook: (book) => {
+        set(() => ({ selectedBook: book }));
       },
       addBook: (book) => {
         set((state) => ({ books: [...state.books, book] }));
