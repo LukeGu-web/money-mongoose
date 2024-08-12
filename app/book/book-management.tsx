@@ -1,10 +1,16 @@
 import { StatusBar } from 'expo-status-bar';
 import { router } from 'expo-router';
-import { Text, View, ScrollView, TouchableOpacity } from 'react-native';
+import { Text, ScrollView, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import BookList from 'components/Book/BookList';
+import { useBookStore } from 'core/stateHooks';
 
 export default function BookManagement() {
+  const selectBook = useBookStore((state) => state.selectBook);
+  const handleCreate = () => {
+    selectBook(null);
+    router.navigate('/book/details');
+  };
   return (
     <SafeAreaView
       style={{
@@ -15,12 +21,12 @@ export default function BookManagement() {
       }}
       edges={['bottom']}
     >
-      <ScrollView>
+      <ScrollView className='w-full'>
         <BookList />
       </ScrollView>
       <TouchableOpacity
         className='items-center w-4/5 p-3 bg-yellow-300 rounded-md'
-        onPress={() => router.navigate('/asset/add-bank-account')}
+        onPress={handleCreate}
       >
         <Text className='font-semibold'>Create New Book</Text>
       </TouchableOpacity>

@@ -1,19 +1,18 @@
+import { useRef, useCallback } from 'react';
 import { View } from 'react-native';
 import { FlashList } from '@shopify/flash-list';
-import { useShallow } from 'zustand/react/shallow';
+import { BottomSheetModal } from '@gorhom/bottom-sheet';
 
 import ListItem from './ListItem';
+import BookBottomSheet from 'components/BottomSheet/BookBottomSheet';
 import { useBookStore } from 'core/stateHooks';
 
 export default function BookList() {
-  const { books, currentBook } = useBookStore(
-    useShallow((state) => ({
-      books: state.books,
-      currentBook: state.currentBook,
-    }))
-  );
+  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+  const books = useBookStore((state) => state.books);
+
   const handlePressItem = () => {
-    // bottomSheetModalRef.current?.present();
+    bottomSheetModalRef.current?.present();
   };
   return (
     <View className='flex-1 w-full'>
@@ -24,6 +23,7 @@ export default function BookList() {
         )}
         estimatedItemSize={10}
       />
+      <BookBottomSheet bottomSheetModalRef={bottomSheetModalRef} />
     </View>
   );
 }

@@ -45,7 +45,7 @@ export default function DrawerContent(props: any) {
         )}
         <DrawerItem
           label='Create new book'
-          onPress={() => router.navigate('/book/add-new')}
+          onPress={() => router.navigate('/book/details')}
         />
         {/* <DrawerItemList {...props} /> */}
       </View>

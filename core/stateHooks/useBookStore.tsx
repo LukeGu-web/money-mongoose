@@ -9,7 +9,7 @@ type BookState = {
   selectedBook: BookType | null;
   setBooks: (books: BookType[]) => void;
   setCurrentBook: (book: BookType) => void;
-  selectBook: (book: BookType) => void;
+  selectBook: (book: BookType | null) => void;
   addBook: (account: BookType) => void;
   // resetAccounts: () => void;
 };

@@ -10,6 +10,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useForm, Controller } from 'react-hook-form';
+import { useShallow } from 'zustand/react/shallow';
 
 import { useCreateBook } from 'api/book/useCreateBook';
 import { formatApiError } from 'api/errorFormat';
@@ -17,14 +18,20 @@ import { useBookStore } from 'core/stateHooks';
 
 export default function AddNewBook() {
   const inputAccessoryCreateBtnID = 'inputAccessoryCreateBtnID-book';
+  const { mutate: addBookApi } = useCreateBook();
+
+  const { addBook, selectedBook } = useBookStore(
+    useShallow((state) => ({
+      addBook: state.addBook,
+      selectedBook: state.selectedBook,
+    }))
+  );
   const { control, handleSubmit, reset } = useForm({
     defaultValues: {
-      name: '',
-      note: '',
+      name: selectedBook?.name ?? '',
+      note: selectedBook?.note ?? '',
     },
   });
-  const { mutate: addBookApi } = useCreateBook();
-  const addBook = useBookStore((state) => state.addBook);
 
   const handleCreate = handleSubmit((data) => {
     addBookApi(data, {
