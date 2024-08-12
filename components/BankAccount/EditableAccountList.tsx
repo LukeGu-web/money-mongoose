@@ -1,18 +1,14 @@
-import { ReactNode, useState, useEffect, useRef, useCallback } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { useRef, useCallback } from 'react';
+import { View, Text } from 'react-native';
 import { FlashList } from '@shopify/flash-list';
 import { useShallow } from 'zustand/react/shallow';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import ListItem from './ListItem';
 import EditableGroupTitle from '../ExpandView/EditableGroupTitle';
 import EditAssetGroupBottomSheet from '../BottomSheet/EditAssetGroupBottomSheet';
-
-import { useStyles, TColors } from 'core/theme';
 import { useAssetStore, useAsset } from 'core/stateHooks';
-import { AccountType } from 'api/asset/types';
 
 export default function EditableAccountList() {
-  const { styles, theme } = useStyles(createStyles);
   const { accounts, numOfGroups } = useAssetStore(
     useShallow((state) => ({
       accounts: state.accounts,
@@ -34,7 +30,7 @@ export default function EditableAccountList() {
     bottomSheetModalRef.current?.present();
   };
   return (
-    <View style={styles.container}>
+    <View className='flex-1 gap-2'>
       {Object.keys(accounts).map((group) => {
         if (accounts[group].length > 0) {
           const title = {
@@ -51,7 +47,7 @@ export default function EditableAccountList() {
               title={title}
               height={40 * accounts[group].length}
             >
-              <View style={styles.listContainer}>
+              <View className='flex-1 w-full'>
                 <FlashList
                   data={accounts[group]}
                   renderItem={({ item }) => (
@@ -65,7 +61,7 @@ export default function EditableAccountList() {
         }
       })}
       {numOfGroups === 0 && (
-        <View style={styles.noItemContainer}>
+        <View className='items-center py-4 bg-gray-200 rounded-md'>
           <Text>No account yet</Text>
         </View>
       )}
@@ -78,30 +74,3 @@ export default function EditableAccountList() {
     </View>
   );
 }
-
-const createStyles = (theme: TColors) =>
-  StyleSheet.create({
-    container: {
-      flex: 1,
-      gap: 8,
-    },
-    listContainer: {
-      flex: 1,
-      width: '100%',
-    },
-    noItemContainer: {
-      alignItems: 'center',
-      backgroundColor: theme.bgPrimary,
-      paddingVertical: 16,
-      borderRadius: 8,
-    },
-    addBtn: {
-      width: '100%',
-      flexDirection: 'row',
-      justifyContent: 'center',
-      alignItems: 'center',
-      gap: 6,
-      padding: 8,
-      borderRadius: 8,
-    },
-  });
