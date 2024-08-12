@@ -1,13 +1,7 @@
 import { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { router } from 'expo-router';
-import {
-  StyleSheet,
-  Text,
-  View,
-  ScrollView,
-  TouchableOpacity,
-} from 'react-native';
+import { Text, View, ScrollView, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import EditableAccountList from 'components/BankAccount/EditableAccountList';
 import AssetGroupModal from 'components/Modal/AssetGroupModal';
@@ -15,22 +9,29 @@ import AssetGroupModal from 'components/Modal/AssetGroupModal';
 export default function Account() {
   const [showModal, setShowModal] = useState(false);
   return (
-    <SafeAreaView style={styles.container} edges={['bottom']}>
+    <SafeAreaView
+      style={{
+        flex: 1,
+        backgroundColor: '#fff',
+        padding: 8,
+      }}
+      edges={['bottom']}
+    >
       <ScrollView>
         <EditableAccountList />
       </ScrollView>
-      <View style={styles.btnGroup}>
+      <View className='flex-row items-center justify-between gap-4'>
         <TouchableOpacity
-          style={[styles.createBtn, styles.groupBtn]}
+          className='items-center flex-1 p-3 bg-gray-300 rounded-md'
           onPress={() => setShowModal(true)}
         >
-          <Text style={styles.createText}>Add Group</Text>
+          <Text className='font-semibold color-white'>Add Group</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={styles.createBtn}
+          className='items-center flex-1 p-3 bg-yellow-300 rounded-md'
           onPress={() => router.navigate('/asset/add-bank-account')}
         >
-          <Text style={styles.createText}>Create Account</Text>
+          <Text className='font-semibold color-white'>Create Account</Text>
         </TouchableOpacity>
       </View>
       <AssetGroupModal
@@ -42,30 +43,3 @@ export default function Account() {
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    padding: 8,
-  },
-  btnGroup: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-evenly',
-  },
-  createText: {
-    fontWeight: '400',
-    color: 'white',
-  },
-  createBtn: {
-    width: '45%',
-    backgroundColor: '#ffb703',
-    padding: 12,
-    alignItems: 'center',
-    borderRadius: 8,
-  },
-  groupBtn: {
-    backgroundColor: 'gray',
-  },
-});
