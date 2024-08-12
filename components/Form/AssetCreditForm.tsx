@@ -4,7 +4,6 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  StyleSheet,
   Keyboard,
 } from 'react-native';
 import { useFormContext, Controller } from 'react-hook-form';
@@ -12,12 +11,10 @@ import { BottomSheetModal } from '@gorhom/bottom-sheet';
 
 import Icon from '../Icon/Icon';
 import { inputAccessoryCreateBtnID } from './static';
-import { useStyles, TColors } from 'core/theme';
 import PickerBottomSheet from 'components/BottomSheet/PickerBottomSheet';
 import monthlyDay from 'static/monthly-day.json';
 
 export default function AssetCreditForm() {
-  const { theme, styles } = useStyles(createStyles);
   const { control } = useFormContext();
   const billDayRef = useRef<BottomSheetModal>(null);
   const repayDayRef = useRef<BottomSheetModal>(null);
@@ -33,12 +30,12 @@ export default function AssetCreditForm() {
   }, []);
 
   return (
-    <View style={styles.container}>
+    <View className='items-center justify-between flex-1 w-full p-4'>
       <Controller
         control={control}
         render={({ field: { onChange, onBlur, value } }) => (
-          <View style={styles.rowWrapper}>
-            <Text style={styles.headerText}>Credit limit</Text>
+          <View className='flex-row items-center justify-between w-full h-12'>
+            <Text>Credit limit</Text>
             <TextInput
               inputAccessoryViewID={inputAccessoryCreateBtnID}
               placeholder='0.00'
@@ -54,8 +51,8 @@ export default function AssetCreditForm() {
       <Controller
         control={control}
         render={({ field: { onChange, onBlur, value } }) => (
-          <View style={styles.rowWrapper}>
-            <Text style={styles.headerText}>Bill Day</Text>
+          <View className='flex-row items-center justify-between w-full h-12'>
+            <Text>Bill Day</Text>
             <View>
               <TouchableOpacity onPress={handlePressBillDay}>
                 {value ? (
@@ -88,8 +85,8 @@ export default function AssetCreditForm() {
       <Controller
         control={control}
         render={({ field: { onChange, onBlur, value } }) => (
-          <View style={styles.rowWrapper}>
-            <Text style={styles.headerText}>Repayment Day</Text>
+          <View className='flex-row items-center justify-between w-full h-12'>
+            <Text>Repayment Day</Text>
             <View>
               <TouchableOpacity onPress={handlePressRepayDay}>
                 {value ? (
@@ -122,23 +119,3 @@ export default function AssetCreditForm() {
     </View>
   );
 }
-
-const createStyles = (theme: TColors) =>
-  StyleSheet.create({
-    container: {
-      flex: 1,
-      width: '100%',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      padding: 8,
-      gap: 8,
-    },
-    rowWrapper: {
-      height: 40,
-      width: '100%',
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-    },
-    headerText: {},
-  });

@@ -1,20 +1,17 @@
 import { View, Text, Switch, StyleSheet, Keyboard } from 'react-native';
 import { useFormContext, Controller } from 'react-hook-form';
-
-import { useStyles, TColors } from 'core/theme';
 import { TextInput } from 'react-native-gesture-handler';
 import { inputAccessoryCreateBtnID } from './static';
 
 export default function AssetAccountOtherForm() {
-  const { theme, styles } = useStyles(createStyles);
   const { control } = useFormContext();
   return (
-    <View style={styles.container}>
+    <View className='items-center justify-between flex-1 w-full p-4'>
       <Controller
         control={control}
         render={({ field: { onChange, value } }) => (
-          <View style={styles.rowWrapper}>
-            <Text style={styles.headerText}>Include in total assets</Text>
+          <View className='flex-row items-center justify-between w-full h-12'>
+            <Text>Include in total assets</Text>
             <Switch
               trackColor={{ false: '#767577', true: '#81b0ff' }}
               ios_backgroundColor='#f8f9fa'
@@ -31,8 +28,8 @@ export default function AssetAccountOtherForm() {
       <Controller
         control={control}
         render={({ field: { onChange, value } }) => (
-          <View style={styles.rowWrapper}>
-            <Text style={styles.headerText}>No budget</Text>
+          <View className='flex-row items-center justify-between w-full h-12'>
+            <Text>No budget</Text>
             <Switch
               trackColor={{ false: '#767577', true: '#81b0ff' }}
               ios_backgroundColor='#f8f9fa'
@@ -49,11 +46,12 @@ export default function AssetAccountOtherForm() {
       <Controller
         control={control}
         render={({ field: { onChange, onBlur, value } }) => (
-          <View style={styles.noteWrapper}>
-            <Text style={styles.headerText}>Note</Text>
+          <View className='flex-1 w-full gap-2'>
+            <Text>Note</Text>
             <TextInput
               inputAccessoryViewID={inputAccessoryCreateBtnID}
-              style={styles.noteInput}
+              className='items-start p-2 border-2 border-gray-400 rounded-md'
+              style={{ minHeight: 240 }}
               multiline={true}
               numberOfLines={6}
               placeholder='Enter a note'
@@ -68,36 +66,3 @@ export default function AssetAccountOtherForm() {
     </View>
   );
 }
-
-const createStyles = (theme: TColors) =>
-  StyleSheet.create({
-    container: {
-      flex: 1,
-      width: '100%',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      padding: 8,
-      gap: 8,
-    },
-    rowWrapper: {
-      height: 40,
-      width: '100%',
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-    },
-    noteWrapper: {
-      flex: 1,
-      width: '100%',
-      gap: 5,
-    },
-    noteInput: {
-      minHeight: 300,
-      borderWidth: 1,
-      borderColor: '#6c757d',
-      borderRadius: 4,
-      alignItems: 'flex-start',
-      padding: 8,
-    },
-    headerText: {},
-  });

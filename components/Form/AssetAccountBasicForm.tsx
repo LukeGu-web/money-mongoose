@@ -4,7 +4,6 @@ import {
   Text,
   TextInput,
   Switch,
-  StyleSheet,
   TouchableOpacity,
   Keyboard,
 } from 'react-native';
@@ -12,13 +11,11 @@ import { useFormContext, Controller } from 'react-hook-form';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 
 import Icon from '../Icon/Icon';
-import { useStyles, TColors } from 'core/theme';
 import { useAssetStore } from 'core/stateHooks';
 import SelectGroupBottomSheet from '../BottomSheet/SelectGroupBottomSheet';
 import { inputAccessoryCreateBtnID } from './static';
 
 export default function AssetAccountBasicForm() {
-  const { theme, styles } = useStyles(createStyles);
   const { control, setValue, getValues } = useFormContext();
   const accounts = useAssetStore((state) => state.accounts);
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
@@ -30,12 +27,12 @@ export default function AssetAccountBasicForm() {
   }, []);
 
   return (
-    <View style={styles.container}>
+    <View className='items-center justify-between flex-1 w-full p-4'>
       <Controller
         control={control}
         render={({ field: { onChange, onBlur, value } }) => (
-          <View style={styles.rowWrapper}>
-            <Text style={styles.headerText}>Account Name</Text>
+          <View className='flex-row items-center justify-between w-full h-12'>
+            <Text>Account Name</Text>
             <TextInput
               inputAccessoryViewID={inputAccessoryCreateBtnID}
               placeholder='Enter the amount name'
@@ -50,8 +47,8 @@ export default function AssetAccountBasicForm() {
       <Controller
         control={control}
         render={({ field: { onChange, onBlur, value } }) => (
-          <View style={styles.rowWrapper}>
-            <Text style={styles.headerText}>Group</Text>
+          <View className='flex-row items-center justify-between w-full h-12'>
+            <Text>Group</Text>
             <View>
               <TouchableOpacity onPress={handlePressSelect}>
                 {value ? (
@@ -82,8 +79,8 @@ export default function AssetAccountBasicForm() {
       <Controller
         control={control}
         render={({ field: { onChange, onBlur, value } }) => (
-          <View style={styles.rowWrapper}>
-            <Text style={styles.headerText}>Balance</Text>
+          <View className='flex-row items-center justify-between w-full h-12'>
+            <Text>Balance</Text>
             <TextInput
               inputAccessoryViewID={inputAccessoryCreateBtnID}
               placeholder='0.00'
@@ -99,8 +96,8 @@ export default function AssetAccountBasicForm() {
       <Controller
         control={control}
         render={({ field: { onChange, value } }) => (
-          <View style={styles.rowWrapper}>
-            <Text style={styles.headerText}>Credit</Text>
+          <View className='flex-row items-center justify-between w-full h-12'>
+            <Text>Credit</Text>
             <Switch
               trackColor={{ false: '#767577', true: '#81b0ff' }}
               ios_backgroundColor='#f8f9fa'
@@ -117,23 +114,3 @@ export default function AssetAccountBasicForm() {
     </View>
   );
 }
-
-const createStyles = (theme: TColors) =>
-  StyleSheet.create({
-    container: {
-      flex: 1,
-      width: '100%',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      padding: 8,
-      gap: 8,
-    },
-    rowWrapper: {
-      height: 40,
-      width: '100%',
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-    },
-    headerText: {},
-  });
