@@ -2,7 +2,6 @@ import React, { useState, useCallback } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { useFocusEffect, router } from 'expo-router';
 import {
-  StyleSheet,
   Text,
   View,
   TouchableOpacity,
@@ -14,7 +13,6 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useForm, FormProvider } from 'react-hook-form';
 
-import { useStyles, TColors } from 'core/theme';
 import { useAssetStore, useAsset } from 'core/stateHooks';
 import {
   AssetAccountBasicForm,
@@ -25,7 +23,6 @@ import {
 import { inputAccessoryCreateBtnID } from 'components/Form/static';
 
 export default function AddBankAccount() {
-  const { styles, theme } = useStyles(createStyles);
   const addAccount = useAssetStore((state) => state.addAccount);
   const defaultAccount = useAsset((state) => state.account);
   const [isMore, setIsMore] = useState(false);
@@ -51,21 +48,27 @@ export default function AddBankAccount() {
   });
 
   return (
-    <SafeAreaView style={styles.container} edges={['bottom']}>
+    <SafeAreaView
+      className='bg-white '
+      style={{ flex: 1, padding: 8 }}
+      edges={['bottom']}
+    >
       <KeyboardAwareScrollView extraScrollHeight={50}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <FormProvider {...methods}>
-            <View style={styles.logoContainer}></View>
+            <View className='h-32 mb-4 bg-blue-200 rounded-md'></View>
             <View>
-              <Text style={styles.formHeader}>Basic information</Text>
-              <View style={styles.basicContainer}>
+              <Text className='text-sm color-gray-400'>Basic information</Text>
+              <View className='h-64 mb-4 bg-gray-200 rounded-md'>
                 <AssetAccountBasicForm />
               </View>
             </View>
             {getValues('isCredit') && (
               <View>
-                <Text style={styles.formHeader}>Credit information</Text>
-                <View style={{ ...styles.basicContainer, height: 150 }}>
+                <Text className='text-sm color-gray-400'>
+                  Credit information
+                </Text>
+                <View className='h-48 mb-4 bg-gray-200 rounded-md'>
                   <AssetCreditForm />
                 </View>
               </View>
@@ -73,18 +76,18 @@ export default function AddBankAccount() {
             <View style={{ flex: 1 }}>
               {isMore ? (
                 <View style={{ flex: 1, marginBottom: 16 }}>
-                  <Text style={styles.formHeader}>Other settings</Text>
-                  <View style={styles.moreContainer}>
+                  <Text className='text-sm color-gray-400'>Other settings</Text>
+                  <View className='flex-1 mb-4 bg-gray-200 rounded-md'>
                     <AssetAccountOtherForm />
                   </View>
                 </View>
               ) : (
                 <TouchableOpacity
-                  style={styles.moreBtn}
+                  className='flex-row items-center justify-center w-full p-2'
                   onPress={() => setIsMore(true)}
                 >
-                  <Text style={{ color: theme.secondary }}>More settings</Text>
-                  <Icon name='arrow-down' size={18} color={theme.secondary} />
+                  <Text className='color-blue-500'>More settings</Text>
+                  <Icon name='arrow-down' size={18} color='#3b82f6 ' />
                 </TouchableOpacity>
               )}
             </View>
@@ -92,63 +95,20 @@ export default function AddBankAccount() {
         </TouchableWithoutFeedback>
       </KeyboardAwareScrollView>
       <InputAccessoryView nativeID={inputAccessoryCreateBtnID}>
-        <TouchableOpacity style={styles.createBtn} onPress={handleCreate}>
-          <Text style={styles.createText}>Create</Text>
+        <TouchableOpacity
+          className='items-center w-full p-2 my-2 bg-yellow-300 rounded-md'
+          onPress={handleCreate}
+        >
+          <Text className='font-semibold'>Create</Text>
         </TouchableOpacity>
       </InputAccessoryView>
-      <TouchableOpacity style={styles.createBtn} onPress={handleCreate}>
-        <Text style={styles.createText}>Create</Text>
+      <TouchableOpacity
+        className='items-center w-full p-2 bg-yellow-300 rounded-md'
+        onPress={handleCreate}
+      >
+        <Text className='font-semibold'>Create</Text>
       </TouchableOpacity>
       <StatusBar style='light' />
     </SafeAreaView>
   );
 }
-
-const createStyles = (theme: TColors) =>
-  StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: theme.white,
-      padding: 8,
-    },
-    logoContainer: {
-      height: 100,
-      borderRadius: 10,
-      backgroundColor: 'skyblue',
-      marginBottom: 8,
-    },
-    basicContainer: {
-      height: 200,
-      borderRadius: 10,
-      backgroundColor: theme.bgPrimary,
-      marginBottom: 8,
-    },
-    moreContainer: {
-      flex: 1,
-      borderRadius: 10,
-      backgroundColor: theme.bgPrimary,
-      marginBottom: 8,
-    },
-    formHeader: {
-      fontSize: 12,
-      color: 'gray',
-    },
-    createText: {
-      fontWeight: '400',
-    },
-    moreBtn: {
-      width: '100%',
-      flexDirection: 'row',
-      justifyContent: 'center',
-      alignItems: 'center',
-      padding: 8,
-      borderRadius: 8,
-    },
-    createBtn: {
-      width: '100%',
-      backgroundColor: 'yellow',
-      padding: 8,
-      alignItems: 'center',
-      borderRadius: 8,
-    },
-  });
