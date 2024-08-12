@@ -8,7 +8,7 @@ type BookState = {
   currentBook: BookType | null;
   setBooks: (books: BookType[]) => void;
   selectBook: (book: BookType) => void;
-  // addAccount: (account: AccountType) => void;
+  addBook: (account: BookType) => void;
   // resetAccounts: () => void;
 };
 
@@ -22,6 +22,9 @@ const useBookStore = create<BookState>()(
       },
       selectBook: (book) => {
         set(() => ({ currentBook: book }));
+      },
+      addBook: (book) => {
+        set((state) => ({ books: [...state.books, book] }));
       },
     })),
     {
