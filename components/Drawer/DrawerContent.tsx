@@ -1,5 +1,10 @@
-import { StyleSheet, View, Image, Text } from 'react-native';
-import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
+import { View, Image, Text } from 'react-native';
+import { router } from 'expo-router';
+import {
+  DrawerContentScrollView,
+  DrawerItem,
+  // DrawerItemList,
+} from '@react-navigation/drawer';
 import { useShallow } from 'zustand/react/shallow';
 import { useBookStore } from 'core/stateHooks';
 
@@ -17,45 +22,29 @@ export default function DrawerContent(props: any) {
     <DrawerContentScrollView
       {...props}
       scrollEnabled={false}
-      contentContainerStyle={styles.container}
+      contentContainerStyle={{ flex: 1, backgroundColor: '#6cd4ff' }}
     >
-      <View style={styles.detailContainer}>
-        <Image source={avatarImage} style={styles.image} />
-        <Text style={styles.name}>Luke</Text>
+      <View className='items-center gap-4 my-8'>
+        <Image source={avatarImage} className='w-32 h-32' />
+        <Text className='text-lg font-bold color-white'>Luke</Text>
       </View>
-      <View style={styles.navContainer}>
-        {books.map((book) => (
-          <DrawerItem key={book.name} label={book.name} onPress={() => {}} />
-        ))}
+      <View className='flex-1 py-8 bg-white'>
+        {books.map((book) =>
+          book.id === currentBook?.id ? (
+            <View key={book.id} className='mb-2 border-b-2'>
+              <Text className='p-2'>Current books:</Text>
+              <DrawerItem key={book.id} label={book.name} onPress={() => {}} />
+            </View>
+          ) : (
+            <DrawerItem key={book.id} label={book.name} onPress={() => {}} />
+          )
+        )}
+        <DrawerItem
+          label='Create new book'
+          onPress={() => router.navigate('/book/add-new')}
+        />
         {/* <DrawerItemList {...props} /> */}
-        {/* <DrawerItem label='Logout' onPress={() => {}} /> */}
       </View>
     </DrawerContentScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#6cd4ff',
-  },
-  detailContainer: {
-    marginVertical: 20,
-    alignItems: 'center',
-    gap: 8,
-  },
-  image: {
-    width: 100,
-    height: 100,
-  },
-  name: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: 500,
-  },
-  navContainer: {
-    flex: 1,
-    backgroundColor: '#fff',
-    paddingVertical: 20,
-  },
-});
