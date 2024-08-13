@@ -12,7 +12,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { useForm, Controller } from 'react-hook-form';
 import { useShallow } from 'zustand/react/shallow';
 
-import { useCreateBook } from 'api/book/useCreateBook';
+import { useCreateBook } from 'api/book';
 import { formatApiError } from 'api/errorFormat';
 import { useBookStore } from 'core/stateHooks';
 

@@ -1,12 +1,13 @@
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { Alert, View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { router } from 'expo-router';
 import { Feather } from '@expo/vector-icons';
 import { useShallow } from 'zustand/react/shallow';
 
 import { BookType } from 'api/book/types';
+import { useDeleteBook } from 'api/book';
+import { formatApiError } from 'api/errorFormat';
 import { useBookStore } from 'core/stateHooks';
-import { useStyles, TColors } from 'core/theme';
 import BottomSheet from './BottomSheet';
 import Icon from '../Icon/Icon';
 
@@ -17,13 +18,15 @@ type BookBottomSheetProps = {
 export default function BookBottomSheet({
   bottomSheetModalRef,
 }: BookBottomSheetProps) {
-  const { styles, theme } = useStyles(createStyles);
-  const { selectedBook, setCurrentBook } = useBookStore(
+  const { books, selectedBook, setCurrentBook, setBooks } = useBookStore(
     useShallow((state) => ({
+      books: state.books,
       selectedBook: state.selectedBook,
       setCurrentBook: state.setCurrentBook,
+      setBooks: state.setBooks,
     }))
   );
+  const { mutate: deleteBookApi } = useDeleteBook();
 
   const handleSelectCurrentBook = () => {
     bottomSheetModalRef.current?.dismiss();
@@ -35,43 +38,71 @@ export default function BookBottomSheet({
     router.navigate('/book/details');
   };
 
+  const handleDeleteBook = () =>
+    Alert.alert(
+      'Delete this book',
+      `Are you sure you want to delete ${selectedBook?.name}?`,
+      [
+        {
+          text: 'Cancel',
+          onPress: () => bottomSheetModalRef.current?.dismiss(),
+          style: 'cancel',
+        },
+        { text: 'Yes', onPress: () => onDeleteBook() },
+      ]
+    );
+
+  const onDeleteBook = () => {
+    deleteBookApi(
+      { id: (selectedBook as BookType).id },
+      {
+        onSuccess: (response) => {
+          console.log('submit success:', response);
+          // remove book from store
+          const newBooks = books.filter(
+            (item) => item.id !== (selectedBook as BookType).id
+          );
+          setBooks(newBooks);
+          router.navigate('/book/book-management');
+        },
+        onError: (error) => {
+          console.log('error: ', formatApiError(error));
+        },
+      }
+    );
+    bottomSheetModalRef.current?.dismiss();
+  };
+
   return (
-    <BottomSheet bottomSheetModalRef={bottomSheetModalRef} height={250}>
+    <BottomSheet bottomSheetModalRef={bottomSheetModalRef} height={270}>
       <View className='items-center justify-between w-full gap-4 px-4'>
         <View className='flex-row w-full p-4'>
           <Text className='text-2xl font-bold'>{selectedBook?.name}</Text>
         </View>
         <View className='items-center justify-between w-full gap-4 px-4'>
           <TouchableOpacity
-            className='flex-row items-center justify-center w-full gap-4 py-4 bg-blue-500 rounded-md'
+            className='flex-row items-center justify-center w-full gap-4 py-3 bg-blue-500 rounded-md'
             onPress={handleSelectCurrentBook}
           >
             <Feather name='check-circle' size={16} color='#fff' />
             <Text className='text-lg color-white'>Select</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            className='flex-row items-center justify-center w-full gap-4 py-4 bg-blue-500 rounded-md'
+            className='flex-row items-center justify-center w-full gap-4 py-3 bg-blue-500 rounded-md'
             onPress={handleEditSelectedBook}
           >
             <Icon name='edit' size={16} color='#fff' />
             <Text className='text-lg color-white'>Edit</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            className='flex-row items-center justify-center w-full gap-4 py-3 bg-red-500 rounded-md'
+            onPress={handleDeleteBook}
+          >
+            <Icon name='delete' size={16} color='#fff' />
+            <Text className='text-lg color-white'>Delete</Text>
           </TouchableOpacity>
         </View>
       </View>
     </BottomSheet>
   );
 }
-
-const createStyles = (theme: TColors) =>
-  StyleSheet.create({
-    // button: {
-    //   width: '100%',
-    //   flexDirection: 'row',
-    //   backgroundColor: theme.primary,
-    //   alignItems: 'center',
-    //   justifyContent: 'center',
-    //   paddingVertical: 16,
-    //   borderRadius: 8,
-    //   gap: 12,
-    // },
-  });
