@@ -12,17 +12,19 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { useForm, Controller } from 'react-hook-form';
 import { useShallow } from 'zustand/react/shallow';
 
-import { useCreateBook } from 'api/book';
+import { useCreateBook, useUpdateBook } from 'api/book';
 import { formatApiError } from 'api/errorFormat';
 import { useBookStore } from 'core/stateHooks';
 
 export default function AddNewBook() {
   const inputAccessoryCreateBtnID = 'inputAccessoryCreateBtnID-book';
   const { mutate: addBookApi } = useCreateBook();
+  const { mutate: updateBookApi } = useUpdateBook();
 
-  const { addBook, selectedBook } = useBookStore(
+  const { addBook, updateBook, selectedBook } = useBookStore(
     useShallow((state) => ({
       addBook: state.addBook,
+      updateBook: state.updateBook,
       selectedBook: state.selectedBook,
     }))
   );
@@ -33,18 +35,35 @@ export default function AddNewBook() {
     },
   });
 
-  const handleCreate = handleSubmit((data) => {
-    addBookApi(data, {
-      onSuccess: (response) => {
-        console.log('submit success:', response);
-        addBook(response);
-        reset();
-        router.navigate('/');
-      },
-      onError: (error) => {
-        console.log('error: ', formatApiError(error));
-      },
-    });
+  const handleSubmitData = handleSubmit((data) => {
+    if (selectedBook) {
+      updateBookApi(
+        { id: selectedBook.id, ...data },
+        {
+          onSuccess: (response) => {
+            console.log('submit success:', response);
+            updateBook(response);
+            reset();
+            router.back();
+          },
+          onError: (error) => {
+            console.log('error: ', formatApiError(error));
+          },
+        }
+      );
+    } else {
+      addBookApi(data, {
+        onSuccess: (response) => {
+          console.log('submit success:', response);
+          addBook(response);
+          reset();
+          router.navigate('/');
+        },
+        onError: (error) => {
+          console.log('error: ', formatApiError(error));
+        },
+      });
+    }
   });
   return (
     <SafeAreaView
@@ -93,16 +112,20 @@ export default function AddNewBook() {
       <InputAccessoryView nativeID={inputAccessoryCreateBtnID}>
         <TouchableOpacity
           className='items-center w-full p-2 my-2 bg-yellow-300 rounded-md'
-          onPress={handleCreate}
+          onPress={handleSubmitData}
         >
-          <Text className='font-semibold'>Create</Text>
+          <Text className='font-semibold'>
+            {selectedBook ? 'Update' : 'Create'}
+          </Text>
         </TouchableOpacity>
       </InputAccessoryView>
       <TouchableOpacity
         className='items-center w-full p-2 bg-yellow-300 rounded-md'
-        onPress={handleCreate}
+        onPress={handleSubmitData}
       >
-        <Text className='font-semibold'>Create</Text>
+        <Text className='font-semibold'>
+          {selectedBook ? 'Update' : 'Create'}
+        </Text>
       </TouchableOpacity>
       <StatusBar style='light' />
     </SafeAreaView>

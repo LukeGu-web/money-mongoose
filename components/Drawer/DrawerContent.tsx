@@ -29,20 +29,13 @@ export default function DrawerContent(props: any) {
         <Text className='text-lg font-bold color-white'>Luke</Text>
       </View>
       <View className='flex-1 py-8 bg-white'>
-        {books.map((book) =>
-          book.id === currentBook?.id ? (
-            <View key={book.id} className='mb-2 border-b-2'>
-              <Text className='p-2'>Current books:</Text>
-              <DrawerItem
-                key={book.id}
-                label={book.name}
-                onPress={() => router.navigate('/book/book-management')}
-              />
-            </View>
-          ) : (
-            <DrawerItem key={book.id} label={book.name} onPress={() => {}} />
-          )
-        )}
+        <View className='mb-2 border-b-2'>
+          <Text className='p-2'>Current book:</Text>
+          <DrawerItem
+            label={currentBook?.name ?? 'No book'}
+            onPress={() => router.navigate('/book/book-management')}
+          />
+        </View>
         <DrawerItem
           label='Book Management'
           onPress={() => router.navigate('/book/book-management')}
