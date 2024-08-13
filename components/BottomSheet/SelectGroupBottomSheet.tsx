@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Modal, TextInput, Button } from 'react-native';
+import { View, Text, Modal, TextInput, Button } from 'react-native';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { useForm, useFormContext, Controller } from 'react-hook-form';
 import { useShallow } from 'zustand/react/shallow';
 import { PickerIOS } from '@react-native-picker/picker';
 
-import { useStyles, TColors } from 'core/theme';
-import { useAssetStore } from 'core/stateHooks';
+import { useBookStore } from 'core/stateHooks';
 import BottomSheet from './BottomSheet';
 import Icon from '../Icon/Icon';
 
@@ -21,11 +20,10 @@ export default function SelectGroupBottomSheet({
   value,
   onChange,
 }: SelectGroupBottomSheetProps) {
-  const { styles, theme } = useStyles(createStyles);
-  const { accounts, addGroup } = useAssetStore(
+  const { currentBook, books } = useBookStore(
     useShallow((state) => ({
-      accounts: state.accounts,
-      addGroup: state.addGroup,
+      currentBook: state.currentBook,
+      books: state.books,
     }))
   );
   const [isVisible, setIsVisible] = useState<boolean>(false);
@@ -43,7 +41,7 @@ export default function SelectGroupBottomSheet({
   };
 
   const handleConfirm = handleSubmit((data) => {
-    addGroup(data.groupName);
+    // addGroup(data.groupName);
     setValue('group', data.groupName);
     reset();
     setIsVisible(false);
@@ -51,10 +49,10 @@ export default function SelectGroupBottomSheet({
 
   return (
     <BottomSheet bottomSheetModalRef={bottomSheetModalRef} height={280}>
-      <View style={styles.container}>
-        <View style={styles.titleWrapper}>
+      <View className='items-center justify-between flex-1 w-full gap-2 px-2'>
+        <View className='flex-row items-center justify-between w-full px-3'>
           <View style={{ width: 30 }}></View>
-          <Text style={styles.headerText}>Select Group</Text>
+          <Text className='text-xl font-bold'>Select Group</Text>
           <Icon
             name='plus-box-multiple'
             size={24}
@@ -62,14 +60,18 @@ export default function SelectGroupBottomSheet({
             onPress={() => setIsVisible(true)}
           />
         </View>
-        <View style={styles.contentContainer}>
+        <View className='items-start flex-1 w-full'>
           <PickerIOS
             selectedValue={value}
             onValueChange={onChange}
             style={{ flex: 1, width: '100%' }}
           >
-            {Object.keys(accounts).map((item) => (
-              <PickerIOS.Item key={item} label={item} value={item} />
+            {currentBook?.groups.map((item) => (
+              <PickerIOS.Item
+                key={item.id}
+                label={item.name}
+                value={item.name}
+              />
             ))}
           </PickerIOS>
         </View>
@@ -82,14 +84,17 @@ export default function SelectGroupBottomSheet({
           setIsVisible(false);
         }}
       >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
+        <View
+          className='items-center justify-center h-full'
+          style={{ backgroundColor: 'rgba(0, 0, 0, 0.6)' }}
+        >
+          <View className='items-center w-11/12 gap-6 p-6 bg-white rounded-lg'>
             <Text style={{ fontSize: 24 }}>Group Name</Text>
             <Controller
               control={control}
               render={({ field: { onChange, onBlur, value } }) => (
                 <TextInput
-                  style={styles.input}
+                  className='w-11/12 p-3 border-2 rounded-md'
                   placeholder='Enter the group name'
                   onBlur={onBlur}
                   onChangeText={onChange}
@@ -98,7 +103,7 @@ export default function SelectGroupBottomSheet({
               )}
               name='groupName'
             />
-            <View style={styles.buttonGroup}>
+            <View className='flex-row w-11/12 justify-evenly'>
               <Button color='gray' title='Cancel' onPress={handleCancel} />
               <Button title='Confirm' onPress={handleConfirm} />
             </View>
@@ -108,71 +113,3 @@ export default function SelectGroupBottomSheet({
     </BottomSheet>
   );
 }
-
-const createStyles = (theme: TColors) =>
-  StyleSheet.create({
-    container: {
-      flex: 1,
-      width: '100%',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      paddingHorizontal: 8,
-      gap: 8,
-    },
-    headerText: {
-      fontSize: 20,
-      fontWeight: 600,
-    },
-    contentContainer: {
-      flex: 1,
-      width: '100%',
-      alignItems: 'flex-start',
-    },
-    titleWrapper: {
-      width: '100%',
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      paddingHorizontal: 10,
-    },
-    addBtn: {
-      width: '100%',
-      backgroundColor: 'yellow',
-      alignItems: 'center',
-      padding: 8,
-      borderRadius: 8,
-    },
-    centeredView: {
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: 'rgba(0, 0, 0, 0.6)',
-      height: '100%',
-    },
-    modalView: {
-      width: '90%',
-      backgroundColor: theme.white,
-      borderRadius: 20,
-      padding: 20,
-      alignItems: 'center',
-      shadowColor: theme.black,
-      shadowOffset: {
-        width: 0,
-        height: 2,
-      },
-      shadowOpacity: 0.25,
-      shadowRadius: 4,
-      elevation: 5,
-      gap: 16,
-    },
-    input: {
-      width: '90%',
-      borderWidth: 1,
-      padding: 10,
-      borderRadius: 8,
-    },
-    buttonGroup: {
-      width: '90%',
-      flexDirection: 'row',
-      justifyContent: 'space-evenly',
-    },
-  });

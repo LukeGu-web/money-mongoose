@@ -1,7 +1,7 @@
 import type { AxiosError } from 'axios';
 import { createMutation } from 'react-query-kit';
 import { client } from '../client';
-import { AssetGroupType } from './types';
+import { AssetGroupType } from '../types';
 
 type Variables = {
   name: string;

@@ -1,6 +1,6 @@
 import { View, Text, TouchableOpacity } from 'react-native';
 import Icon from 'components/Icon/Icon';
-import { AssetType } from 'api/book/types';
+import { AssetType } from 'api/types';
 import { useAsset } from 'core/stateHooks';
 
 type ListItemProps = {

@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { devtools, persist, createJSONStorage } from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { BookType } from 'api/book/types';
+import { BookType } from 'api/types';
 
 type BookState = {
   books: BookType[];

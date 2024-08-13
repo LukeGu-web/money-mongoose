@@ -4,7 +4,7 @@ import { router } from 'expo-router';
 import { Feather } from '@expo/vector-icons';
 import { useShallow } from 'zustand/react/shallow';
 
-import { BookType } from 'api/book/types';
+import { BookType } from 'api/types';
 import { useDeleteBook } from 'api/book';
 import { formatApiError } from 'api/errorFormat';
 import { useBookStore } from 'core/stateHooks';

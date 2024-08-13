@@ -2,7 +2,7 @@ import type { AxiosError } from 'axios';
 import { createMutation } from 'react-query-kit';
 
 import { client, setHeaderToken } from '../client';
-import { AssetGroupType } from '../book/types';
+import { AssetGroupType } from '../types';
 
 type Variables = {
   user: {

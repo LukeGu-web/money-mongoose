@@ -1,24 +1,14 @@
 import { View, Text, TouchableOpacity } from 'react-native';
 import { router } from 'expo-router';
 import { FlashList } from '@shopify/flash-list';
-import { useShallow } from 'zustand/react/shallow';
 import ListItem from './ListItem';
-
-import { useAsset, useBookStore } from 'core/stateHooks';
 import Icon from '../Icon/Icon';
 import ExpandGroupTitle from '../ExpandView/ExpandGroupTitle';
+import { useBookStore } from 'core/stateHooks';
 
 export default function AccountList() {
   let numOfAssets = 0;
-  const { currentBook, books } = useBookStore(
-    useShallow((state) => ({
-      currentBook: state.currentBook,
-      books: state.books,
-    }))
-  );
-
-  const resetAccount = useAsset((state) => state.resetAccount);
-  const handlePressItem = () => {};
+  const currentBook = useBookStore((state) => state.currentBook);
   return (
     <View className='flex-1 gap-2'>
       {currentBook?.groups.map((group) => {
@@ -40,7 +30,7 @@ export default function AccountList() {
                 <FlashList
                   data={assets}
                   renderItem={({ item }) => (
-                    <ListItem item={item} onPress={handlePressItem} />
+                    <ListItem item={item} onPress={() => {}} />
                   )}
                   estimatedItemSize={10}
                 />
@@ -56,10 +46,7 @@ export default function AccountList() {
       )}
       <TouchableOpacity
         className='flex-row items-center justify-center w-full gap-2 p-2'
-        onPress={() => {
-          resetAccount();
-          router.navigate('/asset/add-bank-account');
-        }}
+        onPress={() => router.navigate('/asset/add-bank-account')}
       >
         <Text className='color-blue-500'>Add account</Text>
         <Icon name='credit-card-plus' size={20} color='#3b82f6' />

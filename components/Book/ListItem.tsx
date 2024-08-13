@@ -1,6 +1,6 @@
 import { View, Text, TouchableOpacity } from 'react-native';
 import { useShallow } from 'zustand/react/shallow';
-import { BookType } from 'api/book/types';
+import { BookType } from 'api/types';
 import { useBookStore } from 'core/stateHooks';
 
 type ListItemProps = {
