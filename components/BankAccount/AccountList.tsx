@@ -1,45 +1,44 @@
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { router } from 'expo-router';
 import { FlashList } from '@shopify/flash-list';
 import { useShallow } from 'zustand/react/shallow';
 import ListItem from './ListItem';
 
-import { useStyles, TColors } from 'core/theme';
-import { useAssetStore, useAsset } from 'core/stateHooks';
+import { useAsset, useBookStore } from 'core/stateHooks';
 import Icon from '../Icon/Icon';
 import ExpandGroupTitle from '../ExpandView/ExpandGroupTitle';
 
 export default function AccountList() {
-  const { styles, theme } = useStyles(createStyles);
-  const { accounts, numOfGroups } = useAssetStore(
+  let numOfAssets = 0;
+  const { currentBook, books } = useBookStore(
     useShallow((state) => ({
-      accounts: state.accounts,
-      numOfGroups: state.numOfGroups,
+      currentBook: state.currentBook,
+      books: state.books,
     }))
   );
+
   const resetAccount = useAsset((state) => state.resetAccount);
   const handlePressItem = () => {};
   return (
-    <View style={styles.container}>
-      {Object.keys(accounts).map((group) => {
-        if (accounts[group].length > 0) {
+    <View className='flex-1 gap-2'>
+      {currentBook?.groups.map((group) => {
+        if (group.assets.length > 0) {
+          const assets = group.assets;
           const title = {
-            text: group,
-            number: accounts[group].length,
-            amount: accounts[group].reduce(
-              (sum, item) => sum + Number(item.balance),
-              0
-            ),
+            text: group.name,
+            number: assets.length,
+            amount: assets.reduce((sum, item) => sum + Number(item.balance), 0),
           };
+          numOfAssets += assets.length;
           return (
             <ExpandGroupTitle
-              key={group}
+              key={group.id}
               title={title}
-              height={40 * accounts[group].length}
+              height={40 * assets.length}
             >
-              <View style={styles.listContainer}>
+              <View className='flex-1 w-full'>
                 <FlashList
-                  data={accounts[group]}
+                  data={assets}
                   renderItem={({ item }) => (
                     <ListItem item={item} onPress={handlePressItem} />
                   )}
@@ -50,48 +49,21 @@ export default function AccountList() {
           );
         }
       })}
-      {numOfGroups === 0 && (
-        <View style={styles.noItemContainer}>
+      {numOfAssets === 0 && (
+        <View className='items-center py-4 bg-gray-100 rounded-md'>
           <Text>No account yet</Text>
         </View>
       )}
       <TouchableOpacity
-        style={styles.addBtn}
+        className='flex-row items-center justify-center w-full gap-2 p-2'
         onPress={() => {
           resetAccount();
           router.navigate('/asset/add-bank-account');
         }}
       >
-        <Text style={{ color: theme.secondary }}>Add account</Text>
-        <Icon name='credit-card-plus' size={20} color={theme.secondary} />
+        <Text className='color-blue-500'>Add account</Text>
+        <Icon name='credit-card-plus' size={20} color='#3b82f6' />
       </TouchableOpacity>
     </View>
   );
 }
-
-const createStyles = (theme: TColors) =>
-  StyleSheet.create({
-    container: {
-      flex: 1,
-      gap: 5,
-    },
-    listContainer: {
-      flex: 1,
-      width: '100%',
-    },
-    noItemContainer: {
-      alignItems: 'center',
-      backgroundColor: theme.bgPrimary,
-      paddingVertical: 16,
-      borderRadius: 8,
-    },
-    addBtn: {
-      width: '100%',
-      flexDirection: 'row',
-      justifyContent: 'center',
-      alignItems: 'center',
-      gap: 6,
-      padding: 8,
-      borderRadius: 8,
-    },
-  });

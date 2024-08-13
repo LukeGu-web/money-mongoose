@@ -1,4 +1,4 @@
-export type AssetTypes = {
+export type AssetType = {
   id: number;
   bill_day: Date;
   repayment_day: Date;
@@ -16,7 +16,7 @@ export type AssetGroupType = {
   id: number;
   book: number; //book id
   name: string;
-  assets: AssetTypes[];
+  assets: AssetType[];
 };
 
 export type BookType = {

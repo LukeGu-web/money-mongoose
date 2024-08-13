@@ -3,7 +3,10 @@ import { createMutation } from 'react-query-kit';
 import { client } from '../client';
 import { AssetGroupType } from './types';
 
-type Variables = { name: string; note: string };
+type Variables = {
+  name: string;
+  note: string;
+};
 type Response = {
   id: number;
   groups: AssetGroupType[];
@@ -11,12 +14,18 @@ type Response = {
   note: string;
 };
 
+const defaultGroups = [
+  { name: 'Saving' },
+  { name: 'Credit' },
+  { name: 'Investment' },
+];
+
 const useCreateBook = createMutation<Response, Variables, AxiosError>({
   mutationFn: async (variables) =>
     client({
-      url: 'book/',
+      url: 'book/with-groups/',
       method: 'POST',
-      data: variables,
+      data: { ...variables, groups: defaultGroups },
     }).then((response) => response.data),
 });
 
