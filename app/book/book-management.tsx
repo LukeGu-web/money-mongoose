@@ -1,15 +1,36 @@
 import { StatusBar } from 'expo-status-bar';
 import { router } from 'expo-router';
-import { Text, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useShallow } from 'zustand/react/shallow';
 import BookList from 'components/Book/BookList';
+
+import { client } from 'api/client';
+import { formatApiError } from 'api/errorFormat';
 import { useBookStore } from 'core/stateHooks';
 
 export default function BookManagement() {
-  const selectBook = useBookStore((state) => state.selectBook);
+  const { selectBook, setBooks } = useBookStore(
+    useShallow((state) => ({
+      selectBook: state.selectBook,
+      setBooks: state.setBooks,
+    }))
+  );
+
   const handleCreate = () => {
     selectBook(null);
     router.navigate('/book/details');
+  };
+  const handleSync = () => {
+    client
+      .get('book/')
+      .then((response) => {
+        console.log('submit success:', response.data);
+        setBooks(response.data);
+      })
+      .catch((error) => {
+        console.log('error: ', formatApiError(error));
+      });
   };
   return (
     <SafeAreaView
@@ -22,6 +43,15 @@ export default function BookManagement() {
       edges={['bottom']}
     >
       <ScrollView className='w-full'>
+        <View className='flex-row items-center justify-between p-2 mb-3 bg-gray-200'>
+          <Text>Sync your books with database</Text>
+          <TouchableOpacity
+            className='items-center p-1 bg-gray-500 rounded-md'
+            onPress={handleSync}
+          >
+            <Text className='font-medium color-white'>Sync</Text>
+          </TouchableOpacity>
+        </View>
         <BookList />
       </ScrollView>
       <TouchableOpacity
