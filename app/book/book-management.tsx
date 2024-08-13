@@ -8,12 +8,15 @@ import BookList from 'components/Book/BookList';
 import { client } from 'api/client';
 import { formatApiError } from 'api/errorFormat';
 import { useBookStore } from 'core/stateHooks';
+import { BookType } from 'api/types';
 
 export default function BookManagement() {
-  const { selectBook, setBooks } = useBookStore(
+  const { selectBook, setBooks, setCurrentBook, currentBook } = useBookStore(
     useShallow((state) => ({
       selectBook: state.selectBook,
       setBooks: state.setBooks,
+      setCurrentBook: state.setCurrentBook,
+      currentBook: state.currentBook,
     }))
   );
 
@@ -27,6 +30,10 @@ export default function BookManagement() {
       .then((response) => {
         console.log('submit success:', response.data);
         setBooks(response.data);
+        const updated = response.data.find(
+          (book: BookType) => book.id === (currentBook as BookType).id
+        );
+        setCurrentBook(updated);
       })
       .catch((error) => {
         console.log('error: ', formatApiError(error));

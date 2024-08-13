@@ -5,9 +5,12 @@ import { useForm, useFormContext, Controller } from 'react-hook-form';
 import { useShallow } from 'zustand/react/shallow';
 import { PickerIOS } from '@react-native-picker/picker';
 
+import { useCreateAssetGroup } from 'api/asset';
+import { formatApiError } from 'api/errorFormat';
 import { useBookStore } from 'core/stateHooks';
 import BottomSheet from './BottomSheet';
 import Icon from '../Icon/Icon';
+import { BookType } from 'api/types';
 
 type SelectGroupBottomSheetProps = {
   bottomSheetModalRef: React.RefObject<BottomSheetModal>;
@@ -20,18 +23,19 @@ export default function SelectGroupBottomSheet({
   value,
   onChange,
 }: SelectGroupBottomSheetProps) {
-  const { currentBook, books } = useBookStore(
+  const { currentBook, addAssetGroup } = useBookStore(
     useShallow((state) => ({
       currentBook: state.currentBook,
-      books: state.books,
+      addAssetGroup: state.addAssetGroup,
     }))
   );
+  const { mutate: addAssetGroupApi } = useCreateAssetGroup();
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
   const { setValue } = useFormContext();
   const { control, handleSubmit, reset } = useForm({
     defaultValues: {
-      groupName: '',
+      name: '',
     },
   });
 
@@ -41,10 +45,21 @@ export default function SelectGroupBottomSheet({
   };
 
   const handleConfirm = handleSubmit((data) => {
-    // addGroup(data.groupName);
-    setValue('group', data.groupName);
-    reset();
-    setIsVisible(false);
+    addAssetGroupApi(
+      { ...data, book: (currentBook as BookType).id },
+      {
+        onSuccess: (response) => {
+          console.log('submit success:', response);
+          addAssetGroup(response);
+          setValue('group', data.name);
+          reset();
+          setIsVisible(false);
+        },
+        onError: (error) => {
+          console.log('error: ', formatApiError(error));
+        },
+      }
+    );
   });
 
   return (
@@ -101,7 +116,7 @@ export default function SelectGroupBottomSheet({
                   value={value}
                 />
               )}
-              name='groupName'
+              name='name'
             />
             <View className='flex-row w-11/12 justify-evenly'>
               <Button color='gray' title='Cancel' onPress={handleCancel} />

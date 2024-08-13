@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { devtools, persist, createJSONStorage } from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { BookType } from 'api/types';
+import { BookType, AssetGroupType } from 'api/types';
 
 type BookState = {
   books: BookType[];
@@ -12,6 +12,7 @@ type BookState = {
   selectBook: (book: BookType | null) => void;
   addBook: (book: BookType) => void;
   updateBook: (book: BookType) => void;
+  addAssetGroup: (assetGroup: AssetGroupType) => void;
 };
 
 const useBookStore = create<BookState>()(
@@ -38,6 +39,17 @@ const useBookStore = create<BookState>()(
           const newBooks = [...state.books];
           newBooks[index] = book;
           return { books: newBooks };
+        });
+      },
+      addAssetGroup: (assetGroup) => {
+        set((state) => {
+          const book = state.currentBook as BookType;
+          return {
+            currentBook: {
+              ...book,
+              groups: [...book.groups, assetGroup],
+            },
+          };
         });
       },
     })),
