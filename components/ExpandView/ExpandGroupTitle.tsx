@@ -1,35 +1,20 @@
-import React, { ReactNode, useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import {
   View,
   Text,
   TouchableOpacity,
-  StyleSheet,
   Animated,
   Easing,
   LayoutAnimation,
 } from 'react-native';
 import Icon from '../Icon/Icon';
-import { useStyles, TColors } from 'core/theme';
-
-type TitleType = {
-  text: string;
-  number: number;
-  amount: number;
-};
-
-type ExpandGroupTitleProps = {
-  title: TitleType;
-  children: ReactNode;
-  height?: number;
-};
+import { GroupTitleProps } from './types';
 
 export default function ExpandGroupTitle({
   title,
   children,
   height,
-}: ExpandGroupTitleProps) {
-  const { styles } = useStyles(createStyles);
-
+}: GroupTitleProps) {
   const [expanded, setExpanded] = useState(false);
   const [containerHeight, setContainerHeight] = useState(40);
   const spinValue = new Animated.Value(0);
@@ -59,14 +44,20 @@ export default function ExpandGroupTitle({
   };
 
   return (
-    <View style={{ ...styles.itemContainer, minHeight: containerHeight }}>
-      <TouchableOpacity onPress={toggleExpand} style={styles.itemTouchable}>
-        <View style={styles.titleWrapper}>
-          <Text style={styles.itemTitle}>{title.text}</Text>
-          <Text style={styles.titleInfo}>({title.number})</Text>
+    <View
+      className='p-2 bg-gray-200 rounded-md'
+      style={{ minHeight: containerHeight }}
+    >
+      <TouchableOpacity
+        className='flex-row items-center justify-between w-full rounded-md'
+        onPress={toggleExpand}
+      >
+        <View className='flex-row items-center flex-1 gap-2 px-2'>
+          <Text className='text-xl font-bold'>{title.text}</Text>
+          <Text className=' color-gray-500'>({title.number})</Text>
         </View>
-        <View style={{ ...styles.titleWrapper, alignItems: 'center' }}>
-          <Text style={styles.titleInfo}>{title.amount}</Text>
+        <View className='flex-row items-center gap-2 px-2'>
+          <Text className='color-gray-500'>{title.amount}</Text>
           <Animated.View
             style={
               isScreenMountedRef.current ? { transform: [{ rotate }] } : null
@@ -76,42 +67,7 @@ export default function ExpandGroupTitle({
           </Animated.View>
         </View>
       </TouchableOpacity>
-      {expanded && <View style={styles.itemContent}>{children}</View>}
+      {expanded && <View className='flex-1 py-4'>{children}</View>}
     </View>
   );
 }
-
-const createStyles = (theme: TColors) =>
-  StyleSheet.create({
-    itemContainer: {
-      padding: 8,
-      backgroundColor: theme.bgPrimary,
-      borderRadius: 10,
-      elevation: 3,
-    },
-    itemTouchable: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      borderRadius: 10,
-      overflow: 'hidden',
-    },
-    itemTitle: {
-      fontSize: 18,
-      fontWeight: 'bold',
-      color: '#333',
-    },
-    itemContent: {
-      flex: 1,
-      paddingVertical: 8,
-    },
-    titleWrapper: {
-      flexDirection: 'row',
-      alignItems: 'flex-end',
-      paddingHorizontal: 4,
-      gap: 4,
-    },
-    titleInfo: {
-      color: 'gray',
-    },
-  });

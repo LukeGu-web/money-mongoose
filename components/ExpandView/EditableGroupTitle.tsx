@@ -1,12 +1,12 @@
-import { ReactNode, useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import {
   Alert,
   View,
   Text,
-  TouchableOpacity,
   Animated,
   Easing,
   LayoutAnimation,
+  TouchableOpacity,
 } from 'react-native';
 import { router } from 'expo-router';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
@@ -17,26 +17,14 @@ import { useAsset, useBookStore } from 'core/stateHooks';
 import Icon from '../Icon/Icon';
 import EditAssetGroupBottomSheet from '../BottomSheet/EditAssetGroupBottomSheet';
 import AssetGroupModal from 'components/Modal/AssetGroupModal';
-
-type TitleType = {
-  text: string;
-  number: number;
-  amount: number;
-};
-
-type EditableGroupTitleProps = {
-  id: number;
-  title: TitleType;
-  children: ReactNode;
-  height?: number;
-};
+import { GroupTitleProps } from './types';
 
 export default function EditableGroupTitle({
   id,
   title,
   children,
   height,
-}: EditableGroupTitleProps) {
+}: GroupTitleProps) {
   const { mutate: deleteAssetGroupApi } = useDeleteAssetGroup();
   const removeAssetGroup = useBookStore((state) => state.removeAssetGroup);
   const resetAccount = useAsset((state) => state.resetAsset);
@@ -68,12 +56,12 @@ export default function EditableGroupTitle({
           text: 'Yes',
           onPress: () =>
             deleteAssetGroupApi(
-              { id: id },
+              { id: id as number },
               {
                 onSuccess: () => {
                   console.log('Delete group successfully.');
                   // remove asset group from store
-                  removeAssetGroup(id);
+                  removeAssetGroup(id as number);
                   bottomSheetModalRef.current?.dismiss();
                   router.navigate('/asset/asset-management');
                 },
@@ -135,8 +123,7 @@ export default function EditableGroupTitle({
           <Text className='color-gray-500'>({title.number})</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          className='flex-row items-center flex-1 gap-2 px-2'
-          style={{ justifyContent: 'flex-end' }}
+          className='flex-row items-center justify-end gap-2 px-2'
           onPress={toggleExpand}
         >
           <Text className='color-gray-500'>{title.amount}</Text>
