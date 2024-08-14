@@ -1,33 +1,33 @@
 import { create } from 'zustand';
-import { AccountType } from 'api/asset/types';
+import { AssetType } from 'api/types';
 
-type CalendarState = {
-  account: AccountType;
-  setSelect: (value: { group: string } | AccountType) => void;
-  resetAccount: () => void;
+type AssetState = {
+  asset: AssetType;
+  setSelect: (value: AssetType) => void;
+  resetAsset: () => void;
 };
 
-const defaultValue = {
-  accountName: '',
-  group: '',
-  balance: '',
-  isCredit: false,
-  creditLimit: '',
-  billDay: '',
-  repaymentDay: '',
-  isTotalAssets: true,
-  isNoBudget: false,
+const defaultValue: AssetType = {
+  name: '',
+  group: 0,
+  balance: 0,
+  is_credit: false,
+  credit_limit: 0,
+  bill_day: new Date(),
+  repayment_day: new Date(),
+  is_total_asset: true,
+  is_no_budget: false,
   note: '',
 };
 
-const useAsset = create<CalendarState>((set) => ({
-  account: defaultValue,
+const useAsset = create<AssetState>((set) => ({
+  asset: defaultValue,
   setSelect: (value) => {
-    set((state) => ({ account: { ...state.account, ...value } }));
+    set((state) => ({ asset: { ...state.asset, ...value } }));
   },
-  resetAccount: () => {
+  resetAsset: () => {
     set(() => ({
-      account: defaultValue,
+      asset: defaultValue,
     }));
   },
 }));

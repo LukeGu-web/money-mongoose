@@ -14,7 +14,7 @@ export default function ListItem({ item, onPress }: ListItemProps) {
     <TouchableOpacity
       className='flex-row items-center justify-between p-2 mb-4 border-b-2 border-gray-300'
       onPress={() => {
-        // setSelect(item);
+        setSelect(item);
         onPress();
       }}
     >

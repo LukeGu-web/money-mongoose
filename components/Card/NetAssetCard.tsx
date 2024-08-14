@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native';
 import dayjs from 'dayjs';
 import { useStyles, TColors } from 'core/theme';
-import { useAssetStore, useAsset } from 'core/stateHooks';
+import { useAssetStore } from 'core/stateHooks';
 import { formatter } from 'core/utils';
 
 export default function NetAssetCard() {

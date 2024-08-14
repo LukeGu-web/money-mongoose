@@ -23,14 +23,14 @@ import {
 import { inputAccessoryCreateBtnID } from 'components/Form/static';
 
 export default function AddBankAccount() {
-  const addAccount = useAssetStore((state) => state.addAccount);
-  const defaultAccount = useAsset((state) => state.account);
+  // const addAccount = useAssetStore((state) => state.addAccount);
+  const defaultAccount = useAsset((state) => state.asset);
   const [isMore, setIsMore] = useState(false);
   const methods = useForm({
     defaultValues: defaultAccount,
   });
   const { getValues, watch } = methods;
-  watch(['isCredit']);
+  watch(['is_credit']);
 
   useFocusEffect(
     useCallback(() => {
@@ -43,7 +43,7 @@ export default function AddBankAccount() {
 
   const handleCreate = methods.handleSubmit((data) => {
     console.log(data);
-    addAccount(data);
+    // addAccount(data);
     router.navigate('/asset');
   });
 
@@ -63,7 +63,7 @@ export default function AddBankAccount() {
                 <AssetAccountBasicForm />
               </View>
             </View>
-            {getValues('isCredit') && (
+            {getValues('is_credit') && (
               <View>
                 <Text className='text-sm color-gray-400'>
                   Credit information

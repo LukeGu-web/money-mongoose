@@ -1,21 +1,18 @@
 import { useRef, useCallback } from 'react';
 import { View, Text } from 'react-native';
 import { FlashList } from '@shopify/flash-list';
-import { useShallow } from 'zustand/react/shallow';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import ListItem from './ListItem';
 import EditableGroupTitle from '../ExpandView/EditableGroupTitle';
 import EditAssetGroupBottomSheet from '../BottomSheet/EditAssetGroupBottomSheet';
-import { useAssetStore, useAsset } from 'core/stateHooks';
+import { useAsset, useBookStore } from 'core/stateHooks';
 
 export default function EditableAccountList() {
-  const { accounts, numOfGroups } = useAssetStore(
-    useShallow((state) => ({
-      accounts: state.accounts,
-      numOfGroups: state.numOfGroups,
-    }))
-  );
-  const account = useAsset((state) => state.account);
+  const asset = useAsset((state) => state.asset);
+  console.log('asset: ', asset);
+
+  let numOfAssets = 0;
+  const currentBook = useBookStore((state) => state.currentBook);
 
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
@@ -31,25 +28,24 @@ export default function EditableAccountList() {
   };
   return (
     <View className='flex-1 gap-2'>
-      {Object.keys(accounts).map((group) => {
-        if (accounts[group].length > 0) {
+      {currentBook?.groups.map((group) => {
+        if (group.assets.length > 0) {
+          const assets = group.assets;
           const title = {
-            text: group,
-            number: accounts[group].length,
-            amount: accounts[group].reduce(
-              (sum, item) => sum + Number(item.balance),
-              0
-            ),
+            text: group.name,
+            number: assets.length,
+            amount: assets.reduce((sum, item) => sum + Number(item.balance), 0),
           };
+          numOfAssets += assets.length;
           return (
             <EditableGroupTitle
-              key={group}
+              key={group.id}
               title={title}
-              height={40 * accounts[group].length}
+              height={40 * assets.length}
             >
               <View className='flex-1 w-full'>
                 <FlashList
-                  data={accounts[group]}
+                  data={assets}
                   renderItem={({ item }) => (
                     <ListItem item={item} onPress={handlePressItem} />
                   )}
@@ -60,7 +56,7 @@ export default function EditableAccountList() {
           );
         }
       })}
-      {numOfGroups === 0 && (
+      {numOfAssets === 0 && (
         <View className='items-center py-4 bg-gray-200 rounded-md'>
           <Text>No account yet</Text>
         </View>
@@ -68,7 +64,7 @@ export default function EditableAccountList() {
       <EditAssetGroupBottomSheet
         bottomSheetModalRef={bottomSheetModalRef}
         funtions={functions}
-        title={account.accountName}
+        title={asset.name}
         onCancel={handleCloseSheet}
       />
     </View>

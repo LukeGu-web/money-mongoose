@@ -1,5 +1,5 @@
 export type AssetType = {
-  id: number;
+  id?: number;
   bill_day: Date;
   repayment_day: Date;
   name: string;

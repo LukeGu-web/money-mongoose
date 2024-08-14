@@ -35,7 +35,7 @@ export default function EditableGroupTitle({
   height,
 }: EditableGroupTitleProps) {
   const { styles, theme } = useStyles(createStyles);
-  const resetAccount = useAsset((state) => state.resetAccount);
+  const resetAccount = useAsset((state) => state.resetAsset);
 
   const [expanded, setExpanded] = useState(false);
   const [showModal, setShowModal] = useState(false);
