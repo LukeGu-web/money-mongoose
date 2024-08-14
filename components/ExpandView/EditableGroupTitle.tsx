@@ -1,9 +1,9 @@
 import { ReactNode, useState, useEffect, useRef, useCallback } from 'react';
 import {
+  Alert,
   View,
   Text,
   TouchableOpacity,
-  StyleSheet,
   Animated,
   Easing,
   LayoutAnimation,
@@ -11,9 +11,10 @@ import {
 import { router } from 'expo-router';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 
+import { useDeleteAssetGroup } from 'api/asset';
+import { formatApiError } from 'api/errorFormat';
+import { useAsset, useBookStore } from 'core/stateHooks';
 import Icon from '../Icon/Icon';
-import { useStyles, TColors } from 'core/theme';
-import { useAsset } from 'core/stateHooks';
 import EditAssetGroupBottomSheet from '../BottomSheet/EditAssetGroupBottomSheet';
 import AssetGroupModal from 'components/Modal/AssetGroupModal';
 
@@ -24,17 +25,20 @@ type TitleType = {
 };
 
 type EditableGroupTitleProps = {
+  id: number;
   title: TitleType;
   children: ReactNode;
   height?: number;
 };
 
 export default function EditableGroupTitle({
+  id,
   title,
   children,
   height,
 }: EditableGroupTitleProps) {
-  const { styles, theme } = useStyles(createStyles);
+  const { mutate: deleteAssetGroupApi } = useDeleteAssetGroup();
+  const removeAssetGroup = useBookStore((state) => state.removeAssetGroup);
   const resetAccount = useAsset((state) => state.resetAsset);
 
   const [expanded, setExpanded] = useState(false);
@@ -50,13 +54,45 @@ export default function EditableGroupTitle({
   const isScreenMountedRef = useRef(false);
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
+  const onDelete = () =>
+    Alert.alert(
+      'Delete this group',
+      `Are you sure you want to delete ${title.text}?`,
+      [
+        {
+          text: 'Cancel',
+          onPress: () => bottomSheetModalRef.current?.dismiss(),
+          style: 'cancel',
+        },
+        {
+          text: 'Yes',
+          onPress: () =>
+            deleteAssetGroupApi(
+              { id: id },
+              {
+                onSuccess: () => {
+                  console.log('Delete group successfully.');
+                  // remove asset group from store
+                  removeAssetGroup(id);
+                  bottomSheetModalRef.current?.dismiss();
+                  router.navigate('/asset/asset-management');
+                },
+                onError: (error) => {
+                  console.log('error: ', formatApiError(error));
+                },
+              }
+            ),
+        },
+      ]
+    );
+
   const functions = {
     'Add Account': () => {
       resetAccount();
       router.navigate('/asset/add-bank-account');
     },
     Edit: () => setShowModal(true),
-    Delete: () => router.navigate('/asset/add-bank-account'),
+    Delete: onDelete,
   };
 
   useEffect(() => {
@@ -85,31 +121,39 @@ export default function EditableGroupTitle({
   }, []);
 
   return (
-    <View style={{ ...styles.itemContainer, minHeight: containerHeight }}>
-      <View style={styles.itemTouchable}>
+    <View
+      className='p-2 bg-gray-200 rounded-md'
+      style={{ minHeight: containerHeight }}
+    >
+      <View className='flex-row items-center justify-between overflow-hidden rounded-md'>
         <TouchableOpacity
-          style={styles.titleWrapper}
+          className='flex-row items-end gap-2 px-2'
           onPress={handlePressSelect}
         >
-          <Icon name='edit' size={16} color={theme.black} />
-          <Text style={styles.itemTitle}>{title.text}</Text>
-          <Text style={styles.titleInfo}>({title.number})</Text>
+          <Icon
+            name='edit'
+            size={16}
+            style={{ marginBottom: 2 }}
+            color='#000'
+          />
+          <Text className='text-xl font-bold'>{title.text}</Text>
+          <Text className='color-gray-500'>({title.number})</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={[styles.titleWrapper, styles.amountWrapper]}
+          className='flex-row items-center justify-end flex-1 gap-2 px-2'
           onPress={toggleExpand}
         >
-          <Text style={styles.titleInfo}>{title.amount}</Text>
+          <Text className='color-gray-500'>{title.amount}</Text>
           <Animated.View
             style={
               isScreenMountedRef.current ? { transform: [{ rotate }] } : null
             }
           >
-            <Icon name='menu-down' size={24} color={theme.black} />
+            <Icon name='menu-down' size={24} color='#000' />
           </Animated.View>
         </TouchableOpacity>
       </View>
-      {expanded && <View style={styles.itemContent}>{children}</View>}
+      {expanded && <View className='flex-1 py-2'>{children}</View>}
       <EditAssetGroupBottomSheet
         bottomSheetModalRef={bottomSheetModalRef}
         funtions={functions}
@@ -125,43 +169,3 @@ export default function EditableGroupTitle({
     </View>
   );
 }
-
-const createStyles = (theme: TColors) =>
-  StyleSheet.create({
-    itemContainer: {
-      padding: 8,
-      backgroundColor: theme.bgPrimary,
-      borderRadius: 10,
-      elevation: 3,
-    },
-    itemTouchable: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      borderRadius: 10,
-      overflow: 'hidden',
-    },
-    itemTitle: {
-      fontSize: 18,
-      fontWeight: 'bold',
-      color: '#333',
-    },
-    itemContent: {
-      flex: 1,
-      paddingVertical: 8,
-    },
-    titleWrapper: {
-      flexDirection: 'row',
-      alignItems: 'flex-end',
-      paddingHorizontal: 4,
-      gap: 4,
-    },
-    amountWrapper: {
-      flex: 1,
-      alignItems: 'center',
-      justifyContent: 'flex-end',
-    },
-    titleInfo: {
-      color: 'gray',
-    },
-  });

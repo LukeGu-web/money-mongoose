@@ -35,6 +35,7 @@ export default function EditableAccountList() {
         return (
           <EditableGroupTitle
             key={group.id}
+            id={group.id}
             title={title}
             height={40 * assets.length}
           >

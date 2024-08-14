@@ -13,6 +13,7 @@ type BookState = {
   addBook: (book: BookType) => void;
   updateBook: (book: BookType) => void;
   addAssetGroup: (assetGroup: AssetGroupType) => void;
+  removeAssetGroup: (groupId: number) => void;
 };
 
 const useBookStore = create<BookState>()(
@@ -48,6 +49,17 @@ const useBookStore = create<BookState>()(
             currentBook: {
               ...book,
               groups: [...book.groups, assetGroup],
+            },
+          };
+        });
+      },
+      removeAssetGroup: (groupId) => {
+        set((state) => {
+          const book = state.currentBook as BookType;
+          return {
+            currentBook: {
+              ...book,
+              groups: book.groups.filter((group) => group.id !== groupId),
             },
           };
         });
