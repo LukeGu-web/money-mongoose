@@ -11,19 +11,21 @@ import { useFormContext, Controller } from 'react-hook-form';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 
 import Icon from '../Icon/Icon';
-import { useAssetStore } from 'core/stateHooks';
+import { useBookStore } from 'core/stateHooks';
 import SelectGroupBottomSheet from '../BottomSheet/SelectGroupBottomSheet';
 import { inputAccessoryCreateBtnID } from './static';
+import { BookType } from 'api/types';
 
 export default function AssetAccountBasicForm() {
   const { control, setValue, getValues } = useFormContext();
-  const accounts = useAssetStore((state) => state.accounts);
+  const currentBook = useBookStore((state) => state.currentBook);
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
   const handlePressSelect = useCallback(() => {
     bottomSheetModalRef.current?.present();
     Keyboard.dismiss();
-    if (!getValues('group')) setValue('group', Object.keys(accounts)[0]);
+    if (!getValues('group'))
+      setValue('group', (currentBook as BookType).groups[0].name);
   }, []);
 
   return (

@@ -1,15 +1,15 @@
 import { StyleSheet, Text, View } from 'react-native';
-import dayjs from 'dayjs';
 import { useStyles, TColors } from 'core/theme';
-import { useAssetStore } from 'core/stateHooks';
+import { useBookStore } from 'core/stateHooks';
 import { formatter } from 'core/utils';
+import { BookType } from 'api/types';
 
 export default function NetAssetCard() {
   const { styles } = useStyles(createStyles);
-  const accounts = useAssetStore((state) => state.accounts);
-  const netAsset = Object.keys(accounts)
+  const currentBook = useBookStore((state) => state.currentBook);
+  const netAsset = (currentBook as BookType).groups
     .map((group) =>
-      accounts[group].reduce((sum, item) => sum + Number(item.balance), 0)
+      group.assets.reduce((sum, item) => sum + Number(item.balance), 0)
     )
     .reduce((sum, item) => sum + item, 0);
 

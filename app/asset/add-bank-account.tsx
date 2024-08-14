@@ -13,7 +13,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useForm, FormProvider } from 'react-hook-form';
 
-import { useAssetStore, useAsset } from 'core/stateHooks';
+import { useAsset } from 'core/stateHooks';
 import {
   AssetAccountBasicForm,
   AssetAccountOtherForm,

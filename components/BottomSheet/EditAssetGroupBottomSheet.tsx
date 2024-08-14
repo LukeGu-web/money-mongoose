@@ -1,10 +1,5 @@
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
-import { PickerIOS } from '@react-native-picker/picker';
-import { useShallow } from 'zustand/react/shallow';
-
-import { useStyles, TColors } from 'core/theme';
-import { useAssetStore } from 'core/stateHooks';
 import BottomSheet from './BottomSheet';
 
 type EditAssetGroupBottomSheetProps = {
@@ -22,74 +17,35 @@ export default function EditAssetGroupBottomSheet({
   height,
   onCancel,
 }: EditAssetGroupBottomSheetProps) {
-  const { styles } = useStyles(createStyles);
-
   return (
     <BottomSheet
       bottomSheetModalRef={bottomSheetModalRef}
       height={height ?? 240}
     >
-      <View style={styles.container}>
-        <Text style={styles.headerText}>{title}</Text>
-        <View style={styles.contentContainer}>
+      <View className='items-center justify-between w-full gap-4 px-4'>
+        <Text className='text-2xl font-bold'>{title}</Text>
+        <View className='w-full bg-blue-400 rounded-md'>
           {Object.keys(funtions).map((item, index) => (
             <TouchableOpacity
               key={item}
+              className='py-4 border-white'
               style={{
-                ...styles.button,
                 borderBottomWidth:
                   index !== Object.keys(funtions).length - 1 ? 1 : 0,
               }}
               onPress={funtions[item]}
             >
-              <Text style={styles.btnText}>{item}</Text>
+              <Text className='text-center color-white'>{item}</Text>
             </TouchableOpacity>
           ))}
         </View>
-        <TouchableOpacity style={styles.cancelBtn} onPress={onCancel}>
-          <Text style={styles.cancelText}>Cancel</Text>
+        <TouchableOpacity
+          className='w-full py-4 mt-1 border-2 border-gray-500 rounded-md'
+          onPress={onCancel}
+        >
+          <Text className='text-center'>Cancel</Text>
         </TouchableOpacity>
       </View>
     </BottomSheet>
   );
 }
-
-const createStyles = (theme: TColors) =>
-  StyleSheet.create({
-    container: {
-      flex: 1,
-      width: '100%',
-      alignItems: 'center',
-      padding: 8,
-      gap: 8,
-    },
-    headerText: {
-      fontSize: 20,
-      fontWeight: 600,
-    },
-    contentContainer: {
-      width: '100%',
-      borderRadius: 10,
-      backgroundColor: theme.bgPrimary,
-    },
-    button: {
-      paddingVertical: 16,
-      borderColor: theme.white,
-    },
-    btnText: {
-      textAlign: 'center',
-      color: '#333',
-    },
-    cancelBtn: {
-      width: '100%',
-      borderRadius: 10,
-      paddingVertical: 16,
-
-      borderWidth: 2,
-      borderColor: 'gray',
-      marginTop: 8,
-    },
-    cancelText: {
-      textAlign: 'center',
-    },
-  });
