@@ -1,26 +1,81 @@
-import { useState } from 'react';
 import { StyleSheet, Text, View, Modal, Button, TextInput } from 'react-native';
+import { useForm, useFormContext, Controller } from 'react-hook-form';
+import { useShallow } from 'zustand/react/shallow';
+
+import { BookType } from 'api/types';
+import { useCreateAssetGroup, useUpdateAssetGroup } from 'api/asset';
+import { formatApiError } from 'api/errorFormat';
+import { useBookStore } from 'core/stateHooks';
 import { useStyles, TColors } from 'core/theme';
 
 type AssetGroupModalProps = {
+  groupId?: number;
   name: string;
   isVisible: boolean;
   onClose: () => void;
 };
 
 export default function AssetGroupModal({
+  groupId,
   name,
   isVisible,
   onClose,
 }: AssetGroupModalProps) {
   const { styles } = useStyles(createStyles);
-  const [text, setText] = useState(name);
+  const { mutate: addAssetGroupApi } = useCreateAssetGroup();
+  const { mutate: updateAssetGroupApi } = useUpdateAssetGroup();
+  const { currentBook, addAssetGroup, updateAssetGroup } = useBookStore(
+    useShallow((state) => ({
+      currentBook: state.currentBook,
+      addAssetGroup: state.addAssetGroup,
+      updateAssetGroup: state.updateAssetGroup,
+    }))
+  );
+
+  const { control, handleSubmit, reset } = useForm({
+    defaultValues: {
+      name: '',
+    },
+  });
+
   const handleCancel = () => {
     onClose();
   };
-  const handleConfirm = () => {
-    onClose();
-  };
+
+  const handleConfirm = handleSubmit((data) => {
+    if (name === '') {
+      addAssetGroupApi(
+        { ...data, book: (currentBook as BookType).id },
+        {
+          onSuccess: (response) => {
+            console.log('create success:', response);
+            addAssetGroup(response);
+            reset();
+            onClose();
+          },
+          onError: (error) => {
+            console.log('error: ', formatApiError(error));
+          },
+        }
+      );
+    } else {
+      updateAssetGroupApi(
+        { ...data, id: groupId as number },
+        {
+          onSuccess: (response) => {
+            console.log('update success:', response);
+            updateAssetGroup(response);
+            reset();
+            onClose();
+          },
+          onError: (error) => {
+            console.log('error: ', formatApiError(error));
+          },
+        }
+      );
+    }
+  });
+
   return (
     <Modal
       animationType='slide'
@@ -33,14 +88,19 @@ export default function AssetGroupModal({
           <Text style={{ fontSize: 24 }}>
             {name === '' ? 'Create' : 'Edit'} Group
           </Text>
-
-          <TextInput
-            style={styles.input}
-            placeholder='Enter the group name'
-            onChangeText={setText}
-            value={text}
+          <Controller
+            control={control}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextInput
+                className='w-11/12 p-3 border-2 rounded-md'
+                placeholder='Enter the group name'
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+              />
+            )}
+            name='name'
           />
-
           <View style={styles.buttonGroup}>
             <Button color='gray' title='Cancel' onPress={handleCancel} />
             <Button title='Confirm' onPress={handleConfirm} />
@@ -78,12 +138,12 @@ const createStyles = (theme: TColors) =>
       elevation: 5,
       gap: 16,
     },
-    input: {
-      width: '90%',
-      borderWidth: 1,
-      padding: 10,
-      borderRadius: 8,
-    },
+    // input: {
+    //   width: '90%',
+    //   borderWidth: 1,
+    //   padding: 10,
+    //   borderRadius: 8,
+    // },
     buttonGroup: {
       width: '90%',
       flexDirection: 'row',

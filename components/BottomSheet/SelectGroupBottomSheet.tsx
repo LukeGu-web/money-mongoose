@@ -5,12 +5,12 @@ import { useForm, useFormContext, Controller } from 'react-hook-form';
 import { useShallow } from 'zustand/react/shallow';
 import { PickerIOS } from '@react-native-picker/picker';
 
+import { BookType } from 'api/types';
 import { useCreateAssetGroup } from 'api/asset';
 import { formatApiError } from 'api/errorFormat';
 import { useBookStore } from 'core/stateHooks';
 import BottomSheet from './BottomSheet';
 import Icon from '../Icon/Icon';
-import { BookType } from 'api/types';
 
 type SelectGroupBottomSheetProps = {
   bottomSheetModalRef: React.RefObject<BottomSheetModal>;

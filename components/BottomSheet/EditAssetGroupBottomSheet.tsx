@@ -31,6 +31,7 @@ export default function EditAssetGroupBottomSheet({
               className={`py-3 border-white border-2 rounded-md ${
                 item === 'Delete' ? 'bg-red-500' : 'bg-blue-400'
               }`}
+              style={{ borderColor: '#fff' }}
               onPress={funtions[item]}
             >
               <Text className='text-lg text-center color-white'>{item}</Text>

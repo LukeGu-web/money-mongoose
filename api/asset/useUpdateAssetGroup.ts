@@ -1,14 +1,14 @@
 import type { AxiosError } from 'axios';
 import { createMutation } from 'react-query-kit';
 import { client } from '../client';
-import { AssetGroupType } from '../types';
+import { AssetType } from '../types';
 
 type Variables = { id: number; name?: string; note?: string };
 type Response = {
   id: number;
-  groups: AssetGroupType[];
+  assets: AssetType[];
   name: string;
-  note: string;
+  book: number;
 };
 
 const useUpdateAssetGroup = createMutation<Response, Variables, AxiosError>({

@@ -125,22 +125,18 @@ export default function EditableGroupTitle({
       className='p-2 bg-gray-200 rounded-md'
       style={{ minHeight: containerHeight }}
     >
-      <View className='flex-row items-center justify-between overflow-hidden rounded-md'>
+      <View className='flex-row items-center justify-between w-full rounded-md'>
         <TouchableOpacity
-          className='flex-row items-end gap-2 px-2'
+          className='flex-row items-center gap-2 px-2'
           onPress={handlePressSelect}
         >
-          <Icon
-            name='edit'
-            size={16}
-            style={{ marginBottom: 2 }}
-            color='#000'
-          />
+          <Icon name='edit' size={16} color='#000' />
           <Text className='text-xl font-bold'>{title.text}</Text>
           <Text className='color-gray-500'>({title.number})</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          className='flex-row items-center justify-end flex-1 gap-2 px-2'
+          className='flex-row items-center flex-1 gap-2 px-2'
+          style={{ justifyContent: 'flex-end' }}
           onPress={toggleExpand}
         >
           <Text className='color-gray-500'>{title.amount}</Text>
@@ -162,6 +158,7 @@ export default function EditableGroupTitle({
         onCancel={handleCloseSheet}
       />
       <AssetGroupModal
+        groupId={id}
         name={title.text}
         isVisible={showModal}
         onClose={() => setShowModal(false)}
