@@ -161,7 +161,10 @@ export default function EditableGroupTitle({
         groupId={id}
         name={title.text}
         isVisible={showModal}
-        onClose={() => setShowModal(false)}
+        onClose={() => {
+          setShowModal(false);
+          handleCloseSheet();
+        }}
       />
     </View>
   );
