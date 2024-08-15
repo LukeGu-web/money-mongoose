@@ -1,7 +1,7 @@
 import { useRef, useCallback } from 'react';
 import { View } from 'react-native';
 import { useForm, FormProvider, Controller } from 'react-hook-form';
-import { useUpdateAsset, useUpdateAssetGroup } from 'api/asset';
+import { useUpdateAsset } from 'api/asset';
 import { FlashList } from '@shopify/flash-list';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { useShallow } from 'zustand/react/shallow';
@@ -54,7 +54,6 @@ export default function EditableAccountList() {
           console.log('update asset success:', response);
           updateAsset(response);
           reset();
-          // onClose();
         },
         onError: (error) => {
           console.log('error: ', formatApiError(error));

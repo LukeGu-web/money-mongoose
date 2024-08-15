@@ -92,6 +92,14 @@ export default function EditableGroupTitle({
     }).start();
   }, [expanded]);
 
+  useEffect(() => {
+    if (isScreenMountedRef.current && height === 0) {
+      LayoutAnimation.easeInEaseOut();
+      setExpanded(false);
+      setContainerHeight(40);
+    }
+  }, [height]);
+
   const toggleExpand = () => {
     if (!isScreenMountedRef.current) isScreenMountedRef.current = true;
     setExpanded(!expanded);
@@ -124,16 +132,19 @@ export default function EditableGroupTitle({
         </TouchableOpacity>
         <TouchableOpacity
           className='flex-row items-center justify-end gap-2 px-2'
+          disabled={title.number === 0}
           onPress={toggleExpand}
         >
           <Text className='color-gray-500'>{title.amount}</Text>
-          <Animated.View
-            style={
-              isScreenMountedRef.current ? { transform: [{ rotate }] } : null
-            }
-          >
-            <Icon name='menu-down' size={24} color='#000' />
-          </Animated.View>
+          {title.number > 0 && (
+            <Animated.View
+              style={
+                isScreenMountedRef.current ? { transform: [{ rotate }] } : null
+              }
+            >
+              <Icon name='menu-down' size={24} color='#000' />
+            </Animated.View>
+          )}
         </TouchableOpacity>
       </View>
       {expanded && <View className='flex-1 py-2'>{children}</View>}
