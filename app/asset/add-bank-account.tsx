@@ -14,7 +14,9 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { useForm, FormProvider } from 'react-hook-form';
 import { useShallow } from 'zustand/react/shallow';
 
-import { useAsset, useBookStore } from 'core/stateHooks';
+import { useCreateAsset } from 'api/asset';
+import { formatApiError } from 'api/errorFormat';
+import { useBookStore } from 'core/stateHooks';
 import { defaultValue } from 'core/stateHooks/useAsset';
 import {
   AssetAccountBasicForm,
@@ -27,17 +29,18 @@ import { inputAccessoryCreateBtnID } from 'components/Form/static';
 export default function AddBankAccount() {
   // const addAccount = useBookStore((state) => state.addAccount);
   // const defaultAccount = useAsset((state) => state.asset);
-  // const { setBooks, setCurrentBook } = useAsset(
-  //   useShallow((asset) => ({
-  //     asset: state.asset,
-  //     setCurrentBook: state.setCurrentBook,
-  //   }))
-  // );
+  const { mutate: addAssetApi } = useCreateAsset();
+  const { addAsset, setCurrentBook } = useBookStore(
+    useShallow((state) => ({
+      addAsset: state.addAsset,
+      setCurrentBook: state.setCurrentBook,
+    }))
+  );
   const [isMore, setIsMore] = useState(false);
   const methods = useForm({
     defaultValues: defaultValue,
   });
-  const { getValues, watch } = methods;
+  const { getValues, watch, reset } = methods;
   watch(['is_credit']);
 
   useFocusEffect(
@@ -51,8 +54,23 @@ export default function AddBankAccount() {
 
   const handleCreate = methods.handleSubmit((data) => {
     console.log(data);
-    // addAccount(data);
-    router.navigate('/asset');
+    addAssetApi(
+      {
+        ...data,
+        group: Number((data.group as string).split('-')[0]),
+      },
+      {
+        onSuccess: (response) => {
+          console.log('submit success:', response);
+          addAsset(response);
+          reset();
+          router.navigate('/asset');
+        },
+        onError: (error) => {
+          console.log('error: ', formatApiError(error));
+        },
+      }
+    );
   });
 
   return (

@@ -9,12 +9,12 @@ type AssetState = {
 
 export const defaultValue: AssetType = {
   name: '',
-  group: 0,
+  group: '',
   balance: 0,
   is_credit: false,
   credit_limit: 0,
-  bill_day: new Date(),
-  repayment_day: new Date(),
+  bill_day: undefined,
+  repayment_day: undefined,
   is_total_asset: true,
   is_no_budget: false,
   note: '',

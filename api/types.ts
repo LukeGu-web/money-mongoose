@@ -1,7 +1,7 @@
 export type AssetType = {
   id?: number;
-  bill_day: Date;
-  repayment_day: Date;
+  bill_day?: number;
+  repayment_day?: number;
   name: string;
   balance: number;
   is_credit: boolean;
@@ -9,7 +9,7 @@ export type AssetType = {
   is_total_asset: boolean;
   is_no_budget: boolean;
   note: string;
-  group: number; //asset group id
+  group: number | string; //asset group id
 };
 
 export type AssetGroupType = {

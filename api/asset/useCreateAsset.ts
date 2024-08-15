@@ -6,6 +6,14 @@ import { AssetType } from '../types';
 type Variables = {
   name: string;
   group: number;
+  bill_day?: number;
+  repayment_day?: number;
+  balance?: number;
+  is_credit?: boolean;
+  credit_limit?: number;
+  is_total_asset?: boolean;
+  is_no_budget?: boolean;
+  note?: string;
 };
 type Response = AssetType;
 

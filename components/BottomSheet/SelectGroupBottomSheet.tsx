@@ -85,7 +85,7 @@ export default function SelectGroupBottomSheet({
               <PickerIOS.Item
                 key={item.id}
                 label={item.name}
-                value={item.name}
+                value={`${item.id}-${item.name}`}
               />
             ))}
           </PickerIOS>

@@ -54,7 +54,7 @@ export default function AssetAccountBasicForm() {
             <View>
               <TouchableOpacity onPress={handlePressSelect}>
                 {value ? (
-                  <Text>{value}</Text>
+                  <Text>{value.split('-')[1]}</Text>
                 ) : (
                   <View
                     style={{
