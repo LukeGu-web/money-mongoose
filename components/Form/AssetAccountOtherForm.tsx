@@ -23,7 +23,7 @@ export default function AssetAccountOtherForm() {
             />
           </View>
         )}
-        name='isTotalAssets'
+        name='is_total_asset'
       />
       <Controller
         control={control}
@@ -41,7 +41,7 @@ export default function AssetAccountOtherForm() {
             />
           </View>
         )}
-        name='isNoBudget'
+        name='is_no_budget'
       />
       <Controller
         control={control}

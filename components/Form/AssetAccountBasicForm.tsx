@@ -44,7 +44,7 @@ export default function AssetAccountBasicForm() {
             />
           </View>
         )}
-        name='accountName'
+        name='name'
       />
       <Controller
         control={control}
@@ -111,7 +111,7 @@ export default function AssetAccountBasicForm() {
             />
           </View>
         )}
-        name='isCredit'
+        name='is_credit'
       />
     </View>
   );

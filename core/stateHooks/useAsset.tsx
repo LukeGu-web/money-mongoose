@@ -7,7 +7,7 @@ type AssetState = {
   resetAsset: () => void;
 };
 
-const defaultValue: AssetType = {
+export const defaultValue: AssetType = {
   name: '',
   group: 0,
   balance: 0,

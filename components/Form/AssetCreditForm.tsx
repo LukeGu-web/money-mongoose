@@ -46,7 +46,7 @@ export default function AssetCreditForm() {
             />
           </View>
         )}
-        name='creditLimit'
+        name='credit_limit'
       />
       <Controller
         control={control}
@@ -80,7 +80,7 @@ export default function AssetCreditForm() {
             </View>
           </View>
         )}
-        name='billDay'
+        name='bill_day'
       />
       <Controller
         control={control}
@@ -114,7 +114,7 @@ export default function AssetCreditForm() {
             </View>
           </View>
         )}
-        name='repaymentDay'
+        name='repayment_day'
       />
     </View>
   );

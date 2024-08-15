@@ -12,8 +12,10 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useForm, FormProvider } from 'react-hook-form';
+import { useShallow } from 'zustand/react/shallow';
 
-import { useAsset } from 'core/stateHooks';
+import { useAsset, useBookStore } from 'core/stateHooks';
+import { defaultValue } from 'core/stateHooks/useAsset';
 import {
   AssetAccountBasicForm,
   AssetAccountOtherForm,
@@ -23,11 +25,17 @@ import {
 import { inputAccessoryCreateBtnID } from 'components/Form/static';
 
 export default function AddBankAccount() {
-  // const addAccount = useAssetStore((state) => state.addAccount);
-  const defaultAccount = useAsset((state) => state.asset);
+  // const addAccount = useBookStore((state) => state.addAccount);
+  // const defaultAccount = useAsset((state) => state.asset);
+  // const { setBooks, setCurrentBook } = useAsset(
+  //   useShallow((asset) => ({
+  //     asset: state.asset,
+  //     setCurrentBook: state.setCurrentBook,
+  //   }))
+  // );
   const [isMore, setIsMore] = useState(false);
   const methods = useForm({
-    defaultValues: defaultAccount,
+    defaultValues: defaultValue,
   });
   const { getValues, watch } = methods;
   watch(['is_credit']);
