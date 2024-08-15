@@ -16,12 +16,14 @@ type SelectGroupBottomSheetProps = {
   bottomSheetModalRef: React.RefObject<BottomSheetModal>;
   value: string;
   onChange: (itemValue: number | string, itemIndex: number) => void;
+  onDismiss?: () => void;
 };
 
 export default function SelectGroupBottomSheet({
   bottomSheetModalRef,
   value,
   onChange,
+  onDismiss,
 }: SelectGroupBottomSheetProps) {
   const { currentBook, addAssetGroup } = useBookStore(
     useShallow((state) => ({
@@ -51,7 +53,7 @@ export default function SelectGroupBottomSheet({
         onSuccess: (response) => {
           console.log('submit success:', response);
           addAssetGroup(response);
-          setValue('group', data.name);
+          setValue('group', `${response.id}-${response.name}`);
           reset();
           setIsVisible(false);
         },
@@ -63,7 +65,11 @@ export default function SelectGroupBottomSheet({
   });
 
   return (
-    <BottomSheet bottomSheetModalRef={bottomSheetModalRef} height={280}>
+    <BottomSheet
+      bottomSheetModalRef={bottomSheetModalRef}
+      height={280}
+      onDismiss={onDismiss}
+    >
       <View className='items-center justify-between flex-1 w-full gap-2 px-2'>
         <View className='flex-row items-center justify-between w-full px-3'>
           <View style={{ width: 30 }}></View>

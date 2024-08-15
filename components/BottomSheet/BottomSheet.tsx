@@ -12,12 +12,14 @@ type RecordBottomSheetProps = {
   bottomSheetModalRef: RefObject<BottomSheetModal>;
   children: ReactNode;
   height: number;
+  onDismiss?: () => void;
 };
 
 export default function BottomSheet({
   bottomSheetModalRef,
   children,
   height,
+  onDismiss,
 }: RecordBottomSheetProps) {
   const { styles } = useStyles(createStyles);
   const { bottom: bottomSafeArea } = useSafeAreaInsets();
@@ -45,6 +47,7 @@ export default function BottomSheet({
       )}
       // onChange={handleSheetChanges}
       enableDismissOnClose
+      onDismiss={onDismiss}
     >
       <BottomSheetView style={styles.container}>{children}</BottomSheetView>
     </BottomSheetModal>

@@ -106,49 +106,45 @@ const useBookStore = create<BookState>()(
 
             // Add the asset to the correct group
             state.books[bookIndex].groups[groupIndex].assets.push(asset);
-
-            // Update currentBook if necessary
-            if (
-              state.currentBook &&
-              state.currentBook.id === state.books[bookIndex].id
-            ) {
-              state.currentBook.groups[groupIndex].assets.push(asset);
-            }
+            // Update currentBook
+            (state.currentBook as BookType).groups[groupIndex].assets.push(
+              asset
+            );
           });
         },
         updateAsset: (asset) => {
           set((state) => {
-            // Remove the asset from its current group if it exists elsewhere
-            state.books.forEach((book) => {
-              book.groups.forEach((group) => {
-                group.assets = group.assets.filter((a) => a.id !== asset.id);
-              });
+            const currentBook = state.currentBook;
+            if (!currentBook) return; // Ensure currentBook exists
+            // Step 1: Find the original group and remove the asset from it
+            let originalGroupIndex = -1;
+            currentBook.groups.forEach((group, index) => {
+              const assetIndex = group.assets.findIndex(
+                (a) => a.id === asset.id
+              );
+              if (assetIndex !== -1) {
+                originalGroupIndex = index;
+                group.assets.splice(assetIndex, 1); // Remove the asset from the original group
+              }
             });
-
-            // Find the group where the asset should be updated
-            const bookIndex = state.books.findIndex((book) =>
-              book.groups.some((group) => group.id === asset.group)
-            );
-            if (bookIndex === -1) return; // Group not found
-
-            const groupIndex = state.books[bookIndex].groups.findIndex(
+            // Step 2: Find the target group and add the asset to it
+            const targetGroupIndex = currentBook.groups.findIndex(
               (group) => group.id === asset.group
             );
-
-            // Add the updated asset to the correct group
-            state.books[bookIndex].groups[groupIndex].assets.push(asset);
-
-            // Update currentBook if necessary
-            if (
-              state.currentBook &&
-              state.currentBook.id === state.books[bookIndex].id
-            ) {
-              const currentGroupIndex = state.currentBook.groups.findIndex(
-                (group) => group.id === asset.group
-              );
-              if (currentGroupIndex !== -1) {
-                state.currentBook.groups[currentGroupIndex].assets.push(asset);
-              }
+            if (targetGroupIndex !== -1) {
+              currentBook.groups[targetGroupIndex].assets.push(asset);
+            }
+            // Step 3: Update the books array
+            const bookIndex = state.books.findIndex(
+              (book) => book.id === currentBook.id
+            );
+            if (bookIndex !== -1) {
+              state.books[bookIndex].groups[originalGroupIndex].assets = [
+                ...currentBook.groups[originalGroupIndex].assets,
+              ];
+              state.books[bookIndex].groups[targetGroupIndex].assets = [
+                ...currentBook.groups[targetGroupIndex].assets,
+              ];
             }
           });
         },

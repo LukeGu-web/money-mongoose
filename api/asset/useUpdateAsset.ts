@@ -21,7 +21,7 @@ type Response = AssetType;
 const useUpdateAsset = createMutation<Response, Variables, AxiosError>({
   mutationFn: async (variables) =>
     client({
-      url: 'asset/',
+      url: `asset/${variables.id}/`,
       method: 'PATCH',
       data: variables,
     }).then((response) => response.data),
