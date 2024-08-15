@@ -14,7 +14,7 @@ type Response = {
   note: string;
 };
 
-const defaultGroups = [
+export const defaultGroups = [
   { name: 'Saving' },
   { name: 'Credit' },
   { name: 'Investment' },

@@ -20,7 +20,7 @@ export default function EditAssetGroupBottomSheet({
   return (
     <BottomSheet
       bottomSheetModalRef={bottomSheetModalRef}
-      height={height ?? 240}
+      height={height ?? 280}
     >
       <View className='items-center justify-between w-full gap-4 px-4'>
         <Text className='text-2xl font-bold'>{title}</Text>

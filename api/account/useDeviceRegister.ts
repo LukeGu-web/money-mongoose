@@ -3,6 +3,7 @@ import { createMutation } from 'react-query-kit';
 
 import { client, setHeaderToken } from '../client';
 import { AssetGroupType } from '../types';
+import { defaultGroups } from 'api/book/useCreateBook';
 
 type Variables = {
   user: {
@@ -42,9 +43,9 @@ export const useDeviceRegister = createMutation<
         token = response.data.token;
         setHeaderToken(token);
         return client({
-          url: 'book/',
+          url: 'book/with-groups/',
           method: 'POST',
-          data: defaultBook,
+          data: { ...defaultBook, groups: defaultGroups },
         });
       })
       .then((response) => ({ ...response.data, token }))
