@@ -24,8 +24,10 @@ export default function AssetAccountBasicForm() {
   const handlePressSelect = useCallback(() => {
     bottomSheetModalRef.current?.present();
     Keyboard.dismiss();
-    if (!getValues('group'))
-      setValue('group', (currentBook as BookType).groups[0].name);
+    if (!getValues('group')) {
+      const defaultGroup = (currentBook as BookType).groups[0];
+      setValue('group', `${defaultGroup.id}-${defaultGroup.name}`);
+    }
   }, []);
 
   return (

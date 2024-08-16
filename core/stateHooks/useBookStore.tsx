@@ -24,7 +24,7 @@ type BookState = {
 const useBookStore = create<BookState>()(
   devtools(
     persist(
-      immer((set, get) => ({
+      immer((set) => ({
         books: [],
         currentBook: null,
         selectedBook: null,
@@ -52,7 +52,20 @@ const useBookStore = create<BookState>()(
         },
         addAssetGroup: (assetGroup) => {
           set((state) => {
-            (state.currentBook as BookType).groups.push(assetGroup);
+            const currentBook = state.currentBook;
+
+            if (!currentBook) return; // Ensure currentBook exists
+
+            // Add the asset group to currentBook
+            currentBook.groups.push(assetGroup);
+
+            // Update the corresponding book in the books array
+            const bookIndex = state.books.findIndex(
+              (book) => book.id === currentBook.id
+            );
+            if (bookIndex !== -1) {
+              state.books[bookIndex].groups = [...currentBook.groups];
+            }
           });
         },
         updateAssetGroup: (assetGroup) => {

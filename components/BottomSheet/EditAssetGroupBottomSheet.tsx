@@ -20,7 +20,7 @@ export default function EditAssetGroupBottomSheet({
   return (
     <BottomSheet
       bottomSheetModalRef={bottomSheetModalRef}
-      height={height ?? 280}
+      height={height ?? 320}
     >
       <View className='items-center justify-between w-full gap-4 px-4'>
         <Text className='text-2xl font-bold'>{title}</Text>
@@ -39,7 +39,7 @@ export default function EditAssetGroupBottomSheet({
           ))}
         </View>
         <TouchableOpacity
-          className='w-full py-3 mt-1 border-2 border-gray-500 rounded-md'
+          className='w-full py-3 border-2 border-gray-500 rounded-md'
           onPress={onCancel}
         >
           <Text className='text-lg text-center'>Cancel</Text>

@@ -27,8 +27,6 @@ import {
 import { inputAccessoryCreateBtnID } from 'components/Form/static';
 
 export default function AddBankAccount() {
-  // const addAccount = useBookStore((state) => state.addAccount);
-  // const defaultAccount = useAsset((state) => state.asset);
   const { mutate: addAssetApi } = useCreateAsset();
   const { addAsset, setCurrentBook } = useBookStore(
     useShallow((state) => ({
@@ -53,7 +51,6 @@ export default function AddBankAccount() {
   );
 
   const handleCreate = methods.handleSubmit((data) => {
-    console.log(data);
     addAssetApi(
       {
         ...data,
