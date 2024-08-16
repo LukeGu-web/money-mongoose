@@ -24,13 +24,7 @@ export default function AssetGroupModal({
   const { styles } = useStyles(createStyles);
   const { mutate: addAssetGroupApi } = useCreateAssetGroup();
   const { mutate: updateAssetGroupApi } = useUpdateAssetGroup();
-  const { getCurrentBook, addAssetGroup, updateAssetGroup } = useBookStore(
-    useShallow((state) => ({
-      getCurrentBook: state.getCurrentBook,
-      addAssetGroup: state.addAssetGroup,
-      updateAssetGroup: state.updateAssetGroup,
-    }))
-  );
+  const { getCurrentBook, addAssetGroup, updateAssetGroup } = useBookStore();
 
   const { control, handleSubmit, reset } = useForm({
     defaultValues: {

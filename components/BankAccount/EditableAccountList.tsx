@@ -15,12 +15,7 @@ import SelectGroupBottomSheet from '../BottomSheet/SelectGroupBottomSheet';
 
 export default function EditableAccountList() {
   const asset = useAsset((state) => state.asset);
-  const { getCurrentBook, updateAsset } = useBookStore(
-    useShallow((state) => ({
-      getCurrentBook: state.getCurrentBook,
-      updateAsset: state.updateAsset,
-    }))
-  );
+  const { getCurrentBook, updateAsset } = useBookStore();
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const selectGroupModalRef = useRef<BottomSheetModal>(null);
   const { mutate: updateAssetApi } = useUpdateAsset();

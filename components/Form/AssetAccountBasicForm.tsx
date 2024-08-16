@@ -18,7 +18,7 @@ import { BookType } from 'api/types';
 
 export default function AssetAccountBasicForm() {
   const { control, setValue, getValues } = useFormContext();
-  const getCurrentBook = useBookStore((state) => state.getCurrentBook);
+  const { getCurrentBook } = useBookStore();
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
   const handlePressSelect = useCallback(() => {

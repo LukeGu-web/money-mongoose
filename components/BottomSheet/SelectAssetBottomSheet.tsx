@@ -17,7 +17,7 @@ export default function SelectAssetBottomSheet({
   value,
   onChange,
 }: SelectAssetBottomSheetProps) {
-  const getCurrentBook = useBookStore((state) => state.getCurrentBook);
+  const { getCurrentBook } = useBookStore();
   const flatAssets = (getCurrentBook() as BookType).groups.flatMap(
     (group) => group.assets
   );

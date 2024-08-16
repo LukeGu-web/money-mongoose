@@ -25,12 +25,7 @@ export default function SelectGroupBottomSheet({
   onChange,
   onDismiss,
 }: SelectGroupBottomSheetProps) {
-  const { getCurrentBook, addAssetGroup } = useBookStore(
-    useShallow((state) => ({
-      getCurrentBook: state.getCurrentBook,
-      addAssetGroup: state.addAssetGroup,
-    }))
-  );
+  const { getCurrentBook, addAssetGroup } = useBookStore();
   const { mutate: addAssetGroupApi } = useCreateAssetGroup();
   const [isVisible, setIsVisible] = useState<boolean>(false);
 

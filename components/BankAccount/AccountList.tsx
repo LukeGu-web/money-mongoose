@@ -8,7 +8,7 @@ import { useBookStore } from 'core/stateHooks';
 
 export default function AccountList() {
   let numOfAssets = 0;
-  const getCurrentBook = useBookStore((state) => state.getCurrentBook);
+  const { getCurrentBook } = useBookStore();
   return (
     <View className='flex-1 gap-2'>
       {getCurrentBook()?.groups.map((group) => {

@@ -6,7 +6,7 @@ import { BookType } from 'api/types';
 
 export default function NetAssetCard() {
   const { styles } = useStyles(createStyles);
-  const getCurrentBook = useBookStore((state) => state.getCurrentBook);
+  const { getCurrentBook } = useBookStore();
   const netAsset = (getCurrentBook() as BookType).groups
     .map((group) =>
       group.assets.reduce((sum, item) => sum + Number(item.balance), 0)
