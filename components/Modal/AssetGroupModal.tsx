@@ -24,9 +24,9 @@ export default function AssetGroupModal({
   const { styles } = useStyles(createStyles);
   const { mutate: addAssetGroupApi } = useCreateAssetGroup();
   const { mutate: updateAssetGroupApi } = useUpdateAssetGroup();
-  const { currentBook, addAssetGroup, updateAssetGroup } = useBookStore(
+  const { getCurrentBook, addAssetGroup, updateAssetGroup } = useBookStore(
     useShallow((state) => ({
-      currentBook: state.currentBook,
+      getCurrentBook: state.getCurrentBook,
       addAssetGroup: state.addAssetGroup,
       updateAssetGroup: state.updateAssetGroup,
     }))
@@ -45,7 +45,7 @@ export default function AssetGroupModal({
   const handleConfirm = handleSubmit((data) => {
     if (name === '') {
       addAssetGroupApi(
-        { ...data, book: (currentBook as BookType).id },
+        { ...data, book: (getCurrentBook() as BookType).id },
         {
           onSuccess: (response) => {
             console.log('create success:', response);

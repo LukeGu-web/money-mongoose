@@ -9,16 +9,16 @@ type ListItemProps = {
 };
 
 export default function ListItem({ item, onPress }: ListItemProps) {
-  const { currentBook, selectBook } = useBookStore(
+  const { currentBookId, selectBook } = useBookStore(
     useShallow((state) => ({
-      currentBook: state.currentBook,
+      currentBookId: state.currentBookId,
       selectBook: state.selectBook,
     }))
   );
   return (
     <TouchableOpacity
       className={`flex-row items-center justify-between p-2 mb-4 border-2 rounded-md ${
-        item.id === currentBook?.id && 'bg-green-200'
+        item.id === currentBookId && 'bg-green-200'
       }`}
       onPress={() => {
         selectBook(item);

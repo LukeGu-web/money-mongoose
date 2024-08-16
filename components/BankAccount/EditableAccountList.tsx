@@ -15,9 +15,9 @@ import SelectGroupBottomSheet from '../BottomSheet/SelectGroupBottomSheet';
 
 export default function EditableAccountList() {
   const asset = useAsset((state) => state.asset);
-  const { currentBook, updateAsset } = useBookStore(
+  const { getCurrentBook, updateAsset } = useBookStore(
     useShallow((state) => ({
-      currentBook: state.currentBook,
+      getCurrentBook: state.getCurrentBook,
       updateAsset: state.updateAsset,
     }))
   );
@@ -64,7 +64,7 @@ export default function EditableAccountList() {
 
   return (
     <View className='flex-1 gap-2'>
-      {currentBook?.groups.map((group) => {
+      {getCurrentBook()?.groups.map((group) => {
         const assets = group.assets;
         const title = {
           text: group.name,

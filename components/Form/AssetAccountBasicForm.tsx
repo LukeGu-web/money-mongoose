@@ -18,14 +18,14 @@ import { BookType } from 'api/types';
 
 export default function AssetAccountBasicForm() {
   const { control, setValue, getValues } = useFormContext();
-  const currentBook = useBookStore((state) => state.currentBook);
+  const getCurrentBook = useBookStore((state) => state.getCurrentBook);
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
   const handlePressSelect = useCallback(() => {
     bottomSheetModalRef.current?.present();
     Keyboard.dismiss();
     if (!getValues('group')) {
-      const defaultGroup = (currentBook as BookType).groups[0];
+      const defaultGroup = (getCurrentBook() as BookType).groups[0];
       setValue('group', `${defaultGroup.id}-${defaultGroup.name}`);
     }
   }, []);

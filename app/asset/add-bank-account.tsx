@@ -28,10 +28,9 @@ import { inputAccessoryCreateBtnID } from 'components/Form/static';
 
 export default function AddBankAccount() {
   const { mutate: addAssetApi } = useCreateAsset();
-  const { addAsset, setCurrentBook } = useBookStore(
+  const { addAsset } = useBookStore(
     useShallow((state) => ({
       addAsset: state.addAsset,
-      setCurrentBook: state.setCurrentBook,
     }))
   );
   const [isMore, setIsMore] = useState(false);

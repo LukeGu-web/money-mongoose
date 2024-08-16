@@ -25,9 +25,9 @@ export default function SelectGroupBottomSheet({
   onChange,
   onDismiss,
 }: SelectGroupBottomSheetProps) {
-  const { currentBook, addAssetGroup } = useBookStore(
+  const { getCurrentBook, addAssetGroup } = useBookStore(
     useShallow((state) => ({
-      currentBook: state.currentBook,
+      getCurrentBook: state.getCurrentBook,
       addAssetGroup: state.addAssetGroup,
     }))
   );
@@ -48,7 +48,7 @@ export default function SelectGroupBottomSheet({
 
   const handleConfirm = handleSubmit((data) => {
     addAssetGroupApi(
-      { ...data, book: (currentBook as BookType).id },
+      { ...data, book: (getCurrentBook() as BookType).id },
       {
         onSuccess: (response) => {
           console.log('submit success:', response);
@@ -87,7 +87,7 @@ export default function SelectGroupBottomSheet({
             onValueChange={onChange}
             style={{ flex: 1, width: '100%' }}
           >
-            {currentBook?.groups.map((item) => (
+            {getCurrentBook()?.groups.map((item) => (
               <PickerIOS.Item
                 key={item.id}
                 label={item.name}

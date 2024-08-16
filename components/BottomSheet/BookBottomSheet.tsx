@@ -18,11 +18,11 @@ type BookBottomSheetProps = {
 export default function BookBottomSheet({
   bottomSheetModalRef,
 }: BookBottomSheetProps) {
-  const { books, selectedBook, setCurrentBook, setBooks } = useBookStore(
+  const { books, selectedBook, setCurrentBookId, setBooks } = useBookStore(
     useShallow((state) => ({
       books: state.books,
       selectedBook: state.selectedBook,
-      setCurrentBook: state.setCurrentBook,
+      setCurrentBookId: state.setCurrentBookId,
       setBooks: state.setBooks,
     }))
   );
@@ -30,7 +30,7 @@ export default function BookBottomSheet({
 
   const handleSelectCurrentBook = () => {
     bottomSheetModalRef.current?.dismiss();
-    setCurrentBook(selectedBook as BookType);
+    setCurrentBookId((selectedBook as BookType).id);
   };
 
   const handleEditSelectedBook = async () => {
