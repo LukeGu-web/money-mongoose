@@ -14,31 +14,29 @@ import { useShallow } from 'zustand/react/shallow';
 
 import { useCreateBook, useUpdateBook } from 'api/book';
 import { formatApiError } from 'api/errorFormat';
-import { useBookStore } from 'core/stateHooks';
+import { useBookStore, useBook } from 'core/stateHooks';
+import { defaultValue } from 'core/stateHooks/states/useBook';
 
 export default function AddNewBook() {
   const inputAccessoryCreateBtnID = 'inputAccessoryCreateBtnID-book';
   const { mutate: addBookApi } = useCreateBook();
   const { mutate: updateBookApi } = useUpdateBook();
 
-  const { addBook, updateBook, selectedBook } = useBookStore(
+  const { addBook, updateBook } = useBookStore(
     useShallow((state) => ({
       addBook: state.addBook,
       updateBook: state.updateBook,
-      selectedBook: state.selectedBook,
     }))
   );
+  const book = useBook((state) => state.book);
   const { control, handleSubmit, reset } = useForm({
-    defaultValues: {
-      name: selectedBook?.name ?? '',
-      note: selectedBook?.note ?? '',
-    },
+    defaultValues: defaultValue,
   });
 
   const handleSubmitData = handleSubmit((data) => {
-    if (selectedBook) {
+    if (book.id > 0) {
       updateBookApi(
-        { id: selectedBook.id, ...data },
+        { ...data },
         {
           onSuccess: (response) => {
             console.log('submit success:', response);
@@ -115,7 +113,7 @@ export default function AddNewBook() {
           onPress={handleSubmitData}
         >
           <Text className='font-semibold'>
-            {selectedBook ? 'Update' : 'Create'}
+            {book.id > 0 ? 'Update' : 'Create'}
           </Text>
         </TouchableOpacity>
       </InputAccessoryView>
@@ -124,7 +122,7 @@ export default function AddNewBook() {
         onPress={handleSubmitData}
       >
         <Text className='font-semibold'>
-          {selectedBook ? 'Update' : 'Create'}
+          {book.id > 0 ? 'Update' : 'Create'}
         </Text>
       </TouchableOpacity>
       <StatusBar style='light' />

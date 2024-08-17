@@ -1,7 +1,7 @@
 import { View, Text, TouchableOpacity } from 'react-native';
 import { useShallow } from 'zustand/react/shallow';
 import { BookType } from 'api/types';
-import { useBookStore } from 'core/stateHooks';
+import { useBookStore, useBook } from 'core/stateHooks';
 
 type ListItemProps = {
   item: BookType;
@@ -9,19 +9,15 @@ type ListItemProps = {
 };
 
 export default function ListItem({ item, onPress }: ListItemProps) {
-  const { currentBook, selectBook } = useBookStore(
-    useShallow((state) => ({
-      currentBook: state.currentBook,
-      selectBook: state.selectBook,
-    }))
-  );
+  const currentBook = useBookStore((state) => state.currentBook);
+  const setSelect = useBook((state) => state.setSelect);
   return (
     <TouchableOpacity
       className={`flex-row items-center justify-between p-2 mb-4 border-2 rounded-md ${
         item.id === currentBook.id && 'bg-green-200'
       }`}
       onPress={() => {
-        selectBook(item);
+        setSelect(item);
         onPress();
       }}
     >
