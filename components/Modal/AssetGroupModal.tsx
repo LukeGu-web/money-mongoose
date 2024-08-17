@@ -88,6 +88,7 @@ export default function AssetGroupModal({
               <TextInput
                 className='w-11/12 p-3 border-2 rounded-md'
                 placeholder='Enter the group name'
+                autoFocus={true}
                 onBlur={onBlur}
                 onChangeText={onChange}
                 value={value}
