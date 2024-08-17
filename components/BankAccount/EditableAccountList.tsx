@@ -41,13 +41,13 @@ export default function EditableAccountList() {
   };
 
   const handleChangeGroup = handleSubmit((data) => {
-    console.log('Hello, luke', data.group);
+    console.log('Asset change group data:', data);
     updateAssetApi(
       { id: asset.id as number, group: Number(data.group.split('-')[0]) },
       {
         onSuccess: (response) => {
           console.log('update asset success:', response);
-          updateAsset(response);
+          updateAsset(response, Number(asset.group));
           reset();
         },
         onError: (error) => {
