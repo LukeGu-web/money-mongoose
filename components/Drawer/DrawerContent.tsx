@@ -11,7 +11,7 @@ import { useBookStore } from 'core/stateHooks';
 const avatarImage = require('../../assets/icon.png');
 
 export default function DrawerContent(props: any) {
-  const { getCurrentBook, currentBookId } = useBookStore();
+  const { currentBook } = useBookStore();
   return (
     <DrawerContentScrollView
       {...props}
@@ -26,7 +26,7 @@ export default function DrawerContent(props: any) {
         <View className='mb-2 border-b-2'>
           <Text className='p-2'>Current book:</Text>
           <DrawerItem
-            label={String(currentBookId) ?? 'No book'}
+            label={currentBook.name ?? 'No book'}
             onPress={() => router.navigate('/book/book-management')}
           />
         </View>

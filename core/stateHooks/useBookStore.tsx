@@ -11,10 +11,10 @@ import { BookType, AssetGroupType, AssetType } from 'api/types';
 
 type BookState = {
   books: BookType[];
-  currentBookId: number;
+  currentBook: { id: number; name: string };
   selectedBook: BookType | null;
   setBooks: (books: BookType[]) => void;
-  setCurrentBookId: (bookId: number) => void;
+  setCurrentBook: (bookId: number, name: string) => void;
   getCurrentBook: () => BookType | undefined;
   selectBook: (book: BookType | null) => void;
   addBook: (book: BookType) => void;
@@ -32,21 +32,21 @@ const useBookStore = create<BookState>()(
     persist(
       immer((set, get) => ({
         books: [],
-        currentBookId: -1,
+        currentBook: { id: -1, name: '' },
         selectedBook: null,
         setBooks: (books) => {
           set((state) => {
             state.books = books;
           });
         },
-        setCurrentBookId: (bookId) => {
+        setCurrentBook: (bookId, bookName) => {
           set((state) => {
-            state.currentBookId = bookId;
+            state.currentBook = { id: bookId, name: bookName };
           });
         },
         getCurrentBook: () => {
           const state = get();
-          return state.books.find((b) => b.id === state.currentBookId);
+          return state.books.find((b) => b.id === state.currentBook.id);
         },
         selectBook: (book) => {
           set(() => ({ selectedBook: book }));
@@ -111,7 +111,7 @@ const useBookStore = create<BookState>()(
         updateAsset: (asset: AssetType, originalGroupId?: number) => {
           set((state) => {
             const bookIndex = state.books.findIndex(
-              (book) => book.id === state.currentBookId
+              (book) => book.id === state.currentBook.id
             );
             // If originalGroupId is provided, remove the asset from the original group
             if (originalGroupId) {

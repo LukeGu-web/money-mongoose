@@ -34,10 +34,10 @@ export default function Onboarding() {
     }))
   );
 
-  const { setBooks, setCurrentBookId } = useBookStore(
+  const { setBooks, setCurrentBook } = useBookStore(
     useShallow((state) => ({
       setBooks: state.setBooks,
-      setCurrentBookId: state.setCurrentBookId,
+      setCurrentBook: state.setCurrentBook,
     }))
   );
 
@@ -64,7 +64,7 @@ export default function Onboarding() {
           const { token, ...rest } = response;
           setToken(response.token);
           setBooks([rest]);
-          setCurrentBookId(rest.id);
+          setCurrentBook(rest.id, rest.name);
           setIsOnBoarding(true);
         },
         onError: (error) => {

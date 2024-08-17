@@ -11,15 +11,14 @@ import { useBookStore } from 'core/stateHooks';
 import { BookType } from 'api/types';
 
 export default function BookManagement() {
-  const { selectBook, setBooks, setCurrentBookId, currentBookId } =
-    useBookStore(
-      useShallow((state) => ({
-        selectBook: state.selectBook,
-        setBooks: state.setBooks,
-        setCurrentBookId: state.setCurrentBookId,
-        currentBookId: state.currentBookId,
-      }))
-    );
+  const { selectBook, setBooks, setCurrentBook, currentBook } = useBookStore(
+    useShallow((state) => ({
+      selectBook: state.selectBook,
+      setBooks: state.setBooks,
+      setCurrentBook: state.setCurrentBook,
+      currentBook: state.currentBook,
+    }))
+  );
 
   const handleCreate = () => {
     selectBook(null);
@@ -32,9 +31,9 @@ export default function BookManagement() {
         console.log('submit success:', response.data);
         setBooks(response.data);
         const updated = response.data.find(
-          (book: BookType) => book.id === currentBookId
+          (book: BookType) => book.id === currentBook.id
         );
-        setCurrentBookId(updated.id);
+        setCurrentBook(updated.id, updated.name);
       })
       .catch((error) => {
         console.log('error: ', formatApiError(error));
