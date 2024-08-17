@@ -1,10 +1,8 @@
-import { Alert, View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { Alert, View, Text, TouchableOpacity } from 'react-native';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { router } from 'expo-router';
 import { Feather } from '@expo/vector-icons';
-import { useShallow } from 'zustand/react/shallow';
 
-import { BookType } from 'api/types';
 import { useDeleteBook } from 'api/book';
 import { formatApiError } from 'api/errorFormat';
 import { useBookStore, useBook } from 'core/stateHooks';

@@ -15,7 +15,6 @@ import { useShallow } from 'zustand/react/shallow';
 import { useCreateBook, useUpdateBook } from 'api/book';
 import { formatApiError } from 'api/errorFormat';
 import { useBookStore, useBook } from 'core/stateHooks';
-import { defaultValue } from 'core/stateHooks/states/useBook';
 
 export default function AddNewBook() {
   const inputAccessoryCreateBtnID = 'inputAccessoryCreateBtnID-book';
@@ -30,13 +29,14 @@ export default function AddNewBook() {
   );
   const book = useBook((state) => state.book);
   const { control, handleSubmit, reset } = useForm({
-    defaultValues: defaultValue,
+    defaultValues: book,
   });
 
   const handleSubmitData = handleSubmit((data) => {
-    if (book.id > 0) {
+    console.log('book details: ', data);
+    if (data.id > 0) {
       updateBookApi(
-        { ...data },
+        { id: data.id, name: data.name, note: data.note },
         {
           onSuccess: (response) => {
             console.log('submit success:', response);
@@ -55,7 +55,7 @@ export default function AddNewBook() {
           console.log('submit success:', response);
           addBook(response);
           reset();
-          router.navigate('/');
+          router.navigate('/book/book-management');
         },
         onError: (error) => {
           console.log('error: ', formatApiError(error));

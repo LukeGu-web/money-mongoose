@@ -4,7 +4,6 @@ import { useForm, FormProvider, Controller } from 'react-hook-form';
 import { useUpdateAsset } from 'api/asset';
 import { FlashList } from '@shopify/flash-list';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
-import { useShallow } from 'zustand/react/shallow';
 
 import { formatApiError } from 'api/errorFormat';
 import { useAsset, useBookStore } from 'core/stateHooks';

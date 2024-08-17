@@ -5,13 +5,12 @@ import {
   DrawerItem,
   // DrawerItemList,
 } from '@react-navigation/drawer';
-import { useShallow } from 'zustand/react/shallow';
 import { useBookStore } from 'core/stateHooks';
 
 const avatarImage = require('../../assets/icon.png');
 
 export default function DrawerContent(props: any) {
-  const { currentBook } = useBookStore();
+  const currentBook = useBookStore((state) => state.currentBook);
   return (
     <DrawerContentScrollView
       {...props}

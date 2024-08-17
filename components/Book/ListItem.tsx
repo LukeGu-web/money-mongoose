@@ -1,5 +1,4 @@
 import { View, Text, TouchableOpacity } from 'react-native';
-import { useShallow } from 'zustand/react/shallow';
 import { BookType } from 'api/types';
 import { useBookStore, useBook } from 'core/stateHooks';
 

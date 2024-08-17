@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { View, Text, Modal, TextInput, Button } from 'react-native';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { useForm, useFormContext, Controller } from 'react-hook-form';
-import { useShallow } from 'zustand/react/shallow';
 import { PickerIOS } from '@react-native-picker/picker';
 
 import { BookType } from 'api/types';
