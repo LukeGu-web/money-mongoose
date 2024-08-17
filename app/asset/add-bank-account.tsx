@@ -17,7 +17,7 @@ import { useShallow } from 'zustand/react/shallow';
 import { useCreateAsset } from 'api/asset';
 import { formatApiError } from 'api/errorFormat';
 import { useBookStore } from 'core/stateHooks';
-import { defaultValue } from 'core/stateHooks/useAsset';
+import { defaultValue } from 'core/stateHooks/states/useAsset';
 import {
   AssetAccountBasicForm,
   AssetAccountOtherForm,

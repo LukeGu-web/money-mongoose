@@ -1,11 +1,6 @@
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
-import {
-  devtools,
-  persist,
-  createJSONStorage,
-  subscribeWithSelector,
-} from 'zustand/middleware';
+import { devtools, persist, createJSONStorage } from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { BookType, AssetGroupType, AssetType } from 'api/types';
 
