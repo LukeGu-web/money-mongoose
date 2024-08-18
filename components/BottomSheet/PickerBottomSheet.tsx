@@ -30,8 +30,8 @@ export default function PickerBottomSheet({
             onValueChange={onChange}
             style={{ flex: 1, width: '100%' }}
           >
-            {data.map((item) => (
-              <PickerIOS.Item key={item} label={item} value={item} />
+            {data.map((item, index) => (
+              <PickerIOS.Item key={item} label={item} value={index + 1} />
             ))}
           </PickerIOS>
         </View>
