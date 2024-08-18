@@ -5,8 +5,8 @@ import { AssetType } from '../types';
 
 type Variables = {
   id: number;
-  bill_day?: Date;
-  repayment_day?: Date;
+  bill_day?: number;
+  repayment_day?: number;
   name?: string;
   balance?: number;
   is_credit?: boolean;

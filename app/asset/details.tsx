@@ -14,10 +14,9 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { useForm, FormProvider } from 'react-hook-form';
 import { useShallow } from 'zustand/react/shallow';
 
-import { useCreateAsset } from 'api/asset';
+import { useCreateAsset, useUpdateAsset } from 'api/asset';
 import { formatApiError } from 'api/errorFormat';
-import { useBookStore } from 'core/stateHooks';
-import { defaultValue } from 'core/stateHooks/states/useAsset';
+import { useBookStore, useAsset } from 'core/stateHooks';
 import {
   AssetAccountBasicForm,
   AssetAccountOtherForm,
@@ -26,16 +25,19 @@ import {
 } from 'components';
 import { inputAccessoryCreateBtnID } from 'components/Form/static';
 
-export default function AddBankAccount() {
+export default function AssetDetails() {
   const { mutate: addAssetApi } = useCreateAsset();
-  const { addAsset } = useBookStore(
+  const { mutate: updateAssetApi } = useUpdateAsset();
+  const { asset, resetAsset } = useAsset();
+  const { addAsset, updateAsset } = useBookStore(
     useShallow((state) => ({
       addAsset: state.addAsset,
+      updateAsset: state.updateAsset,
     }))
   );
   const [isMore, setIsMore] = useState(false);
   const methods = useForm({
-    defaultValues: defaultValue,
+    defaultValues: asset,
   });
   const { getValues, watch, reset } = methods;
   watch(['is_credit']);
@@ -50,23 +52,45 @@ export default function AddBankAccount() {
   );
 
   const handleCreate = methods.handleSubmit((data) => {
-    addAssetApi(
-      {
-        ...data,
-        group: Number((data.group as string).split('-')[0]),
-      },
-      {
-        onSuccess: (response) => {
-          console.log('submit success:', response);
-          addAsset(response);
-          reset();
-          router.navigate('/asset');
+    if (asset.id === -1) {
+      addAssetApi(
+        {
+          ...data,
+          group: Number((data.group as string).split('-')[0]),
         },
-        onError: (error) => {
-          console.log('error: ', formatApiError(error));
+        {
+          onSuccess: (response) => {
+            console.log('submit success:', response);
+            addAsset(response);
+            reset();
+            router.back();
+          },
+          onError: (error) => {
+            console.log('error: ', formatApiError(error));
+          },
+        }
+      );
+    } else {
+      console.log('Asset change group data:', data);
+      updateAssetApi(
+        {
+          ...data,
+          id: asset.id as number,
+          group: Number(String(asset.group).split('-')[0]),
         },
-      }
-    );
+        {
+          onSuccess: (response) => {
+            console.log('update asset success:', response);
+            updateAsset(response);
+            reset();
+            router.navigate('/asset/management');
+          },
+          onError: (error) => {
+            console.log('error: ', formatApiError(error));
+          },
+        }
+      );
+    }
   });
 
   return (

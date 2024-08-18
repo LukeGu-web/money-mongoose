@@ -1,10 +1,11 @@
 import { useRef, useCallback } from 'react';
 import { Alert, View } from 'react-native';
 import { useForm, FormProvider, Controller } from 'react-hook-form';
-import { useUpdateAsset, useDeleteAsset } from 'api/asset';
+import { router } from 'expo-router';
 import { FlashList } from '@shopify/flash-list';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 
+import { useUpdateAsset, useDeleteAsset } from 'api/asset';
 import { formatApiError } from 'api/errorFormat';
 import { useAsset, useBookStore } from 'core/stateHooks';
 import ListItem from './ListItem';
@@ -86,7 +87,10 @@ export default function EditableAccountList() {
 
   const functions = {
     'View Details': () => {},
-    Edit: () => {},
+    Edit: () => {
+      bottomSheetModalRef.current?.dismiss();
+      router.navigate('/asset/details');
+    },
     'Move to another group': () => {
       selectGroupModalRef.current?.present();
     },
@@ -113,7 +117,10 @@ export default function EditableAccountList() {
               <FlashList
                 data={assets}
                 renderItem={({ item }) => (
-                  <ListItem item={item} onPress={handlePressItem} />
+                  <ListItem
+                    item={{ ...item, group: `${group.id}-${group.name}` }}
+                    onPress={handlePressItem}
+                  />
                 )}
                 estimatedItemSize={10}
               />

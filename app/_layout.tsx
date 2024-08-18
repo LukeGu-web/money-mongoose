@@ -48,7 +48,7 @@ export default function RootLayoutNav() {
         <Stack.Screen
           name='asset/details'
           options={{
-            title: 'Add Bank Account',
+            title: 'Account Details',
             headerLeft: () => <GoBack />,
           }}
         />
