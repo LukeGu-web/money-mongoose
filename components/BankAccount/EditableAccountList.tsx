@@ -75,7 +75,8 @@ export default function EditableAccountList() {
       {
         onSuccess: (response) => {
           console.log('update asset success:', response);
-          updateAsset(response, Number(asset.group));
+          updateAsset(response);
+          resetAsset();
           reset();
         },
         onError: (error) => {

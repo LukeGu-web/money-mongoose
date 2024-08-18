@@ -72,16 +72,18 @@ export default function AssetDetails() {
       );
     } else {
       console.log('Asset change group data:', data);
+      const { id, group, ...rest } = data;
       updateAssetApi(
         {
-          ...data,
-          id: asset.id as number,
-          group: Number(String(asset.group).split('-')[0]),
+          ...rest,
+          id: id as number,
+          group: Number(String(group).split('-')[0]),
         },
         {
           onSuccess: (response) => {
             console.log('update asset success:', response);
             updateAsset(response);
+            resetAsset();
             reset();
             router.navigate('/asset/management');
           },
@@ -145,14 +147,18 @@ export default function AssetDetails() {
           className='items-center w-full p-2 my-2 bg-yellow-300 rounded-md'
           onPress={handleCreate}
         >
-          <Text className='font-semibold'>Create</Text>
+          <Text className='font-semibold'>
+            {Number(asset.id) > 0 ? 'Update' : 'Create'}
+          </Text>
         </TouchableOpacity>
       </InputAccessoryView>
       <TouchableOpacity
         className='items-center w-full p-2 bg-yellow-300 rounded-md'
         onPress={handleCreate}
       >
-        <Text className='font-semibold'>Create</Text>
+        <Text className='font-semibold'>
+          {Number(asset.id) > 0 ? 'Update' : 'Create'}
+        </Text>
       </TouchableOpacity>
       <StatusBar style='light' />
     </SafeAreaView>

@@ -16,7 +16,7 @@ type BookState = {
   updateAssetGroup: (assetGroup: AssetGroupType) => void;
   removeAssetGroup: (groupId: number) => void;
   addAsset: (asset: AssetType) => void;
-  updateAsset: (asset: AssetType, originalGroupId?: number) => void;
+  updateAsset: (asset: AssetType) => void;
   removeAsset: (asset: AssetType) => void;
 };
 
@@ -97,37 +97,46 @@ const useBookStore = create<BookState>()(
             }
           });
         },
-        updateAsset: (asset: AssetType, originalGroupId?: number) => {
+        updateAsset: (asset: AssetType) => {
           set((state) => {
             const bookIndex = state.books.findIndex(
               (book) => book.id === state.currentBook.id
             );
-            // If originalGroupId is provided, remove the asset from the original group
-            if (originalGroupId) {
-              const originalGroupIndex = state.books[
-                bookIndex
-              ].groups.findIndex((group) => group.id === originalGroupId);
-              // Remove the asset from the original group's assets array
-              const removeAsset = [
-                ...state.books[bookIndex].groups[originalGroupIndex].assets,
-              ];
-              state.books[bookIndex].groups[originalGroupIndex].assets =
-                removeAsset.filter((a) => a.id !== asset.id);
-            }
-            // Find the target group (where the asset should be added or updated)
-            const targetGroupIndex = state.books[bookIndex].groups.findIndex(
-              (group) => group.id === asset.group
-            );
-            const targetGroup = state.books[bookIndex].groups[targetGroupIndex]; //  the target group
-            const assetIndex = targetGroup.assets.findIndex(
-              (a) => a.id === asset.id
-            );
-            if (assetIndex !== -1) {
-              // If the asset already exists in the target group, update it
-              targetGroup.assets[assetIndex] = asset;
-            } else {
-              // If the asset does not exist in the target group, add it
-              targetGroup.assets.push(asset);
+
+            let originalGroupIndex = -1,
+              targetGroupIndex = -1,
+              originalAssetIndex = -1;
+
+            state.books[bookIndex].groups.forEach((group, index) => {
+              const assetIndex = group.assets.findIndex(
+                (a) => a.id === asset.id
+              );
+              // Find the target group
+              if (group.id === asset.group) {
+                targetGroupIndex = index;
+                const targetAssetIndex = group.assets.findIndex(
+                  (a) => a.id === asset.id
+                );
+                if (targetAssetIndex !== -1) {
+                  // If the asset already exists in the target group, update it
+                  group.assets[targetAssetIndex] = asset;
+                } else {
+                  // If the asset does not exist in the target group, add it
+                  group.assets.push(asset);
+                }
+              }
+              // Find index of the original group and the original asset
+              if (assetIndex !== -1) {
+                originalGroupIndex = index;
+                originalAssetIndex = assetIndex;
+              }
+            });
+            // if the original group are different with target group, then remove the asset from it
+            if (originalGroupIndex !== targetGroupIndex) {
+              state.books[bookIndex].groups[originalGroupIndex].assets.splice(
+                originalAssetIndex,
+                1
+              );
             }
           });
         },
