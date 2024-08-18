@@ -76,7 +76,7 @@ export default function EditableGroupTitle({
   const functions = {
     'Add Account': () => {
       resetAsset();
-      router.navigate('/asset/add-bank-account');
+      router.navigate('/asset/details');
     },
     Edit: () => setShowModal(true),
     Delete: onDelete,

@@ -46,7 +46,7 @@ export default function AccountList() {
       )}
       <TouchableOpacity
         className='flex-row items-center justify-center w-full gap-2 p-2'
-        onPress={() => router.navigate('/asset/add-bank-account')}
+        onPress={() => router.navigate('/asset/details')}
       >
         <Text className='color-blue-500'>Add account</Text>
         <Icon name='credit-card-plus' size={20} color='#3b82f6' />

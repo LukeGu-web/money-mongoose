@@ -53,7 +53,7 @@ export default function BookBottomSheet({
           // remove book from store
           const newBooks = books.filter((item) => item.id !== book.id);
           setBooks(newBooks);
-          router.navigate('/book/book-management');
+          router.navigate('/book/management');
         },
         onError: (error) => {
           console.log('error: ', formatApiError(error));

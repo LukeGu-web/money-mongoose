@@ -26,12 +26,12 @@ export default function DrawerContent(props: any) {
           <Text className='p-2'>Current book:</Text>
           <DrawerItem
             label={currentBook.name ?? 'No book'}
-            onPress={() => router.navigate('/book/book-management')}
+            onPress={() => router.navigate('/book/management')}
           />
         </View>
         <DrawerItem
           label='Book Management'
-          onPress={() => router.navigate('/book/book-management')}
+          onPress={() => router.navigate('/book/management')}
         />
         <DrawerItem
           label='Create new book'

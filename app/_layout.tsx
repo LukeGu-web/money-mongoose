@@ -46,21 +46,21 @@ export default function RootLayoutNav() {
           }}
         />
         <Stack.Screen
-          name='asset/add-bank-account'
+          name='asset/details'
           options={{
             title: 'Add Bank Account',
             headerLeft: () => <GoBack />,
           }}
         />
         <Stack.Screen
-          name='asset/asset-management'
+          name='asset/management'
           options={{
             title: 'Asset Management',
             headerLeft: () => <GoBack />,
           }}
         />
         <Stack.Screen
-          name='book/book-management'
+          name='book/management'
           options={{
             title: 'Book Management',
             headerLeft: () => <GoBack url='/' />,
