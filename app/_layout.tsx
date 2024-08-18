@@ -63,7 +63,7 @@ export default function RootLayoutNav() {
           name='book/book-management'
           options={{
             title: 'Book Management',
-            headerLeft: () => <GoBack />,
+            headerLeft: () => <GoBack url='/' />,
           }}
         />
         <Stack.Screen
@@ -78,13 +78,13 @@ export default function RootLayoutNav() {
   );
 }
 
-const GoBack = () => (
+const GoBack = ({ url }: { url?: string }) => (
   <TouchableOpacity
     style={{
       paddingVertical: 8,
       paddingRight: 24,
     }}
-    onPress={() => router.back()}
+    onPress={() => (url ? router.navigate(url) : router.back())}
   >
     <Icon name='left' size={24} color='#fff' />
   </TouchableOpacity>

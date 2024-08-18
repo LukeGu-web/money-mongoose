@@ -1,7 +1,7 @@
 import { useRef, useCallback } from 'react';
-import { View } from 'react-native';
+import { Alert, View } from 'react-native';
 import { useForm, FormProvider, Controller } from 'react-hook-form';
-import { useUpdateAsset } from 'api/asset';
+import { useUpdateAsset, useDeleteAsset } from 'api/asset';
 import { FlashList } from '@shopify/flash-list';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 
@@ -13,11 +13,12 @@ import EditAssetGroupBottomSheet from '../BottomSheet/EditAssetGroupBottomSheet'
 import SelectGroupBottomSheet from '../BottomSheet/SelectGroupBottomSheet';
 
 export default function EditableAccountList() {
-  const asset = useAsset((state) => state.asset);
-  const { getCurrentBook, updateAsset } = useBookStore();
+  const { asset, resetAsset } = useAsset();
+  const { getCurrentBook, updateAsset, removeAsset } = useBookStore();
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const selectGroupModalRef = useRef<BottomSheetModal>(null);
   const { mutate: updateAssetApi } = useUpdateAsset();
+  const { mutate: deleteAssetApi } = useDeleteAsset();
 
   const methods = useForm({
     defaultValues: {
@@ -29,14 +30,41 @@ export default function EditableAccountList() {
   const handleCloseSheet = useCallback(() => {
     bottomSheetModalRef.current?.dismiss();
   }, []);
-  const functions = {
-    'View Details': () => {},
-    'Move to another group': () => {
-      selectGroupModalRef.current?.present();
-    },
-  };
+
   const handlePressItem = () => {
     bottomSheetModalRef.current?.present();
+  };
+
+  const handleDeleteAccount = () =>
+    Alert.alert(
+      'Delete Account',
+      `Are you sure you want to delete ${asset.name} account?`,
+      [
+        {
+          text: 'Cancel',
+          onPress: () => bottomSheetModalRef.current?.dismiss(),
+          style: 'cancel',
+        },
+        { text: 'Yes', onPress: () => onDeleteAsset() },
+      ]
+    );
+
+  const onDeleteAsset = () => {
+    deleteAssetApi(
+      { id: asset.id as number },
+      {
+        onSuccess: () => {
+          console.log('Delete asset successfully!');
+          // remove asset from store
+          removeAsset(asset);
+          resetAsset();
+        },
+        onError: (error) => {
+          console.log('error: ', formatApiError(error));
+        },
+      }
+    );
+    bottomSheetModalRef.current?.dismiss();
   };
 
   const handleChangeGroup = handleSubmit((data) => {
@@ -55,6 +83,15 @@ export default function EditableAccountList() {
       }
     );
   });
+
+  const functions = {
+    'View Details': () => {},
+    Edit: () => {},
+    'Move to another group': () => {
+      selectGroupModalRef.current?.present();
+    },
+    Delete: handleDeleteAccount,
+  };
 
   return (
     <View className='flex-1 gap-2'>
