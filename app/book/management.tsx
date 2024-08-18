@@ -2,26 +2,18 @@ import { StatusBar } from 'expo-status-bar';
 import { router } from 'expo-router';
 import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useShallow } from 'zustand/react/shallow';
 import BookList from 'components/Book/BookList';
 
 import { client } from 'api/client';
 import { formatApiError } from 'api/errorFormat';
-import { useBookStore } from 'core/stateHooks';
+import { useBookStore, useBook } from 'core/stateHooks';
 import { BookType } from 'api/types';
 
 export default function BookManagement() {
-  const { selectBook, setBooks, setCurrentBook, currentBook } = useBookStore(
-    useShallow((state) => ({
-      selectBook: state.selectBook,
-      setBooks: state.setBooks,
-      setCurrentBook: state.setCurrentBook,
-      currentBook: state.currentBook,
-    }))
-  );
-
+  const { setBooks, setCurrentBook, currentBook } = useBookStore();
+  const resetBook = useBook((state) => state.resetBook);
   const handleCreate = () => {
-    selectBook(null);
+    resetBook();
     router.navigate('/book/details');
   };
   const handleSync = () => {
@@ -31,9 +23,9 @@ export default function BookManagement() {
         console.log('submit success:', response.data);
         setBooks(response.data);
         const updated = response.data.find(
-          (book: BookType) => book.id === (currentBook as BookType).id
+          (book: BookType) => book.id === currentBook.id
         );
-        setCurrentBook(updated);
+        setCurrentBook(updated.id, updated.name);
       })
       .catch((error) => {
         console.log('error: ', formatApiError(error));

@@ -27,7 +27,7 @@ export default function EditableGroupTitle({
 }: GroupTitleProps) {
   const { mutate: deleteAssetGroupApi } = useDeleteAssetGroup();
   const removeAssetGroup = useBookStore((state) => state.removeAssetGroup);
-  const resetAccount = useAsset((state) => state.resetAsset);
+  const resetAsset = useAsset((state) => state.resetAsset);
 
   const [expanded, setExpanded] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -63,7 +63,6 @@ export default function EditableGroupTitle({
                   // remove asset group from store
                   removeAssetGroup(id as number);
                   bottomSheetModalRef.current?.dismiss();
-                  router.navigate('/asset/asset-management');
                 },
                 onError: (error) => {
                   console.log('error: ', formatApiError(error));
@@ -76,8 +75,8 @@ export default function EditableGroupTitle({
 
   const functions = {
     'Add Account': () => {
-      resetAccount();
-      router.navigate('/asset/add-bank-account');
+      resetAsset();
+      router.navigate('/asset/details');
     },
     Edit: () => setShowModal(true),
     Delete: onDelete,

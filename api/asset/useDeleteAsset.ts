@@ -11,7 +11,7 @@ type Response = {};
 const useDeleteAsset = createMutation<Response, Variables, AxiosError>({
   mutationFn: async (variables) =>
     client({
-      url: 'asset/',
+      url: `asset/${variables.id}/`,
       method: 'DELETE',
       data: variables,
     }).then((response) => response.data),

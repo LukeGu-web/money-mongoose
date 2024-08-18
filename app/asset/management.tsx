@@ -29,7 +29,7 @@ export default function Account() {
         </TouchableOpacity>
         <TouchableOpacity
           className='items-center flex-1 p-3 bg-yellow-300 rounded-md'
-          onPress={() => router.navigate('/asset/add-bank-account')}
+          onPress={() => router.navigate('/asset/details')}
         >
           <Text className='font-semibold color-white'>Create Account</Text>
         </TouchableOpacity>

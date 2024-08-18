@@ -24,13 +24,7 @@ export default function AssetGroupModal({
   const { styles } = useStyles(createStyles);
   const { mutate: addAssetGroupApi } = useCreateAssetGroup();
   const { mutate: updateAssetGroupApi } = useUpdateAssetGroup();
-  const { currentBook, addAssetGroup, updateAssetGroup } = useBookStore(
-    useShallow((state) => ({
-      currentBook: state.currentBook,
-      addAssetGroup: state.addAssetGroup,
-      updateAssetGroup: state.updateAssetGroup,
-    }))
-  );
+  const { getCurrentBook, addAssetGroup, updateAssetGroup } = useBookStore();
 
   const { control, handleSubmit, reset } = useForm({
     defaultValues: {
@@ -45,7 +39,7 @@ export default function AssetGroupModal({
   const handleConfirm = handleSubmit((data) => {
     if (name === '') {
       addAssetGroupApi(
-        { ...data, book: (currentBook as BookType).id },
+        { ...data, book: (getCurrentBook() as BookType).id },
         {
           onSuccess: (response) => {
             console.log('create success:', response);
@@ -94,6 +88,7 @@ export default function AssetGroupModal({
               <TextInput
                 className='w-11/12 p-3 border-2 rounded-md'
                 placeholder='Enter the group name'
+                autoFocus={true}
                 onBlur={onBlur}
                 onChangeText={onChange}
                 value={value}

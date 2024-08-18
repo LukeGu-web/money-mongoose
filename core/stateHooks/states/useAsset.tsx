@@ -8,6 +8,7 @@ type AssetState = {
 };
 
 export const defaultValue: AssetType = {
+  id: -1,
   name: '',
   group: '',
   balance: 0,

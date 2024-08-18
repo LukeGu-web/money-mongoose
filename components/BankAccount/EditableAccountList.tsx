@@ -1,11 +1,11 @@
 import { useRef, useCallback } from 'react';
-import { View } from 'react-native';
+import { Alert, View } from 'react-native';
 import { useForm, FormProvider, Controller } from 'react-hook-form';
-import { useUpdateAsset } from 'api/asset';
+import { router } from 'expo-router';
 import { FlashList } from '@shopify/flash-list';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
-import { useShallow } from 'zustand/react/shallow';
 
+import { useUpdateAsset, useDeleteAsset } from 'api/asset';
 import { formatApiError } from 'api/errorFormat';
 import { useAsset, useBookStore } from 'core/stateHooks';
 import ListItem from './ListItem';
@@ -14,16 +14,12 @@ import EditAssetGroupBottomSheet from '../BottomSheet/EditAssetGroupBottomSheet'
 import SelectGroupBottomSheet from '../BottomSheet/SelectGroupBottomSheet';
 
 export default function EditableAccountList() {
-  const asset = useAsset((state) => state.asset);
-  const { currentBook, updateAsset } = useBookStore(
-    useShallow((state) => ({
-      currentBook: state.currentBook,
-      updateAsset: state.updateAsset,
-    }))
-  );
+  const { asset, resetAsset } = useAsset();
+  const { getCurrentBook, updateAsset, removeAsset } = useBookStore();
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const selectGroupModalRef = useRef<BottomSheetModal>(null);
   const { mutate: updateAssetApi } = useUpdateAsset();
+  const { mutate: deleteAssetApi } = useDeleteAsset();
 
   const methods = useForm({
     defaultValues: {
@@ -35,24 +31,51 @@ export default function EditableAccountList() {
   const handleCloseSheet = useCallback(() => {
     bottomSheetModalRef.current?.dismiss();
   }, []);
-  const functions = {
-    'View Details': () => {},
-    'Move to another group': () => {
-      selectGroupModalRef.current?.present();
-    },
-  };
+
   const handlePressItem = () => {
     bottomSheetModalRef.current?.present();
   };
 
+  const handleDeleteAccount = () =>
+    Alert.alert(
+      'Delete Account',
+      `Are you sure you want to delete ${asset.name} account?`,
+      [
+        {
+          text: 'Cancel',
+          onPress: () => bottomSheetModalRef.current?.dismiss(),
+          style: 'cancel',
+        },
+        { text: 'Yes', onPress: () => onDeleteAsset() },
+      ]
+    );
+
+  const onDeleteAsset = () => {
+    deleteAssetApi(
+      { id: asset.id as number },
+      {
+        onSuccess: () => {
+          console.log('Delete asset successfully!');
+          // remove asset from store
+          removeAsset(asset);
+          resetAsset();
+        },
+        onError: (error) => {
+          console.log('error: ', formatApiError(error));
+        },
+      }
+    );
+    bottomSheetModalRef.current?.dismiss();
+  };
+
   const handleChangeGroup = handleSubmit((data) => {
-    console.log('Hello, luke', data.group);
+    console.log('Asset change group data:', data);
     updateAssetApi(
       { id: asset.id as number, group: Number(data.group.split('-')[0]) },
       {
         onSuccess: (response) => {
           console.log('update asset success:', response);
-          updateAsset(response);
+          updateAsset(response, Number(asset.group));
           reset();
         },
         onError: (error) => {
@@ -62,9 +85,21 @@ export default function EditableAccountList() {
     );
   });
 
+  const functions = {
+    'View Details': () => {},
+    Edit: () => {
+      bottomSheetModalRef.current?.dismiss();
+      router.navigate('/asset/details');
+    },
+    'Move to another group': () => {
+      selectGroupModalRef.current?.present();
+    },
+    Delete: handleDeleteAccount,
+  };
+
   return (
     <View className='flex-1 gap-2'>
-      {currentBook?.groups.map((group) => {
+      {getCurrentBook()?.groups.map((group) => {
         const assets = group.assets;
         const title = {
           text: group.name,
@@ -82,7 +117,10 @@ export default function EditableAccountList() {
               <FlashList
                 data={assets}
                 renderItem={({ item }) => (
-                  <ListItem item={item} onPress={handlePressItem} />
+                  <ListItem
+                    item={{ ...item, group: `${group.id}-${group.name}` }}
+                    onPress={handlePressItem}
+                  />
                 )}
                 estimatedItemSize={10}
               />

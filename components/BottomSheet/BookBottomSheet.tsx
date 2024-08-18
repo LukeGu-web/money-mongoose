@@ -1,13 +1,11 @@
-import { Alert, View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { Alert, View, Text, TouchableOpacity } from 'react-native';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { router } from 'expo-router';
 import { Feather } from '@expo/vector-icons';
-import { useShallow } from 'zustand/react/shallow';
 
-import { BookType } from 'api/types';
 import { useDeleteBook } from 'api/book';
 import { formatApiError } from 'api/errorFormat';
-import { useBookStore } from 'core/stateHooks';
+import { useBookStore, useBook } from 'core/stateHooks';
 import BottomSheet from './BottomSheet';
 import Icon from '../Icon/Icon';
 
@@ -18,19 +16,13 @@ type BookBottomSheetProps = {
 export default function BookBottomSheet({
   bottomSheetModalRef,
 }: BookBottomSheetProps) {
-  const { books, selectedBook, setCurrentBook, setBooks } = useBookStore(
-    useShallow((state) => ({
-      books: state.books,
-      selectedBook: state.selectedBook,
-      setCurrentBook: state.setCurrentBook,
-      setBooks: state.setBooks,
-    }))
-  );
+  const { books, setCurrentBook, setBooks } = useBookStore();
+  const book = useBook((state) => state.book);
   const { mutate: deleteBookApi } = useDeleteBook();
 
   const handleSelectCurrentBook = () => {
     bottomSheetModalRef.current?.dismiss();
-    setCurrentBook(selectedBook as BookType);
+    setCurrentBook(book.id, book.name);
   };
 
   const handleEditSelectedBook = async () => {
@@ -41,7 +33,7 @@ export default function BookBottomSheet({
   const handleDeleteBook = () =>
     Alert.alert(
       'Delete this book',
-      `Are you sure you want to delete ${selectedBook?.name}?`,
+      `Are you sure you want to delete ${book.name}?`,
       [
         {
           text: 'Cancel',
@@ -54,16 +46,14 @@ export default function BookBottomSheet({
 
   const onDeleteBook = () => {
     deleteBookApi(
-      { id: (selectedBook as BookType).id },
+      { id: book.id },
       {
         onSuccess: (response) => {
           console.log('submit success:', response);
           // remove book from store
-          const newBooks = books.filter(
-            (item) => item.id !== (selectedBook as BookType).id
-          );
+          const newBooks = books.filter((item) => item.id !== book.id);
           setBooks(newBooks);
-          router.navigate('/book/book-management');
+          router.navigate('/book/management');
         },
         onError: (error) => {
           console.log('error: ', formatApiError(error));
@@ -77,7 +67,7 @@ export default function BookBottomSheet({
     <BottomSheet bottomSheetModalRef={bottomSheetModalRef} height={270}>
       <View className='items-center justify-between w-full gap-4 px-4'>
         <View className='flex-row w-full p-4'>
-          <Text className='text-2xl font-bold'>{selectedBook?.name}</Text>
+          <Text className='text-2xl font-bold'>{book.name}</Text>
         </View>
         <View className='items-center justify-between w-full gap-4 px-4'>
           <TouchableOpacity

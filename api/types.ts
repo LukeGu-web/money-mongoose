@@ -9,7 +9,9 @@ export type AssetType = {
   is_total_asset: boolean;
   is_no_budget: boolean;
   note: string;
-  group: number | string; //asset group id
+  //asset group id: UI group will contain group name and the format is "id-name"
+  // From backend, it only returns an id.
+  group: number | string;
 };
 
 export type AssetGroupType = {

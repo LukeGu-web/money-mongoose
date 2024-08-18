@@ -5,19 +5,12 @@ import {
   DrawerItem,
   // DrawerItemList,
 } from '@react-navigation/drawer';
-import { useShallow } from 'zustand/react/shallow';
 import { useBookStore } from 'core/stateHooks';
 
 const avatarImage = require('../../assets/icon.png');
 
 export default function DrawerContent(props: any) {
-  const { books, currentBook } = useBookStore(
-    useShallow((state) => ({
-      books: state.books,
-      currentBook: state.currentBook,
-    }))
-  );
-
+  const currentBook = useBookStore((state) => state.currentBook);
   return (
     <DrawerContentScrollView
       {...props}
@@ -32,13 +25,13 @@ export default function DrawerContent(props: any) {
         <View className='mb-2 border-b-2'>
           <Text className='p-2'>Current book:</Text>
           <DrawerItem
-            label={currentBook?.name ?? 'No book'}
-            onPress={() => router.navigate('/book/book-management')}
+            label={currentBook.name ?? 'No book'}
+            onPress={() => router.navigate('/book/management')}
           />
         </View>
         <DrawerItem
           label='Book Management'
-          onPress={() => router.navigate('/book/book-management')}
+          onPress={() => router.navigate('/book/management')}
         />
         <DrawerItem
           label='Create new book'

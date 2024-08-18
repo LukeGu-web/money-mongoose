@@ -92,7 +92,7 @@ export default function TabLayout() {
             </Link>
           ),
           headerRight: () => (
-            <Link href='/asset/asset-management' className='pr-3'>
+            <Link href='/asset/management' className='pr-3'>
               <Icon name='credit-card-multiple' size={24} color='#fff' />
             </Link>
           ),

@@ -64,7 +64,7 @@ export default function Onboarding() {
           const { token, ...rest } = response;
           setToken(response.token);
           setBooks([rest]);
-          setCurrentBook(rest);
+          setCurrentBook(rest.id, rest.name);
           setIsOnBoarding(true);
         },
         onError: (error) => {
