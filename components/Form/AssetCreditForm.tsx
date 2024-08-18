@@ -15,18 +15,24 @@ import PickerBottomSheet from 'components/BottomSheet/PickerBottomSheet';
 import monthlyDay from 'static/monthly-day.json';
 
 export default function AssetCreditForm() {
-  const { control } = useFormContext();
+  const { control, getValues, setValue } = useFormContext();
   const billDayRef = useRef<BottomSheetModal>(null);
   const repayDayRef = useRef<BottomSheetModal>(null);
 
   const handlePressBillDay = useCallback(() => {
     Keyboard.dismiss();
     billDayRef.current?.present();
+    if (!getValues('bill_day')) {
+      setValue('bill_day', 1);
+    }
   }, []);
 
   const handlePressRepayDay = useCallback(() => {
     Keyboard.dismiss();
     repayDayRef.current?.present();
+    if (!getValues('repayment_day')) {
+      setValue('repayment_day', 1);
+    }
   }, []);
 
   return (
@@ -56,7 +62,7 @@ export default function AssetCreditForm() {
             <View>
               <TouchableOpacity onPress={handlePressBillDay}>
                 {value ? (
-                  <Text>{value}</Text>
+                  <Text>{monthlyDay[value - 1]}</Text>
                 ) : (
                   <View
                     style={{
@@ -90,7 +96,7 @@ export default function AssetCreditForm() {
             <View>
               <TouchableOpacity onPress={handlePressRepayDay}>
                 {value ? (
-                  <Text>{value}</Text>
+                  <Text>{monthlyDay[value - 1]}</Text>
                 ) : (
                   <View
                     style={{
