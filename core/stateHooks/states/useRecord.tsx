@@ -15,7 +15,7 @@ const defaultRecord = {
   subcategory: '',
   note: '',
   amount: 0,
-  date: '',
+  date: new Date(),
   asset: -1,
   book: -1,
 };

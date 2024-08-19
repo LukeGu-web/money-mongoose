@@ -120,8 +120,8 @@ export default function DigitalPad() {
 
   const handleSubmit = (isRedirect: boolean) => {
     const validation = RecordVariablesSchema.safeParse(record);
-    log.error('Zod: create record: ', validation.error);
     if (!validation.success) {
+      log.error('Zod: create record: ', validation.error);
       let errorMsg = '';
       if (record.amount === 0) {
         errorMsg += 'Please enter an amount.';
@@ -133,6 +133,10 @@ export default function DigitalPad() {
         { text: 'OK', onPress: () => log.info('OK Pressed') },
       ]);
     } else {
+      log.info('Submit create record data: ', {
+        ...record,
+        book: currentBook.id,
+      });
       addRecordApi(
         {
           ...record,

@@ -11,7 +11,7 @@ export const RecordVariablesSchema = z.object({
   subcategory: z.string().optional(),
   note: z.string(),
   amount: z.number().gt(0),
-  date: z.string(),
+  date: z.date(),
   asset: z.number(),
   book: z.number(),
 });

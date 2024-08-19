@@ -32,11 +32,7 @@ export default function ListDayItem({ item, onPress }: ListDayItemProps) {
       </View>
       <View style={styles.midContainer}>
         {item.records.map((record) => (
-          <ListItem
-            key={`${record.created_at}`}
-            item={record}
-            onPress={onPress}
-          />
+          <ListItem key={`${record.id}`} item={record} onPress={onPress} />
         ))}
       </View>
     </View>

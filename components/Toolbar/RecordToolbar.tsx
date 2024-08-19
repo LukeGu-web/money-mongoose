@@ -11,13 +11,15 @@ import dayjs from 'dayjs';
 import { useShallow } from 'zustand/react/shallow';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 
-import { useAsset, useRecord } from 'core/stateHooks';
+import { useAsset, useRecord, useBookStore } from 'core/stateHooks';
+import { BookType } from 'api/types';
 import { useStyles, TColors } from 'core/theme';
 import SelectAssetBottomSheet from 'components/BottomSheet/SelectAssetBottomSheet';
 
 export default function RecordToolbar() {
   const { styles } = useStyles(createStyles);
-  const asset = useAsset((state) => state.asset);
+  const { getCurrentBook } = useBookStore();
+  const { asset, setSelect } = useAsset();
   const { record, setRecord } = useRecord(
     useShallow((state) => ({
       record: state.record,
@@ -34,6 +36,16 @@ export default function RecordToolbar() {
   const handlePressSelect = useCallback(() => {
     bottomSheetModalRef.current?.present();
     Keyboard.dismiss();
+    if (asset.name === '') {
+      const flatAssets = (getCurrentBook() as BookType).groups.flatMap(
+        (group) => group.assets
+      );
+      if (flatAssets.length > 0) {
+        const defaultAsset = flatAssets[0];
+        setSelect(defaultAsset);
+        setRecord({ asset: defaultAsset.id });
+      }
+    }
   }, []);
 
   return (
