@@ -1,18 +1,11 @@
-import {
-  View,
-  FlatList,
-  TouchableOpacity,
-  Dimensions,
-  StyleSheet,
-} from 'react-native';
+import { View, FlatList, TouchableOpacity } from 'react-native';
 import Key from './Key';
-import { useStyles, TColors } from 'core/theme';
 
-const { width } = Dimensions.get('window');
-const dialPadSize = width * 0.225;
+type KeypadProps = {
+  onKeyInput: (item: string) => void;
+};
 
 export default function Keypad({ onKeyInput }: KeypadProps) {
-  const { theme, styles } = useStyles(createStyles);
   return (
     <FlatList
       data={dialPadContent}
@@ -21,15 +14,7 @@ export default function Keypad({ onKeyInput }: KeypadProps) {
       renderItem={({ item }) => {
         return (
           <TouchableOpacity onPress={() => onKeyInput(item)}>
-            <View
-              style={[
-                styles.key,
-                {
-                  backgroundColor:
-                    item === '' ? 'transparent' : theme.bgPrimary,
-                },
-              ]}
-            >
+            <View className='items-center justify-center w-24 h-16 m-1 bg-gray-100 rounded-lg'>
               <Key value={item} />
             </View>
           </TouchableOpacity>
@@ -38,23 +23,6 @@ export default function Keypad({ onKeyInput }: KeypadProps) {
     />
   );
 }
-
-type KeypadProps = {
-  onKeyInput: (item: string) => void;
-};
-
-const createStyles = (theme: TColors) =>
-  StyleSheet.create({
-    key: {
-      width: dialPadSize,
-      height: dialPadSize * 0.65,
-      justifyContent: 'center',
-      alignItems: 'center',
-      margin: 2,
-      borderRadius: 8,
-      borderColor: 'transparent',
-    },
-  });
 
 const dialPadContent = [
   '1',

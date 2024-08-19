@@ -1,29 +1,25 @@
-import { StyleSheet, Text, View } from 'react-native';
-import dayjs from 'dayjs';
-import { useStyles, TColors } from 'core/theme';
+import { Text, View } from 'react-native';
 import { formatter } from 'core/utils';
 
 export default function InfoCard() {
-  const { styles } = useStyles(createStyles);
-
   return (
-    <View style={styles.container}>
-      <View style={styles.infoBox}>
-        <View style={styles.infoRow}>
+    <View className='flex-row justify-between flex-1 gap-3'>
+      <View className='flex-1 p-3 bg-gray-100 rounded-lg'>
+        <View className='flex-row items-center justify-between flex-1'>
           <Text>Borrow</Text>
           <Text>0.00</Text>
         </View>
-        <View style={styles.infoRow}>
+        <View className='flex-row items-center justify-between flex-1'>
           <Text>Lend</Text>
           <Text>0.00</Text>
         </View>
       </View>
-      <View style={styles.infoBox}>
-        <View style={styles.infoRow}>
+      <View className='flex-1 p-2 bg-gray-100 rounded-lg'>
+        <View className='flex-row items-center justify-between flex-1'>
           <Text>Unreimbursed</Text>
           <Text>0.00</Text>
         </View>
-        <View style={styles.infoRow}>
+        <View className='flex-row items-center justify-between flex-1'>
           <Text>Reimbursed</Text>
           <Text>0.00</Text>
         </View>
@@ -31,25 +27,3 @@ export default function InfoCard() {
     </View>
   );
 }
-
-const createStyles = (theme: TColors) =>
-  StyleSheet.create({
-    container: {
-      flex: 1,
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      gap: 6,
-    },
-    infoBox: {
-      flex: 1,
-      borderRadius: 10,
-      backgroundColor: theme.bgPrimary,
-      padding: 8,
-    },
-    infoRow: {
-      flex: 1,
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-    },
-  });

@@ -1,6 +1,5 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import dayjs from 'dayjs';
-import { useStyles, TColors } from 'core/theme';
 import { formatter } from 'core/utils';
 
 type ExpenseCardProps = {
@@ -12,36 +11,24 @@ export default function ExpenseCard({
   monthExpense,
   monthIncome,
 }: ExpenseCardProps) {
-  const { styles } = useStyles(createStyles);
   const month = dayjs().format('MMMM');
-
   return (
-    <View style={styles.container}>
-      <Text style={{ fontSize: 24 }}>
+    <View className='justify-between flex-1 p-2 '>
+      <Text className='text-3xl'>
         {month}
-        <Text style={{ fontSize: 16 }}>&#183; Expense</Text>
+        <Text className='text-xl'>&#183; Expense</Text>
       </Text>
-      <Text style={{ fontSize: 32 }}>{formatter(monthExpense)}</Text>
-      <View style={styles.textContainer}>
-        <Text style={{ fontWeight: '800' }}>Income</Text>
-        <Text>{formatter(monthIncome)}</Text>
-        <Text style={{ fontWeight: '800' }}>Balance</Text>
-        <Text>{formatter(monthIncome + monthExpense)}</Text>
+      <Text className='text-4xl'>{formatter(Math.abs(monthExpense))}</Text>
+      <View className='flex-row gap-2'>
+        <Text className='font-extrabold'>Income</Text>
+        <Text className='font-semibold color-green-800'>
+          {formatter(monthIncome)}
+        </Text>
+        <Text className='font-extrabold'>Balance</Text>
+        <Text className='font-semibold color-red-800'>
+          {formatter(monthIncome + monthExpense)}
+        </Text>
       </View>
     </View>
   );
 }
-
-const createStyles = (theme: TColors) =>
-  StyleSheet.create({
-    container: {
-      flex: 1,
-      flexDirection: 'column',
-      justifyContent: 'space-between',
-      padding: 8,
-    },
-    textContainer: {
-      gap: 6,
-      flexDirection: 'row',
-    },
-  });

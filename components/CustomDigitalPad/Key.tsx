@@ -1,33 +1,22 @@
-import { StyleSheet, Text } from 'react-native';
-import { useStyles, TColors } from 'core/theme';
+import { Text } from 'react-native';
 import Icon from '../Icon/Icon';
 
 export default function Key({ value }: { value: string }) {
-  const { theme, styles } = useStyles(createStyles);
   switch (value) {
     case 'delete':
-      return <Icon name='delete-left' size={36} color={theme.primary} />;
+      return <Icon name='delete-left' size={36} color='#312e81' />;
     case 'camera':
-      return <Icon name='camera' size={44} color={theme.primary} />;
+      return <Icon name='camera' size={44} color='#312e81' />;
     case 'tax':
-      return <Icon name='tax' size={32} color={theme.primary} />;
+      return <Icon name='tax' size={32} color='#312e81' />;
     case 'clear':
     case 'save':
-      return <Text style={styles.text}>{value}</Text>;
+      return (
+        <Text className='text-3xl font-semibold color-indigo-900'>{value}</Text>
+      );
     default:
-      return <Text style={styles.number}>{value}</Text>;
+      return (
+        <Text className='text-4xl font-semibold color-indigo-900'>{value}</Text>
+      );
   }
 }
-
-const createStyles = (theme: TColors) =>
-  StyleSheet.create({
-    number: {
-      fontSize: 40,
-      color: theme.primary,
-    },
-    text: {
-      fontSize: 28,
-      color: theme.primary,
-      fontWeight: '600',
-    },
-  });

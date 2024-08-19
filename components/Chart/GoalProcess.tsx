@@ -1,5 +1,4 @@
-import React, { FC } from 'react';
-import { Platform, PixelRatio } from 'react-native';
+import { View, Platform, PixelRatio } from 'react-native';
 import {
   Canvas,
   Path,
@@ -7,7 +6,6 @@ import {
   Text,
   matchFont,
 } from '@shopify/react-native-skia';
-import { StyleSheet, View } from 'react-native';
 
 const radius = PixelRatio.roundToNearestPixel(32);
 const STROKE_WIDTH = 8;
@@ -34,7 +32,13 @@ export const GoalProcess = ({
   const width = String(targetText).length * 5;
 
   return (
-    <View style={styles.container}>
+    <View
+      style={{
+        flex: 1,
+        width: radius * 2,
+        height: radius * 2,
+      }}
+    >
       <Canvas style={{ flex: 1 }}>
         <Path
           path={path}
@@ -68,11 +72,3 @@ export const GoalProcess = ({
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    width: radius * 2,
-    height: radius * 2,
-  },
-});

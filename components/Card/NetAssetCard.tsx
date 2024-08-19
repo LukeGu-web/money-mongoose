@@ -1,11 +1,9 @@
-import { StyleSheet, Text, View } from 'react-native';
-import { useStyles, TColors } from 'core/theme';
+import { Text, View } from 'react-native';
 import { useBookStore } from 'core/stateHooks';
 import { formatter } from 'core/utils';
 import { BookType } from 'api/types';
 
 export default function NetAssetCard() {
-  const { styles } = useStyles(createStyles);
   const { getCurrentBook } = useBookStore();
   const netAsset = (getCurrentBook() as BookType).groups
     .map((group) =>
@@ -14,29 +12,15 @@ export default function NetAssetCard() {
     .reduce((sum, item) => sum + item, 0);
 
   return (
-    <View style={styles.container}>
-      <Text style={{ fontSize: 24 }}>Net Asset</Text>
-      <Text style={{ fontSize: 32 }}>{formatter(netAsset)}</Text>
-      <View style={styles.textContainer}>
-        <Text style={{ fontWeight: '800' }}>Assets</Text>
+    <View className='justify-between flex-1 p-2'>
+      <Text className='text-2xl'>Net Asset</Text>
+      <Text className='text-4xl'>{formatter(netAsset)}</Text>
+      <View className='flex-row gap-2'>
+        <Text className='font-extrabold'>Assets</Text>
         <Text>{formatter(netAsset)}</Text>
-        <Text style={{ fontWeight: '800' }}>Liabilities</Text>
+        <Text className='font-extrabold'>Liabilities</Text>
         <Text>0.00</Text>
       </View>
     </View>
   );
 }
-
-const createStyles = (theme: TColors) =>
-  StyleSheet.create({
-    container: {
-      flex: 1,
-      flexDirection: 'column',
-      justifyContent: 'space-between',
-      padding: 8,
-    },
-    textContainer: {
-      gap: 6,
-      flexDirection: 'row',
-    },
-  });

@@ -24,6 +24,7 @@ type BudgetCardProps = {
 
 export default function BudgetCard({ monthExpense }: BudgetCardProps) {
   const { styles, theme } = useStyles(createStyles);
+  const expenseAmount = Math.abs(monthExpense);
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const { goal, setGoal } = useMonthlyAnalysis(
     useShallow((state) => ({
@@ -74,26 +75,30 @@ export default function BudgetCard({ monthExpense }: BudgetCardProps) {
         <View
           style={{
             ...styles.midBlock,
-            paddingTop: 6,
+            paddingTop: 10,
           }}
         >
-          <GoalProcess
-            targetPercentage={goal ? Math.abs(monthExpense / goal) : 0}
-          />
+          <GoalProcess targetPercentage={goal ? expenseAmount / goal : 0} />
         </View>
         <View style={styles.midBlock}>
-          <Text>{formatter(monthExpense)}</Text>
+          <Text className='text-lg'>{formatter(expenseAmount)}</Text>
           <Text>Spend</Text>
         </View>
         <View style={styles.midBlock}>
-          <Text>{formatter(remaining)}</Text>
+          <Text
+            className={`${
+              remaining > 0 ? 'color-green-800' : 'color-red-800'
+            } text-lg`}
+          >
+            {formatter(Math.abs(remaining))}
+          </Text>
           <Text>{remaining > 0 ? 'Remaining' : 'Overspent'}</Text>
         </View>
       </View>
       <View style={styles.botContainer}>
         <View style={styles.verticalContainer}>
           <Text>Average Daily Spending</Text>
-          <Text>{formatter(monthExpense / days)}</Text>
+          <Text>{formatter(expenseAmount / days)}</Text>
         </View>
         <View style={styles.verticalContainer}>
           <Text>Remaining Daily</Text>
