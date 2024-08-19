@@ -21,7 +21,7 @@ export default function BookManagement() {
     client
       .get('book/')
       .then((response) => {
-        log.success('submit success:', response.data);
+        log.success('Get all books success:', response.data);
         setBooks(response.data);
         const updated = response.data.find(
           (book: BookType) => book.id === currentBook.id

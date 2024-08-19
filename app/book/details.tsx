@@ -39,7 +39,7 @@ export default function AddNewBook() {
         { id: data.id, name: data.name, note: data.note },
         {
           onSuccess: (response) => {
-            log.success('submit success:', response);
+            log.success('Update book success:', response);
             updateBook(response);
             reset();
             router.back();
@@ -52,7 +52,7 @@ export default function AddNewBook() {
     } else {
       addBookApi(data, {
         onSuccess: (response) => {
-          log.success('submit success:', response);
+          log.success('Add book success:', response);
           addBook(response);
           reset();
           router.navigate('/book/management');

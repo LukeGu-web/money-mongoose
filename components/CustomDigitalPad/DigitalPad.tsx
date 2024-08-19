@@ -139,7 +139,7 @@ export default function DigitalPad() {
         },
         {
           onSuccess: (response) => {
-            log.success('submit success:', response);
+            log.success('Add record success:', response);
             addRecord(response);
             handleReset();
             resetRecord();

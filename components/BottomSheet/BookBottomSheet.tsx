@@ -49,8 +49,8 @@ export default function BookBottomSheet({
     deleteBookApi(
       { id: book.id },
       {
-        onSuccess: (response) => {
-          log.success('submit success:', response);
+        onSuccess: () => {
+          log.success('Delete book successfully!');
           // remove book from store
           const newBooks = books.filter((item) => item.id !== book.id);
           setBooks(newBooks);

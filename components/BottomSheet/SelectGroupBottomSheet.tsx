@@ -46,7 +46,7 @@ export default function SelectGroupBottomSheet({
       { ...data, book: (getCurrentBook() as BookType).id },
       {
         onSuccess: (response) => {
-          log.success('submit success:', response);
+          log.success('Add asset success:', response);
           addAssetGroup(response);
           setValue('group', `${response.id}-${response.name}`);
           reset();
