@@ -28,7 +28,7 @@ export default function EditAssetGroupBottomSheet({
           {Object.keys(funtions).map((item, index) => (
             <TouchableOpacity
               key={item}
-              className={`py-3 border-white border-2 rounded-md ${
+              className={`py-3 border-white border-2 rounded-lg ${
                 item === 'Delete' ? 'bg-red-500' : 'bg-blue-400'
               }`}
               style={{ borderColor: '#fff' }}
@@ -39,7 +39,7 @@ export default function EditAssetGroupBottomSheet({
           ))}
         </View>
         <TouchableOpacity
-          className='w-full py-3 border-2 border-gray-500 rounded-md'
+          className='w-full py-3 border-2 border-gray-500 rounded-lg'
           onPress={onCancel}
         >
           <Text className='text-lg text-center'>Cancel</Text>

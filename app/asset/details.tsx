@@ -104,10 +104,10 @@ export default function AssetDetails() {
       <KeyboardAwareScrollView extraScrollHeight={50}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <FormProvider {...methods}>
-            <View className='h-32 mb-4 bg-blue-200 rounded-md'></View>
+            <View className='h-32 mb-4 bg-blue-200 rounded-lg'></View>
             <View>
               <Text className='text-sm color-gray-400'>Basic information</Text>
-              <View className='h-64 mb-4 bg-gray-200 rounded-md'>
+              <View className='h-64 mb-4 bg-gray-200 rounded-lg'>
                 <AssetAccountBasicForm />
               </View>
             </View>
@@ -116,7 +116,7 @@ export default function AssetDetails() {
                 <Text className='text-sm color-gray-400'>
                   Credit information
                 </Text>
-                <View className='h-48 mb-4 bg-gray-200 rounded-md'>
+                <View className='h-48 mb-4 bg-gray-200 rounded-lg'>
                   <AssetCreditForm />
                 </View>
               </View>
@@ -125,7 +125,7 @@ export default function AssetDetails() {
               {isMore ? (
                 <View style={{ flex: 1, marginBottom: 16 }}>
                   <Text className='text-sm color-gray-400'>Other settings</Text>
-                  <View className='flex-1 mb-4 bg-gray-200 rounded-md'>
+                  <View className='flex-1 mb-4 bg-gray-200 rounded-lg'>
                     <AssetAccountOtherForm />
                   </View>
                 </View>
@@ -144,7 +144,7 @@ export default function AssetDetails() {
       </KeyboardAwareScrollView>
       <InputAccessoryView nativeID={inputAccessoryCreateBtnID}>
         <TouchableOpacity
-          className='items-center w-full p-2 my-2 bg-yellow-300 rounded-md'
+          className='items-center w-full p-2 my-2 bg-yellow-300 rounded-lg'
           onPress={handleCreate}
         >
           <Text className='font-semibold'>
@@ -153,7 +153,7 @@ export default function AssetDetails() {
         </TouchableOpacity>
       </InputAccessoryView>
       <TouchableOpacity
-        className='items-center w-full p-2 bg-yellow-300 rounded-md'
+        className='items-center w-full p-2 bg-yellow-300 rounded-lg'
         onPress={handleCreate}
       >
         <Text className='font-semibold'>

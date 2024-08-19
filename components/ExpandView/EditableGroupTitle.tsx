@@ -118,10 +118,10 @@ export default function EditableGroupTitle({
 
   return (
     <View
-      className='p-2 bg-gray-200 rounded-md'
+      className='p-2 bg-gray-200 rounded-lg'
       style={{ minHeight: containerHeight }}
     >
-      <View className='flex-row items-center justify-between w-full rounded-md'>
+      <View className='flex-row items-center justify-between w-full rounded-lg'>
         <TouchableOpacity
           className='flex-row items-center gap-2 px-2'
           onPress={handlePressSelect}

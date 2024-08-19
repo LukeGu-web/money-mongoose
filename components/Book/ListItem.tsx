@@ -12,7 +12,7 @@ export default function ListItem({ item, onPress }: ListItemProps) {
   const setSelect = useBook((state) => state.setSelect);
   return (
     <TouchableOpacity
-      className={`flex-row items-center justify-between p-2 mb-4 border-2 rounded-md ${
+      className={`flex-row items-center justify-between p-2 mb-4 border-2 rounded-lg ${
         item.id === currentBook.id && 'bg-green-200'
       }`}
       onPress={() => {

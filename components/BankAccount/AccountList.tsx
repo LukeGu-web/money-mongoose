@@ -40,7 +40,7 @@ export default function AccountList() {
         }
       })}
       {numOfAssets === 0 && (
-        <View className='items-center py-4 bg-gray-100 rounded-md'>
+        <View className='items-center py-4 bg-gray-100 rounded-lg'>
           <Text>No account yet</Text>
         </View>
       )}

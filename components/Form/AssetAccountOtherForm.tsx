@@ -50,7 +50,7 @@ export default function AssetAccountOtherForm() {
             <Text>Note</Text>
             <TextInput
               inputAccessoryViewID={inputAccessoryCreateBtnID}
-              className='items-start p-2 border-2 border-gray-400 rounded-md'
+              className='items-start p-2 border-2 border-gray-400 rounded-lg'
               style={{ minHeight: 240 }}
               multiline={true}
               numberOfLines={6}

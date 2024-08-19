@@ -46,7 +46,7 @@ export default function BookManagement() {
         <View className='flex-row items-center justify-between p-2 mb-3 bg-gray-200'>
           <Text>Sync your books with database</Text>
           <TouchableOpacity
-            className='items-center p-1 bg-gray-500 rounded-md'
+            className='items-center p-1 bg-gray-500 rounded-lg'
             onPress={handleSync}
           >
             <Text className='font-medium color-white'>Sync</Text>
@@ -55,7 +55,7 @@ export default function BookManagement() {
         <BookList />
       </ScrollView>
       <TouchableOpacity
-        className='items-center w-4/5 p-3 bg-yellow-300 rounded-md'
+        className='items-center w-4/5 p-3 bg-yellow-300 rounded-lg'
         onPress={handleCreate}
       >
         <Text className='font-semibold'>Create New Book</Text>

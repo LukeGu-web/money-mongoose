@@ -93,7 +93,7 @@ export default function AddNewBook() {
               <Text>Note</Text>
               <TextInput
                 inputAccessoryViewID={inputAccessoryCreateBtnID}
-                className='items-start p-2 border-2 border-gray-400 rounded-md'
+                className='items-start p-2 border-2 border-gray-400 rounded-lg'
                 style={{ minHeight: 240 }}
                 multiline={true}
                 numberOfLines={6}
@@ -109,7 +109,7 @@ export default function AddNewBook() {
       </KeyboardAwareScrollView>
       <InputAccessoryView nativeID={inputAccessoryCreateBtnID}>
         <TouchableOpacity
-          className='items-center w-full p-2 my-2 bg-yellow-300 rounded-md'
+          className='items-center w-full p-2 my-2 bg-yellow-300 rounded-lg'
           onPress={handleSubmitData}
         >
           <Text className='font-semibold'>
@@ -118,7 +118,7 @@ export default function AddNewBook() {
         </TouchableOpacity>
       </InputAccessoryView>
       <TouchableOpacity
-        className='items-center w-full p-2 bg-yellow-300 rounded-md'
+        className='items-center w-full p-2 bg-yellow-300 rounded-lg'
         onPress={handleSubmitData}
       >
         <Text className='font-semibold'>

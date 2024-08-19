@@ -22,13 +22,13 @@ export default function Account() {
       </ScrollView>
       <View className='flex-row items-center justify-between gap-4'>
         <TouchableOpacity
-          className='items-center flex-1 p-3 bg-gray-300 rounded-md'
+          className='items-center flex-1 p-3 bg-gray-300 rounded-lg'
           onPress={() => setShowModal(true)}
         >
           <Text className='font-semibold color-white'>Add Group</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          className='items-center flex-1 p-3 bg-yellow-300 rounded-md'
+          className='items-center flex-1 p-3 bg-yellow-300 rounded-lg'
           onPress={() => router.navigate('/asset/details')}
         >
           <Text className='font-semibold color-white'>Create Account</Text>

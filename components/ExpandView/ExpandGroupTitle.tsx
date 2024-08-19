@@ -45,11 +45,11 @@ export default function ExpandGroupTitle({
 
   return (
     <View
-      className='p-2 bg-gray-200 rounded-md'
+      className='p-2 bg-gray-200 rounded-lg'
       style={{ minHeight: containerHeight }}
     >
       <TouchableOpacity
-        className='flex-row items-center justify-between w-full rounded-md'
+        className='flex-row items-center justify-between w-full rounded-lg'
         onPress={toggleExpand}
       >
         <View className='flex-row items-center flex-1 gap-2 px-2'>

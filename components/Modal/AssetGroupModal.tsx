@@ -86,7 +86,7 @@ export default function AssetGroupModal({
             control={control}
             render={({ field: { onChange, onBlur, value } }) => (
               <TextInput
-                className='w-11/12 p-3 border-2 rounded-md'
+                className='w-11/12 p-3 border-2 rounded-lg'
                 placeholder='Enter the group name'
                 autoFocus={true}
                 onBlur={onBlur}
