@@ -3,15 +3,17 @@ import { View, Text, ActivityIndicator } from 'react-native';
 import { useShallow } from 'zustand/react/shallow';
 import dayjs from 'dayjs';
 
-import { useGetRecordsByDateRange } from 'api/record/useGetRecordsByDateRange';
+import { useGetAllRecords } from 'api/record';
 import { formatApiError } from 'api/errorFormat';
-import { useRecordStore } from 'core/stateHooks';
+import { useRecordStore, useBookStore } from 'core/stateHooks';
+import log from 'core/logger';
 
 type EmptyRecordList = {
   noItemMsg?: string;
 };
 
 export default function EmptyRecordList({ noItemMsg }: EmptyRecordList) {
+  const currentBook = useBookStore((state) => state.currentBook);
   const { records, setRecords } = useRecordStore(
     useShallow((state) => ({
       records: state.records,
@@ -30,6 +32,7 @@ export default function EmptyRecordList({ noItemMsg }: EmptyRecordList) {
 
   const endDate = now.add(1, 'day').format('YYYY-MM-DD');
   const variables = {
+    book_id: currentBook.id,
     start_date: startDate,
     end_date: endDate,
     group_by_date: true,
@@ -38,12 +41,13 @@ export default function EmptyRecordList({ noItemMsg }: EmptyRecordList) {
 
   // Here is the entry of querying records from DB
   // First query will grab recent 3 months' records
-  const { isLoading, isError, data, error } = useGetRecordsByDateRange({
+  const { isLoading, isError, data, error } = useGetAllRecords({
     variables,
   });
 
   useEffect(() => {
     if (data) {
+      log.debug('Records: ', data);
       if (records.length > 0) {
         if (dayjs(data[0].date).isAfter(records[0].date)) {
           const updatedRecords = data.concat(records);
@@ -65,6 +69,7 @@ export default function EmptyRecordList({ noItemMsg }: EmptyRecordList) {
 
   if (isError) {
     const formattedError = formatApiError(error);
+    log.error(error);
     if (formattedError.status !== 404)
       return <Text>Sorry, something went wrong. Please try it again.</Text>;
   }

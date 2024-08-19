@@ -11,7 +11,7 @@ import CalendarDay from './CalendarDay';
 import ListDayItem from '../RecordList/ListDayItem';
 import { RecordsByDay } from 'api/record/types';
 import { formatApiError } from 'api/errorFormat';
-import { useGetRecordsByDateRange } from 'api/record/useGetRecordsByDateRange';
+import { useGetRecordsByDateRange } from 'api/record/useGetAllRecords';
 import { useRecordStore, useCalendar } from 'core/stateHooks';
 import { useStyles, TColors } from 'core/theme';
 
