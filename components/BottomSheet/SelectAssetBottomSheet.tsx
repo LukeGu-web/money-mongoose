@@ -2,29 +2,28 @@ import { View, Text } from 'react-native';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { PickerIOS } from '@react-native-picker/picker';
 
-import { useBookStore } from 'core/stateHooks';
+import { useAsset, useBookStore } from 'core/stateHooks';
 import BottomSheet from './BottomSheet';
 import { AssetType, BookType } from 'api/types';
 
 type SelectAssetBottomSheetProps = {
   bottomSheetModalRef: React.RefObject<BottomSheetModal>;
-  value: string;
-  onChange: (item: AssetType) => void;
 };
 
 export default function SelectAssetBottomSheet({
   bottomSheetModalRef,
-  value,
-  onChange,
 }: SelectAssetBottomSheetProps) {
   const { getCurrentBook } = useBookStore();
+  const { asset, setSelect } = useAsset();
   const flatAssets = (getCurrentBook() as BookType).groups.flatMap(
     (group) => group.assets
   );
 
   const handleSelectItem = (itemValue: number | string, itemIndex: number) => {
-    const selectItem = flatAssets.find((item) => item.name === itemValue);
-    onChange(selectItem as AssetType);
+    const selectItem = flatAssets.find(
+      (item) => item.name === itemValue
+    ) as AssetType;
+    setSelect(selectItem);
   };
 
   return (
@@ -35,7 +34,7 @@ export default function SelectAssetBottomSheet({
         </View>
         <View className='items-start flex-1 w-full'>
           <PickerIOS
-            selectedValue={value}
+            selectedValue={asset.name}
             onValueChange={handleSelectItem}
             style={{ flex: 1, width: '100%' }}
           >

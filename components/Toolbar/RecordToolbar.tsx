@@ -9,23 +9,18 @@ import {
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 
-import { AccountType } from 'api/asset/types';
+import { useAsset } from 'core/stateHooks';
 import { useStyles, TColors } from 'core/theme';
 import SelectAssetBottomSheet from 'components/BottomSheet/SelectAssetBottomSheet';
 
 export default function RecordToolbar() {
   const { styles } = useStyles(createStyles);
+  const asset = useAsset((state) => state.asset);
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-
   const [date, setDate] = useState<Date>(new Date());
-  const [account, setAccount] = useState<AccountType>();
 
   const onDateChange = (e: any, selectedDate: any) => {
     setDate(selectedDate);
-  };
-
-  const onAccountChange = (item: AccountType) => {
-    setAccount(item);
   };
 
   const handlePressSelect = useCallback(() => {
@@ -43,13 +38,11 @@ export default function RecordToolbar() {
         onChange={onDateChange}
       />
       <TouchableOpacity style={styles.textWrapper} onPress={handlePressSelect}>
-        <Text style={styles.text}>{account?.accountName ?? 'no account'}</Text>
+        <Text style={styles.text}>
+          {asset.name !== '' ? asset.name : 'no account'}
+        </Text>
       </TouchableOpacity>
-      <SelectAssetBottomSheet
-        bottomSheetModalRef={bottomSheetModalRef}
-        value={account?.accountName as string}
-        onChange={onAccountChange}
-      />
+      <SelectAssetBottomSheet bottomSheetModalRef={bottomSheetModalRef} />
     </View>
   );
 }

@@ -18,7 +18,7 @@ import { RecordTypes, RecordVariablesSchema } from 'api/record/types';
 import { useAddRecord } from 'api/record/useAddRecord';
 import { formatApiError } from 'api/errorFormat';
 import { useStyles, TColors } from 'core/theme';
-import { useRecord, useRecordStore } from 'core/stateHooks';
+import { useRecord, useRecordStore, useBookStore } from 'core/stateHooks';
 import { formatter } from 'core/utils';
 import log from 'core/logger';
 import CameraBottomSheet from 'components/BottomSheet/CameraBottomSheet';
@@ -27,6 +27,7 @@ export default function DigitalPad() {
   const keyboardVerticalOffset = Platform.OS === 'ios' ? -150 : 0;
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const { mutate: addRecordApi } = useAddRecord();
+  const currentBook = useBookStore((state) => state.currentBook);
   const addRecord = useRecordStore((state) => state.addRecord);
   const { record, setRecord, resetRecord } = useRecord(
     useShallow((state) => ({
@@ -134,6 +135,7 @@ export default function DigitalPad() {
       addRecordApi(
         {
           ...record,
+          book: currentBook.id,
           amount:
             record.type === RecordTypes.INCOME ? record.amount : -record.amount,
         },
