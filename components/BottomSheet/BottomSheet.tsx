@@ -30,7 +30,7 @@ export default function BottomSheet({
   );
 
   // const handleSheetChanges = useCallback((index: number) => {
-  //   console.log('handleSheetChanges', index);
+  //   log.success('handleSheetChanges', index);
   // }, []);
 
   return (

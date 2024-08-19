@@ -6,6 +6,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { FontAwesome, FontAwesome5 } from '@expo/vector-icons';
 
 import { useStyles, TColors } from 'core/theme';
+import log from 'core/logger';
 import BottomSheet from './BottomSheet';
 import Icon from '../Icon/Icon';
 
@@ -32,7 +33,7 @@ export default function CameraBottomSheet({
     });
 
     if (!result.canceled) {
-      console.log(result.assets[0].uri);
+      log.info(result.assets[0].uri);
     } else {
       alert('You did not select any image.');
     }

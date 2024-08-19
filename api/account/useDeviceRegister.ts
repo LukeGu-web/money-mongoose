@@ -4,6 +4,7 @@ import { createMutation } from 'react-query-kit';
 import { client, setHeaderToken } from '../client';
 import { AssetGroupType } from '../types';
 import { defaultGroups } from 'api/book/useCreateBook';
+import log from 'core/logger';
 
 type Variables = {
   user: {
@@ -50,6 +51,6 @@ export const useDeviceRegister = createMutation<
       })
       .then((response) => ({ ...response.data, token }))
       .catch((err) => {
-        console.log(err);
+        log.error('Error (useDeviceRegister): ', err);
       }),
 });

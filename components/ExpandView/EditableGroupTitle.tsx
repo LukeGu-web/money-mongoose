@@ -14,6 +14,7 @@ import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { useDeleteAssetGroup } from 'api/asset';
 import { formatApiError } from 'api/errorFormat';
 import { useAsset, useBookStore } from 'core/stateHooks';
+import log from 'core/logger';
 import Icon from '../Icon/Icon';
 import EditAssetGroupBottomSheet from '../BottomSheet/EditAssetGroupBottomSheet';
 import AssetGroupModal from 'components/Modal/AssetGroupModal';
@@ -59,13 +60,13 @@ export default function EditableGroupTitle({
               { id: id as number },
               {
                 onSuccess: () => {
-                  console.log('Delete group successfully.');
+                  log.success('Delete group successfully.');
                   // remove asset group from store
                   removeAssetGroup(id as number);
                   bottomSheetModalRef.current?.dismiss();
                 },
                 onError: (error) => {
-                  console.log('error: ', formatApiError(error));
+                  log.error('Error: ', formatApiError(error));
                 },
               }
             ),

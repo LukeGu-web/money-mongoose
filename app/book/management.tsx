@@ -5,9 +5,10 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import BookList from 'components/Book/BookList';
 
 import { client } from 'api/client';
+import { BookType } from 'api/types';
 import { formatApiError } from 'api/errorFormat';
 import { useBookStore, useBook } from 'core/stateHooks';
-import { BookType } from 'api/types';
+import log from 'core/logger';
 
 export default function BookManagement() {
   const { setBooks, setCurrentBook, currentBook } = useBookStore();
@@ -20,7 +21,7 @@ export default function BookManagement() {
     client
       .get('book/')
       .then((response) => {
-        console.log('submit success:', response.data);
+        log.success('submit success:', response.data);
         setBooks(response.data);
         const updated = response.data.find(
           (book: BookType) => book.id === currentBook.id
@@ -28,7 +29,7 @@ export default function BookManagement() {
         setCurrentBook(updated.id, updated.name);
       })
       .catch((error) => {
-        console.log('error: ', formatApiError(error));
+        log.error('Error: ', formatApiError(error));
       });
   };
   return (

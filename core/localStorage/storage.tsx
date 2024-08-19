@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import log from 'core/logger';
 
 export async function getItem<T>(key: string): Promise<T | undefined> {
   try {
@@ -7,7 +8,7 @@ export async function getItem<T>(key: string): Promise<T | undefined> {
       return value ? JSON.parse(value) || null : null;
     }
   } catch (e) {
-    console.log(e);
+    log.error(e);
   }
 }
 
@@ -15,7 +16,7 @@ export async function setItem<T>(key: string, value: T) {
   try {
     await AsyncStorage.setItem(key, JSON.stringify(value));
   } catch (e) {
-    console.log(e);
+    log.error(e);
   }
 }
 
@@ -23,7 +24,7 @@ export async function removeItem(key: string) {
   try {
     await AsyncStorage.removeItem(key);
   } catch (e) {
-    console.log(e);
+    log.error(e);
   }
 }
 
@@ -35,7 +36,7 @@ export const getAllKeys = async () => {
     // read key error
   }
 
-  console.log(keys);
+  log.info(keys);
 };
 
 export const clearAll = async () => {
@@ -45,5 +46,5 @@ export const clearAll = async () => {
     // clear error
   }
 
-  console.log('Done.');
+  log.info('Done.');
 };

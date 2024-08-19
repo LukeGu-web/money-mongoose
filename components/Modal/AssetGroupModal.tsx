@@ -1,12 +1,12 @@
 import { StyleSheet, Text, View, Modal, Button, TextInput } from 'react-native';
-import { useForm, useFormContext, Controller } from 'react-hook-form';
-import { useShallow } from 'zustand/react/shallow';
+import { useForm, Controller } from 'react-hook-form';
 
 import { BookType } from 'api/types';
 import { useCreateAssetGroup, useUpdateAssetGroup } from 'api/asset';
 import { formatApiError } from 'api/errorFormat';
 import { useBookStore } from 'core/stateHooks';
 import { useStyles, TColors } from 'core/theme';
+import log from 'core/logger';
 
 type AssetGroupModalProps = {
   groupId?: number;
@@ -42,13 +42,13 @@ export default function AssetGroupModal({
         { ...data, book: (getCurrentBook() as BookType).id },
         {
           onSuccess: (response) => {
-            console.log('create success:', response);
+            log.success('create success:', response);
             addAssetGroup(response);
             reset();
             onClose();
           },
           onError: (error) => {
-            console.log('error: ', formatApiError(error));
+            log.error('Error: ', formatApiError(error));
           },
         }
       );
@@ -57,13 +57,13 @@ export default function AssetGroupModal({
         { ...data, id: groupId as number },
         {
           onSuccess: (response) => {
-            console.log('update success:', response);
+            log.success('update success:', response);
             updateAssetGroup(response);
             reset();
             onClose();
           },
           onError: (error) => {
-            console.log('error: ', formatApiError(error));
+            log.error('Error: ', formatApiError(error));
           },
         }
       );

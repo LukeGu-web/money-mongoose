@@ -6,6 +6,7 @@ import { Feather } from '@expo/vector-icons';
 import { useDeleteBook } from 'api/book';
 import { formatApiError } from 'api/errorFormat';
 import { useBookStore, useBook } from 'core/stateHooks';
+import log from 'core/logger';
 import BottomSheet from './BottomSheet';
 import Icon from '../Icon/Icon';
 
@@ -49,14 +50,14 @@ export default function BookBottomSheet({
       { id: book.id },
       {
         onSuccess: (response) => {
-          console.log('submit success:', response);
+          log.success('submit success:', response);
           // remove book from store
           const newBooks = books.filter((item) => item.id !== book.id);
           setBooks(newBooks);
           router.navigate('/book/management');
         },
         onError: (error) => {
-          console.log('error: ', formatApiError(error));
+          log.error('Error: ', formatApiError(error));
         },
       }
     );

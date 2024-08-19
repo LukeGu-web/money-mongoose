@@ -16,6 +16,7 @@ import { router } from 'expo-router';
 import { MaterialIcons } from '@expo/vector-icons';
 import * as MediaLibrary from 'expo-media-library';
 import * as ImagePicker from 'expo-image-picker';
+import log from 'core/logger';
 import Icon from '../Icon/Icon';
 
 const flashOptions = ['auto', 'on', 'off'];
@@ -65,7 +66,7 @@ export default function Camera() {
     });
 
     if (!result.canceled) {
-      console.log(result.assets[0].uri);
+      log.info(result.assets[0].uri);
     } else {
       alert('You did not select any image.');
     }

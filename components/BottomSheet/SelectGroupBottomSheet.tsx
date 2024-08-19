@@ -8,6 +8,7 @@ import { BookType } from 'api/types';
 import { useCreateAssetGroup } from 'api/asset';
 import { formatApiError } from 'api/errorFormat';
 import { useBookStore } from 'core/stateHooks';
+import log from 'core/logger';
 import BottomSheet from './BottomSheet';
 import Icon from '../Icon/Icon';
 
@@ -45,14 +46,14 @@ export default function SelectGroupBottomSheet({
       { ...data, book: (getCurrentBook() as BookType).id },
       {
         onSuccess: (response) => {
-          console.log('submit success:', response);
+          log.success('submit success:', response);
           addAssetGroup(response);
           setValue('group', `${response.id}-${response.name}`);
           reset();
           setIsVisible(false);
         },
         onError: (error) => {
-          console.log('error: ', formatApiError(error));
+          log.error('Error: ', formatApiError(error));
         },
       }
     );

@@ -15,6 +15,7 @@ import { useShallow } from 'zustand/react/shallow';
 import { useCreateBook, useUpdateBook } from 'api/book';
 import { formatApiError } from 'api/errorFormat';
 import { useBookStore, useBook } from 'core/stateHooks';
+import log from 'core/logger';
 
 export default function AddNewBook() {
   const inputAccessoryCreateBtnID = 'inputAccessoryCreateBtnID-book';
@@ -33,32 +34,31 @@ export default function AddNewBook() {
   });
 
   const handleSubmitData = handleSubmit((data) => {
-    console.log('book details: ', data);
     if (data.id > 0) {
       updateBookApi(
         { id: data.id, name: data.name, note: data.note },
         {
           onSuccess: (response) => {
-            console.log('submit success:', response);
+            log.success('submit success:', response);
             updateBook(response);
             reset();
             router.back();
           },
           onError: (error) => {
-            console.log('error: ', formatApiError(error));
+            log.error('Error: ', formatApiError(error));
           },
         }
       );
     } else {
       addBookApi(data, {
         onSuccess: (response) => {
-          console.log('submit success:', response);
+          log.success('submit success:', response);
           addBook(response);
           reset();
           router.navigate('/book/management');
         },
         onError: (error) => {
-          console.log('error: ', formatApiError(error));
+          log.error('Error: ', formatApiError(error));
         },
       });
     }

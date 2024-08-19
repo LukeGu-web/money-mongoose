@@ -8,6 +8,7 @@ import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { useUpdateAsset, useDeleteAsset } from 'api/asset';
 import { formatApiError } from 'api/errorFormat';
 import { useAsset, useBookStore } from 'core/stateHooks';
+import log from 'core/logger';
 import ListItem from './ListItem';
 import EditableGroupTitle from '../ExpandView/EditableGroupTitle';
 import EditAssetGroupBottomSheet from '../BottomSheet/EditAssetGroupBottomSheet';
@@ -55,13 +56,13 @@ export default function EditableAccountList() {
       { id: asset.id as number },
       {
         onSuccess: () => {
-          console.log('Delete asset successfully!');
+          log.success('Delete asset successfully!');
           // remove asset from store
           removeAsset(asset);
           resetAsset();
         },
         onError: (error) => {
-          console.log('error: ', formatApiError(error));
+          log.error('Error: ', formatApiError(error));
         },
       }
     );
@@ -69,18 +70,18 @@ export default function EditableAccountList() {
   };
 
   const handleChangeGroup = handleSubmit((data) => {
-    console.log('Asset change group data:', data);
+    log.success('Asset change group data:', data);
     updateAssetApi(
       { id: asset.id as number, group: Number(data.group.split('-')[0]) },
       {
         onSuccess: (response) => {
-          console.log('update asset success:', response);
+          log.success('update asset success:', response);
           updateAsset(response);
           resetAsset();
           reset();
         },
         onError: (error) => {
-          console.log('error: ', formatApiError(error));
+          log.error('Error: ', formatApiError(error));
         },
       }
     );

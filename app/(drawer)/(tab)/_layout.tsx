@@ -6,8 +6,8 @@ import { Entypo } from '@expo/vector-icons';
 import dayjs from 'dayjs';
 
 import { RecordHeader, Icon } from 'components';
-import { useLocalStore } from 'core/stateHooks';
-import { useCalendar } from 'core/stateHooks';
+import { useLocalStore, useCalendar } from 'core/stateHooks';
+import log from 'core/logger';
 
 export default function TabLayout() {
   const hideSplash = useCallback(async () => {
@@ -28,7 +28,7 @@ export default function TabLayout() {
   const navigation = useNavigation();
 
   const handleBackToday = () => {
-    console.log('Back Today');
+    log.info('Back Today');
     setVisiableMonth(dayjs().format('YYYY-MM-DD'));
   };
 

@@ -62,7 +62,7 @@ export default function Calendar() {
   //   variables,
   // });
 
-  // console.log('Calendar - useGetRecordsByDateRange: ', data);
+  // log.success('Calendar - useGetRecordsByDateRange: ', data);
 
   // if (isLoading) return <Text>is loading...</Text>;
 

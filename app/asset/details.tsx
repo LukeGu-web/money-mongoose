@@ -17,6 +17,7 @@ import { useShallow } from 'zustand/react/shallow';
 import { useCreateAsset, useUpdateAsset } from 'api/asset';
 import { formatApiError } from 'api/errorFormat';
 import { useBookStore, useAsset } from 'core/stateHooks';
+import log from 'core/logger';
 import {
   AssetAccountBasicForm,
   AssetAccountOtherForm,
@@ -60,18 +61,17 @@ export default function AssetDetails() {
         },
         {
           onSuccess: (response) => {
-            console.log('submit success:', response);
+            log.success('submit success:', response);
             addAsset(response);
             reset();
             router.back();
           },
           onError: (error) => {
-            console.log('error: ', formatApiError(error));
+            log.error('Error: ', formatApiError(error));
           },
         }
       );
     } else {
-      console.log('Asset change group data:', data);
       const { id, group, ...rest } = data;
       updateAssetApi(
         {
@@ -81,14 +81,14 @@ export default function AssetDetails() {
         },
         {
           onSuccess: (response) => {
-            console.log('update asset success:', response);
+            log.success('update asset success:', response);
             updateAsset(response);
             resetAsset();
             reset();
             router.navigate('/asset/management');
           },
           onError: (error) => {
-            console.log('error: ', formatApiError(error));
+            log.error('Error: ', formatApiError(error));
           },
         }
       );

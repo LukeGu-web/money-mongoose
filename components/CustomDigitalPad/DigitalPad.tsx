@@ -20,6 +20,7 @@ import { formatApiError } from 'api/errorFormat';
 import { useStyles, TColors } from 'core/theme';
 import { useRecord, useRecordStore } from 'core/stateHooks';
 import { formatter } from 'core/utils';
+import log from 'core/logger';
 import CameraBottomSheet from 'components/BottomSheet/CameraBottomSheet';
 
 export default function DigitalPad() {
@@ -127,7 +128,7 @@ export default function DigitalPad() {
         errorMsg += 'Please select a category.';
       }
       Alert.alert('Tip', errorMsg, [
-        { text: 'OK', onPress: () => console.log('OK Pressed') },
+        { text: 'OK', onPress: () => log.success('OK Pressed') },
       ]);
     } else {
       addRecordApi(
@@ -138,14 +139,14 @@ export default function DigitalPad() {
         },
         {
           onSuccess: (response) => {
-            console.log('submit success:', response);
+            log.success('submit success:', response);
             addRecord(response);
             handleReset();
             resetRecord();
             if (isRedirect) router.push('/');
           },
           onError: (error) => {
-            console.log('error: ', formatApiError(error));
+            log.error('Error: ', formatApiError(error));
           },
         }
       );
