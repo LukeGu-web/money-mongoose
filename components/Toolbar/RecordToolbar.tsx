@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from 'react';
+import { useRef, useCallback } from 'react';
 import {
   StyleSheet,
   Text,
@@ -7,20 +7,28 @@ import {
   Keyboard,
 } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import dayjs from 'dayjs';
+import { useShallow } from 'zustand/react/shallow';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 
-import { useAsset } from 'core/stateHooks';
+import { useAsset, useRecord } from 'core/stateHooks';
 import { useStyles, TColors } from 'core/theme';
 import SelectAssetBottomSheet from 'components/BottomSheet/SelectAssetBottomSheet';
 
 export default function RecordToolbar() {
   const { styles } = useStyles(createStyles);
   const asset = useAsset((state) => state.asset);
+  const { record, setRecord } = useRecord(
+    useShallow((state) => ({
+      record: state.record,
+      setRecord: state.setRecord,
+    }))
+  );
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-  const [date, setDate] = useState<Date>(new Date());
+  const today = new Date();
 
   const onDateChange = (e: any, selectedDate: any) => {
-    setDate(selectedDate);
+    setRecord({ date: dayjs(selectedDate).format('YYYY-MM-DD') });
   };
 
   const handlePressSelect = useCallback(() => {
@@ -32,7 +40,7 @@ export default function RecordToolbar() {
     <View style={styles.container}>
       <DateTimePicker
         style={{ width: 90 }}
-        value={date}
+        value={record.date !== '' ? new Date(record.date) : today}
         mode={'date'}
         display='calendar'
         onChange={onDateChange}

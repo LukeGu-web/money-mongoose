@@ -120,6 +120,7 @@ export default function DigitalPad() {
 
   const handleSubmit = (isRedirect: boolean) => {
     const validation = RecordVariablesSchema.safeParse(record);
+    log.error('Zod: create record: ', validation.error);
     if (!validation.success) {
       let errorMsg = '';
       if (record.amount === 0) {
@@ -129,7 +130,7 @@ export default function DigitalPad() {
         errorMsg += 'Please select a category.';
       }
       Alert.alert('Tip', errorMsg, [
-        { text: 'OK', onPress: () => log.success('OK Pressed') },
+        { text: 'OK', onPress: () => log.info('OK Pressed') },
       ]);
     } else {
       addRecordApi(

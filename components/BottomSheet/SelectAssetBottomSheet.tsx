@@ -2,7 +2,7 @@ import { View, Text } from 'react-native';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { PickerIOS } from '@react-native-picker/picker';
 
-import { useAsset, useBookStore } from 'core/stateHooks';
+import { useAsset, useRecord, useBookStore } from 'core/stateHooks';
 import BottomSheet from './BottomSheet';
 import { AssetType, BookType } from 'api/types';
 
@@ -15,6 +15,7 @@ export default function SelectAssetBottomSheet({
 }: SelectAssetBottomSheetProps) {
   const { getCurrentBook } = useBookStore();
   const { asset, setSelect } = useAsset();
+  const setRecord = useRecord((state) => state.setRecord);
   const flatAssets = (getCurrentBook() as BookType).groups.flatMap(
     (group) => group.assets
   );
@@ -24,6 +25,7 @@ export default function SelectAssetBottomSheet({
       (item) => item.name === itemValue
     ) as AssetType;
     setSelect(selectItem);
+    setRecord({ asset: selectItem.id });
   };
 
   return (

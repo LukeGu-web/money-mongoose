@@ -47,7 +47,7 @@ export default function EmptyRecordList({ noItemMsg }: EmptyRecordList) {
 
   useEffect(() => {
     if (data) {
-      log.debug('Records: ', data);
+      log.debug('Records: DB', data);
       if (records.length > 0) {
         if (dayjs(data[0].date).isAfter(records[0].date)) {
           const updatedRecords = data.concat(records);
