@@ -16,7 +16,7 @@ const defaultRecord = {
   note: '',
   amount: 0,
   date: new Date(),
-  asset: -1,
+  asset: null,
   book: -1,
 };
 

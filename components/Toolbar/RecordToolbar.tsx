@@ -30,7 +30,7 @@ export default function RecordToolbar() {
   const today = new Date();
 
   const onDateChange = (e: any, selectedDate: any) => {
-    setRecord({ date: dayjs(selectedDate).format('YYYY-MM-DD') });
+    setRecord({ date: selectedDate });
   };
 
   const handlePressSelect = useCallback(() => {
@@ -52,7 +52,7 @@ export default function RecordToolbar() {
     <View style={styles.container}>
       <DateTimePicker
         style={{ width: 90 }}
-        value={record.date !== '' ? new Date(record.date) : today}
+        value={record.date}
         mode={'date'}
         display='calendar'
         onChange={onDateChange}

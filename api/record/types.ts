@@ -12,7 +12,7 @@ export const RecordVariablesSchema = z.object({
   note: z.string(),
   amount: z.number().gt(0),
   date: z.date(),
-  asset: z.number(),
+  asset: z.number().nullable(),
   book: z.number(),
 });
 
