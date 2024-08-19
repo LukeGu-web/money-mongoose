@@ -1,7 +1,8 @@
 import { SplashScreen, Stack, router } from 'expo-router';
 import { useFonts } from 'expo-font';
 import { useEffect } from 'react';
-import { useColorScheme, TouchableOpacity } from 'react-native';
+import { TouchableOpacity } from 'react-native';
+import { colorScheme, useColorScheme } from 'nativewind';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 
@@ -91,13 +92,9 @@ const GoBack = ({ url }: { url?: string }) => (
 );
 
 function Providers({ children }: { children: React.ReactNode }) {
-  const colorScheme = useColorScheme();
-  //   const colorScheme = 'dark';
-  const { setTheme } = useTheme();
-
-  useEffect(() => {
-    setTheme(colorScheme === 'dark' ? Colors.dark : Colors.light);
-  }, []);
+  const { setColorScheme } = useColorScheme();
+  // options: "dark" | "light" | "system"
+  setColorScheme('system');
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <APIProvider>
