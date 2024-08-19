@@ -15,14 +15,13 @@ const defaultRecord = {
   subcategory: '',
   note: '',
   amount: 0,
+  date: '',
+  asset: -1,
+  book: -1,
 };
 
 const defaultExtra = {
-  id: 0,
-  author: '',
-  created_at: '',
-  updated_at: '',
-  date: '',
+  id: -1,
 };
 
 const useRecord = create<RecordState>((set) => ({

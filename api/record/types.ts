@@ -11,16 +11,18 @@ export const RecordVariablesSchema = z.object({
   subcategory: z.string().optional(),
   note: z.string(),
   amount: z.number().gt(0),
+  date: z.string(),
+  asset: z.number(),
+  book: z.number(),
 });
 
 export type RecordVariables = z.infer<typeof RecordVariablesSchema>;
 
 export interface Record extends RecordVariables {
   id: number;
-  author: string;
-  created_at: string;
-  updated_at: string;
-  date: string;
+  // author: string;
+  // created_at: string;
+  // updated_at: string;
 }
 
 export type RecordsByDay = {

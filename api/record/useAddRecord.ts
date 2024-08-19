@@ -9,7 +9,7 @@ type Response = Record;
 export const useAddRecord = createMutation<Response, Variables, AxiosError>({
   mutationFn: async (variables) =>
     client({
-      url: 'record/',
+      url: 'record/record/',
       method: 'POST',
       data: variables,
     }).then((response) => response.data),
