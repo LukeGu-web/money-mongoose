@@ -1,12 +1,10 @@
-import { useCallback, useMemo, type RefObject, type ReactNode } from 'react';
-import { StyleSheet } from 'react-native';
+import { useMemo, type RefObject, type ReactNode } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
   BottomSheetModal,
   BottomSheetView,
   BottomSheetBackdrop,
 } from '@gorhom/bottom-sheet';
-import { useStyles, TColors } from 'core/theme';
 
 type RecordBottomSheetProps = {
   bottomSheetModalRef: RefObject<BottomSheetModal>;
@@ -21,7 +19,6 @@ export default function BottomSheet({
   height,
   onDismiss,
 }: RecordBottomSheetProps) {
-  const { styles } = useStyles(createStyles);
   const { bottom: bottomSafeArea } = useSafeAreaInsets();
 
   const snapPoints = useMemo(
@@ -49,16 +46,9 @@ export default function BottomSheet({
       enableDismissOnClose
       onDismiss={onDismiss}
     >
-      <BottomSheetView style={styles.container}>{children}</BottomSheetView>
+      <BottomSheetView className='items-center flex-1'>
+        {children}
+      </BottomSheetView>
     </BottomSheetModal>
   );
 }
-
-const createStyles = (theme: TColors) =>
-  StyleSheet.create({
-    container: {
-      flex: 1,
-      alignItems: 'center',
-      //   backgroundColor: theme.bgPrimary,
-    },
-  });

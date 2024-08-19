@@ -22,9 +22,9 @@ export default function PickerBottomSheet({
 
   return (
     <BottomSheet bottomSheetModalRef={bottomSheetModalRef} height={240}>
-      <View style={styles.container}>
-        <Text style={styles.headerText}>Select Day</Text>
-        <View style={styles.contentContainer}>
+      <View className='items-center flex-1 w-full gap-2 p-2'>
+        <Text className='text-xl font-semibold'>Select Day</Text>
+        <View className='items-center flex-1 w-full '>
           <PickerIOS
             selectedValue={value}
             onValueChange={onChange}
@@ -42,17 +42,17 @@ export default function PickerBottomSheet({
 
 const createStyles = (theme: TColors) =>
   StyleSheet.create({
-    container: {
-      flex: 1,
-      width: '100%',
-      alignItems: 'center',
-      padding: 8,
-      gap: 8,
-    },
-    headerText: {
-      fontSize: 20,
-      fontWeight: 600,
-    },
+    // container: {
+    //   flex: 1,
+    //   width: '100%',
+    //   alignItems: 'center',
+    //   padding: 8,
+    //   gap: 8,
+    // },
+    // headerText: {
+    //   fontSize: 20,
+    //   fontWeight: 600,
+    // },
     contentContainer: {
       flex: 1,
       width: '100%',

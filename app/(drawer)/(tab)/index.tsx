@@ -1,15 +1,13 @@
 import { useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 import dayjs from 'dayjs';
 
 import { setHeaderToken } from 'api/client';
 import { BudgetCard, ExpenseCard, RecordList } from 'components';
-import { useStyles, TColors } from 'core/theme';
 import { useLocalStore, useRecordStore } from 'core/stateHooks';
 
 export default function Home() {
-  const { styles } = useStyles(createStyles);
   const token = useLocalStore((state) => state.token);
   const records = useRecordStore((state) => state.records);
   useEffect(() => {
@@ -30,42 +28,17 @@ export default function Home() {
   }
 
   return (
-    <View style={styles.container}>
-      <View style={styles.expenseContainer}>
+    <View className='flex-1 gap-2 p-2 bg-white'>
+      <View className='h-32 rounded-lg bg-sky-200'>
         <ExpenseCard monthIncome={monthIncome} monthExpense={monthExpense} />
       </View>
-      <View style={styles.budgetContainer}>
+      <View className='h-48 bg-blue-200 rounded-lg'>
         <BudgetCard monthExpense={monthExpense} />
       </View>
-      <View style={styles.listContainer}>
+      <View className='flex-1 rounded-lg'>
         <RecordList />
       </View>
       <StatusBar style='light' />
     </View>
   );
 }
-
-const createStyles = (theme: TColors) =>
-  StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: theme.white,
-      gap: 8,
-      padding: 8,
-    },
-    expenseContainer: {
-      height: 120,
-      borderRadius: 10,
-      backgroundColor: 'powderblue',
-    },
-    budgetContainer: {
-      height: 160,
-      borderRadius: 10,
-      backgroundColor: 'skyblue',
-    },
-    listContainer: {
-      flex: 1,
-      borderRadius: 10,
-      backgroundColor: 'steelblue',
-    },
-  });

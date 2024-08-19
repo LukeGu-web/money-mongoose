@@ -1,17 +1,15 @@
 import { useCallback, useRef } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { FlashList } from '@shopify/flash-list';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import dayjs from 'dayjs';
 
 import { useRecordStore } from 'core/stateHooks';
-import { useStyles, TColors } from 'core/theme';
 import { RecordBottomSheet, EmptyRecordList, ListDayItem } from 'components';
 
 export default function Records() {
   const records = useRecordStore((state) => state.records);
-  const { styles } = useStyles(createStyles);
   const isUpdated =
     records.length > 0 && dayjs().isAfter(dayjs(records[0].date));
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
@@ -20,9 +18,9 @@ export default function Records() {
     bottomSheetModalRef.current?.present();
   }, []);
   return (
-    <View style={styles.container}>
+    <View className='flex-1'>
       {isUpdated ? (
-        <View style={styles.listContainer}>
+        <View className='flex-1 rounded-lg'>
           <FlashList
             data={records}
             renderItem={({ item }) => (
@@ -33,7 +31,7 @@ export default function Records() {
           <RecordBottomSheet bottomSheetModalRef={bottomSheetModalRef} />
         </View>
       ) : (
-        <View style={styles.emptyContainer}>
+        <View className='items-center justify-center flex-1'>
           <EmptyRecordList />
         </View>
       )}
@@ -41,34 +39,3 @@ export default function Records() {
     </View>
   );
 }
-
-const createStyles = (theme: TColors) =>
-  StyleSheet.create({
-    container: {
-      flex: 1,
-    },
-    verticalContainer: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-    },
-    emptyContainer: {
-      flex: 1,
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    listContainer: {
-      flex: 1,
-      borderRadius: 10,
-      backgroundColor: theme.bgPrimary,
-    },
-    headerContainer: {
-      padding: 8,
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-    },
-    headerText: {
-      fontSize: 18,
-    },
-  });

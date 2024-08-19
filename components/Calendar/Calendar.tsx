@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { Calendar as ClendarPicker, DateData } from 'react-native-calendars';
 import { FlashList } from '@shopify/flash-list';
 import { useShallow } from 'zustand/react/shallow';
@@ -10,13 +10,11 @@ import RecordBottomSheet from '../BottomSheet/RecordBottomSheet';
 import CalendarDay from './CalendarDay';
 import ListDayItem from '../RecordList/ListDayItem';
 import { RecordsByDay } from 'api/record/types';
-import { formatApiError } from 'api/errorFormat';
-import { useGetRecordsByDateRange } from 'api/record/useGetAllRecords';
+// import { formatApiError } from 'api/errorFormat';
+// import { useGetRecordsByDateRange } from 'api/record/useGetAllRecords';
 import { useRecordStore, useCalendar } from 'core/stateHooks';
-import { useStyles, TColors } from 'core/theme';
 
 export default function Calendar() {
-  const { styles } = useStyles(createStyles);
   const records = useRecordStore((state) => state.records);
   const { visiableMonth, setVisiableMonth } = useCalendar(
     useShallow((state) => ({
@@ -86,10 +84,10 @@ export default function Calendar() {
   }, []);
 
   return (
-    <View style={styles.container}>
+    <View className='flex-1'>
       <ClendarPicker
         enableSwipeMonths={true}
-        style={styles.clendarContainer}
+        style={{ borderRadius: 10, padding: 8 }}
         initialDate={visiableMonth}
         dayComponent={({ date, state }: { date: any; state: any }) => (
           <CalendarDay
@@ -106,7 +104,7 @@ export default function Calendar() {
           setVisiableMonth(data.dateString);
         }}
       />
-      <View style={styles.recordsContainer}>
+      <View className='flex-1 p-2 rounded-lg bg-sky-100'>
         {dailyRecords.length > 0 ? (
           <FlashList
             data={dailyRecords}
@@ -123,20 +121,3 @@ export default function Calendar() {
     </View>
   );
 }
-
-const createStyles = (theme: TColors) =>
-  StyleSheet.create({
-    container: {
-      flex: 1,
-    },
-    clendarContainer: {
-      borderRadius: 10,
-      padding: 8,
-    },
-    recordsContainer: {
-      flex: 1,
-      borderRadius: 10,
-      padding: 8,
-      backgroundColor: '#ecf8f8',
-    },
-  });
