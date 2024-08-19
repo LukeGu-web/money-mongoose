@@ -12,7 +12,7 @@ export default function NetAssetCard() {
     .reduce((sum, item) => sum + item, 0);
 
   return (
-    <View className='justify-between flex-1 p-2'>
+    <View className='justify-between flex-1 p-3 bg-teal-100 rounded-lg'>
       <Text className='text-2xl'>Net Asset</Text>
       <Text className='text-4xl'>{formatter(netAsset)}</Text>
       <View className='flex-row gap-2'>

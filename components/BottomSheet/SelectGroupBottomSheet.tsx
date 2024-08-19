@@ -102,7 +102,7 @@ export default function SelectGroupBottomSheet({
       >
         <View
           className='items-center justify-center h-full'
-          style={{ backgroundColor: 'rgba(0, 0, 0, 0.6)' }}
+          style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
         >
           <View className='items-center w-11/12 gap-6 p-6 bg-white rounded-lg'>
             <Text style={{ fontSize: 24 }}>Group Name</Text>

@@ -8,7 +8,7 @@ import AccountList from 'components/BankAccount/AccountList';
 export default function Asset() {
   return (
     <ScrollView className='flex-1 p-2 bg-white'>
-      <View className='h-40 mb-3 rounded-lg bg-cyan-100'>
+      <View className='mb-3 h-36'>
         <NetAssetCard />
       </View>
       <View className='mb-3 h-18'>

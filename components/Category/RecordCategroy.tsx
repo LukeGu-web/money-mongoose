@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import {
-  StyleSheet,
   View,
   ScrollView,
   Text,
@@ -14,8 +13,6 @@ import Icon from '../Icon/Icon';
 
 import { RecordTypes } from 'api/record/types';
 import { useRecord } from 'core/stateHooks';
-import { useStyles, TColors } from 'core/theme';
-
 import expenseCategory from 'static/record-expense-category.json';
 import incomeCategory from 'static/record-income-category.json';
 
@@ -26,7 +23,6 @@ export default function RecordCategory() {
       setRecord: state.setRecord,
     }))
   );
-  const { styles, theme } = useStyles(createStyles);
 
   const [subcategory, setSubcategory] = useState<string[]>([]);
   const [isVisible, setIsVisible] = useState<boolean>(false);
@@ -52,7 +48,12 @@ export default function RecordCategory() {
   };
   return (
     <View style={{ flex: 1 }}>
-      <ScrollView contentContainerStyle={styles.iconsContainer}>
+      <ScrollView
+        contentContainerStyle={{
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
         <IconTable
           data={category}
           selectedCategory={record.category}
@@ -69,12 +70,15 @@ export default function RecordCategory() {
         }}
       >
         <TouchableWithoutFeedback onPress={() => setIsVisible(false)}>
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-              <View style={styles.modalHeader}>
-                <Text style={styles.modalText}>{record.category}</Text>
+          <View
+            className='items-center justify-center h-full'
+            style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
+          >
+            <View className='items-center w-11/12 gap-6 p-6 bg-white rounded-lg'>
+              <View className='flex-row justify-between w-full'>
+                <Text className='mb-4 text-center'>{record.category}</Text>
                 <TouchableOpacity onPress={() => setIsVisible(false)}>
-                  <Icon name='close' size={24} color={theme.black} />
+                  <Icon name='close' size={24} color='#000' />
                 </TouchableOpacity>
               </View>
               {record.category !== '' && (
@@ -91,44 +95,3 @@ export default function RecordCategory() {
     </View>
   );
 }
-
-const createStyles = (theme: TColors) =>
-  StyleSheet.create({
-    container: {
-      flex: 1,
-    },
-    iconsContainer: {
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    centeredView: {
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: 'rgba(0, 0, 0, 0.6)',
-      height: '100%',
-    },
-    modalView: {
-      margin: 20,
-      backgroundColor: theme.white,
-      borderRadius: 20,
-      padding: 20,
-      alignItems: 'center',
-      shadowColor: theme.black,
-      shadowOffset: {
-        width: 0,
-        height: 2,
-      },
-      shadowOpacity: 0.25,
-      shadowRadius: 4,
-      elevation: 5,
-    },
-    modalHeader: {
-      width: '100%',
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-    },
-    modalText: {
-      marginBottom: 15,
-      textAlign: 'center',
-    },
-  });

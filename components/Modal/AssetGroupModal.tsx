@@ -1,11 +1,10 @@
-import { StyleSheet, Text, View, Modal, Button, TextInput } from 'react-native';
+import { Text, View, Modal, Button, TextInput } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 
 import { BookType } from 'api/types';
 import { useCreateAssetGroup, useUpdateAssetGroup } from 'api/asset';
 import { formatApiError } from 'api/errorFormat';
 import { useBookStore } from 'core/stateHooks';
-import { useStyles, TColors } from 'core/theme';
 import log from 'core/logger';
 
 type AssetGroupModalProps = {
@@ -21,7 +20,6 @@ export default function AssetGroupModal({
   isVisible,
   onClose,
 }: AssetGroupModalProps) {
-  const { styles } = useStyles(createStyles);
   const { mutate: addAssetGroupApi } = useCreateAssetGroup();
   const { mutate: updateAssetGroupApi } = useUpdateAssetGroup();
   const { getCurrentBook, addAssetGroup, updateAssetGroup } = useBookStore();
@@ -77,8 +75,11 @@ export default function AssetGroupModal({
       visible={isVisible}
       onRequestClose={onClose}
     >
-      <View style={styles.centeredView}>
-        <View style={styles.modalView}>
+      <View
+        className='items-center justify-center h-full'
+        style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
+      >
+        <View className='items-center w-11/12 gap-6 p-6 bg-white rounded-lg'>
           <Text style={{ fontSize: 24 }}>
             {name === '' ? 'Create' : 'Edit'} Group
           </Text>
@@ -96,7 +97,7 @@ export default function AssetGroupModal({
             )}
             name='name'
           />
-          <View style={styles.buttonGroup}>
+          <View className='flex-row w-4/5 justify-evenly'>
             <Button color='gray' title='Cancel' onPress={handleCancel} />
             <Button title='Confirm' onPress={handleConfirm} />
           </View>
@@ -105,43 +106,3 @@ export default function AssetGroupModal({
     </Modal>
   );
 }
-
-const createStyles = (theme: TColors) =>
-  StyleSheet.create({
-    container: {
-      flex: 1,
-    },
-    centeredView: {
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: 'rgba(0, 0, 0, 0.6)',
-      height: '100%',
-    },
-    modalView: {
-      width: '90%',
-      backgroundColor: theme.white,
-      borderRadius: 20,
-      padding: 20,
-      alignItems: 'center',
-      shadowColor: theme.black,
-      shadowOffset: {
-        width: 0,
-        height: 2,
-      },
-      shadowOpacity: 0.25,
-      shadowRadius: 4,
-      elevation: 5,
-      gap: 16,
-    },
-    // input: {
-    //   width: '90%',
-    //   borderWidth: 1,
-    //   padding: 10,
-    //   borderRadius: 8,
-    // },
-    buttonGroup: {
-      width: '90%',
-      flexDirection: 'row',
-      justifyContent: 'space-evenly',
-    },
-  });

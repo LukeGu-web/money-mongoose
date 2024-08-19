@@ -1,8 +1,6 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text } from 'react-native';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { PickerIOS } from '@react-native-picker/picker';
-
-import { useStyles, TColors } from 'core/theme';
 import BottomSheet from './BottomSheet';
 
 type PickerpBottomSheetProps = {
@@ -18,8 +16,6 @@ export default function PickerBottomSheet({
   value,
   onChange,
 }: PickerpBottomSheetProps) {
-  const { styles } = useStyles(createStyles);
-
   return (
     <BottomSheet bottomSheetModalRef={bottomSheetModalRef} height={240}>
       <View className='items-center flex-1 w-full gap-2 p-2'>
@@ -39,23 +35,3 @@ export default function PickerBottomSheet({
     </BottomSheet>
   );
 }
-
-const createStyles = (theme: TColors) =>
-  StyleSheet.create({
-    // container: {
-    //   flex: 1,
-    //   width: '100%',
-    //   alignItems: 'center',
-    //   padding: 8,
-    //   gap: 8,
-    // },
-    // headerText: {
-    //   fontSize: 20,
-    //   fontWeight: 600,
-    // },
-    contentContainer: {
-      flex: 1,
-      width: '100%',
-      alignItems: 'center',
-    },
-  });

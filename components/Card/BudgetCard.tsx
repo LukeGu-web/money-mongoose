@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import {
-  StyleSheet,
   Text,
   TextInput,
   View,
@@ -12,7 +11,6 @@ import { useForm, Controller } from 'react-hook-form';
 import { useShallow } from 'zustand/react/shallow';
 import dayjs from 'dayjs';
 
-import { useStyles, TColors } from 'core/theme';
 import { useMonthlyAnalysis } from 'core/stateHooks';
 import { formatter } from 'core/utils';
 import { GoalProcess } from '../Chart/GoalProcess';
@@ -23,7 +21,6 @@ type BudgetCardProps = {
 };
 
 export default function BudgetCard({ monthExpense }: BudgetCardProps) {
-  const { styles, theme } = useStyles(createStyles);
   const expenseAmount = Math.abs(monthExpense);
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const { goal, setGoal } = useMonthlyAnalysis(
@@ -58,33 +55,28 @@ export default function BudgetCard({ monthExpense }: BudgetCardProps) {
     remaining > 0 ? remaining / (dayjs().daysInMonth() - days) : 0;
 
   return (
-    <View style={styles.container}>
-      <View style={styles.verticalContainer}>
+    <View className='justify-between flex-1 p-2'>
+      <View className='flex-row items-center justify-between'>
         <Text style={{ fontSize: 20, fontWeight: '700' }}>Month Budget</Text>
         <TouchableOpacity
-          style={{ ...styles.verticalContainer, gap: 5 }}
+          className='flex-row items-center justify-between gap-2'
           onPress={() => {
             setIsVisible(true);
           }}
         >
           <Text>{goal === null ? 'set goal' : goal}</Text>
-          <Icon name='edit' size={14} color={theme.black} />
+          <Icon name='edit' size={14} color='#000' />
         </TouchableOpacity>
       </View>
-      <View style={[styles.verticalContainer, styles.midContainer]}>
-        <View
-          style={{
-            ...styles.midBlock,
-            paddingTop: 10,
-          }}
-        >
+      <View className='flex-row items-stretch justify-between flex-1 gap-2 py-2'>
+        <View className='items-center justify-center flex-1 pt-2.5 rounded-lg bg-zinc-100'>
           <GoalProcess targetPercentage={goal ? expenseAmount / goal : 0} />
         </View>
-        <View style={styles.midBlock}>
+        <View className='items-center justify-center flex-1 rounded-lg bg-zinc-100 '>
           <Text className='text-lg'>{formatter(expenseAmount)}</Text>
           <Text>Spend</Text>
         </View>
-        <View style={styles.midBlock}>
+        <View className='items-center justify-center flex-1 rounded-lg bg-zinc-100 '>
           <Text
             className={`${
               remaining > 0 ? 'color-green-800' : 'color-red-800'
@@ -95,12 +87,12 @@ export default function BudgetCard({ monthExpense }: BudgetCardProps) {
           <Text>{remaining > 0 ? 'Remaining' : 'Overspent'}</Text>
         </View>
       </View>
-      <View style={styles.botContainer}>
-        <View style={styles.verticalContainer}>
+      <View>
+        <View className='flex-row items-center justify-between'>
           <Text>Average Daily Spending</Text>
           <Text>{formatter(expenseAmount / days)}</Text>
         </View>
-        <View style={styles.verticalContainer}>
+        <View className='flex-row items-center justify-between'>
           <Text>Remaining Daily</Text>
           <Text>{formatter(dailyRemaining)}</Text>
         </View>
@@ -113,14 +105,17 @@ export default function BudgetCard({ monthExpense }: BudgetCardProps) {
           setIsVisible(false);
         }}
       >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
+        <View
+          className='items-center justify-center h-full'
+          style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
+        >
+          <View className='items-center w-11/12 gap-6 p-6 bg-white rounded-lg'>
             <Text style={{ fontSize: 24 }}>Monthly Budget</Text>
             <Controller
               control={control}
               render={({ field: { onChange, onBlur, value } }) => (
                 <TextInput
-                  style={styles.numInput}
+                  className='w-full p-3 border-2 rounded-lg border-zinc-600'
                   placeholder='Please enter the budget amount'
                   keyboardType='numeric'
                   onBlur={onBlur}
@@ -131,7 +126,7 @@ export default function BudgetCard({ monthExpense }: BudgetCardProps) {
               name='amount'
             />
 
-            <View style={styles.buttonGroup}>
+            <View className='flex-row w-4/5 justify-evenly'>
               <Button color='gray' title='Cancel' onPress={handleCancel} />
               <Button title='Confirm' onPress={handleConfirm} />
             </View>
@@ -141,71 +136,3 @@ export default function BudgetCard({ monthExpense }: BudgetCardProps) {
     </View>
   );
 }
-
-const createStyles = (theme: TColors) =>
-  StyleSheet.create({
-    container: {
-      flex: 1,
-      flexDirection: 'column',
-      justifyContent: 'space-between',
-      padding: 8,
-    },
-    verticalContainer: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-    },
-    midContainer: {
-      flex: 1,
-      gap: 6,
-      alignItems: 'stretch',
-      justifyContent: 'space-between',
-      paddingVertical: 4,
-    },
-    midBlock: {
-      flex: 1,
-      alignItems: 'center',
-      justifyContent: 'center',
-      borderRadius: 8,
-      backgroundColor: theme.bgPrimary,
-    },
-    botContainer: {
-      borderWidth: 2,
-      borderBottomWidth: 0,
-      borderColor: 'red',
-      borderStyle: 'dashed',
-    },
-    centeredView: {
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: 'rgba(0, 0, 0, 0.6)',
-      height: '100%',
-    },
-    modalView: {
-      width: '90%',
-      backgroundColor: theme.white,
-      borderRadius: 20,
-      padding: 20,
-      alignItems: 'center',
-      shadowColor: theme.black,
-      shadowOffset: {
-        width: 0,
-        height: 2,
-      },
-      shadowOpacity: 0.25,
-      shadowRadius: 4,
-      elevation: 5,
-      gap: 16,
-    },
-    numInput: {
-      width: '90%',
-      borderWidth: 1,
-      padding: 10,
-      borderRadius: 8,
-    },
-    buttonGroup: {
-      width: '90%',
-      flexDirection: 'row',
-      justifyContent: 'space-evenly',
-    },
-  });
