@@ -1,5 +1,5 @@
 import { router, Link } from 'expo-router';
-import { View, Text, Button, Image, TouchableOpacity } from 'react-native';
+import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalStore } from 'core/stateHooks';
 const avatarImage = require('../assets/icon.png');

@@ -14,7 +14,7 @@ import { useShallow } from 'zustand/react/shallow';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import Keypad from './Keypad';
 
-import { RecordTypes, RecordVariablesSchema } from 'api/record/types';
+import { RecordTypes, RecordSchema } from 'api/record/types';
 import { useAddRecord } from 'api/record';
 import { formatApiError } from 'api/errorFormat';
 import { useStyles, TColors } from 'core/theme';
@@ -117,7 +117,7 @@ export default function DigitalPad() {
   };
 
   const handleSubmit = (isRedirect: boolean) => {
-    const validation = RecordVariablesSchema.safeParse(record);
+    const validation = RecordSchema.safeParse(record);
     if (!validation.success) {
       log.error('Zod: create record: ', validation.error);
       let errorMsg = '';

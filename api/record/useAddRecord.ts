@@ -1,9 +1,9 @@
 import type { AxiosError } from 'axios';
 import { createMutation } from 'react-query-kit';
 import { client } from '../client';
-import type { Record, RecordVariables } from './types';
+import type { Record } from './types';
 
-type Variables = RecordVariables;
+type Variables = Record;
 type Response = Record;
 
 const useAddRecord = createMutation<Response, Variables, AxiosError>({

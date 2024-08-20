@@ -5,7 +5,8 @@ export enum RecordTypes {
   INCOME = 'income',
 }
 
-export const RecordVariablesSchema = z.object({
+export const RecordSchema = z.object({
+  id: z.number().nullable(),
   type: z.enum(['expense', 'income']),
   category: z.string().trim().min(1, { message: 'Required' }),
   subcategory: z.string().optional(),
@@ -17,14 +18,7 @@ export const RecordVariablesSchema = z.object({
   is_marked_tax_return: z.boolean(),
 });
 
-export type RecordVariables = z.infer<typeof RecordVariablesSchema>;
-
-export interface Record extends RecordVariables {
-  id: number;
-  // author: string;
-  // created_at: string;
-  // updated_at: string;
-}
+export type Record = z.infer<typeof RecordSchema>;
 
 export type RecordsByDay = {
   date: string;
