@@ -1,8 +1,12 @@
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { Alert, View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { router } from 'expo-router';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 
+import { useDeleteRecord } from 'api/record';
+import { formatApiError } from 'api/errorFormat';
 import { useStyles, TColors } from 'core/theme';
-import { useRecord } from 'core/stateHooks';
+import log from 'core/logger';
+import { useRecord, useRecordStore } from 'core/stateHooks';
 import BottomSheet from './BottomSheet';
 import Icon from '../Icon/Icon';
 
@@ -13,42 +17,89 @@ type RecordBottomSheetProps = {
 export default function RecordBottomSheet({
   bottomSheetModalRef,
 }: RecordBottomSheetProps) {
-  const { styles, theme } = useStyles(createStyles);
-  const selectedRecord = useRecord((state) => state.selectedRecord);
+  const { mutate: deleteRecordApi } = useDeleteRecord();
+  const { styles } = useStyles(createStyles);
+  const { record, resetRecord, setRecord } = useRecord();
+  const { removeRecord } = useRecordStore();
+  const handleGoRecord = () => {
+    bottomSheetModalRef.current?.dismiss();
+    router.navigate('/record');
+  };
 
+  const handleCopy = () => {
+    setRecord({ id: -1 });
+    handleGoRecord();
+  };
+
+  const handleDelete = () =>
+    Alert.alert(
+      'Delete Record',
+      `Are you sure you want to delete ${record.category} record?`,
+      [
+        {
+          text: 'Cancel',
+          onPress: () => bottomSheetModalRef.current?.dismiss(),
+          style: 'cancel',
+        },
+        {
+          text: 'Yes',
+          onPress: () =>
+            deleteRecordApi(
+              { id: record.id as number },
+              {
+                onSuccess: () => {
+                  log.success('Delete asset successfully!');
+                  // delete record from store
+                  removeRecord(record.id as number);
+                  resetRecord();
+                  bottomSheetModalRef.current?.dismiss();
+                },
+                onError: (error) => {
+                  log.error('Error: ', formatApiError(error));
+                },
+              }
+            ),
+        },
+      ]
+    );
   return (
     <BottomSheet bottomSheetModalRef={bottomSheetModalRef} height={160}>
       <View style={styles.container}>
         <View style={styles.contentContainer}>
           <View style={styles.iconContainer}>
-            <Icon name={selectedRecord.category} size={28} color='black' />
+            <Icon name={record.category} size={28} color='#000' />
           </View>
           <View style={styles.midContainer}>
             <View style={styles.categoryContainer}>
-              <Text style={styles.category}>{selectedRecord.category}</Text>
-              {selectedRecord.subcategory && (
-                <Text style={styles.category}>
-                  - {selectedRecord.subcategory}
-                </Text>
+              <Text style={styles.category}>{record.category}</Text>
+              {record.subcategory && (
+                <Text style={styles.category}>- {record.subcategory}</Text>
               )}
             </View>
-            {selectedRecord.note !== '' && <Text>{selectedRecord.note}</Text>}
+            {record.note !== '' && <Text>{record.note}</Text>}
           </View>
-          <Text style={styles.amount}>
-            {Number(selectedRecord.amount).toFixed(2)}
-          </Text>
+          <Text style={styles.amount}>{Number(record.amount).toFixed(2)}</Text>
         </View>
         <View style={styles.functionContainer}>
-          <TouchableOpacity style={styles.iconButton}>
-            <Icon name='edit' size={24} color={theme.black} />
+          <TouchableOpacity
+            className='items-center justify-center'
+            onPress={handleGoRecord}
+          >
+            <Icon name='edit' size={24} color='#000' />
             <Text>Edit</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.iconButton}>
-            <Icon name='delete' size={24} color={theme.black} />
+          <TouchableOpacity
+            className='items-center justify-center'
+            onPress={handleDelete}
+          >
+            <Icon name='delete' size={24} color='#000' />
             <Text>Delete</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.iconButton}>
-            <Icon name='copy' size={24} color={theme.black} />
+          <TouchableOpacity
+            className='items-center justify-center'
+            onPress={handleCopy}
+          >
+            <Icon name='copy' size={24} color='#000' />
             <Text>Copy</Text>
           </TouchableOpacity>
         </View>
@@ -114,9 +165,5 @@ const createStyles = (theme: TColors) =>
       paddingVertical: 10,
       paddingHorizontal: 28,
       borderRadius: 40,
-    },
-    iconButton: {
-      alignItems: 'center',
-      justifyContent: 'center',
     },
   });

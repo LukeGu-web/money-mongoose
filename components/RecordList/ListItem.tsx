@@ -11,7 +11,7 @@ type ListItemProps = {
 
 export default function ListItem({ item, onPress }: ListItemProps) {
   const { theme, styles } = useStyles(createStyles);
-  const setSelectedRecord = useRecord((state) => state.setSelectedRecord);
+  const setRecord = useRecord((state) => state.setRecord);
   return (
     <TouchableOpacity
       style={{
@@ -19,7 +19,7 @@ export default function ListItem({ item, onPress }: ListItemProps) {
         borderColor: theme[`${item.type}TextColor`],
       }}
       onPress={() => {
-        setSelectedRecord(item);
+        setRecord(item);
         onPress();
       }}
     >

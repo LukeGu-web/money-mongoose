@@ -10,15 +10,20 @@ import {
   KeyboardAvoidingView,
 } from 'react-native';
 import { router } from 'expo-router';
-import { useShallow } from 'zustand/react/shallow';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
+import { useShallow } from 'zustand/react/shallow';
 import Keypad from './Keypad';
 
-import { RecordTypes, RecordVariablesSchema } from 'api/record/types';
-import { useAddRecord } from 'api/record';
+import { RecordTypes, RecordSchema } from 'api/record/types';
+import { useAddRecord, useUpdateRecord } from 'api/record';
 import { formatApiError } from 'api/errorFormat';
 import { useStyles, TColors } from 'core/theme';
-import { useRecord, useRecordStore, useBookStore } from 'core/stateHooks';
+import {
+  useAsset,
+  useRecord,
+  useRecordStore,
+  useBookStore,
+} from 'core/stateHooks';
 import { formatter } from 'core/utils';
 import log from 'core/logger';
 import CameraBottomSheet from 'components/BottomSheet/CameraBottomSheet';
@@ -27,24 +32,21 @@ export default function DigitalPad() {
   const keyboardVerticalOffset = Platform.OS === 'ios' ? -150 : 0;
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const { mutate: addRecordApi } = useAddRecord();
+  const { mutate: updateRecordApi } = useUpdateRecord();
   const currentBook = useBookStore((state) => state.currentBook);
-  const addRecord = useRecordStore((state) => state.addRecord);
-  const { record, setRecord, resetRecord } = useRecord(
+  const { addRecord, updateRecord } = useRecordStore(
     useShallow((state) => ({
-      record: state.record,
-      setRecord: state.setRecord,
-      resetRecord: state.resetRecord,
+      addRecord: state.addRecord,
+      updateRecord: state.updateRecord,
     }))
   );
+  const { record, setRecord, resetRecord } = useRecord();
+  const resetAsset = useAsset((state) => state.resetAsset);
 
   const { styles } = useStyles(createStyles);
 
   const [decimalLength, setDecimalLength] = useState(0);
   const [isDecimal, setIsDecimal] = useState(false);
-
-  const handlePressSelect = useCallback(() => {
-    bottomSheetModalRef.current?.present();
-  }, []);
 
   const handleReset = () => {
     setDecimalLength(0);
@@ -117,7 +119,7 @@ export default function DigitalPad() {
   };
 
   const handleSubmit = (isRedirect: boolean) => {
-    const validation = RecordVariablesSchema.safeParse(record);
+    const validation = RecordSchema.safeParse(record);
     if (!validation.success) {
       log.error('Zod: create record: ', validation.error);
       let errorMsg = '';
@@ -135,26 +137,56 @@ export default function DigitalPad() {
         ...record,
         book: currentBook.id,
       });
-      addRecordApi(
-        {
-          ...record,
-          book: currentBook.id,
-          amount:
-            record.type === RecordTypes.INCOME ? record.amount : -record.amount,
-        },
-        {
-          onSuccess: (response) => {
-            log.success('Add record success:', response);
-            addRecord(response);
-            handleReset();
-            resetRecord();
-            if (isRedirect) router.push('/');
+      const { id, ...rest } = record;
+      if (id && id > 0) {
+        updateRecordApi(
+          {
+            ...record,
+            book: currentBook.id,
+            amount:
+              record.type === RecordTypes.INCOME
+                ? record.amount
+                : -record.amount,
           },
-          onError: (error) => {
-            log.error('Error: ', formatApiError(error));
+          {
+            onSuccess: (response) => {
+              log.success('Add record success:', response);
+              updateRecord({ ...response, amount: Number(response.amount) });
+              handleReset();
+              resetRecord();
+              resetAsset();
+              if (isRedirect) router.push('/');
+            },
+            onError: (error) => {
+              log.error('Error: ', formatApiError(error));
+            },
+          }
+        );
+      } else {
+        addRecordApi(
+          {
+            ...rest,
+            book: currentBook.id,
+            amount:
+              record.type === RecordTypes.INCOME
+                ? record.amount
+                : -record.amount,
           },
-        }
-      );
+          {
+            onSuccess: (response) => {
+              log.success('Add record success:', response);
+              addRecord({ ...response, amount: Number(response.amount) });
+              handleReset();
+              resetRecord();
+              resetAsset();
+              if (isRedirect) router.push('/');
+            },
+            onError: (error) => {
+              log.error('Error: ', formatApiError(error));
+            },
+          }
+        );
+      }
     }
   };
 

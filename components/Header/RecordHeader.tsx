@@ -1,24 +1,18 @@
 import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { router } from 'expo-router';
-import { useShallow } from 'zustand/react/shallow';
-
 import { RecordTypes } from 'api/record/types';
-import { useRecord } from 'core/stateHooks';
+import { useAsset, useRecord } from 'core/stateHooks';
 import { useStyles, TColors } from 'core/theme';
 import Icon from '../Icon/Icon';
 
 export default function RecordHeader() {
-  const { record, setRecord, resetRecord } = useRecord(
-    useShallow((state) => ({
-      record: state.record,
-      setRecord: state.setRecord,
-      resetRecord: state.resetRecord,
-    }))
-  );
+  const { record, setRecord, resetRecord } = useRecord();
+  const { resetAsset } = useAsset();
   const { theme, styles } = useStyles(createStyles);
   const handleGoBack = () => {
-    router.navigate('/');
     resetRecord();
+    resetAsset();
+    router.navigate('/');
   };
   return (
     <View style={styles.container}>

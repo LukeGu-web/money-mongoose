@@ -10,7 +10,7 @@ const useUpdateRecord = createMutation<Response, Variables, AxiosError>({
   mutationFn: async (variables) =>
     client({
       url: `record/record/${variables.id}/`,
-      method: 'PATCH',
+      method: 'PUT',
       data: variables,
     }).then((response) => response.data),
 });
