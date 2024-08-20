@@ -15,7 +15,7 @@ import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import Keypad from './Keypad';
 
 import { RecordTypes, RecordVariablesSchema } from 'api/record/types';
-import { useAddRecord } from 'api/record/useAddRecord';
+import { useAddRecord } from 'api/record';
 import { formatApiError } from 'api/errorFormat';
 import { useStyles, TColors } from 'core/theme';
 import { useRecord, useRecordStore, useBookStore } from 'core/stateHooks';

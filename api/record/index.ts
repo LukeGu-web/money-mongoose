@@ -1,3 +1,4 @@
 export { default as useGetAllRecords } from './useGetAllRecords';
-// export { default as useDeleteBook } from './useDeleteBook';
-// export { default as useUpdateBook } from './useUpdateBook';
+export { default as useAddRecord } from './useAddRecord';
+export { default as useDeleteRecord } from './useDeleteRecord';
+export { default as useUpdateRecord } from './useUpdateRecord';
