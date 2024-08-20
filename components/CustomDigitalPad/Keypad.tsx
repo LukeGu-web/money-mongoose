@@ -8,7 +8,6 @@ type KeypadProps = {
 
 export default function Keypad({ onKeyInput }: KeypadProps) {
   const record = useRecord((state) => state.record);
-  console.log('Key record: ', record.is_marked_tax_return);
   return (
     <FlatList
       data={dialPadContent}

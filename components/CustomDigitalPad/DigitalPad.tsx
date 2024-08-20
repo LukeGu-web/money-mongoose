@@ -11,10 +11,11 @@ import {
 } from 'react-native';
 import { router } from 'expo-router';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
+import { useShallow } from 'zustand/react/shallow';
 import Keypad from './Keypad';
 
 import { RecordTypes, RecordSchema } from 'api/record/types';
-import { useAddRecord } from 'api/record';
+import { useAddRecord, useUpdateRecord } from 'api/record';
 import { formatApiError } from 'api/errorFormat';
 import { useStyles, TColors } from 'core/theme';
 import {
@@ -31,8 +32,14 @@ export default function DigitalPad() {
   const keyboardVerticalOffset = Platform.OS === 'ios' ? -150 : 0;
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const { mutate: addRecordApi } = useAddRecord();
+  const { mutate: updateRecordApi } = useUpdateRecord();
   const currentBook = useBookStore((state) => state.currentBook);
-  const addRecord = useRecordStore((state) => state.addRecord);
+  const { addRecord, updateRecord } = useRecordStore(
+    useShallow((state) => ({
+      addRecord: state.addRecord,
+      updateRecord: state.updateRecord,
+    }))
+  );
   const { record, setRecord, resetRecord } = useRecord();
   const resetAsset = useAsset((state) => state.resetAsset);
 
@@ -40,10 +47,6 @@ export default function DigitalPad() {
 
   const [decimalLength, setDecimalLength] = useState(0);
   const [isDecimal, setIsDecimal] = useState(false);
-
-  const handlePressSelect = useCallback(() => {
-    bottomSheetModalRef.current?.present();
-  }, []);
 
   const handleReset = () => {
     setDecimalLength(0);
@@ -136,8 +139,30 @@ export default function DigitalPad() {
       });
       const { id, ...rest } = record;
       if (id && id > 0) {
+        updateRecordApi(
+          {
+            ...record,
+            book: currentBook.id,
+            amount:
+              record.type === RecordTypes.INCOME
+                ? record.amount
+                : -record.amount,
+          },
+          {
+            onSuccess: (response) => {
+              log.success('Add record success:', response);
+              updateRecord({ ...response, amount: Number(response.amount) });
+              handleReset();
+              resetRecord();
+              resetAsset();
+              if (isRedirect) router.push('/');
+            },
+            onError: (error) => {
+              log.error('Error: ', formatApiError(error));
+            },
+          }
+        );
       } else {
-        log.debug('addRecordApi: ', rest);
         addRecordApi(
           {
             ...rest,

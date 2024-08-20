@@ -18,14 +18,19 @@ export default function RecordBottomSheet({
   bottomSheetModalRef,
 }: RecordBottomSheetProps) {
   const { mutate: deleteRecordApi } = useDeleteRecord();
-  const { styles, theme } = useStyles(createStyles);
-  const { record, resetRecord } = useRecord();
+  const { styles } = useStyles(createStyles);
+  const { record, resetRecord, setRecord } = useRecord();
   const { removeRecord } = useRecordStore();
   const handleGoRecord = () => {
     bottomSheetModalRef.current?.dismiss();
     router.navigate('/record');
   };
-  console.log('record: ', record);
+
+  const handleCopy = () => {
+    setRecord({ id: -1 });
+    handleGoRecord();
+  };
+
   const handleDelete = () =>
     Alert.alert(
       'Delete Record',
@@ -92,7 +97,7 @@ export default function RecordBottomSheet({
           </TouchableOpacity>
           <TouchableOpacity
             className='items-center justify-center'
-            onPress={handleGoRecord}
+            onPress={handleCopy}
           >
             <Icon name='copy' size={24} color='#000' />
             <Text>Copy</Text>
