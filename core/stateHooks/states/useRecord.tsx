@@ -18,6 +18,7 @@ const defaultRecord = {
   date: new Date(),
   asset: null,
   book: -1,
+  is_marked_tax_return: false,
 };
 
 const defaultExtra = {

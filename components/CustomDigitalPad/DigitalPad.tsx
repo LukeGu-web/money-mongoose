@@ -92,10 +92,8 @@ export default function DigitalPad() {
         bottomSheetModalRef.current?.present();
         break;
       case 'tax':
+        setRecord({ is_marked_tax_return: !record.is_marked_tax_return });
         break;
-      // case 'new':
-      //   handleSubmit(false);
-      //   break;
       case 'save':
         handleSubmit(true);
         break;

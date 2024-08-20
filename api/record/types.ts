@@ -14,6 +14,7 @@ export const RecordVariablesSchema = z.object({
   date: z.date(),
   asset: z.number().nullable(),
   book: z.number(),
+  is_marked_tax_return: z.boolean(),
 });
 
 export type RecordVariables = z.infer<typeof RecordVariablesSchema>;
