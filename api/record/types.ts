@@ -12,7 +12,7 @@ export const RecordSchema = z.object({
   subcategory: z.string().optional(),
   note: z.string(),
   amount: z.number().gt(0),
-  date: z.date(),
+  date: z.string().date(),
   asset: z.number().nullable(),
   book: z.number(),
   is_marked_tax_return: z.boolean(),

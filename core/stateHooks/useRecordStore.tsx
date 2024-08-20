@@ -9,6 +9,8 @@ type RecordState = {
   records: RecordsByDay[];
   setRecords: (records: RecordsByDay[]) => void;
   addRecord: (record: Record) => void;
+  updateRecord: (record: Record) => void;
+  removeRecord: (id: number) => void;
   resetRecords: () => void;
 };
 
@@ -21,7 +23,7 @@ export const useRecordStore = create<RecordState>()(
           set(() => ({ records }));
         },
         addRecord: (record) => {
-          set(() => {
+          set((state) => {
             const newRecordDateString = dayjs(record.date).format('YYYY-MM-DD');
             const newRecord = {
               date: newRecordDateString,
@@ -32,31 +34,97 @@ export const useRecordStore = create<RecordState>()(
               records: [record],
             };
 
-            if (get().records.length === 0) {
-              return {
-                records: [newRecord],
-              };
-            } else {
-              const newRecords = [...get().records];
+            const existingIndex = state.records.findIndex(
+              (r) => r.date === newRecordDateString
+            );
 
-              if (newRecords[0].date === newRecordDateString) {
-                newRecords[0] = {
-                  ...newRecords[0],
-                  records: [...newRecords[0].records, record],
-                  sum_of_income:
-                    record.type === RecordTypes.INCOME
-                      ? newRecords[0].sum_of_income + Number(record.amount)
-                      : newRecords[0].sum_of_income,
-                  sum_of_expense:
-                    record.type === RecordTypes.EXPENSE
-                      ? newRecords[0].sum_of_expense + Number(record.amount)
-                      : newRecords[0].sum_of_expense,
-                };
-              } else {
-                newRecords.unshift(newRecord);
-              }
-              return { records: newRecords };
+            if (existingIndex !== -1) {
+              const existingRecord = state.records[existingIndex];
+              existingRecord.records.push(record);
+              existingRecord.sum_of_income +=
+                record.type === RecordTypes.INCOME ? record.amount : 0;
+              existingRecord.sum_of_expense +=
+                record.type === RecordTypes.EXPENSE ? record.amount : 0;
+            } else {
+              state.records.push(newRecord);
             }
+
+            state.records.sort(
+              (a, b) => dayjs(b.date).valueOf() - dayjs(a.date).valueOf()
+            );
+          });
+        },
+        updateRecord: (updatedRecord) => {
+          set((state) => {
+            const updatedRecordDateString = dayjs(updatedRecord.date).format(
+              'YYYY-MM-DD'
+            );
+            let recordFound = false;
+
+            state.records.forEach((dayRecord) => {
+              const recordIndex = dayRecord.records.findIndex(
+                (r) => r.id === updatedRecord.id
+              );
+              if (recordIndex !== -1) {
+                // Adjust income and expense sums
+                const oldRecord = dayRecord.records[recordIndex];
+                if (oldRecord.type === RecordTypes.INCOME) {
+                  dayRecord.sum_of_income -= oldRecord.amount;
+                } else {
+                  dayRecord.sum_of_expense -= oldRecord.amount;
+                }
+
+                dayRecord.records[recordIndex] = updatedRecord;
+
+                if (updatedRecord.type === RecordTypes.INCOME) {
+                  dayRecord.sum_of_income += updatedRecord.amount;
+                } else {
+                  dayRecord.sum_of_expense += updatedRecord.amount;
+                }
+
+                recordFound = true;
+              }
+            });
+
+            if (!recordFound) {
+              // If the record wasn't found, treat it as a new record
+              get().addRecord(updatedRecord);
+            } else {
+              // Ensure the records are sorted correctly
+              state.records.sort(
+                (a, b) => dayjs(b.date).valueOf() - dayjs(a.date).valueOf()
+              );
+            }
+          });
+        },
+        removeRecord: (recordId) => {
+          set((state) => {
+            state.records.forEach((dayRecord) => {
+              const recordIndex = dayRecord.records.findIndex(
+                (r) => r.id === recordId
+              );
+              if (recordIndex !== -1) {
+                const [removedRecord] = dayRecord.records.splice(
+                  recordIndex,
+                  1
+                );
+
+                if (removedRecord.type === RecordTypes.INCOME) {
+                  dayRecord.sum_of_income -= removedRecord.amount;
+                } else {
+                  dayRecord.sum_of_expense -= removedRecord.amount;
+                }
+              }
+            });
+
+            // Filter out any empty records by day
+            state.records = state.records.filter(
+              (dayRecord) => dayRecord.records.length > 0
+            );
+
+            state.records.sort(
+              (a, b) => dayjs(b.date).valueOf() - dayjs(a.date).valueOf()
+            );
           });
         },
         resetRecords: () => {

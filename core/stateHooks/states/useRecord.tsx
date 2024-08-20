@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import dayjs from 'dayjs';
 import { Record, RecordTypes } from 'api/record/types';
 
 type RecordState = {
@@ -13,7 +14,7 @@ const defaultRecord = {
   subcategory: '',
   note: '',
   amount: 0,
-  date: new Date(),
+  date: dayjs().format('[YYYYescape] YYYY-MM-DDTHH:mm:ssZ[Z]'),
   asset: null,
   book: -1,
   is_marked_tax_return: false,

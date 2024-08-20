@@ -6,7 +6,7 @@ import { useDeleteRecord } from 'api/record';
 import { formatApiError } from 'api/errorFormat';
 import { useStyles, TColors } from 'core/theme';
 import log from 'core/logger';
-import { useRecord } from 'core/stateHooks';
+import { useRecord, useRecordStore } from 'core/stateHooks';
 import BottomSheet from './BottomSheet';
 import Icon from '../Icon/Icon';
 
@@ -19,11 +19,13 @@ export default function RecordBottomSheet({
 }: RecordBottomSheetProps) {
   const { mutate: deleteRecordApi } = useDeleteRecord();
   const { styles, theme } = useStyles(createStyles);
-  const record = useRecord((state) => state.record);
+  const { record, resetRecord } = useRecord();
+  const { removeRecord } = useRecordStore();
   const handleGoRecord = () => {
     bottomSheetModalRef.current?.dismiss();
     router.navigate('/record');
   };
+  console.log('record: ', record);
   const handleDelete = () =>
     Alert.alert(
       'Delete Record',
@@ -42,9 +44,10 @@ export default function RecordBottomSheet({
               {
                 onSuccess: () => {
                   log.success('Delete asset successfully!');
-                  // remove asset from store
-                  // removeAsset(asset);
-                  // resetAsset();
+                  // delete record from store
+                  removeRecord(record.id as number);
+                  resetRecord();
+                  bottomSheetModalRef.current?.dismiss();
                 },
                 onError: (error) => {
                   log.error('Error: ', formatApiError(error));
@@ -80,7 +83,10 @@ export default function RecordBottomSheet({
             <Icon name='edit' size={24} color='#000' />
             <Text>Edit</Text>
           </TouchableOpacity>
-          <TouchableOpacity className='items-center justify-center'>
+          <TouchableOpacity
+            className='items-center justify-center'
+            onPress={handleDelete}
+          >
             <Icon name='delete' size={24} color='#000' />
             <Text>Delete</Text>
           </TouchableOpacity>

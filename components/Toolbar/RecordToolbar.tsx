@@ -1,11 +1,5 @@
 import { useRef, useCallback } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Keyboard,
-} from 'react-native';
+import { Text, View, TouchableOpacity, Keyboard } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useShallow } from 'zustand/react/shallow';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
@@ -48,7 +42,7 @@ export default function RecordToolbar() {
     <View className='flex-row justify-start gap-2 px-5 py-2 mb-2 border-b-2 h-14 border-gray-50'>
       <DateTimePicker
         style={{ width: 90 }}
-        value={record.date}
+        value={record.date as any}
         mode={'date'}
         display='calendar'
         onChange={onDateChange}
