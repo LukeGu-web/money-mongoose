@@ -19,14 +19,14 @@ export default function RecordHeader() {
       </TouchableOpacity>
       <View
         className='flex-row items-center border-2 border-white rounded-lg'
-        style={{ flex: 0.5 }}
+        style={{ flex: 0.7 }}
       >
-        {Object.values(RecordTypes).map((item) => (
+        {Object.values(RecordTypes).map((item, index) => (
           <TouchableOpacity
             key={item}
-            className={`items-center justify-center p-1 flex-1 ${
-              record.type === item && 'bg-white'
-            }`}
+            className={`items-center justify-center p-1 flex-1 border-white ${
+              index < 2 && 'border-r-2'
+            } ${record.type === item && 'bg-white'}`}
             onPress={() => {
               setRecord({ type: item });
             }}

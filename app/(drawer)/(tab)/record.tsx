@@ -1,13 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { DigitalPad, RecordCategory, RecordToolbar } from 'components';
-import type { Record, RecordTypes } from 'api/record/types';
-
-export type RecordCategoryInputType = {
-  type: RecordTypes;
-  category: string;
-  subcategory: string;
-};
+import type { Record } from 'api/record/types';
 
 export default function Record() {
   return (
