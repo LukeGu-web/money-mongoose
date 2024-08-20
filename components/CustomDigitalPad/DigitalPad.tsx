@@ -10,8 +10,6 @@ import {
   KeyboardAvoidingView,
 } from 'react-native';
 import { router } from 'expo-router';
-import dayjs from 'dayjs';
-import { useShallow } from 'zustand/react/shallow';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import Keypad from './Keypad';
 
@@ -19,7 +17,12 @@ import { RecordTypes, RecordSchema } from 'api/record/types';
 import { useAddRecord } from 'api/record';
 import { formatApiError } from 'api/errorFormat';
 import { useStyles, TColors } from 'core/theme';
-import { useRecord, useRecordStore, useBookStore } from 'core/stateHooks';
+import {
+  useAsset,
+  useRecord,
+  useRecordStore,
+  useBookStore,
+} from 'core/stateHooks';
 import { formatter } from 'core/utils';
 import log from 'core/logger';
 import CameraBottomSheet from 'components/BottomSheet/CameraBottomSheet';
@@ -30,13 +33,8 @@ export default function DigitalPad() {
   const { mutate: addRecordApi } = useAddRecord();
   const currentBook = useBookStore((state) => state.currentBook);
   const addRecord = useRecordStore((state) => state.addRecord);
-  const { record, setRecord, resetRecord } = useRecord(
-    useShallow((state) => ({
-      record: state.record,
-      setRecord: state.setRecord,
-      resetRecord: state.resetRecord,
-    }))
-  );
+  const { record, setRecord, resetRecord } = useRecord();
+  const resetAsset = useAsset((state) => state.resetAsset);
 
   const { styles } = useStyles(createStyles);
 
@@ -155,6 +153,7 @@ export default function DigitalPad() {
               addRecord({ ...response, amount: Number(response.amount) });
               handleReset();
               resetRecord();
+              resetAsset();
               if (isRedirect) router.push('/');
             },
             onError: (error) => {

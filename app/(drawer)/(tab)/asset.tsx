@@ -7,7 +7,13 @@ import AccountList from 'components/BankAccount/AccountList';
 
 export default function Asset() {
   return (
-    <ScrollView className='flex-1 p-2 bg-white'>
+    <ScrollView
+      style={{
+        flex: 1,
+        padding: 8,
+        backgroundColor: '#fff',
+      }}
+    >
       <View className='mb-3 h-36'>
         <NetAssetCard />
       </View>
