@@ -1,6 +1,9 @@
 import { create } from 'zustand';
 import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { Record, RecordTypes } from 'api/record/types';
+
+dayjs.extend(customParseFormat);
 
 type RecordState = {
   record: Record;
@@ -14,7 +17,7 @@ const defaultRecord = {
   subcategory: '',
   note: '',
   amount: 0,
-  date: dayjs().format('[YYYYescape] YYYY-MM-DDTHH:mm:ssZ[Z]'),
+  date: dayjs().format('YYYY-MM-DDTHH:mm:ssZ[Z]'),
   asset: null,
   book: -1,
   is_marked_tax_return: false,

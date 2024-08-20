@@ -1,6 +1,7 @@
 import { useRef, useCallback } from 'react';
 import { Text, View, TouchableOpacity, Keyboard } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import dayjs from 'dayjs';
 import { useShallow } from 'zustand/react/shallow';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 
@@ -42,7 +43,7 @@ export default function RecordToolbar() {
     <View className='flex-row justify-start gap-2 px-5 py-2 mb-2 border-b-2 h-14 border-gray-50'>
       <DateTimePicker
         style={{ width: 90 }}
-        value={record.date as any}
+        value={dayjs(record.date, 'YYYY-MM-DD').toDate()}
         mode={'date'}
         display='calendar'
         onChange={onDateChange}
