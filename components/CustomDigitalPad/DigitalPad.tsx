@@ -10,6 +10,7 @@ import {
   KeyboardAvoidingView,
 } from 'react-native';
 import { router } from 'expo-router';
+import dayjs from 'dayjs';
 import { useShallow } from 'zustand/react/shallow';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import Keypad from './Keypad';
@@ -135,26 +136,33 @@ export default function DigitalPad() {
         ...record,
         book: currentBook.id,
       });
-      addRecordApi(
-        {
-          ...record,
-          book: currentBook.id,
-          amount:
-            record.type === RecordTypes.INCOME ? record.amount : -record.amount,
-        },
-        {
-          onSuccess: (response) => {
-            log.success('Add record success:', response);
-            addRecord(response);
-            handleReset();
-            resetRecord();
-            if (isRedirect) router.push('/');
+      const { id, ...rest } = record;
+      if (id && id > 0) {
+      } else {
+        log.debug('addRecordApi: ', rest);
+        addRecordApi(
+          {
+            ...rest,
+            book: currentBook.id,
+            amount:
+              record.type === RecordTypes.INCOME
+                ? record.amount
+                : -record.amount,
           },
-          onError: (error) => {
-            log.error('Error: ', formatApiError(error));
-          },
-        }
-      );
+          {
+            onSuccess: (response) => {
+              log.success('Add record success:', response);
+              addRecord({ ...response, amount: Number(response.amount) });
+              handleReset();
+              resetRecord();
+              if (isRedirect) router.push('/');
+            },
+            onError: (error) => {
+              log.error('Error: ', formatApiError(error));
+            },
+          }
+        );
+      }
     }
   };
 

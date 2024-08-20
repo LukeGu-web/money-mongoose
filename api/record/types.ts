@@ -6,13 +6,13 @@ export enum RecordTypes {
 }
 
 export const RecordSchema = z.object({
-  id: z.number().nullable(),
+  id: z.number().optional(),
   type: z.enum(['expense', 'income']),
   category: z.string().trim().min(1, { message: 'Required' }),
   subcategory: z.string().optional(),
   note: z.string(),
   amount: z.number().gt(0),
-  date: z.string().date(),
+  date: z.string(),
   asset: z.number().nullable(),
   book: z.number(),
   is_marked_tax_return: z.boolean(),
