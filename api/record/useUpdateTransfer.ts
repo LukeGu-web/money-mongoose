@@ -1,18 +1,18 @@
 import type { AxiosError } from 'axios';
 import { createMutation } from 'react-query-kit';
 import { client } from '../client';
-import type { RecordAPI as Record } from './types';
+import type { TransferAPI as Transfer } from './types';
 
-type Variables = Record;
-type Response = Record;
+type Variables = Transfer;
+type Response = Transfer;
 
-const useUpdateRecord = createMutation<Response, Variables, AxiosError>({
+const useUpdateTransfer = createMutation<Response, Variables, AxiosError>({
   mutationFn: async (variables) =>
     client({
-      url: `record/record/${variables.id}/`,
+      url: `record/transfer/${variables.id}/`,
       method: 'PUT',
       data: variables,
     }).then((response) => response.data),
 });
 
-export default useUpdateRecord;
+export default useUpdateTransfer;

@@ -3,15 +3,24 @@ import { devtools, persist, createJSONStorage } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import dayjs from 'dayjs';
-import { Record, RecordTypes, RecordsByDay } from 'api/record/types';
+import {
+  RecordAPI as Record,
+  RecordTypes,
+  RecordsByDay,
+  TransferAPI as Transfer,
+} from 'api/record/types';
+import useBookStore from './useBookStore';
 
 type RecordState = {
   records: RecordsByDay[];
   setRecords: (records: RecordsByDay[]) => void;
+  resetRecords: () => void;
   addRecord: (record: Record) => void;
   updateRecord: (record: Record) => void;
   removeRecord: (id: number) => void;
-  resetRecords: () => void;
+  addTransfer: (record: Transfer) => void;
+  updateTransfer: (record: Transfer) => void;
+  removeTransfer: (id: number) => void;
 };
 
 export const useRecordStore = create<RecordState>()(
@@ -22,8 +31,18 @@ export const useRecordStore = create<RecordState>()(
         setRecords: (records) => {
           set(() => ({ records }));
         },
+        resetRecords: () => {
+          set(() => ({
+            records: [],
+          }));
+        },
         addRecord: (record) => {
           set((state) => {
+            // Update asset balance
+            if (record.asset) {
+              const bookStore = useBookStore.getState();
+              bookStore.changeBalance(record.asset, record.amount);
+            }
             const newRecordDateString = dayjs(record.date).format('YYYY-MM-DD');
             const newRecord = {
               date: newRecordDateString,
@@ -68,7 +87,7 @@ export const useRecordStore = create<RecordState>()(
               if (recordIndex !== -1) {
                 // Adjust income and expense sums
                 const oldRecord = dayRecord.records[recordIndex];
-                if (oldRecord.type === RecordTypes.INCOME) {
+                if ((oldRecord as Record).type === RecordTypes.INCOME) {
                   dayRecord.sum_of_income -= oldRecord.amount;
                 } else {
                   dayRecord.sum_of_expense -= oldRecord.amount;
@@ -109,7 +128,7 @@ export const useRecordStore = create<RecordState>()(
                   1
                 );
 
-                if (removedRecord.type === RecordTypes.INCOME) {
+                if ((removedRecord as Record).type === RecordTypes.INCOME) {
                   dayRecord.sum_of_income -= removedRecord.amount;
                 } else {
                   dayRecord.sum_of_expense -= removedRecord.amount;
@@ -127,10 +146,65 @@ export const useRecordStore = create<RecordState>()(
             );
           });
         },
-        resetRecords: () => {
-          set(() => ({
-            records: [],
-          }));
+        addTransfer: (transfer) => {
+          set((state) => {
+            const transferDateString = dayjs().format('YYYY-MM-DD');
+            const newTransfer = {
+              date: transferDateString,
+              sum_of_income: 0,
+              sum_of_expense: 0,
+              records: [transfer],
+            };
+
+            const existingTransferIndex = state.records.findIndex(
+              (r) => r.date === transferDateString
+            );
+
+            if (existingTransferIndex !== -1) {
+              state.records[existingTransferIndex].records.push(transfer);
+            } else {
+              state.records.unshift(newTransfer);
+            }
+
+            state.records.sort((a, b) =>
+              dayjs(b.date).isAfter(dayjs(a.date)) ? 1 : -1
+            );
+          });
+        },
+        updateTransfer: (transfer) => {
+          set((state) => {
+            state.records.forEach((r) => {
+              const index = r.records.findIndex(
+                (rec) => rec.id === transfer.id
+              );
+              if (index !== -1) {
+                r.records[index] = transfer;
+                state.records.sort((a, b) =>
+                  dayjs(b.date).isAfter(dayjs(a.date)) ? 1 : -1
+                );
+              }
+            });
+          });
+        },
+        removeTransfer: (id) => {
+          set((state) => {
+            state.records.forEach((r) => {
+              const index = r.records.findIndex((rec) => rec.id === id);
+              if (index !== -1) {
+                r.records.splice(index, 1);
+
+                if (r.records.length === 0) {
+                  state.records = state.records.filter(
+                    (rec) => rec.date !== r.date
+                  );
+                }
+
+                state.records.sort((a, b) =>
+                  dayjs(b.date).isAfter(dayjs(a.date)) ? 1 : -1
+                );
+              }
+            });
+          });
         },
       })),
       {

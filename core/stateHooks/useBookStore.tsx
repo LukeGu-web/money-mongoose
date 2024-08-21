@@ -18,6 +18,8 @@ type BookState = {
   addAsset: (asset: AssetType) => void;
   updateAsset: (asset: AssetType) => void;
   removeAsset: (asset: AssetType) => void;
+  transfer: (fromAssetId: number, toAssetId: number, amount: number) => void;
+  changeBalance: (assetId: number, amount: number) => void;
 };
 
 const useBookStore = create<BookState>()(
@@ -148,6 +150,38 @@ const useBookStore = create<BookState>()(
             if (group) {
               group.assets = group.assets.filter((a) => a.id !== asset.id);
             }
+          });
+        },
+        transfer: (fromAssetId, toAssetId, amount) => {
+          set((state) => {
+            const bookIndex = state.books.findIndex(
+              (book) => book.id === state.currentBook.id
+            );
+            // Locate the assets
+            state.books[bookIndex].groups.forEach((group) => {
+              group.assets.forEach((asset) => {
+                if (asset.id === fromAssetId) {
+                  asset.balance -= amount;
+                }
+                if (asset.id === toAssetId) {
+                  asset.balance += amount;
+                }
+              });
+            });
+          });
+        },
+        changeBalance: (assetId, amount) => {
+          set((state) => {
+            const bookIndex = state.books.findIndex(
+              (book) => book.id === state.currentBook.id
+            );
+            state.books[bookIndex].groups.forEach((group) => {
+              group.assets.forEach((asset) => {
+                if (asset.id === assetId) {
+                  asset.balance = Number(asset.balance) + amount;
+                }
+              });
+            });
           });
         },
       })),

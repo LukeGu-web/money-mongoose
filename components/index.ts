@@ -13,6 +13,7 @@ export { default as RecordList } from 'components/RecordList/RecordList';
 export { default as RecordToolbar } from 'components/Toolbar/RecordToolbar';
 export { default as RecordBottomSheet } from 'components/BottomSheet/RecordBottomSheet';
 export { default as SelectGroupBottomSheet } from 'components/BottomSheet/SelectGroupBottomSheet';
+export { default as Transfer } from 'components/Transfer/Trasnfer';
 export { default as ListDayItem } from 'components/RecordList/ListDayItem';
 
 export { default as Icon } from 'components/Icon/Icon';

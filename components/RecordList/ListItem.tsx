@@ -1,76 +1,85 @@
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
 import Icon from 'components/Icon/Icon';
-import { Record } from 'api/record/types';
-import { useStyles, TColors } from 'core/theme';
-import { useRecord } from 'core/stateHooks';
+import { BookType } from 'api/types';
+import { Record, RecordTypes } from 'api/record/types';
+import { useRecord, useBookStore } from 'core/stateHooks';
+import { formatAsset } from 'core/utils';
 
 type ListItemProps = {
   item: Record;
   onPress: () => void;
 };
 
+const borderColorMap = {
+  expense: 'border-red-700',
+  income: 'border-green-700',
+  transfer: 'border-blue-700',
+};
+
+const textColorMap = {
+  expense: 'color-red-700',
+  income: 'color-green-700',
+  transfer: 'color-blue-700',
+};
+
 export default function ListItem({ item, onPress }: ListItemProps) {
-  const { theme, styles } = useStyles(createStyles);
   const setRecord = useRecord((state) => state.setRecord);
+  const { getCurrentBook } = useBookStore();
+  const book = getCurrentBook() as BookType;
   return (
     <TouchableOpacity
-      style={{
-        ...styles.container,
-        borderColor: theme[`${item.type}TextColor`],
-      }}
+      className={`flex-row justify-between items-center border-b-2 p-2 ${
+        borderColorMap[item.type]
+      }`}
       onPress={() => {
-        setRecord(item);
+        if (item.type === RecordTypes.TRANSFER) {
+          setRecord({
+            ...item,
+            from_asset: formatAsset(Number(item.from_asset), book, false),
+            to_asset: formatAsset(Number(item.to_asset), book, false),
+          });
+        } else {
+          setRecord({
+            ...item,
+            asset: formatAsset(Number(item.asset), book, false),
+          });
+        }
+
         onPress();
       }}
     >
-      <View style={styles.iconContainer}>
-        <Icon name={item.category} size={28} color='black' />
-      </View>
-      <View style={styles.midContainer}>
-        <View style={styles.categoryContainer}>
-          <Text style={styles.category}>{item.category}</Text>
-          {item.subcategory && (
-            <Text style={styles.category}> - {item.subcategory}</Text>
-          )}
+      {item.type === RecordTypes.TRANSFER ? (
+        <View className='flex-row flex-1'>
+          <View className='items-start justify-center w-1/6'>
+            <FontAwesome name='exchange' size={24} color='black' />
+          </View>
+          <Text className='pb-1 text-lg font-bold'>{`from ${formatAsset(
+            Number(item.from_asset),
+            book,
+            true
+          )} to ${formatAsset(Number(item.to_asset), book, true)}`}</Text>
         </View>
-        {item.note !== '' && <Text>{item.note}</Text>}
-      </View>
-      <Text style={{ ...styles.amount, color: theme[`${item.type}TextColor`] }}>
+      ) : (
+        <View className='flex-row flex-1'>
+          <View className='items-start justify-center w-1/6'>
+            <Icon name={item.category} size={28} color='black' />
+          </View>
+          <View className='flex-1'>
+            <View className='flex-row'>
+              <Text className='pb-1 text-lg font-bold'>{item.category}</Text>
+              {item.subcategory && (
+                <Text className='pb-1 text-lg '> - {item.subcategory}</Text>
+              )}
+            </View>
+            {item.note !== '' && <Text>{item.note}</Text>}
+          </View>
+        </View>
+      )}
+
+      <Text className={`font-bold ${textColorMap[item.type]}`}>
         {Number(item.amount).toFixed(2)}
       </Text>
     </TouchableOpacity>
   );
 }
-
-const createStyles = (theme: TColors) =>
-  StyleSheet.create({
-    container: {
-      padding: 8,
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      borderBottomWidth: 1,
-    },
-    iconContainer: {
-      flex: 0.1,
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    midContainer: {
-      flex: 0.8,
-    },
-    categoryContainer: {
-      flexDirection: 'row',
-    },
-    category: {
-      paddingBottom: 4,
-      color: theme.textPrimary,
-      fontSize: 16,
-      fontWeight: 'bold',
-    },
-    amount: {
-      color: theme.textPrimary,
-      fontSize: 16,
-      fontWeight: 'bold',
-    },
-  });

@@ -1,7 +1,6 @@
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef } from 'react';
 import {
   Alert,
-  StyleSheet,
   View,
   Text,
   TextInput,
@@ -14,16 +13,16 @@ import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { useShallow } from 'zustand/react/shallow';
 import Keypad from './Keypad';
 
+import { BookType } from 'api/types';
 import { RecordTypes, RecordSchema } from 'api/record/types';
-import { useAddRecord, useUpdateRecord } from 'api/record';
-import { formatApiError } from 'api/errorFormat';
-import { useStyles, TColors } from 'core/theme';
 import {
-  useAsset,
-  useRecord,
-  useRecordStore,
-  useBookStore,
-} from 'core/stateHooks';
+  useAddRecord,
+  useUpdateRecord,
+  useAddTransfer,
+  useUpdateTransfer,
+} from 'api/record';
+import { formatApiError } from 'api/errorFormat';
+import { useRecord, useRecordStore, useBookStore } from 'core/stateHooks';
 import { formatter } from 'core/utils';
 import log from 'core/logger';
 import CameraBottomSheet from 'components/BottomSheet/CameraBottomSheet';
@@ -33,17 +32,19 @@ export default function DigitalPad() {
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const { mutate: addRecordApi } = useAddRecord();
   const { mutate: updateRecordApi } = useUpdateRecord();
-  const currentBook = useBookStore((state) => state.currentBook);
-  const { addRecord, updateRecord } = useRecordStore(
-    useShallow((state) => ({
-      addRecord: state.addRecord,
-      updateRecord: state.updateRecord,
-    }))
-  );
+  const { mutate: addTransferApi } = useAddTransfer();
+  const { mutate: updateTransferApi } = useUpdateTransfer();
+  const { currentBook, getCurrentBook } = useBookStore();
+  const { addRecord, updateRecord, addTransfer, updateTransfer } =
+    useRecordStore(
+      useShallow((state) => ({
+        addRecord: state.addRecord,
+        updateRecord: state.updateRecord,
+        addTransfer: state.addTransfer,
+        updateTransfer: state.updateTransfer,
+      }))
+    );
   const { record, setRecord, resetRecord } = useRecord();
-  const resetAsset = useAsset((state) => state.resetAsset);
-
-  const { styles } = useStyles(createStyles);
 
   const [decimalLength, setDecimalLength] = useState(0);
   const [isDecimal, setIsDecimal] = useState(false);
@@ -118,75 +119,138 @@ export default function DigitalPad() {
     setRecord({ amount: newAmount });
   };
 
-  const handleSubmit = (isRedirect: boolean) => {
-    const validation = RecordSchema.safeParse(record);
-    if (!validation.success) {
-      log.error('Zod: create record: ', validation.error);
-      let errorMsg = '';
-      if (record.amount === 0) {
-        errorMsg += 'Please enter an amount.';
-      }
-      if ('category' in validation.error.format()) {
-        errorMsg += 'Please select a category.';
-      }
-      Alert.alert('Tip', errorMsg, [
-        { text: 'OK', onPress: () => log.info('OK Pressed') },
-      ]);
+  const callRecordApi = (isRedirect: boolean) => {
+    const { id, amount, type, category, asset, ...rest } = record;
+    const data = {
+      ...rest,
+      type: type as RecordTypes,
+      category: category as string,
+      asset: asset ? Number(asset.split('-')[0]) : undefined,
+      book: currentBook.id,
+      amount: type === RecordTypes.INCOME ? amount : -amount,
+    };
+    if (id && id > 0) {
+      updateRecordApi(
+        {
+          id,
+          ...data,
+        },
+        {
+          onSuccess: (response) => {
+            log.success('Add record success:', response);
+
+            updateRecord({
+              ...response,
+              amount: Number(response.amount),
+            });
+            handleReset();
+            resetRecord();
+            if (isRedirect) router.push('/');
+          },
+          onError: (error) => {
+            log.error('Error: ', formatApiError(error));
+          },
+        }
+      );
     } else {
-      log.info('Submit create record data: ', {
-        ...record,
-        book: currentBook.id,
-      });
-      const { id, ...rest } = record;
-      if (id && id > 0) {
-        updateRecordApi(
-          {
-            ...record,
-            book: currentBook.id,
-            amount:
-              record.type === RecordTypes.INCOME
-                ? record.amount
-                : -record.amount,
+      addRecordApi(
+        { ...data },
+        {
+          onSuccess: (response) => {
+            log.success('Add record success:', response);
+            addRecord({
+              ...response,
+              amount: Number(response.amount),
+            });
+            handleReset();
+            resetRecord();
+            if (isRedirect) router.push('/');
           },
-          {
-            onSuccess: (response) => {
-              log.success('Add record success:', response);
-              updateRecord({ ...response, amount: Number(response.amount) });
-              handleReset();
-              resetRecord();
-              resetAsset();
-              if (isRedirect) router.push('/');
-            },
-            onError: (error) => {
-              log.error('Error: ', formatApiError(error));
-            },
-          }
-        );
-      } else {
-        addRecordApi(
-          {
-            ...rest,
-            book: currentBook.id,
-            amount:
-              record.type === RecordTypes.INCOME
-                ? record.amount
-                : -record.amount,
+          onError: (error) => {
+            log.error('Error: ', formatApiError(error));
           },
-          {
-            onSuccess: (response) => {
-              log.success('Add record success:', response);
-              addRecord({ ...response, amount: Number(response.amount) });
-              handleReset();
-              resetRecord();
-              resetAsset();
-              if (isRedirect) router.push('/');
-            },
-            onError: (error) => {
-              log.error('Error: ', formatApiError(error));
-            },
-          }
-        );
-      }
+        }
+      );
+    }
+  };
+
+  const callTransferApi = (isRedirect: boolean) => {
+    const { id, from_asset, to_asset, ...rest } = record;
+    const data = {
+      ...rest,
+      book: currentBook.id,
+      from_asset: Number(String(from_asset).split('-')[0]),
+      to_asset: Number(String(to_asset).split('-')[0]),
+    };
+    if (id && id > 0) {
+      updateTransferApi(
+        {
+          id,
+          ...data,
+        },
+        {
+          onSuccess: (response) => {
+            log.success('Add record success:', response);
+            updateTransfer({
+              ...response,
+              amount: Number(response.amount),
+            });
+            handleReset();
+            resetRecord();
+            if (isRedirect) router.push('/');
+          },
+          onError: (error) => {
+            log.error('Error: ', formatApiError(error));
+          },
+        }
+      );
+    } else {
+      addTransferApi(
+        {
+          ...data,
+        },
+        {
+          onSuccess: (response) => {
+            log.success('Add record success:', response);
+            addTransfer({
+              ...response,
+              amount: Number(response.amount),
+            });
+            handleReset();
+            resetRecord();
+            if (isRedirect) router.push('/');
+          },
+          onError: (error) => {
+            log.error('Error: ', formatApiError(error));
+          },
+        }
+      );
+    }
+  };
+
+  const handleSubmit = (isRedirect: boolean) => {
+    // const validation = RecordSchema.safeParse(record);
+    // if (!validation.success) {
+    //   log.error('Zod: create record: ', validation.error);
+    //   let errorMsg = '';
+    //   if (record.amount === 0) {
+    //     errorMsg += 'Please enter an amount.';
+    //   }
+    //   if ('category' in validation.error.format()) {
+    //     errorMsg += 'Please select a category.';
+    //   }
+    //   Alert.alert('Tip', errorMsg, [
+    //     { text: 'OK', onPress: () => log.info('OK Pressed') },
+    //   ]);
+    // } else {
+    log.info('Submit create record data: ', {
+      ...record,
+      book: currentBook.id,
+    });
+    if (record.type === RecordTypes.TRANSFER) {
+      callTransferApi(isRedirect);
+    } else {
+      callRecordApi(isRedirect);
     }
   };
 
@@ -194,17 +258,17 @@ export default function DigitalPad() {
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       keyboardVerticalOffset={keyboardVerticalOffset}
-      style={styles.container}
+      style={{ alignItems: 'center' }}
     >
-      <View style={styles.noteContainer}>
+      <View className='flex-row items-start justify-between pb-2 mx-4 mb-2 border-b-2'>
         <TextInput
           placeholder='note'
-          style={styles.noteInput}
+          className='flex-1 p-1 mr-2 text-2xl'
           value={record.note}
           onChangeText={(value) => setRecord({ note: value })}
         />
-        <TouchableOpacity style={styles.amount}>
-          <Text style={styles.amountText}>{`A$ ${formatter(
+        <TouchableOpacity className='justify-center p-2 rounded-lg bg-sky-600'>
+          <Text className='text-2xl color-white'>{`A$ ${formatter(
             record.amount
           )}`}</Text>
         </TouchableOpacity>
@@ -214,39 +278,3 @@ export default function DigitalPad() {
     </KeyboardAvoidingView>
   );
 }
-
-const createStyles = (theme: TColors) =>
-  StyleSheet.create({
-    container: {
-      alignItems: 'center',
-    },
-    noteContainer: {
-      height: 50,
-      flexDirection: 'row',
-      flexWrap: 'wrap',
-      justifyContent: 'space-between',
-      alignItems: 'flex-start',
-      marginHorizontal: 16,
-      borderBottomWidth: 1,
-      marginBottom: 8,
-      paddingBottom: 8,
-    },
-    noteInput: {
-      flex: 1,
-      height: '100%',
-      fontSize: 24,
-      padding: 4,
-      marginRight: 10,
-    },
-    amount: {
-      borderRadius: 8,
-      height: '100%',
-      padding: 8,
-      backgroundColor: theme.secondary,
-      justifyContent: 'center',
-    },
-    amountText: {
-      color: theme.white,
-      fontSize: 24,
-    },
-  });
