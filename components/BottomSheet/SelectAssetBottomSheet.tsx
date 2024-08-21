@@ -2,30 +2,32 @@ import { View, Text } from 'react-native';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { PickerIOS } from '@react-native-picker/picker';
 
-import { useAsset, useRecord, useBookStore } from 'core/stateHooks';
+import { useRecord, useBookStore } from 'core/stateHooks';
 import BottomSheet from './BottomSheet';
 import { AssetType, BookType } from 'api/types';
 
 type SelectAssetBottomSheetProps = {
+  target: string; // asset | from_asset | to_asset
+  value: string | undefined;
   bottomSheetModalRef: React.RefObject<BottomSheetModal>;
 };
 
 export default function SelectAssetBottomSheet({
+  target,
+  value,
   bottomSheetModalRef,
 }: SelectAssetBottomSheetProps) {
   const { getCurrentBook } = useBookStore();
-  const { asset, setSelect } = useAsset();
-  const setRecord = useRecord((state) => state.setRecord);
+  const { setRecord } = useRecord();
   const flatAssets = (getCurrentBook() as BookType).groups.flatMap(
     (group) => group.assets
   );
 
-  const handleSelectItem = (itemValue: number | string, itemIndex: number) => {
+  const handleSelectItem = (itemValue: string | number, itemIndex: number) => {
     const selectItem = flatAssets.find(
-      (item) => item.name === itemValue
+      (item) => item.id === Number((itemValue as string).split('-')[0])
     ) as AssetType;
-    setSelect(selectItem);
-    setRecord({ asset: selectItem.id });
+    setRecord({ [target]: `${selectItem.id}-${selectItem.name}` });
   };
 
   return (
@@ -36,7 +38,7 @@ export default function SelectAssetBottomSheet({
         </View>
         <View className='items-start flex-1 w-full'>
           <PickerIOS
-            selectedValue={asset.name}
+            selectedValue={value}
             onValueChange={handleSelectItem}
             style={{ flex: 1, width: '100%' }}
           >
@@ -44,7 +46,7 @@ export default function SelectAssetBottomSheet({
               <PickerIOS.Item
                 key={item.id}
                 label={item.name}
-                value={item.name}
+                value={`${item.id}-${item.name}`}
               />
             ))}
           </PickerIOS>

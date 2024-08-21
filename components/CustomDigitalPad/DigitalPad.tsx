@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef } from 'react';
 import {
   Alert,
   StyleSheet,
@@ -18,12 +18,7 @@ import { RecordTypes, RecordSchema } from 'api/record/types';
 import { useAddRecord, useUpdateRecord } from 'api/record';
 import { formatApiError } from 'api/errorFormat';
 import { useStyles, TColors } from 'core/theme';
-import {
-  useAsset,
-  useRecord,
-  useRecordStore,
-  useBookStore,
-} from 'core/stateHooks';
+import { useRecord, useRecordStore, useBookStore } from 'core/stateHooks';
 import { formatter } from 'core/utils';
 import log from 'core/logger';
 import CameraBottomSheet from 'components/BottomSheet/CameraBottomSheet';
@@ -41,7 +36,6 @@ export default function DigitalPad() {
     }))
   );
   const { record, setRecord, resetRecord } = useRecord();
-  const resetAsset = useAsset((state) => state.resetAsset);
 
   const { styles } = useStyles(createStyles);
 
@@ -137,11 +131,12 @@ export default function DigitalPad() {
         ...record,
         book: currentBook.id,
       });
-      const { id, ...rest } = record;
+      const { id, asset, ...rest } = record;
       if (id && id > 0) {
         updateRecordApi(
           {
             ...record,
+            asset: asset ? asset.split('-')[0] : -1,
             book: currentBook.id,
             amount:
               record.type === RecordTypes.INCOME
@@ -154,7 +149,6 @@ export default function DigitalPad() {
               updateRecord({ ...response, amount: Number(response.amount) });
               handleReset();
               resetRecord();
-              resetAsset();
               if (isRedirect) router.push('/');
             },
             onError: (error) => {
@@ -166,6 +160,7 @@ export default function DigitalPad() {
         addRecordApi(
           {
             ...rest,
+            asset: asset ? asset.split('-')[0] : -1,
             book: currentBook.id,
             amount:
               record.type === RecordTypes.INCOME
@@ -178,7 +173,6 @@ export default function DigitalPad() {
               addRecord({ ...response, amount: Number(response.amount) });
               handleReset();
               resetRecord();
-              resetAsset();
               if (isRedirect) router.push('/');
             },
             onError: (error) => {

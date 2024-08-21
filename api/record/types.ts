@@ -16,10 +16,10 @@ export const RecordSchema = z.object({
   note: z.string().optional(),
   amount: z.number().gt(0),
   is_marked_tax_return: z.boolean(),
-  asset: z.number().optional(),
+  asset: z.string().optional(),
   // Transfer variables
-  from_asset: z.number().optional(),
-  to_asset: z.number().optional(),
+  from_asset: z.string().optional(),
+  to_asset: z.string().optional(),
 });
 
 export type Record = z.infer<typeof RecordSchema>;

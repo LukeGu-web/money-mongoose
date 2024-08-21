@@ -2,22 +2,15 @@ import { useRef, useCallback } from 'react';
 import { Text, View, TouchableOpacity, Keyboard } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import dayjs from 'dayjs';
-import { useShallow } from 'zustand/react/shallow';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 
 import { BookType } from 'api/types';
-import { useAsset, useRecord, useBookStore } from 'core/stateHooks';
+import { useRecord, useBookStore } from 'core/stateHooks';
 import SelectAssetBottomSheet from 'components/BottomSheet/SelectAssetBottomSheet';
 
 export default function RecordToolbar() {
   const { getCurrentBook } = useBookStore();
-  const { asset, setSelect } = useAsset();
-  const { record, setRecord } = useRecord(
-    useShallow((state) => ({
-      record: state.record,
-      setRecord: state.setRecord,
-    }))
-  );
+  const { record, setRecord } = useRecord();
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
   const onDateChange = (e: any, selectedDate: any) => {
@@ -27,14 +20,13 @@ export default function RecordToolbar() {
   const handlePressSelect = useCallback(() => {
     bottomSheetModalRef.current?.present();
     Keyboard.dismiss();
-    if (asset.name === '') {
+    if (record.asset) {
       const flatAssets = (getCurrentBook() as BookType).groups.flatMap(
         (group) => group.assets
       );
       if (flatAssets.length > 0) {
         const defaultAsset = flatAssets[0];
-        setSelect(defaultAsset);
-        setRecord({ asset: defaultAsset.id });
+        setRecord({ asset: `${defaultAsset.id}-${defaultAsset.name}` });
       }
     }
   }, []);
@@ -53,10 +45,14 @@ export default function RecordToolbar() {
         onPress={handlePressSelect}
       >
         <Text className='text-lg '>
-          {asset.name !== '' ? asset.name : 'no account'}
+          {record.asset ? record.asset.split('-')[1] : 'no account'}
         </Text>
       </TouchableOpacity>
-      <SelectAssetBottomSheet bottomSheetModalRef={bottomSheetModalRef} />
+      <SelectAssetBottomSheet
+        target='asset'
+        value={record.asset}
+        bottomSheetModalRef={bottomSheetModalRef}
+      />
     </View>
   );
 }

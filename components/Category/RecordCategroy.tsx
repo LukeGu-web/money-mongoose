@@ -56,7 +56,7 @@ export default function RecordCategory() {
       >
         <IconTable
           data={category}
-          selectedCategory={record.category}
+          selectedCategory={record.category as string}
           selectedSubcategory={record.subcategory}
           onSelectIcon={handleSelectIcon}
         />
