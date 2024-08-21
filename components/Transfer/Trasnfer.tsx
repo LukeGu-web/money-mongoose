@@ -1,4 +1,4 @@
-import { useRef, useCallback, useState } from 'react';
+import { useRef, useState } from 'react';
 import { View, Text, TouchableOpacity, Keyboard } from 'react-native';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import FontAwesome from '@expo/vector-icons/FontAwesome';

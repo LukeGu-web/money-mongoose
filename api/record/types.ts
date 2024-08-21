@@ -23,18 +23,32 @@ export const RecordSchema = z.object({
 });
 
 export type Record = z.infer<typeof RecordSchema>;
-// for api use
-export type Transfer = {
-  id?: number;
-  book: number;
-  amount: number;
-  from_asset: number;
-  to_asset: number;
-};
 
 export type RecordsByDay = {
   date: string;
   sum_of_income: number;
   sum_of_expense: number;
   records: Record[];
+};
+
+// for api use
+export type RecordAPI = {
+  id?: number;
+  book: number;
+  amount: number;
+  asset: number;
+  date: string;
+  type: RecordTypes;
+  category: string;
+  subcategory?: string;
+  note?: string;
+  is_marked_tax_return: boolean;
+};
+
+export type TransferAPI = {
+  id?: number;
+  book: number;
+  amount: number;
+  from_asset: number;
+  to_asset: number;
 };

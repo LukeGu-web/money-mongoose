@@ -1,7 +1,7 @@
 import type { AxiosError } from 'axios';
 import { createMutation } from 'react-query-kit';
 import { client } from '../client';
-import type { Record } from './types';
+import type { RecordAPI as Record } from './types';
 
 type Variables = Record;
 type Response = Record;

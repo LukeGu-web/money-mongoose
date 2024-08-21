@@ -1,7 +1,7 @@
 import type { AxiosError } from 'axios';
 import { createMutation } from 'react-query-kit';
 import { client } from '../client';
-import type { Transfer } from './types';
+import type { TransferAPI as Transfer } from './types';
 
 type Variables = Transfer;
 type Response = Transfer;

@@ -14,6 +14,7 @@ import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { useShallow } from 'zustand/react/shallow';
 import Keypad from './Keypad';
 
+import { BookType } from 'api/types';
 import { RecordTypes, RecordSchema } from 'api/record/types';
 import { useAddRecord, useUpdateRecord } from 'api/record';
 import { formatApiError } from 'api/errorFormat';
@@ -28,7 +29,7 @@ export default function DigitalPad() {
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const { mutate: addRecordApi } = useAddRecord();
   const { mutate: updateRecordApi } = useUpdateRecord();
-  const currentBook = useBookStore((state) => state.currentBook);
+  const { currentBook, getCurrentBook } = useBookStore();
   const { addRecord, updateRecord } = useRecordStore(
     useShallow((state) => ({
       addRecord: state.addRecord,
@@ -131,12 +132,30 @@ export default function DigitalPad() {
         ...record,
         book: currentBook.id,
       });
-      const { id, asset, ...rest } = record;
+      const {
+        id,
+        amount,
+        date,
+        type,
+        category,
+        subcategory,
+        note,
+        is_marked_tax_return,
+        asset,
+        from_asset,
+        to_asset,
+      } = record;
       if (id && id > 0) {
         updateRecordApi(
           {
-            ...record,
-            asset: asset ? asset.split('-')[0] : -1,
+            id,
+            date,
+            type: type as RecordTypes,
+            category: category as string,
+            subcategory,
+            note,
+            is_marked_tax_return,
+            asset: asset ? Number(asset.split('-')[0]) : -1,
             book: currentBook.id,
             amount:
               record.type === RecordTypes.INCOME
@@ -146,7 +165,22 @@ export default function DigitalPad() {
           {
             onSuccess: (response) => {
               log.success('Add record success:', response);
-              updateRecord({ ...response, amount: Number(response.amount) });
+              let curentAsset = undefined;
+              if (response.asset) {
+                const flatAssets = (
+                  getCurrentBook() as BookType
+                ).groups.flatMap((group) => group.assets);
+                const targetAsset = flatAssets.find(
+                  (item) => item.id === response.asset
+                );
+                if (targetAsset)
+                  curentAsset = `${targetAsset.id}-${targetAsset.name}`;
+              }
+              updateRecord({
+                ...response,
+                amount: Number(response.amount),
+                asset: curentAsset,
+              });
               handleReset();
               resetRecord();
               if (isRedirect) router.push('/');
@@ -159,8 +193,13 @@ export default function DigitalPad() {
       } else {
         addRecordApi(
           {
-            ...rest,
-            asset: asset ? asset.split('-')[0] : -1,
+            date,
+            type: type as RecordTypes,
+            category: category as string,
+            subcategory,
+            note,
+            is_marked_tax_return,
+            asset: asset ? Number(asset.split('-')[0]) : -1,
             book: currentBook.id,
             amount:
               record.type === RecordTypes.INCOME
@@ -170,7 +209,22 @@ export default function DigitalPad() {
           {
             onSuccess: (response) => {
               log.success('Add record success:', response);
-              addRecord({ ...response, amount: Number(response.amount) });
+              let curentAsset = undefined;
+              if (response.asset) {
+                const flatAssets = (
+                  getCurrentBook() as BookType
+                ).groups.flatMap((group) => group.assets);
+                const targetAsset = flatAssets.find(
+                  (item) => item.id === response.asset
+                );
+                if (targetAsset)
+                  curentAsset = `${targetAsset.id}-${targetAsset.name}`;
+              }
+              addRecord({
+                ...response,
+                amount: Number(response.amount),
+                asset: curentAsset,
+              });
               handleReset();
               resetRecord();
               if (isRedirect) router.push('/');
