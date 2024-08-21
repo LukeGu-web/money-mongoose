@@ -1,7 +1,6 @@
 import { useState, useRef } from 'react';
 import {
   Alert,
-  StyleSheet,
   View,
   Text,
   TextInput,
@@ -18,7 +17,6 @@ import { BookType } from 'api/types';
 import { RecordTypes, RecordSchema } from 'api/record/types';
 import { useAddRecord, useUpdateRecord } from 'api/record';
 import { formatApiError } from 'api/errorFormat';
-import { useStyles, TColors } from 'core/theme';
 import { useRecord, useRecordStore, useBookStore } from 'core/stateHooks';
 import { formatter } from 'core/utils';
 import log from 'core/logger';
@@ -37,8 +35,6 @@ export default function DigitalPad() {
     }))
   );
   const { record, setRecord, resetRecord } = useRecord();
-
-  const { styles } = useStyles(createStyles);
 
   const [decimalLength, setDecimalLength] = useState(0);
   const [isDecimal, setIsDecimal] = useState(false);
@@ -125,6 +121,105 @@ export default function DigitalPad() {
     return curentAsset;
   };
 
+  const callRecordApi = (isRedirect: boolean) => {
+    const {
+      id,
+      amount,
+      date,
+      type,
+      category,
+      subcategory,
+      note,
+      is_marked_tax_return,
+      asset,
+      from_asset,
+      to_asset,
+    } = record;
+    if (id && id > 0) {
+      updateRecordApi(
+        {
+          id,
+          date,
+          type: type as RecordTypes,
+          category: category as string,
+          subcategory,
+          note,
+          is_marked_tax_return,
+          asset: asset ? Number(asset.split('-')[0]) : -1,
+          book: currentBook.id,
+          amount: type === RecordTypes.INCOME ? amount : -amount,
+        },
+        {
+          onSuccess: (response) => {
+            log.success('Add record success:', response);
+            const curentAsset = formatAsset(response.asset);
+            updateRecord({
+              ...response,
+              amount: Number(response.amount),
+              asset: curentAsset,
+            });
+            handleReset();
+            resetRecord();
+            if (isRedirect) router.push('/');
+          },
+          onError: (error) => {
+            log.error('Error: ', formatApiError(error));
+          },
+        }
+      );
+    } else {
+      addRecordApi(
+        {
+          date,
+          type: type as RecordTypes,
+          category: category as string,
+          subcategory,
+          note,
+          is_marked_tax_return,
+          asset: asset ? Number(asset.split('-')[0]) : -1,
+          book: currentBook.id,
+          amount: type === RecordTypes.INCOME ? amount : -amount,
+        },
+        {
+          onSuccess: (response) => {
+            log.success('Add record success:', response);
+            const curentAsset = formatAsset(response.asset);
+            addRecord({
+              ...response,
+              amount: Number(response.amount),
+              asset: curentAsset,
+            });
+            handleReset();
+            resetRecord();
+            if (isRedirect) router.push('/');
+          },
+          onError: (error) => {
+            log.error('Error: ', formatApiError(error));
+          },
+        }
+      );
+    }
+  };
+
+  const callTransferApi = (isRedirect: boolean) => {
+    const {
+      id,
+      amount,
+      date,
+      type,
+      category,
+      subcategory,
+      note,
+      is_marked_tax_return,
+      asset,
+      from_asset,
+      to_asset,
+    } = record;
+    if (id && id > 0) {
+    } else {
+    }
+  };
+
   const handleSubmit = (isRedirect: boolean) => {
     const validation = RecordSchema.safeParse(record);
     if (!validation.success) {
@@ -144,82 +239,10 @@ export default function DigitalPad() {
         ...record,
         book: currentBook.id,
       });
-      const {
-        id,
-        amount,
-        date,
-        type,
-        category,
-        subcategory,
-        note,
-        is_marked_tax_return,
-        asset,
-        from_asset,
-        to_asset,
-      } = record;
-      if (id && id > 0) {
-        updateRecordApi(
-          {
-            id,
-            date,
-            type: type as RecordTypes,
-            category: category as string,
-            subcategory,
-            note,
-            is_marked_tax_return,
-            asset: asset ? Number(asset.split('-')[0]) : -1,
-            book: currentBook.id,
-            amount: type === RecordTypes.INCOME ? amount : -amount,
-          },
-          {
-            onSuccess: (response) => {
-              log.success('Add record success:', response);
-              const curentAsset = formatAsset(response.asset);
-              updateRecord({
-                ...response,
-                amount: Number(response.amount),
-                asset: curentAsset,
-              });
-              handleReset();
-              resetRecord();
-              if (isRedirect) router.push('/');
-            },
-            onError: (error) => {
-              log.error('Error: ', formatApiError(error));
-            },
-          }
-        );
+      if (record.type === RecordTypes.TRANSFER) {
+        callTransferApi(isRedirect);
       } else {
-        addRecordApi(
-          {
-            date,
-            type: type as RecordTypes,
-            category: category as string,
-            subcategory,
-            note,
-            is_marked_tax_return,
-            asset: asset ? Number(asset.split('-')[0]) : -1,
-            book: currentBook.id,
-            amount: type === RecordTypes.INCOME ? amount : -amount,
-          },
-          {
-            onSuccess: (response) => {
-              log.success('Add record success:', response);
-              const curentAsset = formatAsset(response.asset);
-              addRecord({
-                ...response,
-                amount: Number(response.amount),
-                asset: curentAsset,
-              });
-              handleReset();
-              resetRecord();
-              if (isRedirect) router.push('/');
-            },
-            onError: (error) => {
-              log.error('Error: ', formatApiError(error));
-            },
-          }
-        );
+        callRecordApi(isRedirect);
       }
     }
   };
@@ -228,17 +251,17 @@ export default function DigitalPad() {
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       keyboardVerticalOffset={keyboardVerticalOffset}
-      style={styles.container}
+      style={{ alignItems: 'center' }}
     >
-      <View style={styles.noteContainer}>
+      <View className='flex-row items-start justify-between pb-2 mx-4 mb-2 border-b-2'>
         <TextInput
           placeholder='note'
-          style={styles.noteInput}
+          className='flex-1 p-1 mr-2 text-2xl'
           value={record.note}
           onChangeText={(value) => setRecord({ note: value })}
         />
-        <TouchableOpacity style={styles.amount}>
-          <Text style={styles.amountText}>{`A$ ${formatter(
+        <TouchableOpacity className='justify-center p-2 rounded-lg bg-sky-600'>
+          <Text className='text-2xl color-white'>{`A$ ${formatter(
             record.amount
           )}`}</Text>
         </TouchableOpacity>
@@ -248,39 +271,3 @@ export default function DigitalPad() {
     </KeyboardAvoidingView>
   );
 }
-
-const createStyles = (theme: TColors) =>
-  StyleSheet.create({
-    container: {
-      alignItems: 'center',
-    },
-    noteContainer: {
-      height: 50,
-      flexDirection: 'row',
-      flexWrap: 'wrap',
-      justifyContent: 'space-between',
-      alignItems: 'flex-start',
-      marginHorizontal: 16,
-      borderBottomWidth: 1,
-      marginBottom: 8,
-      paddingBottom: 8,
-    },
-    noteInput: {
-      flex: 1,
-      height: '100%',
-      fontSize: 24,
-      padding: 4,
-      marginRight: 10,
-    },
-    amount: {
-      borderRadius: 8,
-      height: '100%',
-      padding: 8,
-      backgroundColor: theme.secondary,
-      justifyContent: 'center',
-    },
-    amountText: {
-      color: theme.white,
-      fontSize: 24,
-    },
-  });
