@@ -150,7 +150,7 @@ export default function EditableGroupTitle({
       {expanded && <View className='flex-1 py-2'>{children}</View>}
       <EditAssetGroupBottomSheet
         bottomSheetModalRef={bottomSheetModalRef}
-        funtions={functions}
+        functions={functions}
         title={title.text}
         height={300}
         onCancel={handleCloseSheet}

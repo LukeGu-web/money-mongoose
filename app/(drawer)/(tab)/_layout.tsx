@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import { Tabs, SplashScreen, Redirect, Link, useNavigation } from 'expo-router';
 import { DrawerToggleButton } from '@react-navigation/drawer';
 import { Entypo } from '@expo/vector-icons';

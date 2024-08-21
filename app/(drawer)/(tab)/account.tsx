@@ -1,9 +1,8 @@
-import Camera from 'components/Camera/Camera';
-import { clearAll, getAllKeys } from 'core/localStorage/storage';
-import { useLocalStore, useRecordStore } from 'core/stateHooks';
 import { StatusBar } from 'expo-status-bar';
 import { Link } from 'expo-router';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { View, Button } from 'react-native';
+import { clearAll } from 'core/localStorage/storage';
+import { useLocalStore, useRecordStore } from 'core/stateHooks';
 
 export default function Account() {
   const reset = useLocalStore((state) => state.reset);

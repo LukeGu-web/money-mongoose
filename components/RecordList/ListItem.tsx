@@ -2,38 +2,40 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import Icon from 'components/Icon/Icon';
 import { BookType } from 'api/types';
-import { Record, RecordTypes } from 'api/record/types';
+import {
+  RecordTypes,
+  RecordAPI as Record,
+  TransferAPI as Transfer,
+} from 'api/record/types';
 import { useRecord, useBookStore } from 'core/stateHooks';
 import { formatAsset } from 'core/utils';
 
 type ListItemProps = {
-  item: Record;
+  item: Record | Transfer;
   onPress: () => void;
-};
-
-const borderColorMap = {
-  expense: 'border-red-700',
-  income: 'border-green-700',
-  transfer: 'border-blue-700',
-};
-
-const textColorMap = {
-  expense: 'color-red-700',
-  income: 'color-green-700',
-  transfer: 'color-blue-700',
 };
 
 export default function ListItem({ item, onPress }: ListItemProps) {
   const setRecord = useRecord((state) => state.setRecord);
   const { getCurrentBook } = useBookStore();
   const book = getCurrentBook() as BookType;
+  let borderColor = '',
+    textColor = '';
+  if (!('type' in item)) {
+    borderColor = 'border-blue-700';
+    textColor = 'color-blue-700';
+  } else {
+    borderColor =
+      item.type === RecordTypes.EXPENSE ? 'border-red-700' : 'border-green-700';
+    textColor =
+      item.type === RecordTypes.EXPENSE ? 'color-red-700' : 'color-green-700';
+  }
+
   return (
     <TouchableOpacity
-      className={`flex-row justify-between items-center border-b-2 p-2 ${
-        borderColorMap[item.type]
-      }`}
+      className={`flex-row justify-between items-center border-b-2 p-2 border-blue-700 ${borderColor}`}
       onPress={() => {
-        if (item.type === RecordTypes.TRANSFER) {
+        if (!('type' in item)) {
           setRecord({
             ...item,
             from_asset: formatAsset(Number(item.from_asset), book, false),
@@ -49,7 +51,7 @@ export default function ListItem({ item, onPress }: ListItemProps) {
         onPress();
       }}
     >
-      {item.type === RecordTypes.TRANSFER ? (
+      {!('type' in item) ? (
         <View className='flex-row flex-1'>
           <View className='items-start justify-center w-1/6'>
             <FontAwesome name='exchange' size={24} color='black' />
@@ -77,7 +79,7 @@ export default function ListItem({ item, onPress }: ListItemProps) {
         </View>
       )}
 
-      <Text className={`font-bold ${textColorMap[item.type]}`}>
+      <Text className={`font-bold  ${textColor}`}>
         {Number(item.amount).toFixed(2)}
       </Text>
     </TouchableOpacity>
