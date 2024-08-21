@@ -17,7 +17,7 @@ export default function Asset() {
       <View className='mb-3 h-36'>
         <NetAssetCard />
       </View>
-      <View className='mb-3 h-18'>
+      <View className='mb-3' style={{ height: 60 }}>
         <InfoCard />
       </View>
       <View className='flex-1 mb-4'>
