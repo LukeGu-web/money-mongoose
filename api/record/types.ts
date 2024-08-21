@@ -6,6 +6,7 @@ export enum RecordTypes {
   TRANSFER = 'transfer',
 }
 
+// for record state use
 export const RecordSchema = z.object({
   id: z.number().optional(),
   book: z.number(),
@@ -23,13 +24,6 @@ export const RecordSchema = z.object({
 });
 
 export type Record = z.infer<typeof RecordSchema>;
-
-export type RecordsByDay = {
-  date: string;
-  sum_of_income: number;
-  sum_of_expense: number;
-  records: Record[];
-};
 
 // for api use
 export type RecordAPI = {
@@ -50,6 +44,14 @@ export type TransferAPI = {
   book: number;
   amount: number;
   date: string;
+  note?: string;
   from_asset: number;
   to_asset: number;
+};
+
+export type RecordsByDay = {
+  date: string;
+  sum_of_income: number;
+  sum_of_expense: number;
+  records: (RecordAPI | TransferAPI)[];
 };

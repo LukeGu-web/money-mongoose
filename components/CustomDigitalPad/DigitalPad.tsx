@@ -15,7 +15,12 @@ import Keypad from './Keypad';
 
 import { BookType } from 'api/types';
 import { RecordTypes, RecordSchema } from 'api/record/types';
-import { useAddRecord, useUpdateRecord } from 'api/record';
+import {
+  useAddRecord,
+  useUpdateRecord,
+  useAddTransfer,
+  useUpdateTransfer,
+} from 'api/record';
 import { formatApiError } from 'api/errorFormat';
 import { useRecord, useRecordStore, useBookStore } from 'core/stateHooks';
 import { formatter } from 'core/utils';
@@ -27,13 +32,18 @@ export default function DigitalPad() {
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const { mutate: addRecordApi } = useAddRecord();
   const { mutate: updateRecordApi } = useUpdateRecord();
+  const { mutate: addTransferApi } = useAddTransfer();
+  const { mutate: updateTransferApi } = useUpdateTransfer();
   const { currentBook, getCurrentBook } = useBookStore();
-  const { addRecord, updateRecord } = useRecordStore(
-    useShallow((state) => ({
-      addRecord: state.addRecord,
-      updateRecord: state.updateRecord,
-    }))
-  );
+  const { addRecord, updateRecord, addTransfer, updateTransfer } =
+    useRecordStore(
+      useShallow((state) => ({
+        addRecord: state.addRecord,
+        updateRecord: state.updateRecord,
+        addTransfer: state.addTransfer,
+        updateTransfer: state.updateTransfer,
+      }))
+    );
   const { record, setRecord, resetRecord } = useRecord();
 
   const [decimalLength, setDecimalLength] = useState(0);
@@ -122,29 +132,14 @@ export default function DigitalPad() {
   };
 
   const callRecordApi = (isRedirect: boolean) => {
-    const {
-      id,
-      amount,
-      date,
-      type,
-      category,
-      subcategory,
-      note,
-      is_marked_tax_return,
-      asset,
-      from_asset,
-      to_asset,
-    } = record;
+    const { id, amount, type, category, asset, ...rest } = record;
     if (id && id > 0) {
       updateRecordApi(
         {
           id,
-          date,
+          ...rest,
           type: type as RecordTypes,
           category: category as string,
-          subcategory,
-          note,
-          is_marked_tax_return,
           asset: asset ? Number(asset.split('-')[0]) : -1,
           book: currentBook.id,
           amount: type === RecordTypes.INCOME ? amount : -amount,
@@ -152,11 +147,10 @@ export default function DigitalPad() {
         {
           onSuccess: (response) => {
             log.success('Add record success:', response);
-            const curentAsset = formatAsset(response.asset);
+
             updateRecord({
               ...response,
               amount: Number(response.amount),
-              asset: curentAsset,
             });
             handleReset();
             resetRecord();
@@ -170,12 +164,9 @@ export default function DigitalPad() {
     } else {
       addRecordApi(
         {
-          date,
+          ...rest,
           type: type as RecordTypes,
           category: category as string,
-          subcategory,
-          note,
-          is_marked_tax_return,
           asset: asset ? Number(asset.split('-')[0]) : -1,
           book: currentBook.id,
           amount: type === RecordTypes.INCOME ? amount : -amount,
@@ -183,11 +174,9 @@ export default function DigitalPad() {
         {
           onSuccess: (response) => {
             log.success('Add record success:', response);
-            const curentAsset = formatAsset(response.asset);
             addRecord({
               ...response,
               amount: Number(response.amount),
-              asset: curentAsset,
             });
             handleReset();
             resetRecord();
@@ -202,48 +191,82 @@ export default function DigitalPad() {
   };
 
   const callTransferApi = (isRedirect: boolean) => {
-    const {
-      id,
-      amount,
-      date,
-      type,
-      category,
-      subcategory,
-      note,
-      is_marked_tax_return,
-      asset,
-      from_asset,
-      to_asset,
-    } = record;
+    const { id, from_asset, to_asset, ...rest } = record;
     if (id && id > 0) {
+      updateTransferApi(
+        {
+          id,
+          ...rest,
+          book: currentBook.id,
+          from_asset: from_asset ? Number(from_asset.split('-')[0]) : -1,
+          to_asset: to_asset ? Number(to_asset.split('-')[0]) : -1,
+        },
+        {
+          onSuccess: (response) => {
+            log.success('Add record success:', response);
+            updateTransfer({
+              ...response,
+              amount: Number(response.amount),
+            });
+            handleReset();
+            resetRecord();
+            if (isRedirect) router.push('/');
+          },
+          onError: (error) => {
+            log.error('Error: ', formatApiError(error));
+          },
+        }
+      );
     } else {
+      addTransferApi(
+        {
+          ...rest,
+          book: currentBook.id,
+          from_asset: from_asset ? Number(from_asset.split('-')[0]) : -1,
+          to_asset: to_asset ? Number(to_asset.split('-')[0]) : -1,
+        },
+        {
+          onSuccess: (response) => {
+            log.success('Add record success:', response);
+            addTransfer({
+              ...response,
+              amount: Number(response.amount),
+            });
+            handleReset();
+            resetRecord();
+            if (isRedirect) router.push('/');
+          },
+          onError: (error) => {
+            log.error('Error: ', formatApiError(error));
+          },
+        }
+      );
     }
   };
 
   const handleSubmit = (isRedirect: boolean) => {
-    const validation = RecordSchema.safeParse(record);
-    if (!validation.success) {
-      log.error('Zod: create record: ', validation.error);
-      let errorMsg = '';
-      if (record.amount === 0) {
-        errorMsg += 'Please enter an amount.';
-      }
-      if ('category' in validation.error.format()) {
-        errorMsg += 'Please select a category.';
-      }
-      Alert.alert('Tip', errorMsg, [
-        { text: 'OK', onPress: () => log.info('OK Pressed') },
-      ]);
+    // const validation = RecordSchema.safeParse(record);
+    // if (!validation.success) {
+    //   log.error('Zod: create record: ', validation.error);
+    //   let errorMsg = '';
+    //   if (record.amount === 0) {
+    //     errorMsg += 'Please enter an amount.';
+    //   }
+    //   if ('category' in validation.error.format()) {
+    //     errorMsg += 'Please select a category.';
+    //   }
+    //   Alert.alert('Tip', errorMsg, [
+    //     { text: 'OK', onPress: () => log.info('OK Pressed') },
+    //   ]);
+    // } else {
+    log.info('Submit create record data: ', {
+      ...record,
+      book: currentBook.id,
+    });
+    if (record.type === RecordTypes.TRANSFER) {
+      callTransferApi(isRedirect);
     } else {
-      log.info('Submit create record data: ', {
-        ...record,
-        book: currentBook.id,
-      });
-      if (record.type === RecordTypes.TRANSFER) {
-        callTransferApi(isRedirect);
-      } else {
-        callRecordApi(isRedirect);
-      }
+      callRecordApi(isRedirect);
     }
   };
 

@@ -3,7 +3,12 @@ import { devtools, persist, createJSONStorage } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import dayjs from 'dayjs';
-import { Record, RecordTypes, RecordsByDay, Transfer } from 'api/record/types';
+import {
+  RecordAPI as Record,
+  RecordTypes,
+  RecordsByDay,
+  TransferAPI as Transfer,
+} from 'api/record/types';
 
 type RecordState = {
   records: RecordsByDay[];
