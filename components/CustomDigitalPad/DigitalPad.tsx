@@ -119,18 +119,6 @@ export default function DigitalPad() {
     setRecord({ amount: newAmount });
   };
 
-  const formatAsset = (asset: number) => {
-    let curentAsset = undefined;
-    if (asset) {
-      const flatAssets = (getCurrentBook() as BookType).groups.flatMap(
-        (group) => group.assets
-      );
-      const targetAsset = flatAssets.find((item) => item.id === asset);
-      if (targetAsset) curentAsset = `${targetAsset.id}-${targetAsset.name}`;
-    }
-    return curentAsset;
-  };
-
   const callRecordApi = (isRedirect: boolean) => {
     const { id, amount, type, category, asset, ...rest } = record;
     if (id && id > 0) {
