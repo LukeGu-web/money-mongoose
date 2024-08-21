@@ -113,6 +113,18 @@ export default function DigitalPad() {
     setRecord({ amount: newAmount });
   };
 
+  const formatAsset = (asset: number) => {
+    let curentAsset = undefined;
+    if (asset) {
+      const flatAssets = (getCurrentBook() as BookType).groups.flatMap(
+        (group) => group.assets
+      );
+      const targetAsset = flatAssets.find((item) => item.id === asset);
+      if (targetAsset) curentAsset = `${targetAsset.id}-${targetAsset.name}`;
+    }
+    return curentAsset;
+  };
+
   const handleSubmit = (isRedirect: boolean) => {
     const validation = RecordSchema.safeParse(record);
     if (!validation.success) {
@@ -157,25 +169,12 @@ export default function DigitalPad() {
             is_marked_tax_return,
             asset: asset ? Number(asset.split('-')[0]) : -1,
             book: currentBook.id,
-            amount:
-              record.type === RecordTypes.INCOME
-                ? record.amount
-                : -record.amount,
+            amount: type === RecordTypes.INCOME ? amount : -amount,
           },
           {
             onSuccess: (response) => {
               log.success('Add record success:', response);
-              let curentAsset = undefined;
-              if (response.asset) {
-                const flatAssets = (
-                  getCurrentBook() as BookType
-                ).groups.flatMap((group) => group.assets);
-                const targetAsset = flatAssets.find(
-                  (item) => item.id === response.asset
-                );
-                if (targetAsset)
-                  curentAsset = `${targetAsset.id}-${targetAsset.name}`;
-              }
+              const curentAsset = formatAsset(response.asset);
               updateRecord({
                 ...response,
                 amount: Number(response.amount),
@@ -201,25 +200,12 @@ export default function DigitalPad() {
             is_marked_tax_return,
             asset: asset ? Number(asset.split('-')[0]) : -1,
             book: currentBook.id,
-            amount:
-              record.type === RecordTypes.INCOME
-                ? record.amount
-                : -record.amount,
+            amount: type === RecordTypes.INCOME ? amount : -amount,
           },
           {
             onSuccess: (response) => {
               log.success('Add record success:', response);
-              let curentAsset = undefined;
-              if (response.asset) {
-                const flatAssets = (
-                  getCurrentBook() as BookType
-                ).groups.flatMap((group) => group.assets);
-                const targetAsset = flatAssets.find(
-                  (item) => item.id === response.asset
-                );
-                if (targetAsset)
-                  curentAsset = `${targetAsset.id}-${targetAsset.name}`;
-              }
+              const curentAsset = formatAsset(response.asset);
               addRecord({
                 ...response,
                 amount: Number(response.amount),

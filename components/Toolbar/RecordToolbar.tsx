@@ -5,6 +5,7 @@ import dayjs from 'dayjs';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 
 import { BookType } from 'api/types';
+import { RecordTypes } from 'api/record/types';
 import { useRecord, useBookStore } from 'core/stateHooks';
 import SelectAssetBottomSheet from 'components/BottomSheet/SelectAssetBottomSheet';
 
@@ -40,14 +41,16 @@ export default function RecordToolbar() {
         display='calendar'
         onChange={onDateChange}
       />
-      <TouchableOpacity
-        className='items-center justify-center px-3 bg-gray-100 rounded-lg'
-        onPress={handlePressSelect}
-      >
-        <Text className='text-lg '>
-          {record.asset ? record.asset.split('-')[1] : 'no account'}
-        </Text>
-      </TouchableOpacity>
+      {record.type !== RecordTypes.TRANSFER && (
+        <TouchableOpacity
+          className='items-center justify-center px-3 bg-gray-100 rounded-lg'
+          onPress={handlePressSelect}
+        >
+          <Text className='text-lg '>
+            {record.asset ? record.asset.split('-')[1] : 'no account'}
+          </Text>
+        </TouchableOpacity>
+      )}
       <SelectAssetBottomSheet
         target='asset'
         value={record.asset}
