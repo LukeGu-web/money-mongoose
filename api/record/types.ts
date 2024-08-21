@@ -31,7 +31,7 @@ export type RecordAPI = {
   book: number;
   amount: number;
   date: string;
-  asset: number;
+  asset?: number;
   type: RecordTypes;
   category: string;
   subcategory?: string;

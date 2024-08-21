@@ -33,7 +33,19 @@ export default function ListItem({ item, onPress }: ListItemProps) {
         borderColorMap[item.type]
       }`}
       onPress={() => {
-        setRecord(item);
+        if (item.type === RecordTypes.TRANSFER) {
+          setRecord({
+            ...item,
+            from_asset: formatAsset(Number(item.from_asset), book, false),
+            to_asset: formatAsset(Number(item.to_asset), book, false),
+          });
+        } else {
+          setRecord({
+            ...item,
+            asset: formatAsset(Number(item.asset), book, false),
+          });
+        }
+
         onPress();
       }}
     >

@@ -9,6 +9,7 @@ import {
   RecordsByDay,
   TransferAPI as Transfer,
 } from 'api/record/types';
+import useBookStore from './useBookStore';
 
 type RecordState = {
   records: RecordsByDay[];
@@ -37,6 +38,11 @@ export const useRecordStore = create<RecordState>()(
         },
         addRecord: (record) => {
           set((state) => {
+            // Update asset balance
+            if (record.asset) {
+              const bookStore = useBookStore.getState();
+              bookStore.changeBalance(record.asset, record.amount);
+            }
             const newRecordDateString = dayjs(record.date).format('YYYY-MM-DD');
             const newRecord = {
               date: newRecordDateString,

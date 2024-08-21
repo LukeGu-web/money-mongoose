@@ -121,16 +121,19 @@ export default function DigitalPad() {
 
   const callRecordApi = (isRedirect: boolean) => {
     const { id, amount, type, category, asset, ...rest } = record;
+    const data = {
+      ...rest,
+      type: type as RecordTypes,
+      category: category as string,
+      asset: asset ? Number(asset.split('-')[0]) : undefined,
+      book: currentBook.id,
+      amount: type === RecordTypes.INCOME ? amount : -amount,
+    };
     if (id && id > 0) {
       updateRecordApi(
         {
           id,
-          ...rest,
-          type: type as RecordTypes,
-          category: category as string,
-          asset: asset ? Number(asset.split('-')[0]) : -1,
-          book: currentBook.id,
-          amount: type === RecordTypes.INCOME ? amount : -amount,
+          ...data,
         },
         {
           onSuccess: (response) => {
@@ -151,14 +154,7 @@ export default function DigitalPad() {
       );
     } else {
       addRecordApi(
-        {
-          ...rest,
-          type: type as RecordTypes,
-          category: category as string,
-          asset: asset ? Number(asset.split('-')[0]) : -1,
-          book: currentBook.id,
-          amount: type === RecordTypes.INCOME ? amount : -amount,
-        },
+        { ...data },
         {
           onSuccess: (response) => {
             log.success('Add record success:', response);
@@ -180,14 +176,17 @@ export default function DigitalPad() {
 
   const callTransferApi = (isRedirect: boolean) => {
     const { id, from_asset, to_asset, ...rest } = record;
+    const data = {
+      ...rest,
+      book: currentBook.id,
+      from_asset: Number(String(from_asset).split('-')[0]),
+      to_asset: Number(String(to_asset).split('-')[0]),
+    };
     if (id && id > 0) {
       updateTransferApi(
         {
           id,
-          ...rest,
-          book: currentBook.id,
-          from_asset: from_asset ? Number(from_asset.split('-')[0]) : -1,
-          to_asset: to_asset ? Number(to_asset.split('-')[0]) : -1,
+          ...data,
         },
         {
           onSuccess: (response) => {
@@ -208,10 +207,7 @@ export default function DigitalPad() {
     } else {
       addTransferApi(
         {
-          ...rest,
-          book: currentBook.id,
-          from_asset: from_asset ? Number(from_asset.split('-')[0]) : -1,
-          to_asset: to_asset ? Number(to_asset.split('-')[0]) : -1,
+          ...data,
         },
         {
           onSuccess: (response) => {

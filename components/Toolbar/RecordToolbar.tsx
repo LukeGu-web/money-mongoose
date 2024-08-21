@@ -21,7 +21,7 @@ export default function RecordToolbar() {
   const handlePressSelect = useCallback(() => {
     bottomSheetModalRef.current?.present();
     Keyboard.dismiss();
-    if (record.asset) {
+    if (!record.asset) {
       const flatAssets = (getCurrentBook() as BookType).groups.flatMap(
         (group) => group.assets
       );
