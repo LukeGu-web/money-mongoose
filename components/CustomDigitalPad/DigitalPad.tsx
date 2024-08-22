@@ -121,7 +121,7 @@ export default function DigitalPad() {
 
   const callRecordApi = (isRedirect: boolean) => {
     const { id, amount, type, category, asset, ...rest } = record;
-    const data = {
+    const data: any = {
       ...rest,
       type: type as RecordTypes,
       category: category as string,
@@ -176,7 +176,7 @@ export default function DigitalPad() {
 
   const callTransferApi = (isRedirect: boolean) => {
     const { id, from_asset, to_asset, ...rest } = record;
-    const data = {
+    const data: any = {
       ...rest,
       book: currentBook.id,
       from_asset: Number(String(from_asset).split('-')[0]),

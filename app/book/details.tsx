@@ -28,7 +28,7 @@ export default function AddNewBook() {
       updateBook: state.updateBook,
     }))
   );
-  const book = useBook((state) => state.book);
+  const { book, resetBook } = useBook();
   const { control, handleSubmit, reset } = useForm({
     defaultValues: book,
   });
@@ -41,6 +41,7 @@ export default function AddNewBook() {
           onSuccess: (response) => {
             log.success('Update book success:', response);
             updateBook(response);
+            resetBook();
             reset();
             router.back();
           },
@@ -54,6 +55,7 @@ export default function AddNewBook() {
         onSuccess: (response) => {
           log.success('Add book success:', response);
           addBook(response);
+          resetBook();
           reset();
           router.navigate('/book/management');
         },

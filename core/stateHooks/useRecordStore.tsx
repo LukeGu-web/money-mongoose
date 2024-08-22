@@ -85,8 +85,18 @@ export const useRecordStore = create<RecordState>()(
                 (r) => r.id === updatedRecord.id
               );
               if (recordIndex !== -1) {
+                const bookStore = useBookStore.getState();
+                const oldRecord = dayRecord.records[recordIndex] as Record;
+                // Revert previous balance change
+                if (oldRecord.asset) {
+                  bookStore.changeBalance(oldRecord.asset, -oldRecord.amount);
+                }
+                // Apply new balance change
+                bookStore.changeBalance(
+                  updatedRecord.asset!,
+                  updatedRecord.amount
+                );
                 // Adjust income and expense sums
-                const oldRecord = dayRecord.records[recordIndex];
                 if ((oldRecord as Record).type === RecordTypes.INCOME) {
                   dayRecord.sum_of_income -= oldRecord.amount;
                 } else {
@@ -118,6 +128,7 @@ export const useRecordStore = create<RecordState>()(
         },
         removeRecord: (recordId) => {
           set((state) => {
+            const bookStore = useBookStore.getState();
             state.records.forEach((dayRecord) => {
               const recordIndex = dayRecord.records.findIndex(
                 (r) => r.id === recordId
@@ -127,7 +138,14 @@ export const useRecordStore = create<RecordState>()(
                   recordIndex,
                   1
                 );
-
+                // Update asset balance
+                if ((removedRecord as Record).asset) {
+                  const bookStore = useBookStore.getState();
+                  bookStore.changeBalance(
+                    Number((removedRecord as Record).asset),
+                    -(removedRecord as Record).amount
+                  );
+                }
                 if ((removedRecord as Record).type === RecordTypes.INCOME) {
                   dayRecord.sum_of_income -= removedRecord.amount;
                 } else {
@@ -148,6 +166,13 @@ export const useRecordStore = create<RecordState>()(
         },
         addTransfer: (transfer) => {
           set((state) => {
+            const bookStore = useBookStore.getState();
+            // Use transfer method
+            bookStore.transfer(
+              transfer.from_asset,
+              transfer.to_asset,
+              transfer.amount
+            );
             const transferDateString = dayjs().format('YYYY-MM-DD');
             const newTransfer = {
               date: transferDateString,
@@ -178,7 +203,23 @@ export const useRecordStore = create<RecordState>()(
                 (rec) => rec.id === transfer.id
               );
               if (index !== -1) {
+                const bookStore = useBookStore.getState();
+                const existingTransfer = r.records[index] as Transfer;
+                // Revert previous transfer
+                bookStore.transfer(
+                  existingTransfer.to_asset,
+                  existingTransfer.from_asset,
+                  existingTransfer.amount
+                );
+                // Apply new transfer
+                bookStore.transfer(
+                  transfer.from_asset,
+                  transfer.to_asset,
+                  transfer.amount
+                );
+
                 r.records[index] = transfer;
+
                 state.records.sort((a, b) =>
                   dayjs(b.date).isAfter(dayjs(a.date)) ? 1 : -1
                 );
@@ -191,8 +232,16 @@ export const useRecordStore = create<RecordState>()(
             state.records.forEach((r) => {
               const index = r.records.findIndex((rec) => rec.id === id);
               if (index !== -1) {
-                r.records.splice(index, 1);
+                const bookStore = useBookStore.getState();
+                const transferToRemove = r.records[index] as Transfer;
+                // Revert transfer
+                bookStore.transfer(
+                  transferToRemove.to_asset,
+                  transferToRemove.from_asset,
+                  transferToRemove.amount
+                );
 
+                r.records.splice(index, 1);
                 if (r.records.length === 0) {
                   state.records = state.records.filter(
                     (rec) => rec.date !== r.date
