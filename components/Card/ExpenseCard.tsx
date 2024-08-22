@@ -12,6 +12,7 @@ export default function ExpenseCard({
   monthIncome,
 }: ExpenseCardProps) {
   const month = dayjs().format('MMMM');
+  const balance = monthIncome + monthExpense;
   return (
     <View className='justify-between flex-1 p-2 '>
       <Text className='text-3xl'>
@@ -21,12 +22,16 @@ export default function ExpenseCard({
       <Text className='text-4xl'>{formatter(Math.abs(monthExpense))}</Text>
       <View className='flex-row gap-2'>
         <Text className='font-extrabold'>Income</Text>
-        <Text className='font-semibold color-green-800'>
+        <Text className='font-semibold color-green-700'>
           {formatter(monthIncome)}
         </Text>
         <Text className='font-extrabold'>Balance</Text>
-        <Text className='font-semibold color-red-800'>
-          {formatter(monthIncome + monthExpense)}
+        <Text
+          className={`font-semibold ${
+            balance > 0 ? 'color-green-700' : 'color-red-700'
+          } `}
+        >
+          {formatter(balance)}
         </Text>
       </View>
     </View>
