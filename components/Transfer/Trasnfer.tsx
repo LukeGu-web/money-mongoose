@@ -19,7 +19,6 @@ export default function Transfer() {
     bottomSheetModalRef.current?.present();
     Keyboard.dismiss();
     setTarget(value);
-    console.log('target: ', target, record[target]);
     if (!record[target]) {
       const flatAssets = (getCurrentBook() as BookType).groups.flatMap(
         (group) => group.assets
