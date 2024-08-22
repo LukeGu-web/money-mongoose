@@ -98,7 +98,7 @@ export default function Camera() {
           flash={flash}
         >
           <View className='flex-row flex-1 bg-transparent'>
-            <View className='absolute flex-row items-center justify-between w-full px-8 top-10 '>
+            <View className='absolute flex-row items-center justify-between w-full px-8 top-20 '>
               <TouchableOpacity onPress={() => router.navigate('record')}>
                 <Icon name='close' size={24} color='#fff' />
               </TouchableOpacity>
@@ -106,14 +106,14 @@ export default function Camera() {
                 <MaterialIcons name={`flash-${flash}`} size={24} color='#fff' />
               </TouchableOpacity>
             </View>
-            <View className='absolute flex-row items-center justify-between w-full px-8 bottom-5 '>
+            <View className='absolute flex-row items-center justify-between w-full px-8 bottom-10 '>
               <TouchableOpacity onPress={handleOpenCameraRoll}>
                 <MaterialIcons name='photo-library' size={32} color='#fff' />
               </TouchableOpacity>
-              <View className='items-center self-center p-2 border-2 border-white rounded-xl'>
+              <View className='items-center self-center p-2 border-2 border-white rounded-full'>
                 <TouchableOpacity
                   onPress={handleTakePicture}
-                  className='bottom-0 w-16 h-16 bg-white rounded-xl'
+                  className='bottom-0 w-16 h-16 bg-white rounded-full'
                 />
               </View>
               <TouchableOpacity
