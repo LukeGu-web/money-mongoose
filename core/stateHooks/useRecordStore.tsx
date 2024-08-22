@@ -85,8 +85,18 @@ export const useRecordStore = create<RecordState>()(
                 (r) => r.id === updatedRecord.id
               );
               if (recordIndex !== -1) {
+                const bookStore = useBookStore.getState();
+                const oldRecord = dayRecord.records[recordIndex] as Record;
+                // Revert previous balance change
+                if (oldRecord.asset) {
+                  bookStore.changeBalance(oldRecord.asset, -oldRecord.amount);
+                }
+                // Apply new balance change
+                bookStore.changeBalance(
+                  updatedRecord.asset!,
+                  updatedRecord.amount
+                );
                 // Adjust income and expense sums
-                const oldRecord = dayRecord.records[recordIndex];
                 if ((oldRecord as Record).type === RecordTypes.INCOME) {
                   dayRecord.sum_of_income -= oldRecord.amount;
                 } else {
