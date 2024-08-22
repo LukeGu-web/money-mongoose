@@ -32,7 +32,7 @@ export type RecordAPI = {
   amount: number;
   date: string;
   asset?: number;
-  type: RecordTypes;
+  type: RecordTypes.EXPENSE | RecordTypes.INCOME;
   category: string;
   subcategory?: string;
   note?: string;
@@ -45,6 +45,7 @@ export type TransferAPI = {
   amount: number;
   date: string;
   note?: string;
+  type: RecordTypes.TRANSFER;
   from_asset: number;
   to_asset: number;
 };
