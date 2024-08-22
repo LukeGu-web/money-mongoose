@@ -1,11 +1,5 @@
 import React, { useState, useRef } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  ImageBackground,
-} from 'react-native';
+import { Text, View, TouchableOpacity, ImageBackground } from 'react-native';
 import {
   CameraView,
   type CameraType,
@@ -73,31 +67,25 @@ export default function Camera() {
   };
 
   return (
-    <View style={styles.container}>
+    <View className='flex-1'>
       {previewVisible ? (
         <ImageBackground
           source={{ uri: capturedImage && capturedImage.uri }}
-          style={styles.container}
+          className='flex-1'
         >
-          <View style={styles.btnGroup}>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                padding: 30,
-              }}
-            >
+          <View className='justify-end flex-1 mb-8'>
+            <View className='flex-row justify-between p-8'>
               <TouchableOpacity
                 onPress={() => setPreviewVisible(false)}
-                style={styles.textBtn}
+                className='items-center justify-center h-12 bg-black rounded-lg w-36'
               >
-                <Text style={styles.textBtntext}>Re-take</Text>
+                <Text className='text-xl color-white'>Re-take</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={handleSavePhoto}
-                style={styles.textBtn}
+                className='items-center justify-center h-12 bg-black rounded-lg w-36'
               >
-                <Text style={styles.textBtntext}>Save</Text>
+                <Text className='text-xl color-white'>Save</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -109,8 +97,8 @@ export default function Camera() {
           facing={type}
           flash={flash}
         >
-          <View style={styles.cameraContainer}>
-            <View style={styles.camTopBtnGroup}>
+          <View className='flex-row flex-1 bg-transparent'>
+            <View className='absolute flex-row items-center justify-between w-full px-8 top-10 '>
               <TouchableOpacity onPress={() => router.navigate('record')}>
                 <Icon name='close' size={24} color='#fff' />
               </TouchableOpacity>
@@ -118,14 +106,14 @@ export default function Camera() {
                 <MaterialIcons name={`flash-${flash}`} size={24} color='#fff' />
               </TouchableOpacity>
             </View>
-            <View style={styles.camBottomBtnGroup}>
+            <View className='absolute flex-row items-center justify-between w-full px-8 bottom-5 '>
               <TouchableOpacity onPress={handleOpenCameraRoll}>
                 <MaterialIcons name='photo-library' size={32} color='#fff' />
               </TouchableOpacity>
-              <View style={styles.takeBtnWrapper}>
+              <View className='items-center self-center p-2 border-2 border-white rounded-xl'>
                 <TouchableOpacity
                   onPress={handleTakePicture}
-                  style={styles.takeBtn}
+                  className='bottom-0 w-16 h-16 bg-white rounded-xl'
                 />
               </View>
               <TouchableOpacity
@@ -142,66 +130,3 @@ export default function Camera() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  btnGroup: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'flex-end',
-    marginBottom: 20,
-  },
-  textBtn: {
-    width: 120,
-    height: 40,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 10,
-    backgroundColor: 'black',
-  },
-  textBtntext: {
-    color: '#fff',
-    fontSize: 20,
-  },
-  cameraContainer: {
-    flex: 1,
-    backgroundColor: 'transparent',
-    flexDirection: 'row',
-  },
-  camTopBtnGroup: {
-    position: 'absolute',
-    top: '10%',
-    width: '100%',
-    paddingHorizontal: 30,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  camBottomBtnGroup: {
-    position: 'absolute',
-    bottom: '5%',
-    width: '100%',
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 30,
-  },
-  takeBtnWrapper: {
-    alignSelf: 'center',
-    alignItems: 'center',
-    borderRadius: 50,
-    borderWidth: 2,
-    borderColor: '#fff',
-    padding: 4,
-  },
-  takeBtn: {
-    width: 60,
-    height: 60,
-    bottom: 0,
-    borderRadius: 50,
-    backgroundColor: '#fff',
-  },
-});

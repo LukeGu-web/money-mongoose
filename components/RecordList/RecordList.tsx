@@ -1,5 +1,5 @@
 import { useCallback, useRef } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { router } from 'expo-router';
 import { FlashList } from '@shopify/flash-list';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
@@ -8,14 +8,11 @@ import dayjs from 'dayjs';
 import EmptyRecordList from './EmptyRecordList';
 import { useRecordStore } from 'core/stateHooks';
 import ListDayItem from './ListDayItem';
-import { useStyles, TColors } from 'core/theme';
 import RecordBottomSheet from '../BottomSheet/RecordBottomSheet';
 import Icon from '../Icon/Icon';
 
 export default function RecordList() {
-  const { styles } = useStyles(createStyles);
   const records = useRecordStore((state) => state.records);
-
   const latestRecords = records
     .slice(0, 8)
     .filter((item) =>
@@ -30,11 +27,11 @@ export default function RecordList() {
   }, []);
 
   return (
-    <View style={styles.container}>
-      <View style={styles.headerContainer}>
-        <Text style={{ fontSize: 18, fontWeight: '600' }}>Last 7 days</Text>
+    <View className='flex-1 rounded-lg bg-zinc-100'>
+      <View className='flex-row items-center justify-between p-2'>
+        <Text className='text-2xl font-semibold'>Last 7 days</Text>
         <TouchableOpacity
-          style={styles.verticalContainer}
+          className='flex-row items-center justify-between gap-1'
           onPress={() => router.navigate('/records')}
         >
           <Text>All records</Text>
@@ -42,7 +39,7 @@ export default function RecordList() {
         </TouchableOpacity>
       </View>
       {isUpdated ? (
-        <View style={styles.listContainer}>
+        <View className='flex-1'>
           <FlashList
             data={latestRecords}
             renderItem={({ item }) => (
@@ -53,40 +50,10 @@ export default function RecordList() {
           <RecordBottomSheet bottomSheetModalRef={bottomSheetModalRef} />
         </View>
       ) : (
-        <View style={styles.emptyContainer}>
+        <View className='items-center justify-center flex-1'>
           <EmptyRecordList noItemMsg='No record in last 7 days' />
         </View>
       )}
     </View>
   );
 }
-const createStyles = (theme: TColors) =>
-  StyleSheet.create({
-    container: {
-      flex: 1,
-      borderRadius: 10,
-      backgroundColor: theme.bgPrimary,
-    },
-    verticalContainer: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-    },
-    emptyContainer: {
-      flex: 1,
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    listContainer: {
-      flex: 1,
-    },
-    headerContainer: {
-      padding: 8,
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-    },
-    headerText: {
-      fontSize: 18,
-    },
-  });
