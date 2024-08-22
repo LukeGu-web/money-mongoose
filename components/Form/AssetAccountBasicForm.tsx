@@ -30,6 +30,8 @@ export default function AssetAccountBasicForm() {
     }
   }, []);
 
+  console.log('AssetAccountBasicForm: ', getValues('group'));
+
   return (
     <View className='items-center justify-between flex-1 w-full p-4'>
       <Controller

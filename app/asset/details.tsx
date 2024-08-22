@@ -63,6 +63,7 @@ export default function AssetDetails() {
           onSuccess: (response) => {
             log.success('Create asset success:', response);
             addAsset(response);
+            resetAsset();
             reset();
             router.back();
           },
