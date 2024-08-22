@@ -1,25 +1,25 @@
 import { Text, View } from 'react-native';
 import { useBookStore } from 'core/stateHooks';
-import { formatter } from 'core/utils';
+import { formatter, calculateAssets } from 'core/utils';
 import { BookType } from 'api/types';
 
 export default function NetAssetCard() {
   const { getCurrentBook } = useBookStore();
-  const netAsset = (getCurrentBook() as BookType).groups
-    .map((group) =>
-      group.assets.reduce((sum, item) => sum + Number(item.balance), 0)
-    )
-    .reduce((sum, item) => sum + item, 0);
-
+  const [netAsset, assets, liabilities] = calculateAssets(
+    getCurrentBook() as BookType
+  );
   return (
     <View className='justify-between flex-1 p-3 bg-teal-100 rounded-lg'>
       <Text className='text-2xl'>Net Asset</Text>
       <Text className='text-4xl'>{formatter(netAsset)}</Text>
       <View className='flex-row gap-2'>
         <Text className='font-extrabold'>Assets</Text>
-        <Text>{formatter(netAsset)}</Text>
+        <Text>{formatter(assets)}</Text>
         <Text className='font-extrabold'>Liabilities</Text>
-        <Text>0.00</Text>
+        <Text>
+          {liabilities > 0 && '-'}
+          {formatter(liabilities)}
+        </Text>
       </View>
     </View>
   );
