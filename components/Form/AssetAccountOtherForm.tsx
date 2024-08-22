@@ -1,4 +1,4 @@
-import { View, Text, Switch, StyleSheet, Keyboard } from 'react-native';
+import { View, Text, Switch, Keyboard } from 'react-native';
 import { useFormContext, Controller } from 'react-hook-form';
 import { TextInput } from 'react-native-gesture-handler';
 import { inputAccessoryCreateBtnID } from './static';

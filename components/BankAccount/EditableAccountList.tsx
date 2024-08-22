@@ -132,7 +132,7 @@ export default function EditableAccountList() {
       })}
       <EditAssetGroupBottomSheet
         bottomSheetModalRef={bottomSheetModalRef}
-        funtions={functions}
+        functions={functions}
         title={asset.name}
         onCancel={handleCloseSheet}
       />

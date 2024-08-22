@@ -5,7 +5,7 @@ import { Feather } from '@expo/vector-icons';
 
 import { useDeleteBook } from 'api/book';
 import { formatApiError } from 'api/errorFormat';
-import { useBookStore, useBook } from 'core/stateHooks';
+import { useBookStore, useBook, useRecordStore } from 'core/stateHooks';
 import log from 'core/logger';
 import BottomSheet from './BottomSheet';
 import Icon from '../Icon/Icon';
@@ -18,12 +18,14 @@ export default function BookBottomSheet({
   bottomSheetModalRef,
 }: BookBottomSheetProps) {
   const { books, setCurrentBook, setBooks } = useBookStore();
+  const { resetRecords } = useRecordStore();
   const book = useBook((state) => state.book);
   const { mutate: deleteBookApi } = useDeleteBook();
 
   const handleSelectCurrentBook = () => {
     bottomSheetModalRef.current?.dismiss();
     setCurrentBook(book.id, book.name);
+    resetRecords();
   };
 
   const handleEditSelectedBook = async () => {
