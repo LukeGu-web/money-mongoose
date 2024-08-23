@@ -12,10 +12,11 @@ import ListDayItem from '../RecordList/ListDayItem';
 import { RecordsByDay } from 'api/record/types';
 // import { formatApiError } from 'api/errorFormat';
 // import { useGetRecordsByDateRange } from 'api/record/useGetAllRecords';
-import { useRecordStore, useCalendar } from 'core/stateHooks';
+import { useRecord, useRecordStore, useCalendar } from 'core/stateHooks';
 
 export default function Calendar() {
   const records = useRecordStore((state) => state.records);
+  const resetRecord = useRecord((state) => state.resetRecord);
   const { visiableMonth, setVisiableMonth } = useCalendar(
     useShallow((state) => ({
       visiableMonth: state.visiableMonth,
@@ -83,6 +84,10 @@ export default function Calendar() {
     bottomSheetModalRef.current?.present();
   }, []);
 
+  const handleDismissItem = () => {
+    resetRecord();
+  };
+
   return (
     <View className='flex-1'>
       <ClendarPicker
@@ -114,9 +119,14 @@ export default function Calendar() {
             estimatedItemSize={20}
           />
         ) : (
-          <Text>No records</Text>
+          <View className='self-center justify-center flex-1'>
+            <Text className='text-xl font-medium'>No record</Text>
+          </View>
         )}
-        <RecordBottomSheet bottomSheetModalRef={bottomSheetModalRef} />
+        <RecordBottomSheet
+          bottomSheetModalRef={bottomSheetModalRef}
+          onDismiss={handleDismissItem}
+        />
       </View>
     </View>
   );

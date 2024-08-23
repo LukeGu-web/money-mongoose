@@ -1,6 +1,7 @@
 import { Alert, View, Text, TouchableOpacity } from 'react-native';
 import { router } from 'expo-router';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
+import { RecordTypes } from 'api/record/types';
 import { useDeleteRecord } from 'api/record';
 import { formatApiError } from 'api/errorFormat';
 import log from 'core/logger';
@@ -10,10 +11,12 @@ import Icon from '../Icon/Icon';
 
 type RecordBottomSheetProps = {
   bottomSheetModalRef: React.RefObject<BottomSheetModal>;
+  onDismiss: () => void;
 };
 
 export default function RecordBottomSheet({
   bottomSheetModalRef,
+  onDismiss,
 }: RecordBottomSheetProps) {
   const { mutate: deleteRecordApi } = useDeleteRecord();
   const { record, resetRecord, setRecord } = useRecord();
@@ -66,9 +69,13 @@ export default function RecordBottomSheet({
     Delete: handleDelete,
   };
   return (
-    <BottomSheet bottomSheetModalRef={bottomSheetModalRef} height={160}>
+    <BottomSheet
+      bottomSheetModalRef={bottomSheetModalRef}
+      height={160}
+      onDismiss={onDismiss}
+    >
       <View className='items-center flex-1'>
-        <View className='flex-row items-center justify-between p-3 border-b-2'>
+        <View className='flex-row items-center justify-between p-2 border-b-2'>
           <View className='items-center justify-center w-1/6'>
             <Icon name={record.category} size={28} color='#000' />
           </View>
@@ -81,11 +88,18 @@ export default function RecordBottomSheet({
             </View>
             {record.note !== '' && <Text>{record.note}</Text>}
           </View>
-          <Text className='text-lg font-bold'>
-            {Number(record.amount).toFixed(2)}
-          </Text>
+          <View className='mr-4'>
+            <Text className={`font-bold `}>
+              {Number(record.amount).toFixed(2)}
+            </Text>
+            {record.type !== RecordTypes.TRANSFER && (
+              <Text className='text-sm text-right'>
+                {String(record.asset).split('-')[1]}
+              </Text>
+            )}
+          </View>
         </View>
-        <View className='flex-row items-center justify-between gap-10 px-10 py-4 mt-4 rounded-3xl bg-zinc-400'>
+        <View className='flex-row items-center justify-between gap-10 px-10 py-4 mt-4 rounded-full bg-zinc-300'>
           {Object.keys(functions).map((item, index) => (
             <TouchableOpacity
               key={item}

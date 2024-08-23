@@ -6,13 +6,14 @@ import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import dayjs from 'dayjs';
 
 import EmptyRecordList from './EmptyRecordList';
-import { useRecordStore } from 'core/stateHooks';
+import { useRecord, useRecordStore } from 'core/stateHooks';
 import ListDayItem from './ListDayItem';
 import RecordBottomSheet from '../BottomSheet/RecordBottomSheet';
 import Icon from '../Icon/Icon';
 
 export default function RecordList() {
   const records = useRecordStore((state) => state.records);
+  const resetRecord = useRecord((state) => state.resetRecord);
   const latestRecords = records
     .slice(0, 8)
     .filter((item) =>
@@ -25,6 +26,10 @@ export default function RecordList() {
   const handlePressItem = useCallback(() => {
     bottomSheetModalRef.current?.present();
   }, []);
+
+  const handleDismissItem = () => {
+    resetRecord();
+  };
 
   return (
     <View className='flex-1 rounded-lg bg-zinc-100'>
@@ -47,7 +52,10 @@ export default function RecordList() {
             )}
             estimatedItemSize={200}
           />
-          <RecordBottomSheet bottomSheetModalRef={bottomSheetModalRef} />
+          <RecordBottomSheet
+            bottomSheetModalRef={bottomSheetModalRef}
+            onDismiss={handleDismissItem}
+          />
         </View>
       ) : (
         <View className='items-center justify-center flex-1'>

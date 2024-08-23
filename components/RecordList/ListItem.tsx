@@ -80,9 +80,16 @@ export default function ListItem({ item, onPress }: ListItemProps) {
           </View>
         </View>
       )}
-      <Text className={`font-bold ${textColorMap[item.type]}`}>
-        {Number(item.amount).toFixed(2)}
-      </Text>
+      <View>
+        <Text className={`font-bold ${textColorMap[item.type]}`}>
+          {Number(item.amount).toFixed(2)}
+        </Text>
+        {item.type !== RecordTypes.TRANSFER && (
+          <Text className='text-sm text-right'>
+            {formatAsset(Number(item.asset), book, true)}
+          </Text>
+        )}
+      </View>
     </TouchableOpacity>
   );
 }
