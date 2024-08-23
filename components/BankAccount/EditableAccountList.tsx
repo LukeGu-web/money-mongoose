@@ -88,12 +88,16 @@ export default function EditableAccountList() {
   });
 
   const functions = {
-    'View Details': () => {},
+    'View Details': () => {
+      bottomSheetModalRef.current?.dismiss();
+      router.navigate('/asset/records');
+    },
     Edit: () => {
       bottomSheetModalRef.current?.dismiss();
       router.navigate('/asset/details');
     },
     'Move to another group': () => {
+      bottomSheetModalRef.current?.dismiss();
       selectGroupModalRef.current?.present();
     },
     Delete: handleDeleteAccount,

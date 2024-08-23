@@ -61,6 +61,13 @@ export default function RootLayoutNav() {
           }}
         />
         <Stack.Screen
+          name='asset/records'
+          options={{
+            title: 'Records of Account',
+            headerLeft: () => <GoBack />,
+          }}
+        />
+        <Stack.Screen
           name='book/management'
           options={{
             title: 'Book Management',
