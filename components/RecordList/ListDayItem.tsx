@@ -17,13 +17,13 @@ export default function ListDayItem({ item, onPress }: ListDayItemProps) {
         <Text className='text-lg font-bold '>{formattedDate}</Text>
         <View className='flex-row gap-2'>
           {item.sum_of_income > 0 && (
-            <Text className='text-lg font-bold color-green-700'>
-              Income: {item.sum_of_income}
+            <Text className='font-bold color-green-700'>
+              Income: {+item.sum_of_income}
             </Text>
           )}
           {item.sum_of_expense < 0 && (
-            <Text className='text-lg font-bold color-red-700'>
-              Expense: {item.sum_of_expense}
+            <Text className='font-bold color-red-700'>
+              Expense: {-item.sum_of_expense}
             </Text>
           )}
         </View>

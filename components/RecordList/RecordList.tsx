@@ -1,26 +1,46 @@
-import { useCallback, useRef } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
-import { router } from 'expo-router';
+import { useState, useEffect, useCallback, useRef } from 'react';
+import { View, Text, ActivityIndicator } from 'react-native';
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { FlashList } from '@shopify/flash-list';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import dayjs from 'dayjs';
 
-import EmptyRecordList from './EmptyRecordList';
-import { useRecord, useRecordStore } from 'core/stateHooks';
-import ListDayItem from './ListDayItem';
+import { client } from 'api/client';
+import { formatApiError } from 'api/errorFormat';
+import log from 'core/logger';
+import { useRecord, useRecordStore, useBookStore } from 'core/stateHooks';
 import RecordBottomSheet from '../BottomSheet/RecordBottomSheet';
-import Icon from '../Icon/Icon';
+import ListDayItem from './ListDayItem';
 
-export default function RecordList() {
-  const records = useRecordStore((state) => state.records);
+type RecordListProps = {
+  extra?: string;
+  noItemMsg?: string;
+  loadMore?: boolean;
+};
+
+export default function RecordList({
+  extra = '',
+  noItemMsg,
+  loadMore = true,
+}: RecordListProps) {
+  const { records, setRecords } = useRecordStore();
+  const currentBook = useBookStore((state) => state.currentBook);
+  const [page, setPage] = useState(1);
+
+  const getRecords = (page = 1) =>
+    client
+      .get(`/record/combined/?page=${page}&book_id=${currentBook.id}${extra}`)
+      .then((response) => response.data);
+
+  const { isPending, isError, error, data, isFetching, isPlaceholderData } =
+    useQuery({
+      queryKey: ['projects', page],
+      queryFn: () => getRecords(page),
+      placeholderData: keepPreviousData,
+    });
+
   const resetRecord = useRecord((state) => state.resetRecord);
-  const latestRecords = records
-    .slice(0, 8)
-    .filter((item) =>
-      dayjs(item?.date).isAfter(dayjs().subtract(6, 'day'), 'day')
-    );
-  const isUpdated =
-    latestRecords.length > 0 && dayjs().isAfter(dayjs(latestRecords[0].date));
+
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
   const handlePressItem = useCallback(() => {
@@ -31,37 +51,53 @@ export default function RecordList() {
     resetRecord();
   };
 
-  return (
-    <View className='flex-1 rounded-lg bg-zinc-100'>
-      <View className='flex-row items-center justify-between p-2'>
-        <Text className='text-2xl font-semibold'>Last 7 days</Text>
-        <TouchableOpacity
-          className='flex-row items-center justify-between gap-1'
-          onPress={() => router.navigate('/records')}
-        >
-          <Text>All records</Text>
-          <Icon name='double-right' size={14} color='black' />
-        </TouchableOpacity>
+  useEffect(() => {
+    if (data) {
+      setRecords(data.results);
+    }
+  }, [data, setRecords]);
+
+  if (isPending || isFetching)
+    return (
+      <View className='items-center justify-center flex-1 gap-2'>
+        <ActivityIndicator size='large' />
+        <Text>Loading data...</Text>
       </View>
-      {isUpdated ? (
-        <View className='flex-1'>
-          <FlashList
-            data={latestRecords}
-            renderItem={({ item }) => (
-              <ListDayItem item={item} onPress={handlePressItem} />
-            )}
-            estimatedItemSize={200}
-          />
-          <RecordBottomSheet
-            bottomSheetModalRef={bottomSheetModalRef}
-            onDismiss={handleDismissItem}
-          />
-        </View>
+    );
+
+  if (isError) {
+    // const formattedError = formatApiError(error);
+    log.error(error.message);
+    // if (formattedError.status !== 404)
+    return <Text>Sorry, something went wrong. Please try it again.</Text>;
+  }
+
+  return (
+    <View className='flex-1 p-2'>
+      {records.length > 0 ? (
+        <FlashList
+          data={records}
+          renderItem={({ item }) => (
+            <ListDayItem item={item} onPress={handlePressItem} />
+          )}
+          estimatedItemSize={50}
+          onEndReachedThreshold={5}
+          onEndReached={() => {
+            if (!isPlaceholderData && data.next && loadMore) {
+              setPage((old) => old + 1);
+            }
+          }}
+          ListFooterComponent={() => (
+            <Text className='w-full mt-4 text-center'>The End</Text>
+          )}
+        />
       ) : (
-        <View className='items-center justify-center flex-1'>
-          <EmptyRecordList noItemMsg='No record in last 7 days' />
-        </View>
+        <Text>{noItemMsg ?? "You don't have any record."}</Text>
       )}
+      <RecordBottomSheet
+        bottomSheetModalRef={bottomSheetModalRef}
+        onDismiss={handleDismissItem}
+      />
     </View>
   );
 }

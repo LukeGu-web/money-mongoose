@@ -1,10 +1,11 @@
 import { useEffect } from 'react';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
-import { View } from 'react-native';
+import { router } from 'expo-router';
 import dayjs from 'dayjs';
 
 import { setHeaderToken } from 'api/client';
-import { BudgetCard, ExpenseCard, RecordList } from 'components';
+import { BudgetCard, ExpenseCard, RecordList, Icon } from 'components';
 import { useLocalStore, useRecordStore } from 'core/stateHooks';
 
 export default function Home() {
@@ -35,8 +36,24 @@ export default function Home() {
       <View className='h-48 bg-blue-200 rounded-lg'>
         <BudgetCard monthExpense={monthExpense} />
       </View>
-      <View className='flex-1 rounded-lg'>
-        <RecordList />
+      <View className='flex-1 rounded-lg bg-zinc-100'>
+        <View className='flex-row items-center justify-between p-2'>
+          <Text className='text-2xl font-semibold'>Last 7 days</Text>
+          <TouchableOpacity
+            className='flex-row items-center justify-between gap-1'
+            onPress={() => router.navigate('/records')}
+          >
+            <Text>All records</Text>
+            <Icon name='double-right' size={14} color='black' />
+          </TouchableOpacity>
+        </View>
+        <RecordList
+          extra={`&date_after=${dayjs()
+            .subtract(7, 'day')
+            .format('YYYY-MM-DD')}`}
+          noItemMsg='No record in last 7 days'
+          loadMore={false}
+        />
       </View>
       <StatusBar style='light' />
     </View>
