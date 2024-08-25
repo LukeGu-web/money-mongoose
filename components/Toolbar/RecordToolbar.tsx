@@ -1,5 +1,5 @@
 import { useRef, useCallback } from 'react';
-import { Text, View, TouchableOpacity, Keyboard } from 'react-native';
+import { Text, View, Pressable, Keyboard } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import dayjs from 'dayjs';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
@@ -42,14 +42,14 @@ export default function RecordToolbar() {
         onChange={onDateChange}
       />
       {record.type !== RecordTypes.TRANSFER && (
-        <TouchableOpacity
+        <Pressable
           className='items-center justify-center px-3 bg-gray-100 rounded-lg'
           onPress={handlePressSelect}
         >
           <Text className='text-lg '>
             {record.asset ? record.asset.split('-')[1] : 'no account'}
           </Text>
-        </TouchableOpacity>
+        </Pressable>
       )}
       <SelectAssetBottomSheet
         target='asset'

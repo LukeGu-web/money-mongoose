@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { View, Text, TouchableOpacity, Keyboard } from 'react-native';
+import { View, Text, Pressable, Keyboard } from 'react-native';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 
@@ -31,25 +31,25 @@ export default function Transfer() {
   };
   return (
     <View className='items-center justify-center flex-1 gap-4'>
-      <TouchableOpacity
+      <Pressable
         className='items-center justify-center w-4/5 p-6 bg-gray-100 rounded-lg'
         onPress={() => handlePressSelect('from_asset')}
       >
         <Text className='text-lg '>
           {record.from_asset ? record.from_asset.split('-')[1] : 'From account'}
         </Text>
-      </TouchableOpacity>
+      </Pressable>
       <View className='p-4 rotate-90 rounded-full bg-amber-300'>
         <FontAwesome name='exchange' size={24} color='black' />
       </View>
-      <TouchableOpacity
+      <Pressable
         className='items-center justify-center w-4/5 p-6 bg-gray-100 rounded-lg'
         onPress={() => handlePressSelect('to_asset')}
       >
         <Text className='text-lg '>
           {record.to_asset ? record.to_asset.split('-')[1] : 'To account'}
         </Text>
-      </TouchableOpacity>
+      </Pressable>
       <SelectAssetBottomSheet
         target={target}
         value={record[target]}

@@ -1,12 +1,5 @@
 import { useState } from 'react';
-import {
-  Text,
-  TextInput,
-  View,
-  Modal,
-  TouchableOpacity,
-  Button,
-} from 'react-native';
+import { Text, TextInput, View, Modal, Pressable, Button } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import { useShallow } from 'zustand/react/shallow';
 import dayjs from 'dayjs';
@@ -58,7 +51,7 @@ export default function BudgetCard({ monthExpense }: BudgetCardProps) {
     <View className='justify-between flex-1 p-2'>
       <View className='flex-row items-center justify-between'>
         <Text style={{ fontSize: 20, fontWeight: '700' }}>Month Budget</Text>
-        <TouchableOpacity
+        <Pressable
           className='flex-row items-center justify-between gap-2'
           onPress={() => {
             setIsVisible(true);
@@ -66,7 +59,7 @@ export default function BudgetCard({ monthExpense }: BudgetCardProps) {
         >
           <Text>{goal === null ? 'set goal' : goal}</Text>
           <Icon name='edit' size={14} color='#000' />
-        </TouchableOpacity>
+        </Pressable>
       </View>
       <View className='flex-row items-stretch justify-between flex-1 gap-2 py-2'>
         <View className='items-center justify-center flex-1 pt-2.5 rounded-lg bg-zinc-100'>

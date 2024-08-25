@@ -1,4 +1,4 @@
-import { View, FlatList, TouchableOpacity, Text } from 'react-native';
+import { View, FlatList, Pressable, Text } from 'react-native';
 import Icon from '../Icon/Icon';
 
 export default function IconTable({
@@ -19,7 +19,7 @@ export default function IconTable({
       renderItem={({ item }) => {
         const hasSubcategory = !isArray && data[item].length > 0;
         return (
-          <TouchableOpacity onPress={() => onSelectIcon(item, hasSubcategory)}>
+          <Pressable onPress={() => onSelectIcon(item, hasSubcategory)}>
             <View
               className={`items-center justify-center m-4 rounded-full w-14 h-14 ${
                 item === selectedCategory ? 'bg-amber-200' : 'bg-transparent'
@@ -38,7 +38,7 @@ export default function IconTable({
                 {item === selectedCategory ? selectedSubcategory : ''}
               </Text>
             </View>
-          </TouchableOpacity>
+          </Pressable>
         );
       }}
     />

@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import {
   View,
   Text,
-  TouchableOpacity,
+  Pressable,
   Animated,
   Easing,
   LayoutAnimation,
@@ -42,7 +42,7 @@ export default function RecordsFilter() {
       className={`justify-center px-4 -m-2 bg-gray-300 ${expanded && 'pt-2'}`}
       style={{ minHeight: containerHeight }}
     >
-      <TouchableOpacity
+      <Pressable
         className='flex-row items-center justify-end w-full rounded-lg'
         onPress={toggleExpand}
       >
@@ -56,7 +56,7 @@ export default function RecordsFilter() {
             <Icon name='menu-down' size={24} color='white' />
           </Animated.View>
         </View>
-      </TouchableOpacity>
+      </Pressable>
       {expanded && <FilterContent />}
     </View>
   );

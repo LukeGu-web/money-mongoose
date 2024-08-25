@@ -1,4 +1,4 @@
-import { View, Text, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, Pressable } from 'react-native';
 import { router } from 'expo-router';
 
 export default function AccountPad() {
@@ -10,7 +10,7 @@ export default function AccountPad() {
       columnWrapperStyle={{ gap: 8, marginVertical: 8 }}
       renderItem={({ item }) => {
         return (
-          <TouchableOpacity
+          <Pressable
             onPress={() =>
               router.navigate(padKeys[item as keyof typeof padKeys])
             }
@@ -20,7 +20,7 @@ export default function AccountPad() {
                 {item}
               </Text>
             </View>
-          </TouchableOpacity>
+          </Pressable>
         );
       }}
     />

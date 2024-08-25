@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, Pressable } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { router } from 'expo-router';
 import dayjs from 'dayjs';
@@ -39,13 +39,13 @@ export default function Home() {
       <View className='flex-1 rounded-lg bg-zinc-100'>
         <View className='flex-row items-center justify-between p-2'>
           <Text className='text-2xl font-semibold'>Last 7 days</Text>
-          <TouchableOpacity
+          <Pressable
             className='flex-row items-center justify-between gap-1'
             onPress={() => router.navigate('/records')}
           >
             <Text>All records</Text>
             <Icon name='double-right' size={14} color='black' />
-          </TouchableOpacity>
+          </Pressable>
         </View>
         <RecordList
           extra={`&date_after=${dayjs()

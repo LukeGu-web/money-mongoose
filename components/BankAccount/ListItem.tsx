@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, Pressable } from 'react-native';
 import Icon from 'components/Icon/Icon';
 import { AssetType } from 'api/types';
 import { useAsset } from 'core/stateHooks';
@@ -11,7 +11,7 @@ type ListItemProps = {
 export default function ListItem({ item, onPress }: ListItemProps) {
   const setSelect = useAsset((state) => state.setSelect);
   return (
-    <TouchableOpacity
+    <Pressable
       className='flex-row items-center justify-between p-2 mb-4 border-b-2 border-gray-300'
       onPress={() => {
         setSelect(item);
@@ -33,6 +33,6 @@ export default function ListItem({ item, onPress }: ListItemProps) {
         )}
       </View>
       <Text className='font-bold'>{Number(item.balance).toFixed(2)}</Text>
-    </TouchableOpacity>
+    </Pressable>
   );
 }

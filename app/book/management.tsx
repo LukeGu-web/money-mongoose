@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { router } from 'expo-router';
-import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, ScrollView, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import BookList from 'components/Book/BookList';
 
@@ -45,21 +45,21 @@ export default function BookManagement() {
       <ScrollView className='w-full'>
         <View className='flex-row items-center justify-between p-2 mb-3 bg-gray-200'>
           <Text>Sync your books with database</Text>
-          <TouchableOpacity
+          <Pressable
             className='items-center p-1 bg-gray-500 rounded-lg'
             onPress={handleSync}
           >
             <Text className='font-medium color-white'>Sync</Text>
-          </TouchableOpacity>
+          </Pressable>
         </View>
         <BookList />
       </ScrollView>
-      <TouchableOpacity
+      <Pressable
         className='items-center w-4/5 p-3 bg-yellow-300 rounded-lg'
         onPress={handleCreate}
       >
         <Text className='font-semibold'>Create New Book</Text>
-      </TouchableOpacity>
+      </Pressable>
 
       <StatusBar style='light' />
     </SafeAreaView>

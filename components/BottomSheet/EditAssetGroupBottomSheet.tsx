@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, Pressable } from 'react-native';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import BottomSheet from './BottomSheet';
 
@@ -26,7 +26,7 @@ export default function EditAssetGroupBottomSheet({
         <Text className='text-2xl font-bold'>{title}</Text>
         <View className='w-full'>
           {Object.keys(functions).map((item, index) => (
-            <TouchableOpacity
+            <Pressable
               key={item}
               className={`py-3 border-white border-2 rounded-lg ${
                 item === 'Delete' ? 'bg-red-500' : 'bg-blue-400'
@@ -35,15 +35,15 @@ export default function EditAssetGroupBottomSheet({
               onPress={functions[item]}
             >
               <Text className='text-lg text-center color-white'>{item}</Text>
-            </TouchableOpacity>
+            </Pressable>
           ))}
         </View>
-        <TouchableOpacity
+        <Pressable
           className='w-full py-3 border-2 border-gray-500 rounded-lg'
           onPress={onCancel}
         >
           <Text className='text-lg text-center'>Cancel</Text>
-        </TouchableOpacity>
+        </Pressable>
       </View>
     </BottomSheet>
   );

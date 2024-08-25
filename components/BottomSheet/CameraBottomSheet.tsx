@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, Pressable } from 'react-native';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { router } from 'expo-router';
 import { useCameraPermissions } from 'expo-camera';
@@ -44,20 +44,20 @@ export default function CameraBottomSheet({
           <Text className='text-2xl font-semibold'>Select Picture</Text>
         </View>
         <View className='items-start flex-1 w-full gap-4 mt-6'>
-          <TouchableOpacity
+          <Pressable
             className='flex-row items-center justify-center w-full gap-4 py-4 bg-blue-900 rounded-lg'
             onPress={handleOpenCamera}
           >
             <FontAwesome name='camera-retro' size={24} color='#fff' />
             <Text className='text-2xl font-medium color-white'>Camera</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
+          </Pressable>
+          <Pressable
             className='flex-row items-center justify-center w-full gap-4 py-4 bg-blue-900 rounded-lg'
             onPress={handleOpenCameraRoll}
           >
             <FontAwesome5 name='photo-video' size={24} color='#fff' />
             <Text className='text-2xl font-medium color-white'>Gallery</Text>
-          </TouchableOpacity>
+          </Pressable>
         </View>
       </View>
     </BottomSheet>

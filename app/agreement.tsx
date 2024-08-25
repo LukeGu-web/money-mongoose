@@ -1,5 +1,5 @@
 import { router, Link } from 'expo-router';
-import { View, Text, Image, TouchableOpacity } from 'react-native';
+import { View, Text, Image, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalStore } from 'core/stateHooks';
 const avatarImage = require('../assets/icon.png');
@@ -45,18 +45,18 @@ export default function Onboarding() {
             </Link>
           </View>
           <View className='flex-row justify-between gap-6 mt-4'>
-            <TouchableOpacity
+            <Pressable
               className='items-center justify-center flex-1 p-2 border-2 border-black rounded-3xl'
               onPress={() => {}}
             >
               <Text>Disagree</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
+            </Pressable>
+            <Pressable
               className='items-center justify-center flex-1 p-2 bg-yellow-500 rounded-3xl'
               onPress={handleAgree}
             >
               <Text className='text-white'>Agree</Text>
-            </TouchableOpacity>
+            </Pressable>
           </View>
         </View>
       </View>

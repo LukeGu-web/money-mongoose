@@ -4,7 +4,7 @@ import {
   View,
   Text,
   TextInput,
-  TouchableOpacity,
+  Pressable,
   InputAccessoryView,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -110,23 +110,23 @@ export default function AddNewBook() {
         />
       </KeyboardAwareScrollView>
       <InputAccessoryView nativeID={inputAccessoryCreateBtnID}>
-        <TouchableOpacity
+        <Pressable
           className='items-center w-full p-2 my-2 bg-yellow-300 rounded-lg'
           onPress={handleSubmitData}
         >
           <Text className='font-semibold'>
             {book.id > 0 ? 'Update' : 'Create'}
           </Text>
-        </TouchableOpacity>
+        </Pressable>
       </InputAccessoryView>
-      <TouchableOpacity
+      <Pressable
         className='items-center w-full p-2 bg-yellow-300 rounded-lg'
         onPress={handleSubmitData}
       >
         <Text className='font-semibold'>
           {book.id > 0 ? 'Update' : 'Create'}
         </Text>
-      </TouchableOpacity>
+      </Pressable>
       <StatusBar style='light' />
     </SafeAreaView>
   );

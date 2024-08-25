@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from 'react';
-import { TouchableOpacity } from 'react-native';
+import { Pressable } from 'react-native';
 import { Tabs, SplashScreen, Redirect, Link, useNavigation } from 'expo-router';
 import { DrawerToggleButton } from '@react-navigation/drawer';
 import { Entypo } from '@expo/vector-icons';
@@ -64,9 +64,9 @@ export default function TabLayout() {
         options={{
           title: 'Calendar',
           headerRight: () => (
-            <TouchableOpacity className='pr-3' onPress={handleBackToday}>
+            <Pressable className='pr-3' onPress={handleBackToday}>
               <Icon name='center_focus' size={24} color='#fff' />
-            </TouchableOpacity>
+            </Pressable>
           ),
           tabBarIcon: ({ color }) => (
             <Icon name='calendar' size={28} color={color} />

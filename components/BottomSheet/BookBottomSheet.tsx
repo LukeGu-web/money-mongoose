@@ -1,4 +1,4 @@
-import { Alert, View, Text, TouchableOpacity } from 'react-native';
+import { Alert, View, Text, Pressable } from 'react-native';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { router } from 'expo-router';
 import { Feather } from '@expo/vector-icons';
@@ -73,27 +73,27 @@ export default function BookBottomSheet({
           <Text className='text-2xl font-bold'>{book.name}</Text>
         </View>
         <View className='items-center justify-between w-full gap-4 px-4'>
-          <TouchableOpacity
+          <Pressable
             className='flex-row items-center justify-center w-full gap-4 py-3 bg-blue-500 rounded-lg'
             onPress={handleSelectCurrentBook}
           >
             <Feather name='check-circle' size={16} color='#fff' />
             <Text className='text-lg color-white'>Select</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
+          </Pressable>
+          <Pressable
             className='flex-row items-center justify-center w-full gap-4 py-3 bg-blue-500 rounded-lg'
             onPress={handleEditSelectedBook}
           >
             <Icon name='edit' size={16} color='#fff' />
             <Text className='text-lg color-white'>Edit</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
+          </Pressable>
+          <Pressable
             className='flex-row items-center justify-center w-full gap-4 py-3 bg-red-500 rounded-lg'
             onPress={handleDeleteBook}
           >
             <Icon name='delete' size={16} color='#fff' />
             <Text className='text-lg color-white'>Delete</Text>
-          </TouchableOpacity>
+          </Pressable>
         </View>
       </View>
     </BottomSheet>

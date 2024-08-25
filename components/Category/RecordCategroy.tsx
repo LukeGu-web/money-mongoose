@@ -3,7 +3,7 @@ import {
   View,
   ScrollView,
   Text,
-  TouchableOpacity,
+  Pressable,
   TouchableWithoutFeedback,
   Modal,
 } from 'react-native';
@@ -77,9 +77,9 @@ export default function RecordCategory() {
             <View className='items-center w-11/12 gap-6 p-6 bg-white rounded-lg'>
               <View className='flex-row justify-between w-full'>
                 <Text className='mb-4 text-center'>{record.category}</Text>
-                <TouchableOpacity onPress={() => setIsVisible(false)}>
+                <Pressable onPress={() => setIsVisible(false)}>
                   <Icon name='close' size={24} color='#000' />
-                </TouchableOpacity>
+                </Pressable>
               </View>
               {record.category !== '' && (
                 <IconTable

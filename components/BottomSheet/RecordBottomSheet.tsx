@@ -1,4 +1,4 @@
-import { Alert, View, Text, TouchableOpacity } from 'react-native';
+import { Alert, View, Text, Pressable } from 'react-native';
 import { router } from 'expo-router';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { RecordTypes } from 'api/record/types';
@@ -101,14 +101,14 @@ export default function RecordBottomSheet({
         </View>
         <View className='flex-row items-center justify-between gap-10 px-10 py-4 mt-4 rounded-full bg-zinc-300'>
           {Object.keys(functions).map((item, index) => (
-            <TouchableOpacity
+            <Pressable
               key={item}
               className='items-center justify-center'
               onPress={functions[item]}
             >
               <Icon name={item.toLowerCase()} size={24} color='#000' />
               <Text>{item}</Text>
-            </TouchableOpacity>
+            </Pressable>
           ))}
         </View>
       </View>

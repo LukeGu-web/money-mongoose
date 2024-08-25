@@ -6,7 +6,7 @@ import {
   Animated,
   Easing,
   LayoutAnimation,
-  TouchableOpacity,
+  Pressable,
 } from 'react-native';
 import { router } from 'expo-router';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
@@ -122,15 +122,15 @@ export default function EditableGroupTitle({
       style={{ minHeight: containerHeight }}
     >
       <View className='flex-row items-center justify-between w-full rounded-lg'>
-        <TouchableOpacity
+        <Pressable
           className='flex-row items-center gap-2 px-2'
           onPress={handlePressSelect}
         >
           <Icon name='edit' size={16} color='#000' />
           <Text className='text-xl font-bold'>{title.text}</Text>
           <Text className='color-gray-500'>({title.number})</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
+        </Pressable>
+        <Pressable
           className='flex-row items-center justify-end gap-2 px-2'
           disabled={title.number === 0}
           onPress={toggleExpand}
@@ -145,7 +145,7 @@ export default function EditableGroupTitle({
               <Icon name='menu-down' size={24} color='#000' />
             </Animated.View>
           )}
-        </TouchableOpacity>
+        </Pressable>
       </View>
       {expanded && <View className='flex-1 py-2'>{children}</View>}
       <EditAssetGroupBottomSheet

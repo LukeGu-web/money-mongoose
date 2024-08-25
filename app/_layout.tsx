@@ -1,7 +1,7 @@
 import { SplashScreen, Stack, router } from 'expo-router';
 import { useFonts } from 'expo-font';
 import { useEffect } from 'react';
-import { TouchableOpacity } from 'react-native';
+import { Pressable } from 'react-native';
 import { colorScheme, useColorScheme } from 'nativewind';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
@@ -40,9 +40,9 @@ export default function RootLayoutNav() {
             title: 'Record list',
             headerLeft: () => <GoBack />,
             headerRight: () => (
-              <TouchableOpacity>
+              <Pressable>
                 <Icon name='setting' size={24} color='#fff' />
-              </TouchableOpacity>
+              </Pressable>
             ),
           }}
         />
@@ -87,7 +87,7 @@ export default function RootLayoutNav() {
 }
 
 const GoBack = ({ url }: { url?: string }) => (
-  <TouchableOpacity
+  <Pressable
     style={{
       paddingVertical: 8,
       paddingRight: 24,
@@ -95,7 +95,7 @@ const GoBack = ({ url }: { url?: string }) => (
     onPress={() => (url ? router.navigate(url) : router.back())}
   >
     <Icon name='left' size={24} color='#fff' />
-  </TouchableOpacity>
+  </Pressable>
 );
 
 function Providers({ children }: { children: React.ReactNode }) {

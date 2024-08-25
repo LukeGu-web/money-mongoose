@@ -4,7 +4,7 @@ import {
   View,
   Text,
   TextInput,
-  TouchableOpacity,
+  Pressable,
   Platform,
   KeyboardAvoidingView,
 } from 'react-native';
@@ -267,11 +267,11 @@ export default function DigitalPad() {
           value={record.note}
           onChangeText={(value) => setRecord({ note: value })}
         />
-        <TouchableOpacity className='justify-center p-2 rounded-lg bg-sky-600'>
+        <Pressable className='justify-center p-2 rounded-lg bg-sky-600'>
           <Text className='text-2xl color-white'>{`A$ ${formatter(
             record.amount
           )}`}</Text>
-        </TouchableOpacity>
+        </Pressable>
       </View>
       <Keypad onKeyInput={handlePriceInput} />
       <CameraBottomSheet bottomSheetModalRef={bottomSheetModalRef} />

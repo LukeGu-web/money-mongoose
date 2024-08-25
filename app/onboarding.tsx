@@ -1,10 +1,4 @@
-import {
-  ActivityIndicator,
-  View,
-  Text,
-  Image,
-  TouchableOpacity,
-} from 'react-native';
+import { ActivityIndicator, View, Text, Image, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Redirect } from 'expo-router';
 import 'react-native-get-random-values'; // for uuid
@@ -94,12 +88,12 @@ export default function Onboarding() {
         <View className='items-center justify-between flex-1 gap-4'>
           <Text className='text-6xl text-blue-500'>Welcome</Text>
           <Image className='w-32 h-32' source={avatarImage} />
-          <TouchableOpacity
+          <Pressable
             className='items-center justify-center w-1/2 p-2 border-2 border-black rounded-3xl'
             onPress={handleStart}
           >
             <Text>Start</Text>
-          </TouchableOpacity>
+          </Pressable>
         </View>
       </View>
     </SafeAreaView>

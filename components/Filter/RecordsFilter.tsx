@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { View, Text, Switch, TouchableOpacity } from 'react-native';
+import { View, Text, Switch, Pressable } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import dayjs from 'dayjs';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -78,13 +78,13 @@ export default function RecordsFilter() {
             <Text className='text-lg font-semibold'>Transaction</Text>
             <View className='flex-row gap-2'>
               {Object.keys(transaction).map((item) => (
-                <TouchableOpacity
+                <Pressable
                   key={item}
                   className='items-center justify-center px-3 bg-gray-100 rounded-lg'
                   //   onPress={handlePressSelect}
                 >
                   <Text className='text-lg '>{item}</Text>
-                </TouchableOpacity>
+                </Pressable>
               ))}
             </View>
           </View>
@@ -98,13 +98,13 @@ export default function RecordsFilter() {
             <Text className='text-lg font-semibold'>Account</Text>
             <View className='flex-row gap-2'>
               {flatAssets.map((item) => (
-                <TouchableOpacity
+                <Pressable
                   key={item.id}
                   className='items-center justify-center px-3 bg-gray-100 rounded-lg'
                   //   onPress={handlePressSelect}
                 >
                   <Text className='text-lg '>{item.name}</Text>
-                </TouchableOpacity>
+                </Pressable>
               ))}
             </View>
           </View>

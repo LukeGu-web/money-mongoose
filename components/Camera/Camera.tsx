@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Text, View, TouchableOpacity, ImageBackground } from 'react-native';
+import { Text, View, Pressable, ImageBackground } from 'react-native';
 import {
   CameraView,
   type CameraType,
@@ -75,18 +75,18 @@ export default function Camera() {
         >
           <View className='justify-end flex-1 mb-8'>
             <View className='flex-row justify-between p-8'>
-              <TouchableOpacity
+              <Pressable
                 onPress={() => setPreviewVisible(false)}
                 className='items-center justify-center h-12 bg-black rounded-lg w-36'
               >
                 <Text className='text-xl color-white'>Re-take</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
+              </Pressable>
+              <Pressable
                 onPress={handleSavePhoto}
                 className='items-center justify-center h-12 bg-black rounded-lg w-36'
               >
                 <Text className='text-xl color-white'>Save</Text>
-              </TouchableOpacity>
+              </Pressable>
             </View>
           </View>
         </ImageBackground>
@@ -99,30 +99,30 @@ export default function Camera() {
         >
           <View className='flex-row flex-1 bg-transparent'>
             <View className='absolute flex-row items-center justify-between w-full px-8 top-20 '>
-              <TouchableOpacity onPress={() => router.navigate('record')}>
+              <Pressable onPress={() => router.navigate('record')}>
                 <Icon name='close' size={24} color='#fff' />
-              </TouchableOpacity>
-              <TouchableOpacity onPress={handleFlash}>
+              </Pressable>
+              <Pressable onPress={handleFlash}>
                 <MaterialIcons name={`flash-${flash}`} size={24} color='#fff' />
-              </TouchableOpacity>
+              </Pressable>
             </View>
             <View className='absolute flex-row items-center justify-between w-full px-8 bottom-10 '>
-              <TouchableOpacity onPress={handleOpenCameraRoll}>
+              <Pressable onPress={handleOpenCameraRoll}>
                 <MaterialIcons name='photo-library' size={32} color='#fff' />
-              </TouchableOpacity>
+              </Pressable>
               <View className='items-center self-center p-2 border-2 border-white rounded-full'>
-                <TouchableOpacity
+                <Pressable
                   onPress={handleTakePicture}
                   className='bottom-0 w-16 h-16 bg-white rounded-full'
                 />
               </View>
-              <TouchableOpacity
+              <Pressable
                 onPress={() => {
                   setType((current) => (current === 'back' ? 'front' : 'back'));
                 }}
               >
                 <MaterialIcons name='flip-camera-ios' size={32} color='#fff' />
-              </TouchableOpacity>
+              </Pressable>
             </View>
           </View>
         </CameraView>

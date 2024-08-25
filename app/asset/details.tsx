@@ -4,7 +4,7 @@ import { useFocusEffect, router } from 'expo-router';
 import {
   Text,
   View,
-  TouchableOpacity,
+  Pressable,
   TouchableWithoutFeedback,
   Keyboard,
   InputAccessoryView,
@@ -131,36 +131,36 @@ export default function AssetDetails() {
                   </View>
                 </View>
               ) : (
-                <TouchableOpacity
+                <Pressable
                   className='flex-row items-center justify-center w-full p-2'
                   onPress={() => setIsMore(true)}
                 >
                   <Text className='color-blue-500'>More settings</Text>
                   <Icon name='arrow-down' size={18} color='#3b82f6 ' />
-                </TouchableOpacity>
+                </Pressable>
               )}
             </View>
           </FormProvider>
         </TouchableWithoutFeedback>
       </KeyboardAwareScrollView>
       <InputAccessoryView nativeID={inputAccessoryCreateBtnID}>
-        <TouchableOpacity
+        <Pressable
           className='items-center w-full p-2 my-2 bg-yellow-300 rounded-lg'
           onPress={handleCreate}
         >
           <Text className='font-semibold'>
             {Number(asset.id) > 0 ? 'Update' : 'Create'}
           </Text>
-        </TouchableOpacity>
+        </Pressable>
       </InputAccessoryView>
-      <TouchableOpacity
+      <Pressable
         className='items-center w-full p-2 bg-yellow-300 rounded-lg'
         onPress={handleCreate}
       >
         <Text className='font-semibold'>
           {Number(asset.id) > 0 ? 'Update' : 'Create'}
         </Text>
-      </TouchableOpacity>
+      </Pressable>
       <StatusBar style='light' />
     </SafeAreaView>
   );

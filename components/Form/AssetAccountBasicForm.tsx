@@ -4,7 +4,7 @@ import {
   Text,
   TextInput,
   Switch,
-  TouchableOpacity,
+  Pressable,
   Keyboard,
 } from 'react-native';
 import { useFormContext, Controller } from 'react-hook-form';
@@ -54,7 +54,7 @@ export default function AssetAccountBasicForm() {
           <View className='flex-row items-center justify-between w-full h-12'>
             <Text>Group</Text>
             <View>
-              <TouchableOpacity onPress={handlePressSelect}>
+              <Pressable onPress={handlePressSelect}>
                 {value ? (
                   <Text>{value.split('-')[1]}</Text>
                 ) : (
@@ -69,7 +69,7 @@ export default function AssetAccountBasicForm() {
                     <Icon name='arrow-right' size={14} color='#bfc0c0' />
                   </View>
                 )}
-              </TouchableOpacity>
+              </Pressable>
               <SelectGroupBottomSheet
                 bottomSheetModalRef={bottomSheetModalRef}
                 value={value}

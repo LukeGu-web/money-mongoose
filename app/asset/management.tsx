@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { router } from 'expo-router';
-import { Text, View, ScrollView, TouchableOpacity } from 'react-native';
+import { Text, View, ScrollView, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import EditableAccountList from 'components/BankAccount/EditableAccountList';
 import AssetGroupModal from 'components/Modal/AssetGroupModal';
@@ -21,18 +21,18 @@ export default function Account() {
         <EditableAccountList />
       </ScrollView>
       <View className='flex-row items-center justify-between gap-4'>
-        <TouchableOpacity
+        <Pressable
           className='items-center flex-1 p-3 bg-gray-300 rounded-lg'
           onPress={() => setShowModal(true)}
         >
           <Text className='font-semibold color-white'>Add Group</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
+        </Pressable>
+        <Pressable
           className='items-center flex-1 p-3 bg-yellow-300 rounded-lg'
           onPress={() => router.navigate('/asset/details')}
         >
           <Text className='font-semibold color-white'>Create Account</Text>
-        </TouchableOpacity>
+        </Pressable>
       </View>
       <AssetGroupModal
         name=''

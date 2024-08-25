@@ -1,4 +1,4 @@
-import { Text, View, TouchableOpacity } from 'react-native';
+import { Text, View, Pressable } from 'react-native';
 import { DateData } from 'react-native-calendars';
 import { RecordsByDay } from 'api/record/types';
 
@@ -18,7 +18,7 @@ export default function CalendarDay({
   onSelectDay,
 }: CalendarDayType) {
   return (
-    <TouchableOpacity
+    <Pressable
       onPress={() =>
         onSelectDay(date?.dateString as string, recordData as RecordsByDay)
       }
@@ -49,6 +49,6 @@ export default function CalendarDay({
         {Math.abs(recordData?.sum_of_expense as number) > 0 &&
           recordData?.sum_of_expense}
       </Text>
-    </TouchableOpacity>
+    </Pressable>
   );
 }

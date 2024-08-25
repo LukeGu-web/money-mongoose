@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, Pressable } from 'react-native';
 import { BookType } from 'api/types';
 import { useBookStore, useBook } from 'core/stateHooks';
 
@@ -11,7 +11,7 @@ export default function ListItem({ item, onPress }: ListItemProps) {
   const currentBook = useBookStore((state) => state.currentBook);
   const setSelect = useBook((state) => state.setSelect);
   return (
-    <TouchableOpacity
+    <Pressable
       className={`flex-row items-center justify-between p-2 mb-4 border-2 rounded-lg ${
         item.id === currentBook.id && 'bg-green-200'
       }`}
@@ -29,6 +29,6 @@ export default function ListItem({ item, onPress }: ListItemProps) {
         )}
       </View>
       {/* <Text style={styles.amount}>{Number(item.balance).toFixed(2)}</Text> */}
-    </TouchableOpacity>
+    </Pressable>
   );
 }

@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import {
   View,
   Text,
-  TouchableOpacity,
+  Pressable,
   Animated,
   Easing,
   LayoutAnimation,
@@ -48,7 +48,7 @@ export default function ExpandGroupTitle({
       className='p-2 bg-gray-200 rounded-lg'
       style={{ minHeight: containerHeight }}
     >
-      <TouchableOpacity
+      <Pressable
         className='flex-row items-center justify-between w-full rounded-lg'
         onPress={toggleExpand}
       >
@@ -66,7 +66,7 @@ export default function ExpandGroupTitle({
             <Icon name='menu-down' size={24} color='black' />
           </Animated.View>
         </View>
-      </TouchableOpacity>
+      </Pressable>
       {expanded && <View className='flex-1 py-4'>{children}</View>}
     </View>
   );

@@ -1,4 +1,4 @@
-import { View, FlatList, TouchableOpacity } from 'react-native';
+import { View, FlatList, Pressable } from 'react-native';
 import { useRecord } from 'core/stateHooks';
 import Key from './Key';
 import { RecordTypes } from 'api/record/types';
@@ -20,10 +20,7 @@ export default function Keypad({ onKeyInput }: KeypadProps) {
           record.type === RecordTypes.TRANSFER &&
           (item === 'tax' || item === 'camera');
         return (
-          <TouchableOpacity
-            onPress={() => onKeyInput(item)}
-            disabled={isDisabled}
-          >
+          <Pressable onPress={() => onKeyInput(item)} disabled={isDisabled}>
             <View
               className={`items-center justify-center w-24 h-16 m-1 ${
                 isTax ? 'bg-amber-200' : 'bg-gray-100'
@@ -31,7 +28,7 @@ export default function Keypad({ onKeyInput }: KeypadProps) {
             >
               <Key value={item} disabled={isDisabled} />
             </View>
-          </TouchableOpacity>
+          </Pressable>
         );
       }}
     />

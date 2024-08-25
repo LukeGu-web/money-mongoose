@@ -1,11 +1,5 @@
 import { useCallback, useRef } from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  Keyboard,
-} from 'react-native';
+import { View, Text, TextInput, Pressable, Keyboard } from 'react-native';
 import { useFormContext, Controller } from 'react-hook-form';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 
@@ -60,7 +54,7 @@ export default function AssetCreditForm() {
           <View className='flex-row items-center justify-between w-full h-12'>
             <Text>Bill Day</Text>
             <View>
-              <TouchableOpacity onPress={handlePressBillDay}>
+              <Pressable onPress={handlePressBillDay}>
                 {value ? (
                   <Text>{monthlyDay[value - 1]}</Text>
                 ) : (
@@ -75,7 +69,7 @@ export default function AssetCreditForm() {
                     <Icon name='arrow-right' size={14} color='#bfc0c0' />
                   </View>
                 )}
-              </TouchableOpacity>
+              </Pressable>
               <PickerBottomSheet
                 key='billDay'
                 bottomSheetModalRef={billDayRef}
@@ -94,7 +88,7 @@ export default function AssetCreditForm() {
           <View className='flex-row items-center justify-between w-full h-12'>
             <Text>Repayment Day</Text>
             <View>
-              <TouchableOpacity onPress={handlePressRepayDay}>
+              <Pressable onPress={handlePressRepayDay}>
                 {value ? (
                   <Text>{monthlyDay[value - 1]}</Text>
                 ) : (
@@ -109,7 +103,7 @@ export default function AssetCreditForm() {
                     <Icon name='arrow-right' size={14} color='#bfc0c0' />
                   </View>
                 )}
-              </TouchableOpacity>
+              </Pressable>
               <PickerBottomSheet
                 key='repaymentDay'
                 bottomSheetModalRef={repayDayRef}

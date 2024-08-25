@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, Pressable } from 'react-native';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import Icon from 'components/Icon/Icon';
 import { BookType } from 'api/types';
@@ -33,7 +33,7 @@ export default function ListItem({ item, onPress }: ListItemProps) {
   const book = getCurrentBook() as BookType;
 
   return (
-    <TouchableOpacity
+    <Pressable
       className={`flex-row justify-between items-center border-b-2 p-2 ${
         borderColorMap[item.type]
       }`}
@@ -90,6 +90,6 @@ export default function ListItem({ item, onPress }: ListItemProps) {
           </Text>
         )}
       </View>
-    </TouchableOpacity>
+    </Pressable>
   );
 }

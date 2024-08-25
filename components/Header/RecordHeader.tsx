@@ -1,4 +1,4 @@
-import { View, TouchableOpacity, Text } from 'react-native';
+import { View, Pressable, Text } from 'react-native';
 import { router } from 'expo-router';
 import { RecordTypes } from 'api/record/types';
 import { useAsset, useRecord } from 'core/stateHooks';
@@ -14,15 +14,15 @@ export default function RecordHeader() {
   };
   return (
     <View className='flex-row items-center justify-between flex-1 w-full'>
-      <TouchableOpacity className='py-2 pr-2' onPress={handleGoBack}>
+      <Pressable className='py-2 pr-2' onPress={handleGoBack}>
         <Icon name='left' size={24} color='#fff' />
-      </TouchableOpacity>
+      </Pressable>
       <View
         className='flex-row items-center border-2 border-white rounded-lg'
         style={{ flex: 0.7 }}
       >
         {Object.values(RecordTypes).map((item, index) => (
-          <TouchableOpacity
+          <Pressable
             key={item}
             className={`items-center justify-center p-1 flex-1 border-white ${
               index < 2 && 'border-r-2'
@@ -38,12 +38,12 @@ export default function RecordHeader() {
             >
               {item}
             </Text>
-          </TouchableOpacity>
+          </Pressable>
         ))}
       </View>
-      <TouchableOpacity>
+      <Pressable>
         <Icon name='setting' size={24} color='#fff' />
-      </TouchableOpacity>
+      </Pressable>
     </View>
   );
 }
