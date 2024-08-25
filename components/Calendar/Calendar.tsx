@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { View, Text, ActivityIndicator } from 'react-native';
 import { Calendar as ClendarPicker, DateData } from 'react-native-calendars';
 import dayjs from 'dayjs';
@@ -10,7 +10,12 @@ import { client } from 'api/client';
 import { formatApiError } from 'api/errorFormat';
 import { RecordsByDay } from 'api/record/types';
 import log from 'core/logger';
-import { useRecord, useBookStore, useCalendar } from 'core/stateHooks';
+import {
+  useRecord,
+  useRecordStore,
+  useBookStore,
+  useCalendar,
+} from 'core/stateHooks';
 import CalendarDay from './CalendarDay';
 import ListDayItem from '../RecordList/ListDayItem';
 import RecordBottomSheet from '../BottomSheet/RecordBottomSheet';
@@ -18,6 +23,7 @@ import RecordBottomSheet from '../BottomSheet/RecordBottomSheet';
 export default function Calendar() {
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const resetRecord = useRecord((state) => state.resetRecord);
+  const { records, setRecords } = useRecordStore();
   const { visiableMonth, setVisiableMonth } = useCalendar();
   const currentBook = useBookStore((state) => state.currentBook);
   const now = dayjs();
@@ -38,6 +44,12 @@ export default function Calendar() {
       placeholderData: keepPreviousData,
     });
 
+  useEffect(() => {
+    if (data) {
+      setRecords(data.results);
+    }
+  }, [data, setRecords]);
+
   if (isPending || isFetching)
     return (
       <View className='items-center justify-center flex-1 gap-2'>
@@ -55,9 +67,7 @@ export default function Calendar() {
 
   const handleSelectDay = (day: string) => {
     setSelectedDay(day);
-    const details = data.results.find(
-      (item: RecordsByDay) => item.date === day
-    );
+    const details = records.find((item: RecordsByDay) => item.date === day);
     if (details) {
       setDailyRecords([details]);
     } else {
@@ -97,7 +107,7 @@ export default function Calendar() {
             state={state}
             selectedDate={selectedDay}
             onSelectDay={handleSelectDay}
-            recordData={data.results.find(
+            recordData={records.find(
               (item: RecordsByDay) => item.date === date?.dateString
             )}
           />
