@@ -22,6 +22,7 @@ export default function CalendarDay({
       onPress={() =>
         onSelectDay(date?.dateString as string, recordData as RecordsByDay)
       }
+      className='items-center'
     >
       <View
         className={`items-center justify-center text-center rounded-full w-7 h-7 ${

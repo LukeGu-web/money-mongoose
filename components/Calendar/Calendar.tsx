@@ -1,89 +1,86 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { Text, View } from 'react-native';
+import { useState, useRef } from 'react';
+import { View, Text, ActivityIndicator } from 'react-native';
 import { Calendar as ClendarPicker, DateData } from 'react-native-calendars';
-import { FlashList } from '@shopify/flash-list';
-import { useShallow } from 'zustand/react/shallow';
-import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import dayjs from 'dayjs';
+import { FlashList } from '@shopify/flash-list';
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
+import { BottomSheetModal } from '@gorhom/bottom-sheet';
 
-import RecordBottomSheet from '../BottomSheet/RecordBottomSheet';
+import { client } from 'api/client';
+import { formatApiError } from 'api/errorFormat';
+import { RecordsByDay } from 'api/record/types';
+import log from 'core/logger';
+import { useRecord, useBookStore, useCalendar } from 'core/stateHooks';
 import CalendarDay from './CalendarDay';
 import ListDayItem from '../RecordList/ListDayItem';
-import { RecordsByDay } from 'api/record/types';
-// import { formatApiError } from 'api/errorFormat';
-// import { useGetRecordsByDateRange } from 'api/record/useGetAllRecords';
-import { useRecord, useRecordStore, useCalendar } from 'core/stateHooks';
+import RecordBottomSheet from '../BottomSheet/RecordBottomSheet';
 
 export default function Calendar() {
-  const records = useRecordStore((state) => state.records);
+  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const resetRecord = useRecord((state) => state.resetRecord);
-  const { visiableMonth, setVisiableMonth } = useCalendar(
-    useShallow((state) => ({
-      visiableMonth: state.visiableMonth,
-      setVisiableMonth: state.setVisiableMonth,
-    }))
-  );
-
+  const { visiableMonth, setVisiableMonth } = useCalendar();
+  const currentBook = useBookStore((state) => state.currentBook);
   const now = dayjs();
   const today = now.format('YYYY-MM-DD');
-
   const [selectedDay, setSelectedDay] = useState(today);
-  const [formattedData, setFormattedData] = useState({});
+  const [page, setPage] = useState(1);
   const [dailyRecords, setDailyRecords] = useState<RecordsByDay[]>([]);
 
-  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+  const getRecords = (page = 1) =>
+    client
+      .get(`/record/combined/?page=${page}&book_id=${currentBook.id}`)
+      .then((response) => response.data);
 
-  useEffect(() => {
-    setVisiableMonth(today);
-  }, []);
-
-  useEffect(() => {
-    let format = {};
-    records.map((item) => {
-      format = { ...format, [item.date]: item };
+  const { isPending, isError, error, data, isFetching, isPlaceholderData } =
+    useQuery({
+      queryKey: ['projects', page],
+      queryFn: () => getRecords(page),
+      placeholderData: keepPreviousData,
     });
-    setFormattedData(format);
-    if (selectedDay === today) {
-      const todayRecords = format[today as keyof typeof format];
-      if (todayRecords) setDailyRecords([todayRecords]);
-    }
-  }, [records]);
 
-  // const firstDay = now.subtract(1, 'month').format('YYYY-MM-DD');
-  // const lastDay = now.add(1, 'month').format('YYYY-MM-DD');
-  // const variables = {
-  //   start_date: firstDay,
-  //   end_date: lastDay,
-  //   group_by_date: true,
-  // };
+  if (isPending || isFetching)
+    return (
+      <View className='items-center justify-center flex-1 gap-2'>
+        <ActivityIndicator size='large' />
+        <Text>Loading data...</Text>
+      </View>
+    );
 
-  // const { isLoading, isError, data, error } = useGetRecordsByDateRange({
-  //   variables,
-  // });
+  if (isError) {
+    // const formattedError = formatApiError(error);
+    log.error(error.message);
+    // if (formattedError.status !== 404)
+    return <Text>Sorry, something went wrong. Please try it again.</Text>;
+  }
 
-  // log.success('Calendar - useGetRecordsByDateRange: ', data);
-
-  // if (isLoading) return <Text>is loading...</Text>;
-
-  // if (isError) {
-  //   const formattedError = formatApiError(error);
-  //   if (formattedError.status !== 404)
-  //     return <Text>Sorry, something went wrong. Please try it again.</Text>;
-  // }
-
-  const handleSelectDay = (day: string, records: RecordsByDay) => {
+  const handleSelectDay = (day: string) => {
     setSelectedDay(day);
-    if (records) {
-      setDailyRecords([records]);
+    const details = data.results.find(
+      (item: RecordsByDay) => item.date === day
+    );
+    if (details) {
+      setDailyRecords([details]);
     } else {
       setDailyRecords([]);
     }
   };
 
-  const handlePressItem = useCallback(() => {
-    bottomSheetModalRef.current?.present();
-  }, []);
+  const handleMonthChange = (dateData: DateData) => {
+    const diffMonth = dayjs(visiableMonth).diff(dateData.dateString, 'month');
+    // previous month
+    if (diffMonth === 1 && !isPlaceholderData && data.hasMore) {
+      setPage((old) => old + 1);
+    }
+    // next month
+    if (diffMonth === -1) {
+      setPage((old) => Math.max(old - 1, 1));
+    }
+    setVisiableMonth(dateData.dateString);
+  };
 
+  const handlePressItem = () => {
+    bottomSheetModalRef.current?.present();
+  };
   const handleDismissItem = () => {
     resetRecord();
   };
@@ -100,14 +97,12 @@ export default function Calendar() {
             state={state}
             selectedDate={selectedDay}
             onSelectDay={handleSelectDay}
-            recordData={
-              formattedData[date?.dateString! as keyof typeof formattedData]
-            }
+            recordData={data.results.find(
+              (item: RecordsByDay) => item.date === date?.dateString
+            )}
           />
         )}
-        onMonthChange={(data: DateData) => {
-          setVisiableMonth(data.dateString);
-        }}
+        onMonthChange={handleMonthChange}
       />
       <View className='flex-1 p-2 rounded-lg bg-sky-100'>
         {dailyRecords.length > 0 ? (
@@ -123,11 +118,11 @@ export default function Calendar() {
             <Text className='text-xl font-medium'>No record</Text>
           </View>
         )}
-        <RecordBottomSheet
-          bottomSheetModalRef={bottomSheetModalRef}
-          onDismiss={handleDismissItem}
-        />
       </View>
+      <RecordBottomSheet
+        bottomSheetModalRef={bottomSheetModalRef}
+        onDismiss={handleDismissItem}
+      />
     </View>
   );
 }
