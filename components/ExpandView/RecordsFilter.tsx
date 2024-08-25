@@ -34,7 +34,7 @@ export default function RecordsFilter() {
     if (!isScreenMountedRef.current) isScreenMountedRef.current = true;
     setExpanded(!expanded);
     LayoutAnimation.easeInEaseOut();
-    setContainerHeight(!expanded ? 330 : 40);
+    setContainerHeight(!expanded ? 360 : 40);
   };
 
   return (

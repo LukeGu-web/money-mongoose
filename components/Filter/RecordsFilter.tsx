@@ -32,7 +32,7 @@ export default function RecordsFilter() {
   const [showStartDate, setShowStartDate] = useState(false);
   return (
     <View className='flex-1 gap-3 p-2'>
-      <View className='gap-2'>
+      <View className='gap-2 -mt-2'>
         <Text className='text-lg font-semibold'>Date Range</Text>
         <View className='flex-row items-center justify-between'>
           <Controller
@@ -118,7 +118,7 @@ export default function RecordsFilter() {
             <Text className='text-lg font-semibold'>Only show taxed items</Text>
             <Switch
               trackColor={{ false: '#767577', true: '#81b0ff' }}
-              ios_backgroundColor='#3e3e3e'
+              ios_backgroundColor='#767577'
               onValueChange={(e) => {
                 onChange(e);
               }}
@@ -128,6 +128,14 @@ export default function RecordsFilter() {
         )}
         name='is_marked_tax_return'
       />
+      <View className='flex-row justify-between gap-6'>
+        <Pressable className='flex-1 p-2 bg-yellow-500 rounded-full '>
+          <Text className='text-center color-white'>Reset</Text>
+        </Pressable>
+        <Pressable className='flex-1 p-2 rounded-full bg-amber-300'>
+          <Text className='text-center color-slate-800'>Confirm</Text>
+        </Pressable>
+      </View>
     </View>
   );
 }
