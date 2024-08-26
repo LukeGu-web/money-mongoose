@@ -9,6 +9,9 @@ module.exports = {
       fontFamily: {
         permanentMarker: ['PermanentMarker-Regular'],
       },
+      colors: {
+        primary: '#03045E',
+      },
     },
   },
   plugins: [],
