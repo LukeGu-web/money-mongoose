@@ -75,7 +75,7 @@ export default function RecordList({
   }
 
   return (
-    <View className='flex-1 p-2'>
+    <View className='flex-1 p-2 bg-white'>
       {records.length > 0 ? (
         <FlashList
           data={records}

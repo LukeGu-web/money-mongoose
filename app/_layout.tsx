@@ -1,13 +1,11 @@
 import { SplashScreen, Stack, router } from 'expo-router';
 import { useFonts } from 'expo-font';
-import { useEffect } from 'react';
 import { Pressable } from 'react-native';
-import { colorScheme, useColorScheme } from 'nativewind';
+import { useColorScheme } from 'nativewind';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 
 import { APIProvider } from 'api/api-provider';
-import { Colors, useTheme } from 'core/theme';
 import { Icon } from 'components';
 import '../global.css';
 import Toast from 'react-native-toast-message';
@@ -37,13 +35,7 @@ export default function RootLayoutNav() {
         <Stack.Screen
           name='records/index'
           options={{
-            title: 'Record list',
-            headerLeft: () => <GoBack />,
-            headerRight: () => (
-              <Pressable>
-                <Icon name='setting' size={24} color='#fff' />
-              </Pressable>
-            ),
+            headerShown: false,
           }}
         />
         <Stack.Screen
@@ -88,10 +80,7 @@ export default function RootLayoutNav() {
 
 const GoBack = ({ url }: { url?: string }) => (
   <Pressable
-    style={{
-      paddingVertical: 8,
-      paddingRight: 24,
-    }}
+    className='py-2 pr-8'
     onPress={() => (url ? router.navigate(url) : router.back())}
   >
     <Icon name='left' size={24} color='#fff' />

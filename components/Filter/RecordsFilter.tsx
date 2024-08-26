@@ -14,6 +14,22 @@ const transaction = {
   Transfer: RecordTypes.TRANSFER,
 };
 
+type FilterType = {
+  start_date?: Date;
+  end_date?: Date;
+  transaction: string;
+  asset?: number;
+  is_marked_tax_return?: boolean;
+};
+
+const defaultFilter: FilterType = {
+  // start_date: undefined,
+  // end_date: new Date(),
+  transaction: 'all',
+  // asset: null,
+  is_marked_tax_return: false,
+};
+
 export default function RecordsFilter() {
   const { getCurrentBook } = useBookStore();
   const { setRecord } = useRecord();
@@ -21,50 +37,66 @@ export default function RecordsFilter() {
     (group) => group.assets
   );
   const { control, handleSubmit, reset, setValue, getValues } = useForm({
-    defaultValues: {
-      start_date: null,
-      end_date: new Date(),
-      transaction: 'all',
-      asset: null,
-      is_marked_tax_return: false,
-    },
+    defaultValues: defaultFilter,
   });
   const [showStartDate, setShowStartDate] = useState(false);
   return (
-    <View className='flex-1 gap-3 p-2'>
+    <View className='flex-1 gap-3 p-4 mb-4 border-2 border-white rounded-lg'>
       <View className='gap-2 -mt-2'>
-        <Text className='text-lg font-semibold'>Date Range</Text>
-        <View className='flex-row items-center justify-between'>
+        <Text className='text-lg font-semibold color-white'>Date Range</Text>
+        <View className='flex-row items-center gap-4'>
           <Controller
             control={control}
             render={({ field: { onChange, onBlur, value } }) => (
               <View>
                 {!!value ? (
-                  <DateTimePicker
-                    value={value}
-                    display='compact'
-                    onChange={(e: any, selectedDate: any) => {
-                      setValue('start_date', selectedDate);
-                    }}
-                  />
+                  <View className='w-24 rounded-lg'>
+                    <DateTimePicker
+                      value={value}
+                      display='default'
+                      themeVariant='dark'
+                      onChange={(e: any, selectedDate: any) => {
+                        setValue('start_date', selectedDate);
+                      }}
+                    />
+                  </View>
                 ) : (
-                  <Text>Start Date</Text>
+                  <Pressable
+                    className='px-3 py-2 rounded-xl'
+                    style={{ backgroundColor: 'rgba(255, 255, 255, 0.15)' }}
+                    onPress={() => setValue('start_date', new Date())}
+                  >
+                    <Text className='color-white'>Start Date</Text>
+                  </Pressable>
                 )}
               </View>
             )}
             name='start_date'
           />
-          <Text>To</Text>
+          <Text className='color-white'>To</Text>
           <Controller
             control={control}
             render={({ field: { onChange, onBlur, value } }) => (
-              <DateTimePicker
-                value={value}
-                display='compact'
-                onChange={(e: any, selectedDate: any) => {
-                  setValue('end_date', selectedDate);
-                }}
-              />
+              <View className='w-24 rounded-lg'>
+                {!!value ? (
+                  <DateTimePicker
+                    value={value}
+                    display='compact'
+                    themeVariant='dark'
+                    onChange={(e: any, selectedDate: any) => {
+                      setValue('end_date', selectedDate);
+                    }}
+                  />
+                ) : (
+                  <Pressable
+                    className='px-3 py-2 rounded-xl'
+                    style={{ backgroundColor: 'rgba(255, 255, 255, 0.15)' }}
+                    onPress={() => setValue('start_date', new Date())}
+                  >
+                    <Text className='color-white'>End Date</Text>
+                  </Pressable>
+                )}
+              </View>
             )}
             name='end_date'
           />
@@ -75,7 +107,9 @@ export default function RecordsFilter() {
         control={control}
         render={({ field: { onChange, onBlur, value } }) => (
           <View className='gap-2'>
-            <Text className='text-lg font-semibold'>Transaction</Text>
+            <Text className='text-lg font-semibold color-white'>
+              Transaction
+            </Text>
             <View className='flex-row gap-2'>
               {Object.keys(transaction).map((item) => (
                 <Pressable
@@ -95,7 +129,7 @@ export default function RecordsFilter() {
         control={control}
         render={({ field: { onChange, onBlur, value } }) => (
           <View className='gap-2'>
-            <Text className='text-lg font-semibold'>Account</Text>
+            <Text className='text-lg font-semibold color-white'>Account</Text>
             <View className='flex-row gap-2'>
               {flatAssets.map((item) => (
                 <Pressable
@@ -115,7 +149,9 @@ export default function RecordsFilter() {
         control={control}
         render={({ field: { onChange, onBlur, value } }) => (
           <View className='gap-2'>
-            <Text className='text-lg font-semibold'>Only show taxed items</Text>
+            <Text className='text-lg font-semibold color-white'>
+              Only show taxed items
+            </Text>
             <Switch
               trackColor={{ false: '#767577', true: '#81b0ff' }}
               ios_backgroundColor='#767577'
@@ -128,7 +164,7 @@ export default function RecordsFilter() {
         )}
         name='is_marked_tax_return'
       />
-      <View className='flex-row justify-between gap-6'>
+      <View className='flex-row justify-between gap-6 mt-2'>
         <Pressable className='flex-1 p-2 bg-yellow-500 rounded-full '>
           <Text className='text-center color-white'>Reset</Text>
         </Pressable>
