@@ -269,7 +269,7 @@ export default function DigitalPad() {
         />
         <Pressable className='justify-center p-2 rounded-lg bg-sky-600'>
           <Text className='text-2xl color-white'>{`A$ ${formatter(
-            record.amount
+            Math.abs(record.amount)
           )}`}</Text>
         </Pressable>
       </View>

@@ -9,6 +9,7 @@ export function calculateDate(date: Date, days: number) {
 export const formatter = (num: number) =>
   num.toLocaleString('en-US', {
     minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
   });
 
 export const calculateAssets = (book: BookType) =>

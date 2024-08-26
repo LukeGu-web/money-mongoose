@@ -32,7 +32,6 @@ export default function Calendar() {
   const today = now.format('YYYY-MM-DD');
   const [selectedDay, setSelectedDay] = useState(today);
   const [page, setPage] = useState(1);
-  const [dailyRecords, setDailyRecords] = useState<RecordsByDay[]>([]);
 
   const getRecords = (page = 1) =>
     client
@@ -47,15 +46,7 @@ export default function Calendar() {
     });
 
   useEffect(() => {
-    if (data) {
-      setRecords(data.results);
-      const details = records.find((item: RecordsByDay) => item.date === today);
-      if (details) {
-        setDailyRecords([details]);
-      } else {
-        setDailyRecords([]);
-      }
-    }
+    if (data) setRecords(data.results);
   }, [data, setRecords]);
 
   if (isPending || isFetching)
@@ -72,16 +63,6 @@ export default function Calendar() {
     // if (formattedError.status !== 404)
     return <Text>Sorry, something went wrong. Please try it again.</Text>;
   }
-
-  const handleSelectDay = (day: string) => {
-    setSelectedDay(day);
-    const details = records.find((item: RecordsByDay) => item.date === day);
-    if (details) {
-      setDailyRecords([details]);
-    } else {
-      setDailyRecords([]);
-    }
-  };
 
   const handleMonthChange = (dateData: DateData) => {
     const diffMonth = dayjs(visiableMonth).diff(dateData.dateString, 'month');
@@ -114,7 +95,7 @@ export default function Calendar() {
             date={date}
             state={state}
             selectedDate={selectedDay}
-            onSelectDay={handleSelectDay}
+            onSelectDay={setSelectedDay}
             recordData={records.find(
               (item: RecordsByDay) => item.date === date?.dateString
             )}
@@ -123,9 +104,13 @@ export default function Calendar() {
         onMonthChange={handleMonthChange}
       />
       <View className='flex-1 p-2 rounded-lg bg-sky-100'>
-        {dailyRecords.length > 0 ? (
+        {records.find((item: RecordsByDay) => item.date === selectedDay) ? (
           <FlashList
-            data={dailyRecords}
+            data={[
+              records.find(
+                (item: RecordsByDay) => item.date === selectedDay
+              ) as RecordsByDay,
+            ]}
             renderItem={({ item }) => (
               <ListDayItem item={item} onPress={handlePressItem} />
             )}
