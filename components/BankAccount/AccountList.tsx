@@ -30,7 +30,10 @@ export default function AccountList() {
                 <FlashList
                   data={assets}
                   renderItem={({ item }) => (
-                    <ListItem item={item} onPress={() => {}} />
+                    <ListItem
+                      item={item}
+                      onPress={() => router.navigate('/asset/records')}
+                    />
                   )}
                   estimatedItemSize={10}
                 />

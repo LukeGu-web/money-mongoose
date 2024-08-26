@@ -47,6 +47,12 @@ export default function Calendar() {
   useEffect(() => {
     if (data) {
       setRecords(data.results);
+      const details = records.find((item: RecordsByDay) => item.date === today);
+      if (details) {
+        setDailyRecords([details]);
+      } else {
+        setDailyRecords([]);
+      }
     }
   }, [data, setRecords]);
 
