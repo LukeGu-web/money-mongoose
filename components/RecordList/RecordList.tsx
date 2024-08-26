@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { View, Text, ActivityIndicator } from 'react-native';
+import { usePathname } from 'expo-router';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { FlashList } from '@shopify/flash-list';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
@@ -23,6 +24,7 @@ export default function RecordList({
   noItemMsg,
   loadMore = true,
 }: RecordListProps) {
+  const path = usePathname();
   const { records, setRecords } = useRecordStore();
   const currentBook = useBookStore((state) => state.currentBook);
   const [page, setPage] = useState(1);
@@ -48,7 +50,7 @@ export default function RecordList({
   }, []);
 
   const handleDismissItem = () => {
-    resetRecord();
+    if (path !== '/record') resetRecord();
   };
 
   useEffect(() => {

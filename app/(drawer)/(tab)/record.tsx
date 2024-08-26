@@ -11,6 +11,7 @@ import { RecordTypes } from 'api/record/types';
 
 export default function Record() {
   const { record } = useRecord();
+  console.log('Record: ', record);
   return (
     <SafeAreaView
       style={{ flex: 1, backgroundColor: '#fff' }}

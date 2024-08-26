@@ -22,8 +22,8 @@ export default function RecordBottomSheet({
   const { record, resetRecord, setRecord } = useRecord();
   const { removeRecord } = useRecordStore();
   const handleGoRecord = () => {
-    bottomSheetModalRef.current?.dismiss();
     router.navigate('/record');
+    bottomSheetModalRef.current?.dismiss();
   };
 
   const handleCopy = () => {

@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { View, Text, ActivityIndicator } from 'react-native';
 import { Calendar as ClendarPicker, DateData } from 'react-native-calendars';
+import { usePathname } from 'expo-router';
 import dayjs from 'dayjs';
 import { FlashList } from '@shopify/flash-list';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
@@ -22,6 +23,7 @@ import RecordBottomSheet from '../BottomSheet/RecordBottomSheet';
 
 export default function Calendar() {
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+  const path = usePathname();
   const resetRecord = useRecord((state) => state.resetRecord);
   const { records, setRecords } = useRecordStore();
   const { visiableMonth, setVisiableMonth } = useCalendar();
@@ -98,7 +100,7 @@ export default function Calendar() {
     bottomSheetModalRef.current?.present();
   };
   const handleDismissItem = () => {
-    resetRecord();
+    if (path !== '/record') resetRecord();
   };
 
   return (
