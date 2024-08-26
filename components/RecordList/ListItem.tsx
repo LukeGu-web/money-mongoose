@@ -1,5 +1,7 @@
 import { View, Text, Pressable } from 'react-native';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import Entypo from '@expo/vector-icons/Entypo';
 import Icon from 'components/Icon/Icon';
 import { BookType } from 'api/types';
 import {
@@ -65,9 +67,17 @@ export default function ListItem({ item, onPress }: ListItemProps) {
           )} to ${formatAsset(Number(item.to_asset), book, true)}`}</Text>
         </View>
       ) : (
-        <View className='flex-row flex-1'>
+        <View className='flex-row flex-1 gap-2'>
           <View className='items-start justify-center w-1/6'>
             <Icon name={item.category} size={28} color='black' />
+            {item.is_marked_tax_return && (
+              <MaterialCommunityIcons
+                className='absolute -bottom-2 -left-2'
+                name='star'
+                size={14}
+                color='#d97706'
+              />
+            )}
           </View>
           <View className='flex-1'>
             <View className='flex-row'>

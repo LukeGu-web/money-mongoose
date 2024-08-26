@@ -86,6 +86,9 @@ export default function RecordBottomSheet({
                 <Text className='text-lg'>- {record.subcategory}</Text>
               )}
             </View>
+            {record.is_marked_tax_return && (
+              <Text>Marked as Tax Return item</Text>
+            )}
             {record.note !== '' && <Text>{record.note}</Text>}
           </View>
           <View className='mr-4'>
