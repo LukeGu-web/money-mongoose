@@ -20,6 +20,8 @@ export default function AssetAccountBasicForm() {
   const { control, setValue, getValues } = useFormContext();
   const { getCurrentBook } = useBookStore();
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+  const nameRef = useRef<TextInput>(null);
+  const balanceRef = useRef<TextInput>(null);
 
   const handlePressSelect = useCallback(() => {
     bottomSheetModalRef.current?.present();
@@ -35,65 +37,74 @@ export default function AssetAccountBasicForm() {
       <Controller
         control={control}
         render={({ field: { onChange, onBlur, value } }) => (
-          <View className='flex-row items-center justify-between w-full h-12'>
+          <Pressable
+            className='flex-row items-center justify-between w-full h-12'
+            onPress={() => nameRef.current?.focus()}
+          >
             <Text>Account Name</Text>
             <TextInput
               inputAccessoryViewID={inputAccessoryCreateBtnID}
+              ref={nameRef}
               placeholder='Enter the amount name'
               onBlur={onBlur}
               onChangeText={onChange}
               value={value}
             />
-          </View>
+          </Pressable>
         )}
         name='name'
       />
       <Controller
         control={control}
         render={({ field: { onChange, onBlur, value } }) => (
-          <View className='flex-row items-center justify-between w-full h-12'>
+          <Pressable
+            className='flex-row items-center justify-between w-full h-12'
+            onPress={handlePressSelect}
+          >
             <Text>Group</Text>
             <View>
-              <Pressable onPress={handlePressSelect}>
-                {value ? (
-                  <Text>{value.split('-')[1]}</Text>
-                ) : (
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      gap: 4,
-                    }}
-                  >
-                    <Text style={{ color: '#bfc0c0' }}>Select group</Text>
-                    <Icon name='arrow-right' size={14} color='#bfc0c0' />
-                  </View>
-                )}
-              </Pressable>
+              {value ? (
+                <Text>{value.split('-')[1]}</Text>
+              ) : (
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    gap: 4,
+                  }}
+                >
+                  <Text style={{ color: '#bfc0c0' }}>Select group</Text>
+                  <Icon name='arrow-right' size={14} color='#bfc0c0' />
+                </View>
+              )}
               <SelectGroupBottomSheet
                 bottomSheetModalRef={bottomSheetModalRef}
                 value={value}
                 onChange={onChange}
               />
             </View>
-          </View>
+          </Pressable>
         )}
         name='group'
       />
       <Controller
         control={control}
         render={({ field: { onChange, onBlur, value } }) => (
-          <View className='flex-row items-center justify-between w-full h-12'>
+          <Pressable
+            className='flex-row items-center justify-between w-full h-12'
+            onPress={() => balanceRef.current?.focus()}
+          >
             <Text>Balance</Text>
             <TextInput
               inputAccessoryViewID={inputAccessoryCreateBtnID}
+              ref={balanceRef}
               placeholder='0.00'
               keyboardType='numeric'
               onBlur={onBlur}
               onChangeText={onChange}
               value={value}
             />
-          </View>
+          </Pressable>
         )}
         name='balance'
       />

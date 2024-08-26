@@ -12,6 +12,7 @@ export default function AssetCreditForm() {
   const { control, getValues, setValue } = useFormContext();
   const billDayRef = useRef<BottomSheetModal>(null);
   const repayDayRef = useRef<BottomSheetModal>(null);
+  const creditRef = useRef<TextInput>(null);
 
   const handlePressBillDay = useCallback(() => {
     Keyboard.dismiss();
@@ -34,42 +35,47 @@ export default function AssetCreditForm() {
       <Controller
         control={control}
         render={({ field: { onChange, onBlur, value } }) => (
-          <View className='flex-row items-center justify-between w-full h-12'>
+          <Pressable
+            className='flex-row items-center justify-between w-full h-12'
+            onPress={() => creditRef.current?.focus()}
+          >
             <Text>Credit limit</Text>
             <TextInput
               inputAccessoryViewID={inputAccessoryCreateBtnID}
+              ref={creditRef}
               placeholder='0.00'
               keyboardType='numeric'
               onBlur={onBlur}
               onChangeText={onChange}
               value={value}
             />
-          </View>
+          </Pressable>
         )}
         name='credit_limit'
       />
       <Controller
         control={control}
         render={({ field: { onChange, onBlur, value } }) => (
-          <View className='flex-row items-center justify-between w-full h-12'>
+          <Pressable
+            onPress={handlePressBillDay}
+            className='flex-row items-center justify-between w-full h-12'
+          >
             <Text>Bill Day</Text>
             <View>
-              <Pressable onPress={handlePressBillDay}>
-                {value ? (
-                  <Text>{monthlyDay[value - 1]}</Text>
-                ) : (
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      gap: 4,
-                    }}
-                  >
-                    <Text style={{ color: '#bfc0c0' }}>Select the day</Text>
-                    <Icon name='arrow-right' size={14} color='#bfc0c0' />
-                  </View>
-                )}
-              </Pressable>
+              {value ? (
+                <Text>{monthlyDay[value - 1]}</Text>
+              ) : (
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    gap: 4,
+                  }}
+                >
+                  <Text style={{ color: '#bfc0c0' }}>Select the day</Text>
+                  <Icon name='arrow-right' size={14} color='#bfc0c0' />
+                </View>
+              )}
               <PickerBottomSheet
                 key='billDay'
                 bottomSheetModalRef={billDayRef}
@@ -78,32 +84,33 @@ export default function AssetCreditForm() {
                 onChange={onChange}
               />
             </View>
-          </View>
+          </Pressable>
         )}
         name='bill_day'
       />
       <Controller
         control={control}
         render={({ field: { onChange, onBlur, value } }) => (
-          <View className='flex-row items-center justify-between w-full h-12'>
+          <Pressable
+            onPress={handlePressRepayDay}
+            className='flex-row items-center justify-between w-full h-12'
+          >
             <Text>Repayment Day</Text>
             <View>
-              <Pressable onPress={handlePressRepayDay}>
-                {value ? (
-                  <Text>{monthlyDay[value - 1]}</Text>
-                ) : (
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      gap: 4,
-                    }}
-                  >
-                    <Text style={{ color: '#bfc0c0' }}>Select the day</Text>
-                    <Icon name='arrow-right' size={14} color='#bfc0c0' />
-                  </View>
-                )}
-              </Pressable>
+              {value ? (
+                <Text>{monthlyDay[value - 1]}</Text>
+              ) : (
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    gap: 4,
+                  }}
+                >
+                  <Text style={{ color: '#bfc0c0' }}>Select the day</Text>
+                  <Icon name='arrow-right' size={14} color='#bfc0c0' />
+                </View>
+              )}
               <PickerBottomSheet
                 key='repaymentDay'
                 bottomSheetModalRef={repayDayRef}
@@ -112,7 +119,7 @@ export default function AssetCreditForm() {
                 onChange={onChange}
               />
             </View>
-          </View>
+          </Pressable>
         )}
         name='repayment_day'
       />
