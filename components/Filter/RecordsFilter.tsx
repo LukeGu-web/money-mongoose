@@ -45,11 +45,14 @@ export default function RecordsFilter({
 
   const handleResetFilter = () => {
     reset();
-    onSetFilter('');
     onCloseFilter(false);
+    setTimeout(() => {
+      onSetFilter('');
+    }, 300);
   };
 
   const handleSubmitData = handleSubmit((data) => {
+    console.log('data: ', data);
     let extra = '';
     for (const [key, value] of Object.entries(data)) {
       if (Boolean(value)) {
@@ -61,7 +64,9 @@ export default function RecordsFilter({
       }
     }
     if (Boolean(extra)) onCloseFilter(true);
-    onSetFilter(extra);
+    setTimeout(() => {
+      onSetFilter(extra);
+    }, 300);
   });
 
   return (

@@ -24,11 +24,10 @@ export default function RecordsFilter({ onSetFilter }: RecordsFilterProps) {
 
   const handleCloseFilter = (value: boolean) => {
     setHasFilter(value);
-
     // following code is for automatically close filter
-    // setIsFilterOpen(false);
-    // LayoutAnimation.easeInEaseOut();
-    // setContainerHeight(40);
+    setIsFilterOpen(false);
+    LayoutAnimation.easeInEaseOut();
+    setContainerHeight(40);
   };
 
   return (
@@ -53,11 +52,7 @@ export default function RecordsFilter({ onSetFilter }: RecordsFilterProps) {
           Record List
         </Text>
         <Pressable className='px-2 mr-4'>
-          <FontAwesome
-            name='search'
-            size={22}
-            color={isFilterOpen ? '#03045e' : '#fff'}
-          />
+          <FontAwesome name='search' size={22} color={'#fff'} />
         </Pressable>
         <Pressable
           className='flex-row items-center px-2'
