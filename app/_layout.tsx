@@ -63,7 +63,14 @@ export default function RootLayoutNav() {
           name='book/management'
           options={{
             title: 'Book Management',
-            headerLeft: () => <GoBack url='/' />,
+            headerLeft: () => (
+              <Pressable
+                className='py-2 pr-8'
+                onPress={() => router.replace('/')}
+              >
+                <Icon name='left' size={24} color='#fff' />
+              </Pressable>
+            ),
           }}
         />
         <Stack.Screen
@@ -78,11 +85,8 @@ export default function RootLayoutNav() {
   );
 }
 
-const GoBack = ({ url }: { url?: string }) => (
-  <Pressable
-    className='py-2 pr-8'
-    onPress={() => (url ? router.navigate(url) : router.back())}
-  >
+const GoBack = () => (
+  <Pressable className='py-2 pr-8' onPress={() => router.back()}>
     <Icon name='left' size={24} color='#fff' />
   </Pressable>
 );
