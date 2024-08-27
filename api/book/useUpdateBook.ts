@@ -1,15 +1,15 @@
 import type { AxiosError } from 'axios';
 import { createMutation } from 'react-query-kit';
 import { client } from '../client';
-import { AssetGroupType } from '../types';
+import { AssetGroupType, BookType } from '../types';
 
-type Variables = { id: number; name?: string; note?: string };
-type Response = {
+type Variables = {
   id: number;
-  groups: AssetGroupType[];
-  name: string;
-  note: string;
+  name?: string;
+  note?: string;
+  monthly_goal?: number;
 };
+type Response = BookType;
 
 const useUpdateBook = createMutation<Response, Variables, AxiosError>({
   mutationFn: async (variables) =>

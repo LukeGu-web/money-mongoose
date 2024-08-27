@@ -26,4 +26,5 @@ export type BookType = {
   groups: AssetGroupType[];
   name: string;
   note: string;
+  monthly_goal: number | null;
 };

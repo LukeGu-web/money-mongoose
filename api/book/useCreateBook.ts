@@ -1,18 +1,13 @@
 import type { AxiosError } from 'axios';
 import { createMutation } from 'react-query-kit';
 import { client } from '../client';
-import { AssetGroupType } from '../types';
+import { AssetGroupType, BookType } from '../types';
 
 type Variables = {
   name: string;
   note: string;
 };
-type Response = {
-  id: number;
-  groups: AssetGroupType[];
-  name: string;
-  note: string;
-};
+type Response = BookType;
 
 export const defaultGroups = [
   { name: 'Saving' },

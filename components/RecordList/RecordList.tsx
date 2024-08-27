@@ -105,7 +105,9 @@ export default function RecordList({
           )}
         />
       ) : (
-        <Text>{noItemMsg ?? "You don't have any record."}</Text>
+        <View className='items-center justify-center flex-1'>
+          <Text>{noItemMsg ?? "You don't have any record."}</Text>
+        </View>
       )}
       <RecordBottomSheet
         bottomSheetModalRef={bottomSheetModalRef}

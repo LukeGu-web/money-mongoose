@@ -1,26 +1,30 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Text, TextInput, View, Modal, Pressable, Button } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
-import { useShallow } from 'zustand/react/shallow';
 import dayjs from 'dayjs';
 
-import { useMonthlyAnalysis } from 'core/stateHooks';
+import { useUpdateBook } from 'api/book';
+import { formatApiError } from 'api/errorFormat';
+import { useBookStore } from 'core/stateHooks';
 import { formatter } from 'core/utils';
+import log from 'core/logger';
 import { GoalProcess } from '../Chart/GoalProcess';
 import Icon from '../Icon/Icon';
+import { BookType } from 'api/types';
 
 type BudgetCardProps = {
   monthExpense: number;
 };
 
 export default function BudgetCard({ monthExpense }: BudgetCardProps) {
+  const { mutate: updateBookApi } = useUpdateBook();
+  const { getCurrentBook, updateBook } = useBookStore();
+  const { id, monthly_goal } = getCurrentBook() as BookType;
   const expenseAmount = Math.abs(monthExpense);
+  const days = dayjs().date();
   const [isVisible, setIsVisible] = useState<boolean>(false);
-  const { goal, setGoal } = useMonthlyAnalysis(
-    useShallow((state) => ({
-      goal: state.goal,
-      setGoal: state.setGoal,
-    }))
+  const [remaining, setRemaining] = useState<number>(
+    (monthly_goal !== null ? Number(monthly_goal) : 0) + monthExpense
   );
 
   const {
@@ -38,14 +42,21 @@ export default function BudgetCard({ monthExpense }: BudgetCardProps) {
   };
 
   const handleConfirm = handleSubmit((data) => {
-    setGoal(Number(data.amount));
-    setIsVisible(false);
+    updateBookApi(
+      { id: id, monthly_goal: Number(data.amount) },
+      {
+        onSuccess: (response) => {
+          log.success('Set monthly goal on book success:', response);
+          updateBook(response);
+          setRemaining(Number(response.monthly_goal));
+          setIsVisible(false);
+        },
+        onError: (error) => {
+          log.error('Error: ', formatApiError(error));
+        },
+      }
+    );
   });
-
-  const days = dayjs().date();
-  const remaining = (goal ?? 0) + monthExpense;
-  const dailyRemaining =
-    remaining > 0 ? remaining / (dayjs().daysInMonth() - days) : 0;
 
   return (
     <View className='justify-between flex-1 p-2'>
@@ -57,13 +68,17 @@ export default function BudgetCard({ monthExpense }: BudgetCardProps) {
             setIsVisible(true);
           }}
         >
-          <Text>{goal === null ? 'set goal' : goal}</Text>
+          <Text>{monthly_goal === null ? 'set goal' : monthly_goal}</Text>
           <Icon name='edit' size={14} color='#000' />
         </Pressable>
       </View>
       <View className='flex-row items-stretch justify-between flex-1 gap-2 py-2'>
         <View className='items-center justify-center flex-1 pt-2.5 rounded-lg bg-zinc-100'>
-          <GoalProcess targetPercentage={goal ? expenseAmount / goal : 0} />
+          <GoalProcess
+            targetPercentage={
+              monthly_goal === null ? expenseAmount / Number(monthly_goal) : 0
+            }
+          />
         </View>
         <View className='items-center justify-center flex-1 rounded-lg bg-zinc-100 '>
           <Text className='text-lg'>{formatter(expenseAmount)}</Text>
@@ -87,7 +102,11 @@ export default function BudgetCard({ monthExpense }: BudgetCardProps) {
         </View>
         <View className='flex-row items-center justify-between'>
           <Text>Remaining Daily</Text>
-          <Text>{formatter(dailyRemaining)}</Text>
+          <Text>
+            {formatter(
+              remaining > 0 ? remaining / (dayjs().daysInMonth() - days) : 0
+            )}
+          </Text>
         </View>
       </View>
       <Modal
