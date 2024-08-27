@@ -5,7 +5,11 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import Icon from '../Icon/Icon';
 import FilterContent from '../Filter/RecordsFilter';
 
-export default function RecordsFilter() {
+type RecordsFilterProps = {
+  onSetFilter: (value: string) => void;
+};
+
+export default function RecordsFilter({ onSetFilter }: RecordsFilterProps) {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [containerHeight, setContainerHeight] = useState(40);
@@ -56,7 +60,7 @@ export default function RecordsFilter() {
         </Pressable>
       </View>
 
-      {isFilterOpen && <FilterContent />}
+      {isFilterOpen && <FilterContent onSetFilter={onSetFilter} />}
     </View>
   );
 }

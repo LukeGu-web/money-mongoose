@@ -15,36 +15,48 @@ const transaction = {
 };
 
 type FilterType = {
-  start_date?: Date;
-  end_date?: Date;
-  transaction: string;
+  date_after?: Date;
+  date_before?: Date;
+  type: string;
   asset?: number;
   is_marked_tax_return: boolean;
 };
 
+type FilterContentProps = {
+  onSetFilter: (value: string) => void;
+};
+
 const defaultFilter: FilterType = {
-  // start_date: undefined,
-  // end_date: new Date(),
-  transaction: '',
+  // date_after: undefined,
+  // date_before: new Date(),
   // asset: null,
+  type: '',
   is_marked_tax_return: false,
 };
 
-export default function RecordsFilter() {
+export default function RecordsFilter({ onSetFilter }: FilterContentProps) {
   const { getCurrentBook } = useBookStore();
   const { setRecord } = useRecord();
   const flatAssets = (getCurrentBook() as BookType).groups.flatMap(
     (group) => group.assets
   );
-  const { control, handleSubmit, reset, setValue, getValues } = useForm({
+  const { control, handleSubmit, reset, setValue } = useForm({
     defaultValues: defaultFilter,
   });
 
   const handleSubmitData = handleSubmit((data) => {
-    console.log(data);
+    let extra = '';
+    for (const [key, value] of Object.entries(data)) {
+      if (Boolean(value)) {
+        if (key.includes('date_')) {
+          extra += `&${key}=${dayjs(value as Date).format('YYYY-MM-DD')}`;
+        } else {
+          extra += `&${key}=${value}`;
+        }
+      }
+    }
+    onSetFilter(extra);
   });
-
-  // const handleReset
 
   return (
     <View className='flex-1 gap-3 p-4 mb-4 border-2 border-white rounded-lg'>
@@ -56,13 +68,13 @@ export default function RecordsFilter() {
             render={({ field: { onChange, onBlur, value } }) => (
               <View>
                 {!!value ? (
-                  <View className='w-24 rounded-lg'>
+                  <View className='rounded-lg w-28'>
                     <DateTimePicker
                       value={value}
                       display='default'
                       themeVariant='dark'
                       onChange={(e: any, selectedDate: any) => {
-                        setValue('start_date', selectedDate);
+                        setValue('date_after', selectedDate);
                       }}
                     />
                   </View>
@@ -70,41 +82,41 @@ export default function RecordsFilter() {
                   <Pressable
                     className='px-3 py-2 rounded-xl'
                     style={{ backgroundColor: 'rgba(255, 255, 255, 0.15)' }}
-                    onPress={() => setValue('start_date', new Date())}
+                    onPress={() => setValue('date_after', new Date())}
                   >
                     <Text className='color-white'>Start Date</Text>
                   </Pressable>
                 )}
               </View>
             )}
-            name='start_date'
+            name='date_after'
           />
           <Text className='color-white'>To</Text>
           <Controller
             control={control}
             render={({ field: { onChange, onBlur, value } }) => (
-              <View className='w-24 rounded-lg'>
+              <View className='rounded-lg w-28'>
                 {!!value ? (
                   <DateTimePicker
                     value={value}
                     display='compact'
                     themeVariant='dark'
                     onChange={(e: any, selectedDate: any) => {
-                      setValue('end_date', selectedDate);
+                      setValue('date_before', selectedDate);
                     }}
                   />
                 ) : (
                   <Pressable
                     className='px-3 py-2 rounded-xl'
                     style={{ backgroundColor: 'rgba(255, 255, 255, 0.15)' }}
-                    onPress={() => setValue('end_date', new Date())}
+                    onPress={() => setValue('date_before', new Date())}
                   >
                     <Text className='color-white'>End Date</Text>
                   </Pressable>
                 )}
               </View>
             )}
-            name='end_date'
+            name='date_before'
           />
         </View>
       </View>
@@ -114,21 +126,20 @@ export default function RecordsFilter() {
         render={({ field: { onChange, onBlur, value } }) => (
           <View className='gap-2'>
             <Text className='text-lg font-semibold color-white'>
-              Transaction
+              Transaction Type
             </Text>
             <View className='flex-row gap-2'>
               {Object.keys(transaction).map((item) => (
                 <Pressable
                   key={item}
                   className={`items-center justify-center px-3 ${
-                    getValues('transaction') ===
-                    transaction[item as keyof typeof transaction]
+                    value === transaction[item as keyof typeof transaction]
                       ? 'bg-amber-400'
                       : 'bg-gray-100'
                   } rounded-lg`}
                   onPress={() => {
                     setValue(
-                      'transaction',
+                      'type',
                       transaction[item as keyof typeof transaction]
                     );
                   }}
@@ -139,7 +150,7 @@ export default function RecordsFilter() {
             </View>
           </View>
         )}
-        name='transaction'
+        name='type'
       />
       <Controller
         control={control}
@@ -150,8 +161,10 @@ export default function RecordsFilter() {
               {flatAssets.map((item) => (
                 <Pressable
                   key={item.id}
-                  className='items-center justify-center px-3 bg-gray-100 rounded-lg'
-                  //   onPress={handlePressSelect}
+                  className={`items-center justify-center px-3  rounded-lg ${
+                    value === item.id ? 'bg-amber-400' : 'bg-gray-100'
+                  }`}
+                  onPress={() => setValue('asset', item.id)}
                 >
                   <Text className='text-lg '>{item.name}</Text>
                 </Pressable>
@@ -166,11 +179,11 @@ export default function RecordsFilter() {
         render={({ field: { onChange, onBlur, value } }) => (
           <View className='gap-2'>
             <Text className='text-lg font-semibold color-white'>
-              Only show taxed items
+              Only show tax return items
             </Text>
             <Switch
-              trackColor={{ false: '#767577', true: '#81b0ff' }}
-              ios_backgroundColor='#767577'
+              trackColor={{ false: '#cbd5e1', true: '#fbbf24' }}
+              ios_backgroundColor='#cbd5e1'
               onValueChange={(e) => {
                 onChange(e);
               }}
@@ -183,7 +196,10 @@ export default function RecordsFilter() {
       <View className='flex-row justify-between gap-6 mt-2'>
         <Pressable
           className='flex-1 p-2 bg-yellow-500 rounded-full'
-          onPress={() => reset()}
+          onPress={() => {
+            reset();
+            onSetFilter('');
+          }}
         >
           <Text className='text-center color-white'>Reset</Text>
         </Pressable>

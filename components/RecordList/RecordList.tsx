@@ -34,16 +34,27 @@ export default function RecordList({
       .get(`/record/combined/?page=${page}&book_id=${currentBook.id}${extra}`)
       .then((response) => response.data);
 
-  const { isPending, isError, error, data, isFetching, isPlaceholderData } =
-    useQuery({
-      queryKey: ['projects', page],
-      queryFn: () => getRecords(page),
-      placeholderData: keepPreviousData,
-    });
+  const {
+    isPending,
+    isError,
+    error,
+    data,
+    isFetching,
+    isPlaceholderData,
+    refetch,
+  } = useQuery({
+    queryKey: ['projects', page],
+    queryFn: () => getRecords(page),
+    placeholderData: keepPreviousData,
+  });
 
   const resetRecord = useRecord((state) => state.resetRecord);
 
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+
+  useEffect(() => {
+    refetch();
+  }, [extra]);
 
   const handlePressItem = useCallback(() => {
     bottomSheetModalRef.current?.present();

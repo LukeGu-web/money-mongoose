@@ -9,6 +9,7 @@ export { default as DigitalPad } from 'components/CustomDigitalPad/DigitalPad';
 export { default as ExpenseCard } from 'components/Card/ExpenseCard';
 export { default as RecordHeader } from 'components/Header/RecordHeader';
 export { default as RecordCategory } from 'components/Category/RecordCategroy';
+export { default as RecordsFilter } from 'components/ExpandView/RecordsFilter';
 export { default as RecordList } from 'components/RecordList/RecordList';
 export { default as RecordToolbar } from 'components/Toolbar/RecordToolbar';
 export { default as RecordBottomSheet } from 'components/BottomSheet/RecordBottomSheet';
