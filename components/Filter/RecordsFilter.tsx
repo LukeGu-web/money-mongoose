@@ -1,11 +1,10 @@
-import { useState, useCallback } from 'react';
 import { View, Text, Switch, Pressable } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import dayjs from 'dayjs';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { RecordTypes } from 'api/record/types';
-import { useRecord, useBookStore } from 'core/stateHooks';
-import { AssetType, BookType } from 'api/types';
+import { useBookStore } from 'core/stateHooks';
+import { BookType } from 'api/types';
 
 const transaction = {
   All: '',
@@ -24,25 +23,31 @@ type FilterType = {
 
 type FilterContentProps = {
   onSetFilter: (value: string) => void;
+  onCloseFilter: (value: boolean) => void;
 };
 
 const defaultFilter: FilterType = {
-  // date_after: undefined,
-  // date_before: new Date(),
-  // asset: null,
   type: '',
   is_marked_tax_return: false,
 };
 
-export default function RecordsFilter({ onSetFilter }: FilterContentProps) {
+export default function RecordsFilter({
+  onSetFilter,
+  onCloseFilter,
+}: FilterContentProps) {
   const { getCurrentBook } = useBookStore();
-  const { setRecord } = useRecord();
   const flatAssets = (getCurrentBook() as BookType).groups.flatMap(
     (group) => group.assets
   );
   const { control, handleSubmit, reset, setValue } = useForm({
     defaultValues: defaultFilter,
   });
+
+  const handleResetFilter = () => {
+    reset();
+    onSetFilter('');
+    onCloseFilter(false);
+  };
 
   const handleSubmitData = handleSubmit((data) => {
     let extra = '';
@@ -55,6 +60,7 @@ export default function RecordsFilter({ onSetFilter }: FilterContentProps) {
         }
       }
     }
+    if (Boolean(extra)) onCloseFilter(true);
     onSetFilter(extra);
   });
 
@@ -196,10 +202,7 @@ export default function RecordsFilter({ onSetFilter }: FilterContentProps) {
       <View className='flex-row justify-between gap-6 mt-2'>
         <Pressable
           className='flex-1 p-2 bg-yellow-500 rounded-full'
-          onPress={() => {
-            reset();
-            onSetFilter('');
-          }}
+          onPress={handleResetFilter}
         >
           <Text className='text-center color-white'>Reset</Text>
         </Pressable>
