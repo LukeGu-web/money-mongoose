@@ -53,11 +53,14 @@ export default function AssetDetails() {
   );
 
   const handleCreate = methods.handleSubmit((data) => {
+    const { id, group, balance, credit_limit, ...rest } = data;
     if (asset.id === -1) {
       addAssetApi(
         {
-          ...data,
-          group: Number((data.group as string).split('-')[0]),
+          ...rest,
+          balance: Number(balance),
+          credit_limit: Number(credit_limit),
+          group: Number((group as string).split('-')[0]),
         },
         {
           onSuccess: (response) => {
@@ -73,11 +76,12 @@ export default function AssetDetails() {
         }
       );
     } else {
-      const { id, group, ...rest } = data;
       updateAssetApi(
         {
           ...rest,
-          id: id as number,
+          id: Number(id),
+          balance: Number(balance),
+          credit_limit: Number(credit_limit),
           group: Number(String(group).split('-')[0]),
         },
         {

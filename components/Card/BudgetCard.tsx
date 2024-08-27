@@ -76,7 +76,7 @@ export default function BudgetCard({ monthExpense }: BudgetCardProps) {
         <View className='items-center justify-center flex-1 pt-2.5 rounded-lg bg-zinc-100'>
           <GoalProcess
             targetPercentage={
-              monthly_goal === null ? expenseAmount / Number(monthly_goal) : 0
+              monthly_goal !== null ? expenseAmount / Number(monthly_goal) : 0
             }
           />
         </View>
