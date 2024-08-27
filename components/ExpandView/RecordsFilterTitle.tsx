@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { View, Text, Pressable, LayoutAnimation } from 'react-native';
 import { router } from 'expo-router';
+import dayjs from 'dayjs';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import Icon from '../Icon/Icon';
@@ -30,13 +31,17 @@ export default function RecordsFilter({ onSetFilter }: RecordsFilterProps) {
     setContainerHeight(40);
   };
 
+  const handleBackHome = () => {
+    router.replace('/');
+  };
+
   return (
     <View className={`bg-primary px-4`} style={{ minHeight: containerHeight }}>
       <View className='flex-row items-center justify-between'>
         <Pressable
           className='py-2 pr-4 '
           disabled={isFilterOpen}
-          onPress={() => router.back()}
+          onPress={handleBackHome}
         >
           <Icon
             name='left'

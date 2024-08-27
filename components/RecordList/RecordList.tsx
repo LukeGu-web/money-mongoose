@@ -72,7 +72,7 @@ export default function RecordList({
 
   if (isPending || isFetching)
     return (
-      <View className='items-center justify-center flex-1 gap-2'>
+      <View className='items-center justify-center flex-1 gap-2 bg-white'>
         <ActivityIndicator size='large' />
         <Text>Loading data...</Text>
       </View>
