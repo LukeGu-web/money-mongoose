@@ -1,6 +1,5 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import {
-  Alert,
   View,
   Text,
   TextInput,
@@ -9,23 +8,10 @@ import {
   KeyboardAvoidingView,
 } from 'react-native';
 import { useFormContext, Controller } from 'react-hook-form';
-import { router } from 'expo-router';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
-import { useShallow } from 'zustand/react/shallow';
+
 import Keypad from './Keypad';
-
-import { BookType } from 'api/types';
-import { RecordTypes, RecordSchema } from 'api/record/types';
-import {
-  useAddRecord,
-  useUpdateRecord,
-  useAddTransfer,
-  useUpdateTransfer,
-} from 'api/record';
-import { formatApiError } from 'api/errorFormat';
-import { useRecord, useRecordStore, useBookStore } from 'core/stateHooks';
 import { formatter } from 'core/utils';
-
 import CameraBottomSheet from 'components/BottomSheet/CameraBottomSheet';
 
 type DigitalPadProps = {
@@ -44,28 +30,8 @@ export default function DigitalPad({ onSubmit }: DigitalPadProps) {
 
   const keyboardVerticalOffset = Platform.OS === 'ios' ? -150 : 0;
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-  const { mutate: addRecordApi } = useAddRecord();
-  const { mutate: updateRecordApi } = useUpdateRecord();
-  const { mutate: addTransferApi } = useAddTransfer();
-  const { mutate: updateTransferApi } = useUpdateTransfer();
-  const { currentBook, getCurrentBook } = useBookStore();
-  const { addRecord, updateRecord, addTransfer, updateTransfer } =
-    useRecordStore(
-      useShallow((state) => ({
-        addRecord: state.addRecord,
-        updateRecord: state.updateRecord,
-        addTransfer: state.addTransfer,
-        updateTransfer: state.updateTransfer,
-      }))
-    );
-
   const [decimalLength, setDecimalLength] = useState(0);
   const [isDecimal, setIsDecimal] = useState(false);
-
-  const handleReset = () => {
-    setDecimalLength(0);
-    setIsDecimal(false);
-  };
 
   const handlePriceInput = (item: string) => {
     const num: number = getValues('amount');
@@ -97,9 +63,13 @@ export default function DigitalPad({ onSubmit }: DigitalPadProps) {
         }
         break;
       case 'clear':
-        handleReset();
+        console.log('clear!');
+        amount = 0;
+        setDecimalLength(0);
+        setIsDecimal(false);
         break;
       case 'camera':
+        bottomSheetModalRef.current?.present();
         break;
       case 'tax':
         setValue('is_marked_tax_return', !getValues('is_marked_tax_return'));
@@ -123,62 +93,8 @@ export default function DigitalPad({ onSubmit }: DigitalPadProps) {
         }
         break;
     }
-    setValue('amount', amount, { shouldValidate: true });
+    setValue('amount', amount);
   };
-
-  // const callTransferApi = (isRedirect: boolean) => {
-  //   const { id, from_asset, to_asset, ...rest } = record;
-  //   const data: any = {
-  //     ...rest,
-  //     book: currentBook.id,
-  //     from_asset: Number(String(from_asset).split('-')[0]),
-  //     to_asset: Number(String(to_asset).split('-')[0]),
-  //   };
-  //   if (id && id > 0) {
-  //     updateTransferApi(
-  //       {
-  //         id,
-  //         ...data,
-  //       },
-  //       {
-  //         onSuccess: (response) => {
-  //           log.success('Add record success:', response);
-  //           updateTransfer({
-  //             ...response,
-  //             amount: Number(response.amount),
-  //           });
-  //           handleReset();
-  //           resetRecord();
-  //           if (isRedirect) router.push('/');
-  //         },
-  //         onError: (error) => {
-  //           log.error('Error: ', formatApiError(error));
-  //         },
-  //       }
-  //     );
-  //   } else {
-  //     addTransferApi(
-  //       {
-  //         ...data,
-  //       },
-  //       {
-  //         onSuccess: (response) => {
-  //           log.success('Add record success:', response);
-  //           addTransfer({
-  //             ...response,
-  //             amount: Number(response.amount),
-  //           });
-  //           handleReset();
-  //           resetRecord();
-  //           if (isRedirect) router.push('/');
-  //         },
-  //         onError: (error) => {
-  //           log.error('Error: ', formatApiError(error));
-  //         },
-  //       }
-  //     );
-  //   }
-  // };
 
   return (
     <KeyboardAvoidingView
