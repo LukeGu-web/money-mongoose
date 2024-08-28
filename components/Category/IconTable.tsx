@@ -6,6 +6,7 @@ export default function IconTable({ data, onSelect }: IconTableProps) {
   const { getValues } = useFormContext();
   const isArray = Array.isArray(data);
   const numColumns = isArray ? 4 : 5;
+
   return (
     <FlatList
       data={isArray ? data : Object.keys(data)}

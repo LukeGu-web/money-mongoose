@@ -11,20 +11,19 @@ import {
 } from 'components';
 import { RecordTypes } from 'api/record/types';
 import { useRecord, useBookStore } from 'core/stateHooks';
-import { defaultRecord } from 'core/stateHooks/states/useRecord';
 import log from 'core/logger';
 
 export default function Record() {
   const { record } = useRecord();
   const { currentBook, getCurrentBook } = useBookStore();
   const methods = useForm({
-    defaultValues: defaultRecord,
+    defaultValues: record,
     criteriaMode: 'all',
   });
 
   const handleSubmit = methods.handleSubmit((data) => {
     log.info('Submit create record data: ', {
-      ...record,
+      ...data,
       book: currentBook.id,
     });
     //   if (record.type === RecordTypes.TRANSFER) {

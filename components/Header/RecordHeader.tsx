@@ -1,15 +1,18 @@
 import { View, Pressable, Text } from 'react-native';
+import { useFormContext, Controller } from 'react-hook-form';
 import { router } from 'expo-router';
 import { RecordTypes } from 'api/record/types';
 import { useAsset, useRecord } from 'core/stateHooks';
 import Icon from '../Icon/Icon';
 
 export default function RecordHeader() {
-  const { record, setRecord, resetRecord } = useRecord();
+  const { control, getValues, setValue, reset } = useFormContext();
+  const { resetRecord } = useRecord();
   const { resetAsset } = useAsset();
   const handleGoBack = () => {
     resetRecord();
     resetAsset();
+    reset();
     router.navigate('/');
   };
   return (
@@ -17,27 +20,39 @@ export default function RecordHeader() {
       <Pressable className='py-2 pr-2' onPress={handleGoBack}>
         <Icon name='left' size={24} color='#fff' />
       </Pressable>
-      <View className='flex-row items-center border-2 border-white rounded-lg'>
-        {Object.values(RecordTypes).map((item, index) => (
-          <Pressable
-            key={item}
-            className={`items-center justify-center py-1 px-2 border-white ${
-              index < 2 && 'border-r-2'
-            } ${record.type === item && 'bg-white'}`}
-            onPress={() => {
-              setRecord({ type: item });
-            }}
-          >
-            <Text
-              className={`text-center font-medium ${
-                record.type === item ? 'color-indigo-900' : 'color-white'
-              }`}
-            >
-              {item}
-            </Text>
-          </Pressable>
-        ))}
-      </View>
+      <Controller
+        control={control}
+        rules={{
+          required: {
+            value: true,
+            message: 'Please select a record type.',
+          },
+        }}
+        render={() => (
+          <View className='flex-row items-center border-2 border-white rounded-lg'>
+            {Object.values(RecordTypes).map((item, index) => (
+              <Pressable
+                key={item}
+                className={`items-center justify-center py-1 px-2 border-white ${
+                  index < 2 && 'border-r-2'
+                } ${getValues('type') === item && 'bg-white'}`}
+                onPress={() => {
+                  setValue('type', item);
+                }}
+              >
+                <Text
+                  className={`text-center font-medium ${
+                    getValues('type') === item ? 'color-primary' : 'color-white'
+                  }`}
+                >
+                  {item}
+                </Text>
+              </Pressable>
+            ))}
+          </View>
+        )}
+        name='type'
+      />
       <Pressable>
         <Icon name='setting' size={24} color='#fff' />
       </Pressable>
