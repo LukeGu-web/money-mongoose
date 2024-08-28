@@ -1,4 +1,5 @@
 import { View, FlatList, Pressable } from 'react-native';
+import { useFormContext } from 'react-hook-form';
 import { useRecord } from 'core/stateHooks';
 import Key from './Key';
 import { RecordTypes } from 'api/record/types';
@@ -9,13 +10,14 @@ type KeypadProps = {
 
 export default function Keypad({ onKeyInput }: KeypadProps) {
   const record = useRecord((state) => state.record);
+  const { getValues } = useFormContext();
   return (
     <FlatList
       data={dialPadContent}
       numColumns={4} // set number of columns
       keyExtractor={(_, index) => index.toString()}
       renderItem={({ item }) => {
-        const isTax = item === 'tax' && record.is_marked_tax_return;
+        const isTax = item === 'tax' && getValues('is_marked_tax_return');
         const isDisabled =
           record.type === RecordTypes.TRANSFER &&
           (item === 'tax' || item === 'camera');
