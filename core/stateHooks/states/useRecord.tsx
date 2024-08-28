@@ -18,7 +18,7 @@ export const defaultRecord = {
   subcategory: '',
   note: '',
   amount: 0,
-  date: dayjs().format('YYYY-MM-DDTHH:mm:ssZ'),
+  date: new Date(),
   book: -1,
   is_marked_tax_return: false,
   // asset: null,

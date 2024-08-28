@@ -10,7 +10,7 @@ export enum RecordTypes {
 export const RecordSchema = z.object({
   id: z.number().optional(),
   book: z.number(),
-  date: z.string(),
+  date: z.date(),
   type: z.enum(['expense', 'income', 'transfer']),
   category: z.string().trim().min(1, { message: 'Required' }).optional(),
   subcategory: z.string().optional(),
