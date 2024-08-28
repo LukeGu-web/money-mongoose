@@ -17,12 +17,7 @@ import {
   useUpdateTransfer,
 } from 'api/record';
 import { formatApiError } from 'api/errorFormat';
-import {
-  RecordTypes,
-  RecordAPI,
-  TransferAPI,
-  Record as RecordType,
-} from 'api/record/types';
+import { RecordTypes, Record as RecordType } from 'api/record/types';
 
 import { useRecord, useBookStore, useRecordStore } from 'core/stateHooks';
 import log from 'core/logger';
@@ -66,8 +61,6 @@ export default function Record() {
               ...response,
               amount: Number(response.amount),
             });
-            // handleReset();
-            // resetRecord();
             router.navigate('/');
           },
           onError: (error) => {
@@ -96,68 +89,65 @@ export default function Record() {
     }
   };
 
-  // const callTransferApi = (isRedirect: boolean) => {
-  //   const { id, from_asset, to_asset, ...rest } = record;
-  //   const data: any = {
-  //     ...rest,
-  //     book: currentBook.id,
-  //     from_asset: Number(String(from_asset).split('-')[0]),
-  //     to_asset: Number(String(to_asset).split('-')[0]),
-  //   };
-  //   if (id && id > 0) {
-  //     updateTransferApi(
-  //       {
-  //         id,
-  //         ...data,
-  //       },
-  //       {
-  //         onSuccess: (response) => {
-  //           log.success('Add record success:', response);
-  //           updateTransfer({
-  //             ...response,
-  //             amount: Number(response.amount),
-  //           });
-  //           handleReset();
-  //           resetRecord();
-  //           if (isRedirect) router.push('/');
-  //         },
-  //         onError: (error) => {
-  //           log.error('Error: ', formatApiError(error));
-  //         },
-  //       }
-  //     );
-  //   } else {
-  //     addTransferApi(
-  //       {
-  //         ...data,
-  //       },
-  //       {
-  //         onSuccess: (response) => {
-  //           log.success('Add record success:', response);
-  //           addTransfer({
-  //             ...response,
-  //             amount: Number(response.amount),
-  //           });
-  //           handleReset();
-  //           resetRecord();
-  //           if (isRedirect) router.push('/');
-  //         },
-  //         onError: (error) => {
-  //           log.error('Error: ', formatApiError(error));
-  //         },
-  //       }
-  //     );
-  //   }
-  // };
+  const callTransferApi = (value: RecordType) => {
+    const { id, from_asset, to_asset, ...rest } = record;
+    const data: any = {
+      ...rest,
+      book: currentBook.id,
+      from_asset: Number(String(from_asset).split('-')[0]),
+      to_asset: Number(String(to_asset).split('-')[0]),
+    };
+    if (id && id > 0) {
+      updateTransferApi(
+        {
+          id,
+          ...data,
+        },
+        {
+          onSuccess: (response) => {
+            log.success('Add record success:', response);
+            updateTransfer({
+              ...response,
+              amount: Number(response.amount),
+            });
+            methods.reset();
+            router.navigate('/');
+          },
+          onError: (error) => {
+            log.error('Error: ', formatApiError(error));
+          },
+        }
+      );
+    } else {
+      addTransferApi(
+        {
+          ...data,
+        },
+        {
+          onSuccess: (response) => {
+            log.success('Add record success:', response);
+            addTransfer({
+              ...response,
+              amount: Number(response.amount),
+            });
+            methods.reset();
+            router.navigate('/');
+          },
+          onError: (error) => {
+            log.error('Error: ', formatApiError(error));
+          },
+        }
+      );
+    }
+  };
 
   const handleSubmit = methods.handleSubmit((data) => {
     log.info('Submit create record data: ', {
       ...data,
       book: currentBook.id,
     });
-
-    if (record.type === RecordTypes.TRANSFER) {
-      // callTransferApi(isRedirect);
+    if (methods.getValues('type') === RecordTypes.TRANSFER) {
+      callTransferApi(data);
     } else {
       callRecordApi(data);
     }
