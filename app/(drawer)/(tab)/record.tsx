@@ -1,5 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { router } from 'expo-router';
+import { useEffect } from 'react';
 import { View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useForm, FormProvider } from 'react-hook-form';
@@ -28,7 +29,7 @@ export default function Record() {
   const { mutate: addTransferApi } = useAddTransfer();
   const { mutate: updateTransferApi } = useUpdateTransfer();
   const { record } = useRecord();
-  const { currentBook, getCurrentBook } = useBookStore();
+  const { currentBook } = useBookStore();
   const { addRecord, updateRecord, addTransfer, updateTransfer } =
     useRecordStore();
   const methods = useForm({
@@ -36,6 +37,10 @@ export default function Record() {
     criteriaMode: 'all',
   });
   methods.watch(['type']);
+
+  useEffect(() => {
+    methods.reset(record);
+  }, [record]);
 
   const callRecordApi = (value: RecordType) => {
     const { id, amount, type, category, asset, ...rest } = value;
