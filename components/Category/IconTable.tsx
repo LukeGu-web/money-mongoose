@@ -1,12 +1,9 @@
 import { View, FlatList, Pressable, Text } from 'react-native';
+import { useFormContext } from 'react-hook-form';
 import Icon from '../Icon/Icon';
 
-export default function IconTable({
-  data,
-  selectedCategory,
-  selectedSubcategory,
-  onSelectIcon,
-}: IconTableProps) {
+export default function IconTable({ data, onSelect }: IconTableProps) {
+  const { getValues } = useFormContext();
   const isArray = Array.isArray(data);
   const numColumns = isArray ? 4 : 5;
   return (
@@ -19,10 +16,12 @@ export default function IconTable({
       renderItem={({ item }) => {
         const hasSubcategory = !isArray && data[item].length > 0;
         return (
-          <Pressable onPress={() => onSelectIcon(item, hasSubcategory)}>
+          <Pressable onPress={() => onSelect(item, hasSubcategory)}>
             <View
               className={`items-center justify-center m-4 rounded-full w-14 h-14 ${
-                item === selectedCategory ? 'bg-amber-200' : 'bg-transparent'
+                item === getValues('category')
+                  ? 'bg-amber-200'
+                  : 'bg-transparent'
               }`}
             >
               <Icon name={item} color='#1e1b4b' size={30} />
@@ -35,7 +34,7 @@ export default function IconTable({
             <View className='items-center -mt-1'>
               <Text style={{ fontSize: 10 }}>{item}</Text>
               <Text style={{ fontSize: 8, opacity: 0.9 }}>
-                {item === selectedCategory ? selectedSubcategory : ''}
+                {item === getValues('category') ? getValues('subcategory') : ''}
               </Text>
             </View>
           </Pressable>
@@ -51,7 +50,5 @@ type IconTableProps = {
     | {
         [key: string]: string[];
       };
-  selectedCategory: string;
-  selectedSubcategory?: string;
-  onSelectIcon: (item: string, hasSubcategory: boolean) => void;
+  onSelect: (item: string, hasSubcategory: boolean) => void;
 };

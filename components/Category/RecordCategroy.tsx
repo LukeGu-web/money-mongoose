@@ -7,45 +7,38 @@ import {
   TouchableWithoutFeedback,
   Modal,
 } from 'react-native';
-import { useShallow } from 'zustand/react/shallow';
+import { useFormContext, Controller } from 'react-hook-form';
 import IconTable from './IconTable';
 import Icon from '../Icon/Icon';
 
 import { RecordTypes } from 'api/record/types';
-import { useRecord } from 'core/stateHooks';
 import expenseCategory from 'static/record-expense-category.json';
 import incomeCategory from 'static/record-income-category.json';
 
 export default function RecordCategory() {
-  const { record, setRecord } = useRecord(
-    useShallow((state) => ({
-      record: state.record,
-      setRecord: state.setRecord,
-    }))
-  );
-
+  const { control, getValues, setValue } = useFormContext();
   const [subcategory, setSubcategory] = useState<string[]>([]);
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const category =
-    record.type === RecordTypes.INCOME ? incomeCategory : expenseCategory;
+    getValues('type') === RecordTypes.INCOME ? incomeCategory : expenseCategory;
 
-  const handleSelectIcon = (item: string, hasSubcategory: boolean) => {
-    if (item !== record.category) {
-      setRecord({ category: item, subcategory: '' });
-    }
+  const handleCategory = (item: string, hasSubcategory: boolean) => {
+    setValue('category', item, { shouldValidate: true });
+    setIsVisible(hasSubcategory);
     if (hasSubcategory) {
-      setIsVisible(true);
-      if (record.type === RecordTypes.INCOME) {
+      if (getValues('type') === RecordTypes.INCOME) {
         setSubcategory(incomeCategory[item as keyof typeof incomeCategory]);
       } else {
         setSubcategory(expenseCategory[item as keyof typeof expenseCategory]);
       }
     }
   };
-  const handleSelectL2Icon = (item: string) => {
-    setRecord({ subcategory: item });
+
+  const handleSubcategory = (item: string, hasSubcategory: boolean) => {
+    setValue('subcategory', item, { shouldValidate: true });
     setIsVisible(false);
   };
+
   return (
     <View style={{ flex: 1 }}>
       <ScrollView
@@ -54,11 +47,16 @@ export default function RecordCategory() {
           alignItems: 'center',
         }}
       >
-        <IconTable
-          data={category}
-          selectedCategory={record.category as string}
-          selectedSubcategory={record.subcategory}
-          onSelectIcon={handleSelectIcon}
+        <Controller
+          control={control}
+          rules={{
+            required: {
+              value: true,
+              message: 'Please select a category.',
+            },
+          }}
+          render={() => <IconTable data={category} onSelect={handleCategory} />}
+          name='category'
         />
       </ScrollView>
       <Modal
@@ -76,18 +74,20 @@ export default function RecordCategory() {
           >
             <View className='items-center w-11/12 gap-6 p-6 bg-white rounded-lg'>
               <View className='flex-row justify-between w-full'>
-                <Text className='mb-4 text-center'>{record.category}</Text>
+                <Text className='mb-4 text-center'>
+                  {getValues('category')}
+                </Text>
                 <Pressable onPress={() => setIsVisible(false)}>
                   <Icon name='close' size={24} color='#000' />
                 </Pressable>
               </View>
-              {record.category !== '' && (
-                <IconTable
-                  data={subcategory}
-                  selectedCategory={record.subcategory as string}
-                  onSelectIcon={handleSelectL2Icon}
-                />
-              )}
+              <Controller
+                control={control}
+                render={() => (
+                  <IconTable data={subcategory} onSelect={handleSubcategory} />
+                )}
+                name='subcategory'
+              />
             </View>
           </View>
         </TouchableWithoutFeedback>
