@@ -10,7 +10,8 @@ type RecordState = {
   setRecord: (updates: Partial<Record>) => void;
   resetRecord: () => void;
 };
-const defaultRecord = {
+
+export const defaultRecord = {
   id: -1,
   type: RecordTypes.EXPENSE,
   category: '',

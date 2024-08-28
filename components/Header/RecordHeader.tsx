@@ -13,18 +13,15 @@ export default function RecordHeader() {
     router.navigate('/');
   };
   return (
-    <View className='flex-row items-center justify-between flex-1 w-full'>
+    <View className='flex-row items-center justify-between h-12 px-4 pb-1 -mt-1 bg-primary'>
       <Pressable className='py-2 pr-2' onPress={handleGoBack}>
         <Icon name='left' size={24} color='#fff' />
       </Pressable>
-      <View
-        className='flex-row items-center border-2 border-white rounded-lg'
-        style={{ flex: 0.7 }}
-      >
+      <View className='flex-row items-center border-2 border-white rounded-lg'>
         {Object.values(RecordTypes).map((item, index) => (
           <Pressable
             key={item}
-            className={`items-center justify-center p-1 flex-1 border-white ${
+            className={`items-center justify-center py-1 px-2 border-white ${
               index < 2 && 'border-r-2'
             } ${record.type === item && 'bg-white'}`}
             onPress={() => {
