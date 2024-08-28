@@ -90,7 +90,7 @@ export default function Record() {
   };
 
   const callTransferApi = (value: RecordType) => {
-    const { id, from_asset, to_asset, ...rest } = record;
+    const { id, from_asset, to_asset, ...rest } = value;
     const data: any = {
       ...rest,
       book: currentBook.id,
