@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import {
   Alert,
   View,
@@ -33,7 +33,13 @@ type DigitalPadProps = {
 };
 
 export default function DigitalPad({ onSubmit }: DigitalPadProps) {
-  const { control, watch, getValues, setValue } = useFormContext();
+  const {
+    control,
+    watch,
+    getValues,
+    setValue,
+    formState: { errors },
+  } = useFormContext();
   watch(['amount']);
 
   const keyboardVerticalOffset = Platform.OS === 'ios' ? -150 : 0;
@@ -52,7 +58,6 @@ export default function DigitalPad({ onSubmit }: DigitalPadProps) {
         updateTransfer: state.updateTransfer,
       }))
     );
-  const { record, setRecord, resetRecord } = useRecord();
 
   const [decimalLength, setDecimalLength] = useState(0);
   const [isDecimal, setIsDecimal] = useState(false);
@@ -75,7 +80,6 @@ export default function DigitalPad({ onSubmit }: DigitalPadProps) {
           const decimal = String(num).split('.')[1] ?? 0;
           switch (decimalLength) {
             case 0:
-              console.log('integer: ', integer);
               if (integer.length > 0) {
                 amount = Number(integer.slice(0, -1) + '.' + decimal);
               }
@@ -93,10 +97,9 @@ export default function DigitalPad({ onSubmit }: DigitalPadProps) {
         }
         break;
       case 'clear':
-        setIsDecimal(false);
-        setDecimalLength(0);
+        handleReset();
         break;
-      case 'calculator':
+      case 'camera':
         break;
       case 'tax':
         setValue('is_marked_tax_return', !getValues('is_marked_tax_return'));
@@ -122,61 +125,6 @@ export default function DigitalPad({ onSubmit }: DigitalPadProps) {
     }
     setValue('amount', amount, { shouldValidate: true });
   };
-
-  // const callRecordApi = (isRedirect: boolean) => {
-  //   const { id, amount, type, category, asset, ...rest } = record;
-  //   const data: any = {
-  //     ...rest,
-  //     type: type as RecordTypes,
-  //     category: category as string,
-  //     asset: asset ? Number(asset.split('-')[0]) : undefined,
-  //     book: currentBook.id,
-  //     amount: type === RecordTypes.INCOME ? amount : -amount,
-  //   };
-  //   if (id && id > 0) {
-  //     updateRecordApi(
-  //       {
-  //         id,
-  //         ...data,
-  //       },
-  //       {
-  //         onSuccess: (response) => {
-  //           log.success('Add record success:', response);
-
-  //           updateRecord({
-  //             ...response,
-  //             amount: Number(response.amount),
-  //           });
-  //           handleReset();
-  //           resetRecord();
-  //           if (isRedirect) router.push('/');
-  //         },
-  //         onError: (error) => {
-  //           log.error('Error: ', formatApiError(error));
-  //         },
-  //       }
-  //     );
-  //   } else {
-  //     addRecordApi(
-  //       { ...data },
-  //       {
-  //         onSuccess: (response) => {
-  //           log.success('Add record success:', response);
-  //           addRecord({
-  //             ...response,
-  //             amount: Number(response.amount),
-  //           });
-  //           handleReset();
-  //           resetRecord();
-  //           if (isRedirect) router.push('/');
-  //         },
-  //         onError: (error) => {
-  //           log.error('Error: ', formatApiError(error));
-  //         },
-  //       }
-  //     );
-  //   }
-  // };
 
   // const callTransferApi = (isRedirect: boolean) => {
   //   const { id, from_asset, to_asset, ...rest } = record;
@@ -251,7 +199,11 @@ export default function DigitalPad({ onSubmit }: DigitalPadProps) {
           )}
           name='note'
         />
-        <Pressable className='justify-center p-2 rounded-lg bg-sky-600'>
+        <Pressable
+          className={`justify-center p-2 rounded-lg bg-sky-600 border-2 ${
+            errors.amount ? 'border-red-500' : 'border-sky-600'
+          }`}
+        >
           <Text className='text-2xl color-white'>{`A$ ${formatter(
             Math.abs(getValues('amount'))
           )}`}</Text>

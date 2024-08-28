@@ -3,7 +3,10 @@ import { useFormContext } from 'react-hook-form';
 import Icon from '../Icon/Icon';
 
 export default function IconTable({ data, onSelect }: IconTableProps) {
-  const { getValues } = useFormContext();
+  const {
+    getValues,
+    formState: { errors },
+  } = useFormContext();
   const isArray = Array.isArray(data);
   const numColumns = isArray ? 4 : 5;
 
@@ -13,7 +16,9 @@ export default function IconTable({ data, onSelect }: IconTableProps) {
       scrollEnabled={false}
       numColumns={numColumns} // set number of columns
       keyExtractor={(_, index) => index.toString()}
-      style={{ flexGrow: 0 }}
+      className={`flex-grow-0 border-2 mt-0.5 rounded-md ${
+        errors.category ? 'border-red-500' : 'border-white'
+      } `}
       renderItem={({ item }) => {
         const hasSubcategory = !isArray && data[item].length > 0;
         return (

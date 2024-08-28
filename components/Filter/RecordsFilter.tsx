@@ -52,7 +52,6 @@ export default function RecordsFilter({
   };
 
   const handleSubmitData = handleSubmit((data) => {
-    console.log('data: ', data);
     let extra = '';
     for (const [key, value] of Object.entries(data)) {
       if (Boolean(value)) {

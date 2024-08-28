@@ -1,6 +1,5 @@
 import { View, FlatList, Pressable } from 'react-native';
 import { useFormContext } from 'react-hook-form';
-import { useRecord } from 'core/stateHooks';
 import Key from './Key';
 import { RecordTypes } from 'api/record/types';
 
@@ -9,7 +8,6 @@ type KeypadProps = {
 };
 
 export default function Keypad({ onKeyInput }: KeypadProps) {
-  const record = useRecord((state) => state.record);
   const { getValues } = useFormContext();
   return (
     <FlatList
@@ -19,8 +17,7 @@ export default function Keypad({ onKeyInput }: KeypadProps) {
       renderItem={({ item }) => {
         const isTax = item === 'tax' && getValues('is_marked_tax_return');
         const isDisabled =
-          record.type === RecordTypes.TRANSFER &&
-          (item === 'tax' || item === 'camera');
+          getValues('type') !== RecordTypes.EXPENSE && item === 'tax';
         return (
           <Pressable onPress={() => onKeyInput(item)} disabled={isDisabled}>
             <View

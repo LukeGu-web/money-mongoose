@@ -6,7 +6,7 @@ import { useAsset, useRecord } from 'core/stateHooks';
 import Icon from '../Icon/Icon';
 
 export default function RecordHeader() {
-  const { control, getValues, setValue, reset } = useFormContext();
+  const { control, getValues, setValue, reset, resetField } = useFormContext();
   const { resetRecord } = useRecord();
   const { resetAsset } = useAsset();
   const handleGoBack = () => {
@@ -28,7 +28,7 @@ export default function RecordHeader() {
             message: 'Please select a record type.',
           },
         }}
-        render={() => (
+        render={({ field: { value } }) => (
           <View className='flex-row items-center border-2 border-white rounded-lg'>
             {Object.values(RecordTypes).map((item, index) => (
               <Pressable
@@ -37,7 +37,13 @@ export default function RecordHeader() {
                   index < 2 && 'border-r-2'
                 } ${getValues('type') === item && 'bg-white'}`}
                 onPress={() => {
-                  setValue('type', item);
+                  if (value !== item) {
+                    setValue('type', item);
+                    resetField('category');
+                    resetField('subcategory');
+                    resetField('from_asset');
+                    resetField('to_asset');
+                  }
                 }}
               >
                 <Text

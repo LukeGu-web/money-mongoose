@@ -35,12 +35,12 @@ export default function Transfer() {
   };
 
   return (
-    <View className='items-center justify-center flex-1 gap-4'>
+    <View className='items-center justify-center flex-1 gap-6'>
       <Controller
         control={control}
         render={({ field: { onChange, onBlur, value } }) => (
           <Pressable
-            className='items-center justify-center px-3 bg-gray-100 rounded-lg'
+            className='items-center justify-center w-4/5 py-4 bg-gray-100 rounded-lg'
             onPress={() => handlePressSelect('from_asset')}
           >
             <Text className='text-lg '>
@@ -62,7 +62,7 @@ export default function Transfer() {
         control={control}
         render={({ field: { onChange, onBlur, value } }) => (
           <Pressable
-            className='items-center justify-center px-3 bg-gray-100 rounded-lg'
+            className='items-center justify-center w-4/5 py-4 bg-gray-100 rounded-lg'
             onPress={() => handlePressSelect('to_asset')}
           >
             <Text className='text-lg '>

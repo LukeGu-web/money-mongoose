@@ -40,7 +40,7 @@ export default function RecordCategory() {
   };
 
   return (
-    <View style={{ flex: 1 }}>
+    <View className='flex-1'>
       <ScrollView
         contentContainerStyle={{
           justifyContent: 'center',
