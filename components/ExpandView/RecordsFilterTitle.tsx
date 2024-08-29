@@ -7,6 +7,19 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import Icon from '../Icon/Icon';
 import FilterContent from '../Filter/RecordsFilter';
 
+export type FilterType = {
+  date_after?: Date;
+  date_before?: Date;
+  type: string;
+  asset?: number;
+  is_marked_tax_return: boolean;
+};
+
+export const defaultFilter: FilterType = {
+  type: '',
+  is_marked_tax_return: false,
+};
+
 type RecordsFilterProps = {
   onSetFilter: (value: string) => void;
 };
@@ -14,6 +27,7 @@ type RecordsFilterProps = {
 export default function RecordsFilter({ onSetFilter }: RecordsFilterProps) {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [hasFilter, setHasFilter] = useState(false);
+  const [filter, setFilter] = useState<FilterType>(defaultFilter);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [containerHeight, setContainerHeight] = useState(40);
 
@@ -23,8 +37,9 @@ export default function RecordsFilter({ onSetFilter }: RecordsFilterProps) {
     setContainerHeight(!isFilterOpen ? 400 : 40);
   };
 
-  const handleCloseFilter = (value: boolean) => {
-    setHasFilter(value);
+  const handleCloseFilter = (isFilter: boolean, filterData: FilterType) => {
+    setHasFilter(isFilter);
+    setFilter(filterData);
     // following code is for automatically close filter
     setIsFilterOpen(false);
     LayoutAnimation.easeInEaseOut();
@@ -87,6 +102,7 @@ export default function RecordsFilter({ onSetFilter }: RecordsFilterProps) {
 
       {isFilterOpen && (
         <FilterContent
+          filter={filter}
           onSetFilter={onSetFilter}
           onCloseFilter={handleCloseFilter}
         />

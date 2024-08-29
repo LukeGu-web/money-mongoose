@@ -5,6 +5,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { RecordTypes } from 'api/record/types';
 import { useBookStore } from 'core/stateHooks';
 import { BookType } from 'api/types';
+import { FilterType, defaultFilter } from '../ExpandView/RecordsFilterTitle';
 
 const transaction = {
   All: '',
@@ -13,25 +14,14 @@ const transaction = {
   Transfer: RecordTypes.TRANSFER as string,
 };
 
-type FilterType = {
-  date_after?: Date;
-  date_before?: Date;
-  type: string;
-  asset?: number;
-  is_marked_tax_return: boolean;
-};
-
 type FilterContentProps = {
+  filter: FilterType;
   onSetFilter: (value: string) => void;
-  onCloseFilter: (value: boolean) => void;
-};
-
-const defaultFilter: FilterType = {
-  type: '',
-  is_marked_tax_return: false,
+  onCloseFilter: (value: boolean, filterData: FilterType) => void;
 };
 
 export default function RecordsFilter({
+  filter,
   onSetFilter,
   onCloseFilter,
 }: FilterContentProps) {
@@ -40,12 +30,12 @@ export default function RecordsFilter({
     (group) => group.assets
   );
   const { control, handleSubmit, reset, setValue } = useForm({
-    defaultValues: defaultFilter,
+    defaultValues: filter,
   });
 
   const handleResetFilter = () => {
     reset();
-    onCloseFilter(false);
+    onCloseFilter(false, defaultFilter);
     setTimeout(() => {
       onSetFilter('');
     }, 300);
@@ -62,7 +52,7 @@ export default function RecordsFilter({
         }
       }
     }
-    if (Boolean(extra)) onCloseFilter(true);
+    if (Boolean(extra)) onCloseFilter(true, data);
     setTimeout(() => {
       onSetFilter(extra);
     }, 300);
