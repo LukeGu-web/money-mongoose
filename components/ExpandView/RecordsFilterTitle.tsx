@@ -107,7 +107,11 @@ export default function RecordsFilterTitle({
             </Text>
           )}
         </View>
-        <Pressable className='px-2 mr-4' onPress={toggleSearchExpand}>
+        <Pressable
+          className='px-2 mr-4'
+          disabled={type === FilterTypes.FILTER}
+          onPress={toggleSearchExpand}
+        >
           <FontAwesome
             name='search'
             size={22}
@@ -116,6 +120,7 @@ export default function RecordsFilterTitle({
         </Pressable>
         <Pressable
           className='flex-row items-center px-2'
+          disabled={type === FilterTypes.SEARCH}
           onPress={toggleFilterExpand}
         >
           {type === FilterTypes.FILTER ? (

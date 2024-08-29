@@ -39,10 +39,10 @@ export const GoalProcess = ({
         height: radius * 2,
       }}
     >
-      <Canvas style={{ flex: 1 }}>
+      <Canvas style={{ flex: 1, marginLeft: -2 }}>
         <Path
           path={path}
-          color='lightblue'
+          color={targetText > 80 ? 'red' : 'lightblue'}
           style='stroke'
           strokeJoin='round'
           strokeWidth={STROKE_WIDTH}
@@ -53,7 +53,7 @@ export const GoalProcess = ({
         />
         <Path
           path={path}
-          color='lightblue'
+          color={targetText > 80 ? 'red' : 'lightblue'}
           style='stroke'
           strokeJoin='round'
           strokeWidth={STROKE_WIDTH}
@@ -66,7 +66,7 @@ export const GoalProcess = ({
           y={radius + 6}
           text={`${targetText}%`}
           font={font}
-          color='black'
+          color={targetText > 80 ? '#540b0e' : 'black'}
         />
       </Canvas>
     </View>
