@@ -4,14 +4,19 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { RecordList, RecordsFilter } from 'components';
 
 export default function Records() {
-  const [extra, setExtra] = useState<string>('');
+  const [filter, setFilter] = useState<string>('');
+  const [search, setSearch] = useState<string>('');
   return (
     <SafeAreaView
       style={{ flex: 1, backgroundColor: '#03045E' }}
       edges={['right', 'top', 'left']}
     >
-      <RecordsFilter onSetFilter={(value: string) => setExtra(value)} />
-      <RecordList extra={extra} />
+      <RecordsFilter
+        search={search}
+        onSetFilter={(value: string) => setFilter(value)}
+        onSetSearch={(value: string) => setSearch(value)}
+      />
+      <RecordList extra={filter + `&search=${search}`} />
       <StatusBar style='light' />
     </SafeAreaView>
   );

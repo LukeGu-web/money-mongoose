@@ -1,9 +1,20 @@
-import { View, TextInput, Switch, Pressable } from 'react-native';
+import { View, TextInput } from 'react-native';
 
-export default function RecordsSearch() {
+type RecordsSearchProps = {
+  onSearch: (text: string) => void;
+};
+
+export default function RecordsSearch({ onSearch }: RecordsSearchProps) {
   return (
-    <View>
-      <TextInput />
+    <View className='flex-row items-center justify-between flex-1 gap-4'>
+      <TextInput
+        className='flex-1 p-2 bg-white rounded-lg'
+        placeholder='search'
+        returnKeyType='search'
+        autoFocus={true}
+        clearButtonMode='while-editing'
+        onSubmitEditing={({ nativeEvent: { text } }) => onSearch(text)}
+      />
     </View>
   );
 }

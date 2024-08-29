@@ -5,7 +5,19 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { RecordTypes } from 'api/record/types';
 import { useBookStore } from 'core/stateHooks';
 import { BookType } from 'api/types';
-import { FilterType, defaultFilter } from '../ExpandView/RecordsFilterTitle';
+
+export type FilterType = {
+  date_after?: Date;
+  date_before?: Date;
+  type: string;
+  asset?: number;
+  is_marked_tax_return: boolean;
+};
+
+export const defaultFilter: FilterType = {
+  type: '',
+  is_marked_tax_return: false,
+};
 
 const transaction = {
   All: '',
