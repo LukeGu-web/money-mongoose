@@ -73,7 +73,6 @@ export default function DigitalPad({ onSubmit }: DigitalPadProps) {
         }
         break;
       case 'clear':
-        console.log('clear!');
         amount = 0;
         setDecimalLength(0);
         setIsDecimal(false);
