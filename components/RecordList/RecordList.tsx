@@ -17,12 +17,14 @@ type RecordListProps = {
   extra?: string;
   noItemMsg?: string;
   loadMore?: boolean;
+  bgColor?: string;
 };
 
 export default function RecordList({
   extra = '',
-  noItemMsg,
+  noItemMsg = "You don't have any record.",
   loadMore = true,
+  bgColor = 'bg-white',
 }: RecordListProps) {
   const path = usePathname();
   const { records, setRecords } = useRecordStore();
@@ -72,7 +74,7 @@ export default function RecordList({
 
   if (isPending || isFetching)
     return (
-      <View className='items-center justify-center flex-1 gap-2 bg-white'>
+      <View className={`items-center justify-center flex-1 gap-2 ${bgColor}`}>
         <ActivityIndicator size='large' />
         <Text>Loading data...</Text>
       </View>
@@ -83,14 +85,14 @@ export default function RecordList({
     log.error(error.message);
     // if (formattedError.status !== 404)
     return (
-      <View className='items-center justify-center flex-1 gap-2 bg-white'>
+      <View className={`items-center justify-center flex-1 gap-2 ${bgColor}`}>
         <Text>Sorry, something went wrong. Please try it again.</Text>
       </View>
     );
   }
 
   return (
-    <View className='flex-1 p-2 bg-white'>
+    <View className={`flex-1 p-2 ${bgColor}`}>
       {records.length > 0 ? (
         <FlashList
           data={records}
@@ -110,7 +112,7 @@ export default function RecordList({
         />
       ) : (
         <View className='items-center justify-center flex-1'>
-          <Text>{noItemMsg ?? "You don't have any record."}</Text>
+          <Text>{noItemMsg}</Text>
         </View>
       )}
       <RecordBottomSheet

@@ -53,6 +53,7 @@ export default function Home() {
             .format('YYYY-MM-DD')}`}
           noItemMsg='No record in last 7 days'
           loadMore={false}
+          bgColor='bg-zinc-100'
         />
       </View>
       <StatusBar style='light' />
