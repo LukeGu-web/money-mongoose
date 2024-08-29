@@ -82,7 +82,11 @@ export default function RecordList({
     // const formattedError = formatApiError(error);
     log.error(error.message);
     // if (formattedError.status !== 404)
-    return <Text>Sorry, something went wrong. Please try it again.</Text>;
+    return (
+      <View className='items-center justify-center flex-1 gap-2 bg-white'>
+        <Text>Sorry, something went wrong. Please try it again.</Text>
+      </View>
+    );
   }
 
   return (
@@ -101,7 +105,7 @@ export default function RecordList({
             }
           }}
           ListFooterComponent={() => (
-            <Text className='w-full mt-4 text-center'>The End</Text>
+            <Text className='w-full mt-4 text-center'>- The End -</Text>
           )}
         />
       ) : (

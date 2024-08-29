@@ -10,14 +10,15 @@ type RecordState = {
   setRecord: (updates: Partial<Record>) => void;
   resetRecord: () => void;
 };
-const defaultRecord = {
+
+export const defaultRecord = {
   id: -1,
   type: RecordTypes.EXPENSE,
   category: '',
   subcategory: '',
   note: '',
   amount: 0,
-  date: dayjs().format('YYYY-MM-DDTHH:mm:ssZ'),
+  date: new Date(),
   book: -1,
   is_marked_tax_return: false,
   // asset: null,

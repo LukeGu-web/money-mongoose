@@ -43,12 +43,14 @@ export default function ListItem({ item, onPress }: ListItemProps) {
         if (item.type === RecordTypes.TRANSFER) {
           setRecord({
             ...item,
+            date: new Date(item.date),
             from_asset: formatAsset(Number(item.from_asset), book, false),
             to_asset: formatAsset(Number(item.to_asset), book, false),
           });
         } else {
           setRecord({
             ...item,
+            date: new Date(item.date),
             asset: formatAsset(Number(item.asset), book, false),
           });
         }

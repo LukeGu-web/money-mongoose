@@ -76,9 +76,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name='record'
         options={{
-          title: 'Record',
-          tabBarLabelStyle: { color: '#f7b05b', fontWeight: 600 },
-          headerTitle: () => <RecordHeader />,
+          headerShown: false,
           tabBarIcon: () => <Icon name='record' size={32} color='#f7b05b' />,
         }}
       />

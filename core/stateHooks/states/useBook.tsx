@@ -11,6 +11,7 @@ export const defaultValue: BookType = {
   groups: [],
   name: '',
   note: '',
+  monthly_goal: null,
 };
 
 const useBook = create<BookState>((set) => ({

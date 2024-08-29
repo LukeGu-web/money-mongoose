@@ -59,11 +59,17 @@ export const useRecordStore = create<RecordState>()(
 
             if (existingIndex !== -1) {
               const existingRecord = state.records[existingIndex];
-              existingRecord.records.unshift(record);
-              existingRecord.sum_of_income +=
-                record.type === RecordTypes.INCOME ? record.amount : 0;
-              existingRecord.sum_of_expense +=
-                record.type === RecordTypes.EXPENSE ? record.amount : 0;
+              existingRecord.records.push(record);
+              existingRecord.sum_of_income =
+                Number(existingRecord.sum_of_income) + record.type ===
+                RecordTypes.INCOME
+                  ? record.amount
+                  : 0;
+              existingRecord.sum_of_expense =
+                Number(existingRecord.sum_of_expense) + record.type ===
+                RecordTypes.EXPENSE
+                  ? record.amount
+                  : 0;
             } else {
               state.records.unshift(newRecord);
             }
