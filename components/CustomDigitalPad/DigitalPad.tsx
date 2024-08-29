@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import {
   View,
   Text,
@@ -33,8 +33,18 @@ export default function DigitalPad({ onSubmit }: DigitalPadProps) {
   const [decimalLength, setDecimalLength] = useState(0);
   const [isDecimal, setIsDecimal] = useState(false);
 
+  useEffect(() => {
+    if (Boolean(getValues('amount'))) {
+      const decimal = Number(getValues('amount').split('.')[1]);
+      if (decimal > 0) {
+        setIsDecimal(true);
+        setDecimalLength(decimal > 9 ? 2 : 1);
+      }
+    }
+  }, []);
+
   const handlePriceInput = (item: string) => {
-    const num: number = getValues('amount');
+    const num: number = Math.abs(getValues('amount'));
     let amount: number = num;
     switch (item) {
       case 'delete':
@@ -67,6 +77,9 @@ export default function DigitalPad({ onSubmit }: DigitalPadProps) {
         amount = 0;
         setDecimalLength(0);
         setIsDecimal(false);
+        break;
+      case '.':
+        setIsDecimal(true);
         break;
       case 'camera':
         bottomSheetModalRef.current?.present();
