@@ -29,8 +29,8 @@ export default function RootLayoutNav() {
         }}
       >
         <Stack.Screen name='(drawer)' options={{ headerShown: false }} />
-        <Stack.Screen name='onboarding' options={{ headerShown: false }} />
-        <Stack.Screen name='agreement' options={{ headerShown: false }} />
+        <Stack.Screen name='user/onboarding' options={{ headerShown: false }} />
+        <Stack.Screen name='user/agreement' options={{ headerShown: false }} />
         <Stack.Screen name='media/camera' options={{ headerShown: false }} />
         <Stack.Screen
           name='records/index'

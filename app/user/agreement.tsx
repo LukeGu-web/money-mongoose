@@ -2,7 +2,7 @@ import { router, Link } from 'expo-router';
 import { View, Text, Image, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalStore } from 'core/stateHooks';
-const avatarImage = require('../assets/icon.png');
+const avatarImage = require('../../assets/icon.png');
 
 export default function Onboarding() {
   const setIsAcceptedAgreement = useLocalStore(
@@ -10,7 +10,7 @@ export default function Onboarding() {
   );
   const handleAgree = () => {
     setIsAcceptedAgreement(true);
-    router.navigate('/onboarding');
+    router.navigate('/user/onboarding');
   };
   return (
     <SafeAreaView
@@ -36,11 +36,17 @@ export default function Onboarding() {
           </Text>
           <View className='flex-row flex-wrap'>
             <Text>Please read carefully </Text>
-            <Link className='text-yellow-400 underline' href='/user-agreement'>
+            <Link
+              className='text-yellow-400 underline'
+              href='/user/user-agreement'
+            >
               User Agreement
             </Link>
             <Text> and </Text>
-            <Link className='text-yellow-400 underline' href='/privacy-policy'>
+            <Link
+              className='text-yellow-400 underline'
+              href='/user/privacy-policy'
+            >
               Privacy Policy
             </Link>
           </View>

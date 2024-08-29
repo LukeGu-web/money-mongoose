@@ -10,7 +10,7 @@ import { useDeviceRegister } from 'api/account/useDeviceRegister';
 import log from 'core/logger';
 import { useBookStore, useLocalStore } from 'core/stateHooks';
 
-const avatarImage = require('../assets/icon.png');
+const avatarImage = require('../../assets/icon.png');
 
 export default function Onboarding() {
   const {
@@ -37,7 +37,7 @@ export default function Onboarding() {
   );
 
   if (!isAcceptedAgreement) {
-    return <Redirect href='/agreement' />;
+    return <Redirect href='/user/agreement' />;
   }
 
   const { mutate: registerDevice, isPending } = useDeviceRegister();

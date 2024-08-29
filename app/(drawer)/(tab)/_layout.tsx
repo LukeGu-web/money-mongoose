@@ -21,7 +21,7 @@ export default function TabLayout() {
 
   const isOnBoarding = useLocalStore((state) => state.isOnBoarding);
   if (!isOnBoarding) {
-    return <Redirect href='/onboarding' />;
+    return <Redirect href='/user/onboarding' />;
   }
 
   const setVisiableMonth = useCalendar((state) => state.setVisiableMonth);

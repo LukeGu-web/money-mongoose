@@ -13,12 +13,12 @@ type Variables = {
   };
   accountStatus: string;
 };
-// type Response = { id: string; accountStatus: string; message: string };
 type Response = {
   id: number;
   groups: AssetGroupType[];
   name: string;
   note: string;
+  monthly_goal: null | number;
   token: string;
 };
 
