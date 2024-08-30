@@ -22,7 +22,10 @@ export default function AccountPad() {
           {colorScheme === 'light' ? 'Dark' : 'Light'} Mode
         </Text>
       </Pressable>
-      <Pressable className='gap-2' onPress={() => router.navigate('/')}>
+      <Pressable
+        className='gap-2'
+        onPress={() => router.navigate('/book/management')}
+      >
         <View className='items-center justify-center w-20 h-20 border-2 rounded-lg border-primary'>
           <FontAwesome5 name='book' size={26} color='#03045e' />
         </View>
@@ -30,7 +33,10 @@ export default function AccountPad() {
           Books
         </Text>
       </Pressable>
-      <Pressable className='gap-2' onPress={() => router.navigate('/')}>
+      <Pressable
+        className='gap-2'
+        onPress={() => router.navigate('/asset/management')}
+      >
         <View className='items-center justify-center w-20 h-20 border-2 rounded-lg border-primary'>
           <MaterialIcons name='account-balance' size={28} color='#03045e' />
         </View>
@@ -38,7 +44,7 @@ export default function AccountPad() {
           Accounts
         </Text>
       </Pressable>
-      <Pressable className='gap-2' onPress={() => router.navigate('/')}>
+      <Pressable className='gap-2' onPress={() => router.navigate('/records')}>
         <View className='items-center justify-center w-20 h-20 border-2 rounded-lg border-primary'>
           <FontAwesome6 name='money-bill-transfer' size={24} color='#03045e' />
         </View>

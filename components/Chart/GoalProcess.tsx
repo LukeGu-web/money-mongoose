@@ -43,7 +43,7 @@ export const GoalProcess = ({
         <Path
           path={path}
           color={
-            targetText > 60 ? 'orange' : targetText > 100 ? 'red' : 'lightblue'
+            targetText > 100 ? 'red' : targetText > 60 ? 'orange' : 'lightblue'
           }
           style='stroke'
           strokeJoin='round'
@@ -56,7 +56,7 @@ export const GoalProcess = ({
         <Path
           path={path}
           color={
-            targetText > 60 ? 'orange' : targetText > 100 ? 'red' : 'lightblue'
+            targetText > 100 ? 'red' : targetText > 60 ? 'orange' : 'lightblue'
           }
           style='stroke'
           strokeJoin='round'
@@ -71,7 +71,7 @@ export const GoalProcess = ({
           text={`${targetText}%`}
           font={font}
           color={
-            targetText > 60 ? '#9a3412' : targetText > 100 ? '#540b0e' : 'black'
+            targetText > 100 ? '#540b0e' : targetText > 60 ? '#9a3412' : 'black'
           }
         />
       </Canvas>
