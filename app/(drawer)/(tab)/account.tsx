@@ -18,8 +18,10 @@ export default function Account() {
         backgroundColor: '#fff',
       }}
     >
-      <View className='flex-row items-center gap-4 p-4 mb-4 rounded-lg bg-sky-200'>
-        <Image source={avatarImage} className='w-24 h-24' />
+      <View className='flex-row items-center gap-4 p-6 mb-4 rounded-lg bg-sky-200'>
+        <Pressable className='rounded-full bg-zinc-400'>
+          <Image source={avatarImage} className='w-20 h-20' />
+        </Pressable>
         <Text className='text-lg font-bold color-zinc-700'>Luke</Text>
       </View>
       <View className='gap-2 mb-4'>

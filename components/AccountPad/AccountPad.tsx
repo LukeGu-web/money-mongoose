@@ -8,7 +8,6 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 export default function AccountPad() {
   const { colorScheme, toggleColorScheme } = useColorScheme();
-  console.log('ccc: ', colorScheme);
   return (
     <View className='flex-row items-center justify-between'>
       <Pressable className='gap-2' onPress={() => toggleColorScheme()}>
