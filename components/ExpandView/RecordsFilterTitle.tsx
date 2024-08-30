@@ -27,8 +27,6 @@ export default function RecordsFilterTitle({
   onSetSearch,
   onSetFilter,
 }: RecordsFilterProps) {
-  // const [isFilterOpen, setIsFilterOpen] = useState(false);
-  // const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [type, setType] = useState<FilterTypes>(FilterTypes.CLOSE);
   const [hasFilter, setHasFilter] = useState(false);
   const [filter, setFilter] = useState<FilterType>(defaultFilter);
@@ -74,6 +72,13 @@ export default function RecordsFilterTitle({
     router.replace('/');
   };
 
+  const handleReset = () => {
+    onSetSearch('');
+    onSetFilter('');
+    setFilter(defaultFilter);
+    setHasFilter(false);
+  };
+
   return (
     <View className={`bg-primary px-4 pb-1`}>
       <View className='flex-row items-center justify-between'>
@@ -91,11 +96,11 @@ export default function RecordsFilterTitle({
           </Pressable>
           {search !== '' ? (
             <Pressable
-              className='flex-row items-center justify-center gap-2 px-2 border-2 border-white rounded-full h-7'
+              className='flex-row items-center justify-center gap-2 px-2 border-2 border-yellow-500 rounded-full h-7'
               onPress={() => onSetSearch('')}
             >
-              <Text className='font-semibold color-white '>{search}</Text>
-              <Icon name='close' size={14} color='#fff' />
+              <Text className='font-semibold color-yellow-500 '>{search}</Text>
+              <Icon name='close' size={14} color='#eab308' />
             </Pressable>
           ) : (
             <Text
@@ -107,6 +112,19 @@ export default function RecordsFilterTitle({
             </Text>
           )}
         </View>
+        {(hasFilter || search !== '') && (
+          <Pressable
+            className='px-2 mr-4'
+            disabled={type !== FilterTypes.CLOSE}
+            onPress={handleReset}
+          >
+            <MaterialCommunityIcons
+              name='refresh'
+              size={24}
+              color={type !== FilterTypes.CLOSE ? '#03045e' : '#fff'}
+            />
+          </Pressable>
+        )}
         <Pressable
           className='px-2 mr-4'
           disabled={type === FilterTypes.FILTER}
