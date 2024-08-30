@@ -1,7 +1,7 @@
 import { SplashScreen, Stack, router } from 'expo-router';
 import { useFonts } from 'expo-font';
 import { Pressable } from 'react-native';
-import { useColorScheme } from 'nativewind';
+import { colorScheme } from 'nativewind';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 
@@ -92,9 +92,8 @@ const GoBack = () => (
 );
 
 function Providers({ children }: { children: React.ReactNode }) {
-  const { setColorScheme } = useColorScheme();
-  // options: "dark" | "light" | "system"
-  setColorScheme('system');
+  // Use imperatively
+  colorScheme.set('system');
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <APIProvider>

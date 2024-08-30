@@ -1,15 +1,15 @@
 import { StatusBar } from 'expo-status-bar';
-import { View, Button, Image, Text, ScrollView } from 'react-native';
+import { View, Image, Text, Pressable, ScrollView } from 'react-native';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { clearAll } from 'core/localStorage/storage';
-import { useLocalStore, useRecordStore } from 'core/stateHooks';
 import { AccountPad } from 'components';
+import InformationSection from 'components/AccountPad/InformationSection';
 
 const avatarImage = require('../../../assets/icon.png');
 
 export default function Account() {
-  const reset = useLocalStore((state) => state.reset);
-  // const setToken = useLocalStore((state) => state.setToken);
-  const resetRecords = useRecordStore((state) => state.resetRecords);
   return (
     <ScrollView
       style={{
@@ -22,15 +22,44 @@ export default function Account() {
         <Image source={avatarImage} className='w-24 h-24' />
         <Text className='text-lg font-bold color-zinc-700'>Luke</Text>
       </View>
-      <View className='mb-4'>
-        <Text>Tools</Text>
+      <View className='gap-2 mb-4'>
+        <Text className='color-zinc-600'>Tools</Text>
         <AccountPad />
       </View>
-      <View className='items-start justify-center flex-1 '>
-        <Text>Debug</Text>
-        <Button onPress={clearAll} title='Clear all keys' />
-        <Button onPress={reset} title='Reset local store' />
-        <Button onPress={resetRecords} title='Reset records store' />
+      <View className='items-start justify-center flex-1 gap-2 mb-4'>
+        <Text className='color-zinc-600'>Account</Text>
+        <Pressable className='flex-row items-center w-full gap-2 px-4 py-2 bg-blue-400 rounded-lg'>
+          <MaterialCommunityIcons
+            name='card-account-details-outline'
+            size={20}
+            color='white'
+          />
+          <Text className='text-lg color-white'>Account Details</Text>
+        </Pressable>
+      </View>
+      <View className='items-start justify-center flex-1 gap-2 mb-4'>
+        <Text className='color-zinc-600'>Security</Text>
+        <View className='w-full bg-blue-400 rounded-lg'>
+          <Pressable className='flex-row items-center gap-2 px-4 py-2 border-b-2 border-white'>
+            <Ionicons name='finger-print' size={20} color='white' />
+            <Text className='text-lg color-white'>FaceID/Fingerpint</Text>
+          </Pressable>
+          <Pressable className='flex-row items-center gap-2 px-4 py-2 border-b-2 border-white'>
+            <MaterialIcons name='blur-on' size={20} color='white' />
+            <Text className='text-lg color-white'>Background Blur</Text>
+          </Pressable>
+        </View>
+      </View>
+      <InformationSection />
+      <View className='items-start justify-center flex-1 gap-2 mt-4'>
+        <Text className='color-zinc-600'>Debug</Text>
+        <Pressable
+          className='flex-row items-center w-full gap-2 px-4 py-2 bg-blue-400 rounded-lg'
+          onPress={clearAll}
+        >
+          <MaterialIcons name='cleaning-services' size={20} color='white' />
+          <Text className='text-lg color-white'>Clean all data</Text>
+        </Pressable>
       </View>
       <StatusBar style='light' />
     </ScrollView>
