@@ -22,6 +22,12 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     }))
   );
 
+  const isEnabledAuthRef = useRef(isEnabledAuth);
+  // Update the ref whenever isEnabledAuth changes
+  useEffect(() => {
+    isEnabledAuthRef.current = isEnabledAuth;
+  }, [isEnabledAuth]);
+
   const onBiometric = async () => {
     const compatible = await LocalAuthentication.hasHardwareAsync();
     log.info('BiometricSupported', compatible);
@@ -56,9 +62,9 @@ export default function Providers({ children }: { children: React.ReactNode }) {
       if (
         appState.current.match(/inactive|background/) &&
         nextAppState === 'active' &&
-        isEnabledAuth
+        isEnabledAuthRef.current
       ) {
-        console.log('App has come to the foreground!');
+        // when user are back to app, need to be verified by biometirc
         onBiometric();
       }
       appState.current = nextAppState;
