@@ -65,14 +65,8 @@ export default function AssetCreditForm() {
               {value ? (
                 <Text>{monthlyDay[value - 1]}</Text>
               ) : (
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    gap: 4,
-                  }}
-                >
-                  <Text style={{ color: '#bfc0c0' }}>Select the day</Text>
+                <View className='flex-row items-center gap-1'>
+                  <Text className='color-zinc-400'>Select the day</Text>
                   <Icon name='arrow-right' size={14} color='#bfc0c0' />
                 </View>
               )}
@@ -100,14 +94,8 @@ export default function AssetCreditForm() {
               {value ? (
                 <Text>{monthlyDay[value - 1]}</Text>
               ) : (
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    gap: 4,
-                  }}
-                >
-                  <Text style={{ color: '#bfc0c0' }}>Select the day</Text>
+                <View className='flex-row items-center gap-1'>
+                  <Text className='color-zinc-400'>Select the day</Text>
                   <Icon name='arrow-right' size={14} color='#bfc0c0' />
                 </View>
               )}

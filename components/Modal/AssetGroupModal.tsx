@@ -80,7 +80,7 @@ export default function AssetGroupModal({
         style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
       >
         <View className='items-center w-11/12 gap-6 p-6 bg-white rounded-lg'>
-          <Text style={{ fontSize: 24 }}>
+          <Text className='text-3xl'>
             {name === '' ? 'Create' : 'Edit'} Group
           </Text>
           <Controller

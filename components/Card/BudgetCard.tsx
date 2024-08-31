@@ -61,7 +61,7 @@ export default function BudgetCard({ monthExpense }: BudgetCardProps) {
   return (
     <View className='justify-between flex-1 p-2'>
       <View className='flex-row items-center justify-between'>
-        <Text style={{ fontSize: 20, fontWeight: '700' }}>Month Budget</Text>
+        <Text className='text-2xl font-bold'>Month Budget</Text>
         <Pressable
           className='flex-row items-center justify-between gap-2'
           onPress={() => {
@@ -122,7 +122,7 @@ export default function BudgetCard({ monthExpense }: BudgetCardProps) {
           style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
         >
           <View className='items-center w-11/12 gap-6 p-6 bg-white rounded-lg'>
-            <Text style={{ fontSize: 24 }}>Monthly Budget</Text>
+            <Text className='text-3xl'>Monthly Budget</Text>
             <Controller
               control={control}
               render={({ field: { onChange, onBlur, value } }) => (

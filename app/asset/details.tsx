@@ -126,9 +126,9 @@ export default function AssetDetails() {
                 </View>
               </View>
             )}
-            <View style={{ flex: 1 }}>
+            <View className='flex-1'>
               {isMore ? (
-                <View style={{ flex: 1, marginBottom: 16 }}>
+                <View className='flex-1 mb-6'>
                   <Text className='text-sm color-gray-400'>Other settings</Text>
                   <View className='flex-1 mb-4 bg-gray-200 rounded-lg'>
                     <AssetAccountOtherForm />
