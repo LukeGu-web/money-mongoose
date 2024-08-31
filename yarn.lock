@@ -4732,6 +4732,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"expo-blur@npm:~13.0.2":
+  version: 13.0.2
+  resolution: "expo-blur@npm:13.0.2"
+  peerDependencies:
+    expo: "*"
+  checksum: 10c0/1217af89cd8bc760440ba97999a74e6669dbb00349868c85630a9a6b337afbe2ac011357ed48aade5862dac533f4a96c8cde8a6b1a607beb3952a4dd9fb692f2
+  languageName: node
+  linkType: hard
+
 "expo-camera@npm:~15.0.15":
   version: 15.0.15
   resolution: "expo-camera@npm:15.0.15"
@@ -7542,6 +7551,7 @@ __metadata:
     axios: "npm:^1.7.5"
     dayjs: "npm:^1.11.13"
     expo: "npm:~51.0.31"
+    expo-blur: "npm:~13.0.2"
     expo-camera: "npm:~15.0.15"
     expo-constants: "npm:~16.0.2"
     expo-font: "npm:^12.0.9"
