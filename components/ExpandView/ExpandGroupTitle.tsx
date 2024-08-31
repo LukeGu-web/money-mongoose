@@ -7,6 +7,7 @@ import {
   Easing,
   LayoutAnimation,
 } from 'react-native';
+import { formatter } from 'core/utils';
 import Icon from '../Icon/Icon';
 import { GroupTitleProps } from './types';
 
@@ -57,7 +58,7 @@ export default function ExpandGroupTitle({
           <Text className=' color-gray-500'>({title.number})</Text>
         </View>
         <View className='flex-row items-center gap-2 px-2'>
-          <Text className='color-gray-500'>{title.amount}</Text>
+          <Text className='color-gray-500'>{formatter(title.amount)}</Text>
           <Animated.View
             style={
               isScreenMountedRef.current ? { transform: [{ rotate }] } : null

@@ -43,7 +43,11 @@ export const GoalProcess = ({
         <Path
           path={path}
           color={
-            targetText > 100 ? 'red' : targetText > 60 ? 'orange' : 'lightblue'
+            targetText > 100
+              ? 'lightcoral'
+              : targetText > 60
+              ? 'navajowhite'
+              : 'lightblue'
           }
           style='stroke'
           strokeJoin='round'
@@ -51,12 +55,16 @@ export const GoalProcess = ({
           strokeCap='round'
           start={0}
           end={1}
-          opacity={0.3}
+          opacity={0.4}
         />
         <Path
           path={path}
           color={
-            targetText > 100 ? 'red' : targetText > 60 ? 'orange' : 'lightblue'
+            targetText > 100
+              ? 'lightcoral'
+              : targetText > 60
+              ? 'navajowhite'
+              : 'lightblue'
           }
           style='stroke'
           strokeJoin='round'

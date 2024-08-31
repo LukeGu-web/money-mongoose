@@ -130,6 +130,7 @@ export default function BudgetCard({ monthExpense }: BudgetCardProps) {
                   className='w-full p-3 border-2 rounded-lg border-zinc-600'
                   placeholder='Please enter the budget amount'
                   keyboardType='numeric'
+                  autoFocus={true}
                   onBlur={onBlur}
                   onChangeText={onChange}
                   value={value}

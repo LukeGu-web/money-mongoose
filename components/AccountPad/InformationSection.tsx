@@ -10,7 +10,7 @@ export default function InformationSection() {
           <AntDesign name='customerservice' size={20} color='white' />
           <Text className='text-lg color-white'>Contact Us</Text>
         </Pressable>
-        <Pressable className='flex-row items-center gap-2 px-4 py-2 border-b-2 border-white'>
+        <Pressable className='flex-row items-center gap-2 px-4 py-2 '>
           <AntDesign name='infocirlceo' size={20} color='white' />
           <Text className='text-lg color-white'>About</Text>
         </Pressable>

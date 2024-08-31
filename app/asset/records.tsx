@@ -12,7 +12,7 @@ export default function Records() {
         <Text className='text-2xl font-bold color-zinc-700'>{asset.name}</Text>
         <Text className='text-lg'>Balance: {asset.balance}</Text>
       </View>
-      <View className='flex-1'>
+      <View className='flex-1 rounded-lg'>
         <RecordList extra={`&asset=${asset.id}`} />
       </View>
       <StatusBar style='light' />

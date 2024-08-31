@@ -18,7 +18,7 @@ export default function AccountPad() {
             <Ionicons name='sunny' size={30} color='#03045e' />
           )}
         </View>
-        <Text className='my-1 text-sm font-semibold text-center text color-primary'>
+        <Text className='text-sm font-semibold text-center  text color-primary'>
           {colorScheme === 'light' ? 'Dark' : 'Light'} Mode
         </Text>
       </Pressable>
@@ -29,7 +29,7 @@ export default function AccountPad() {
         <View className='items-center justify-center w-20 h-20 border-2 rounded-lg border-primary'>
           <FontAwesome5 name='book' size={26} color='#03045e' />
         </View>
-        <Text className='text-lg font-semibold text-center color-primary'>
+        <Text className='text-sm font-semibold text-center color-primary'>
           Books
         </Text>
       </Pressable>
@@ -40,7 +40,7 @@ export default function AccountPad() {
         <View className='items-center justify-center w-20 h-20 border-2 rounded-lg border-primary'>
           <MaterialIcons name='account-balance' size={28} color='#03045e' />
         </View>
-        <Text className='text-lg font-semibold text-center color-primary'>
+        <Text className='text-sm font-semibold text-center color-primary'>
           Accounts
         </Text>
       </Pressable>
@@ -48,7 +48,7 @@ export default function AccountPad() {
         <View className='items-center justify-center w-20 h-20 border-2 rounded-lg border-primary'>
           <FontAwesome6 name='money-bill-transfer' size={24} color='#03045e' />
         </View>
-        <Text className='text-lg font-semibold text-center color-primary'>
+        <Text className='text-sm font-semibold text-center color-primary'>
           Records
         </Text>
       </Pressable>

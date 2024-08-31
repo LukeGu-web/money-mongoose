@@ -1,10 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
 import { View, Image, Text, Pressable, ScrollView } from 'react-native';
-import Ionicons from '@expo/vector-icons/Ionicons';
+
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { clearAll } from 'core/localStorage/storage';
 import { AccountPad } from 'components';
+import SecuritySection from 'components/AccountPad/SecuritySection';
 import InformationSection from 'components/AccountPad/InformationSection';
 
 const avatarImage = require('../../../assets/icon.png');
@@ -39,19 +40,7 @@ export default function Account() {
           <Text className='text-lg color-white'>Account Details</Text>
         </Pressable>
       </View>
-      <View className='items-start justify-center flex-1 gap-2 mb-4'>
-        <Text className='color-zinc-600'>Security</Text>
-        <View className='w-full bg-blue-400 rounded-lg'>
-          <Pressable className='flex-row items-center gap-2 px-4 py-2 border-b-2 border-white'>
-            <Ionicons name='finger-print' size={20} color='white' />
-            <Text className='text-lg color-white'>FaceID/Fingerpint</Text>
-          </Pressable>
-          <Pressable className='flex-row items-center gap-2 px-4 py-2 border-b-2 border-white'>
-            <MaterialIcons name='blur-on' size={20} color='white' />
-            <Text className='text-lg color-white'>Background Blur</Text>
-          </Pressable>
-        </View>
-      </View>
+      <SecuritySection />
       <InformationSection />
       <View className='items-start justify-center flex-1 gap-2 mt-4'>
         <Text className='color-zinc-600'>Debug</Text>
