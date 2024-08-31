@@ -15,7 +15,10 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.lukeguexpo.moneymongoose"
+      "bundleIdentifier": "com.lukeguexpo.moneymongoose",
+      "infoPlist": {
+        "NSFaceIDUsageDescription": "Enabling FaceID allows you to protect data"
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -49,6 +52,12 @@
           "photosPermission": "Allow $(PRODUCT_NAME) to access your photos.",
           "savePhotosPermission": "Allow $(PRODUCT_NAME) to save photos.",
           "isAccessMediaLocationEnabled": true
+        }
+      ],
+      [
+        "expo-local-authentication",
+        {
+          "faceIDPermission": "Allow $(PRODUCT_NAME) to use Face ID."
         }
       ]
     ],

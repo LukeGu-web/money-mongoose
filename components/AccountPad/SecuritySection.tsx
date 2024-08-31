@@ -1,17 +1,11 @@
 import { View, Text, Switch } from 'react-native';
-import { useShallow } from 'zustand/react/shallow';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-
-import { useLocalStore } from 'core/stateHooks';
+import { useSettingStore } from 'core/stateHooks';
 
 export default function SecuritySection() {
-  const { isEnabledBlur, setIsEnabledBlur } = useLocalStore(
-    useShallow((state) => ({
-      isEnabledBlur: state.isEnabledBlur,
-      setIsEnabledBlur: state.setIsEnabledBlur,
-    }))
-  );
+  const { isEnabledBlur, setIsEnabledBlur, isEnabledAuth, setIsEnabledAuth } =
+    useSettingStore();
   return (
     <View className='items-start justify-center flex-1 gap-2 mb-4 '>
       <Text className='color-zinc-600'>Security</Text>
@@ -24,10 +18,8 @@ export default function SecuritySection() {
           <Switch
             trackColor={{ false: '#cbd5e1', true: '#fbbf24' }}
             ios_backgroundColor='#cbd5e1'
-            // onValueChange={(e) => {
-            //   onChange(e);
-            // }}
-            // value={value}
+            onValueChange={(e) => setIsEnabledAuth(!isEnabledAuth)}
+            value={isEnabledAuth}
           />
         </View>
         <View className='flex-row items-center justify-between gap-2 px-4 py-2'>

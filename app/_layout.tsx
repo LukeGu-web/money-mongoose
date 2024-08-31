@@ -1,17 +1,7 @@
 import { SplashScreen, Stack, router } from 'expo-router';
 import { useFonts } from 'expo-font';
-import { BlurView } from 'expo-blur';
-import { useEffect, useRef, useState } from 'react';
-import { AppState, Pressable } from 'react-native';
-import Toast from 'react-native-toast-message';
-import { colorScheme } from 'nativewind';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
-
-import { APIProvider } from 'api/api-provider';
-import { useLocalStore } from 'core/stateHooks';
-import log from 'core/logger';
-import { Icon } from 'components';
+import { Pressable } from 'react-native';
+import { Icon, Providers } from 'components';
 import '../global.css';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
@@ -95,38 +85,3 @@ const GoBack = () => (
     <Icon name='left' size={24} color='#fff' />
   </Pressable>
 );
-
-function Providers({ children }: { children: React.ReactNode }) {
-  const appState = useRef(AppState.currentState);
-  const [appStateVisible, setAppStateVisible] = useState(appState.current);
-  const isEnabledBlur = useLocalStore((state) => state.isEnabledBlur);
-
-  useEffect(() => {
-    const subscription = AppState.addEventListener('change', (nextAppState) => {
-      appState.current = nextAppState;
-      setAppStateVisible(appState.current);
-      log.info('AppState', appState.current);
-    });
-
-    return () => {
-      subscription.remove();
-    };
-  }, []);
-  // Use imperatively
-  colorScheme.set('system');
-  return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <APIProvider>
-        {appStateVisible !== 'active' && isEnabledBlur && (
-          <BlurView
-            intensity={20}
-            tint='light'
-            className='absolute top-0 left-0 z-10 flex-1 w-full h-full'
-          />
-        )}
-        <BottomSheetModalProvider>{children}</BottomSheetModalProvider>
-        <Toast />
-      </APIProvider>
-    </GestureHandlerRootView>
-  );
-}
