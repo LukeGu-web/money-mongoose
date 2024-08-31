@@ -104,7 +104,7 @@ export default function BudgetCard({ monthExpense }: BudgetCardProps) {
           <Text>Remaining Daily</Text>
           <Text>
             {formatter(
-              remaining > 0 ? remaining / (dayjs().daysInMonth() - days) : 0
+              remaining > 0 ? remaining / (dayjs().daysInMonth() + 1 - days) : 0
             )}
           </Text>
         </View>

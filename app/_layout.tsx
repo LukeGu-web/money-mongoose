@@ -24,30 +24,9 @@ export default function RootLayoutNav() {
   if (!fontsLoaded) {
     return null;
   }
-  const appState = useRef(AppState.currentState);
-  const [appStateVisible, setAppStateVisible] = useState(appState.current);
-  const isEnabledBlur = useLocalStore((state) => state.isEnabledBlur);
 
-  useEffect(() => {
-    const subscription = AppState.addEventListener('change', (nextAppState) => {
-      appState.current = nextAppState;
-      setAppStateVisible(appState.current);
-      log.info('AppState', appState.current);
-    });
-
-    return () => {
-      subscription.remove();
-    };
-  }, []);
   return (
     <Providers>
-      {appStateVisible !== 'active' && isEnabledBlur && (
-        <BlurView
-          intensity={20}
-          tint='light'
-          className='absolute top-0 left-0 z-10 flex-1 w-full h-full'
-        />
-      )}
       <Stack
         screenOptions={{
           headerStyle: { backgroundColor: '#03045E' },
@@ -118,11 +97,33 @@ const GoBack = () => (
 );
 
 function Providers({ children }: { children: React.ReactNode }) {
+  const appState = useRef(AppState.currentState);
+  const [appStateVisible, setAppStateVisible] = useState(appState.current);
+  const isEnabledBlur = useLocalStore((state) => state.isEnabledBlur);
+
+  useEffect(() => {
+    const subscription = AppState.addEventListener('change', (nextAppState) => {
+      appState.current = nextAppState;
+      setAppStateVisible(appState.current);
+      log.info('AppState', appState.current);
+    });
+
+    return () => {
+      subscription.remove();
+    };
+  }, []);
   // Use imperatively
   colorScheme.set('system');
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <APIProvider>
+        {appStateVisible !== 'active' && isEnabledBlur && (
+          <BlurView
+            intensity={20}
+            tint='light'
+            className='absolute top-0 left-0 z-10 flex-1 w-full h-full'
+          />
+        )}
         <BottomSheetModalProvider>{children}</BottomSheetModalProvider>
         <Toast />
       </APIProvider>
