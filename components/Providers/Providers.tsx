@@ -31,8 +31,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   }, [isEnabledAuth]);
 
   const onBiometric = async () => {
-    const now = Date.now();
-    if (now - lastAuthTimeRef.current < 10000) return; // Prevent auth more than once 10s
+    if (Date.now() - lastAuthTimeRef.current < 10000) return; // Prevent auth more than once 10s
     try {
       const compatible = await LocalAuthentication.hasHardwareAsync();
       log.info('BiometricSupported', compatible);
@@ -54,21 +53,21 @@ export default function Providers({ children }: { children: React.ReactNode }) {
         disableDeviceFallback: true,
       });
       if (bioAuth.success) {
-        lastAuthTimeRef.current = now;
+        lastAuthTimeRef.current = Date.now();
         Alert.alert('Success Bio Login', 'Success!', [
           {
             text: 'OK',
             onPress: async () => {
-              console.log('bio OK');
+              log.success('Biometric Login: OK');
             },
           },
         ]);
       } else {
         // Handle failed authentication (e.g., lock the app or show a message)
-        console.log('Authentication failed');
+        log.error('Authentication failed');
       }
     } catch (error) {
-      console.error('Authentication error:', error);
+      log.error('Authentication error:', error);
     }
   };
 
@@ -93,6 +92,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   }, []);
   // Use imperatively
   colorScheme.set('system');
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <APIProvider>
