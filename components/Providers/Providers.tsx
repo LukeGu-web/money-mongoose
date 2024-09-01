@@ -23,37 +23,52 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   );
 
   const isEnabledAuthRef = useRef(isEnabledAuth);
+  const lastAuthTimeRef = useRef(0);
+
   // Update the ref whenever isEnabledAuth changes
   useEffect(() => {
     isEnabledAuthRef.current = isEnabledAuth;
   }, [isEnabledAuth]);
 
   const onBiometric = async () => {
-    const compatible = await LocalAuthentication.hasHardwareAsync();
-    log.info('BiometricSupported', compatible);
-    if (compatible) {
-      await LocalAuthentication.supportedAuthenticationTypesAsync();
-    }
-    const savedBiometrics = await LocalAuthentication.isEnrolledAsync();
-    if (!savedBiometrics)
-      return Alert.alert(
-        'Biometric record not found',
-        'Please verify your identity with your password',
-        [
+    const now = Date.now();
+    if (now - lastAuthTimeRef.current < 10000) return; // Prevent auth more than once 10s
+    try {
+      const compatible = await LocalAuthentication.hasHardwareAsync();
+      log.info('BiometricSupported', compatible);
+      if (compatible) {
+        await LocalAuthentication.supportedAuthenticationTypesAsync();
+      }
+      const savedBiometrics = await LocalAuthentication.isEnrolledAsync();
+      if (!savedBiometrics) {
+        Alert.alert(
+          'Biometric record not found',
+          'Please verify your identity with your password',
+          [{ text: 'OK' }]
+        );
+        return;
+      }
+      const bioAuth = await LocalAuthentication.authenticateAsync({
+        promptMessage: 'Use biometric login',
+        cancelLabel: 'Cancel',
+        disableDeviceFallback: true,
+      });
+      if (bioAuth.success) {
+        lastAuthTimeRef.current = now;
+        Alert.alert('Success Bio Login', 'Success!', [
           {
             text: 'OK',
+            onPress: async () => {
+              console.log('bio OK');
+            },
           },
-        ]
-      );
-    const bioAuth = await LocalAuthentication.authenticateAsync({
-      promptMessage: 'Use biometric login',
-      cancelLabel: 'Cancel',
-      disableDeviceFallback: true,
-    });
-    if (bioAuth) {
-      return Alert.alert('Success Bio Login', `Success!`, [
-        { text: 'OK', onPress: () => console.log('bio OK') },
-      ]);
+        ]);
+      } else {
+        // Handle failed authentication (e.g., lock the app or show a message)
+        console.log('Authentication failed');
+      }
+    } catch (error) {
+      console.error('Authentication error:', error);
     }
   };
 
