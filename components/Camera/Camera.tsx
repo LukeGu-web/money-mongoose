@@ -43,7 +43,7 @@ export default function Camera() {
       (capturedImage as CameraCapturedPicture).uri
     ).then(() => {
       setCapturedImage(undefined);
-      router.navigate('record');
+      router.back();
     });
   };
 
@@ -99,7 +99,7 @@ export default function Camera() {
         >
           <View className='flex-row flex-1 bg-transparent'>
             <View className='absolute flex-row items-center justify-between w-full px-8 top-20 '>
-              <Pressable onPress={() => router.navigate('record')}>
+              <Pressable onPress={() => router.back()}>
                 <Icon name='close' size={24} color='#fff' />
               </Pressable>
               <Pressable onPress={handleFlash}>

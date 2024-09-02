@@ -1,15 +1,16 @@
 import { StatusBar } from 'expo-status-bar';
 import { router } from 'expo-router';
-import { View, Image, Text, Pressable, ScrollView } from 'react-native';
+import { View, Text, Pressable, ScrollView } from 'react-native';
 
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { clearAll } from 'core/localStorage/storage';
-import { AccountPad } from 'components';
-import SecuritySection from 'components/AccountSections/SecuritySection';
-import InformationSection from 'components/AccountSections/InformationSection';
-
-const avatarImage = require('../../../assets/icon.png');
+import {
+  AvatarSection,
+  AccountPad,
+  SecuritySection,
+  InformationSection,
+} from 'components/AccountSections';
 
 export default function Account() {
   return (
@@ -20,12 +21,7 @@ export default function Account() {
         backgroundColor: '#fff',
       }}
     >
-      <View className='flex-row items-center gap-4 p-6 mb-4 rounded-lg bg-sky-200'>
-        <Pressable className='rounded-full bg-zinc-400'>
-          <Image source={avatarImage} className='w-20 h-20' />
-        </Pressable>
-        <Text className='text-lg font-bold color-zinc-700'>Luke</Text>
-      </View>
+      <AvatarSection />
       <View className='gap-2 mb-4'>
         <Text className='color-zinc-600'>Tools</Text>
         <AccountPad />
