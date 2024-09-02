@@ -6,8 +6,8 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { clearAll } from 'core/localStorage/storage';
 import { AccountPad } from 'components';
-import SecuritySection from 'components/AccountPad/SecuritySection';
-import InformationSection from 'components/AccountPad/InformationSection';
+import SecuritySection from 'components/AccountSections/SecuritySection';
+import InformationSection from 'components/AccountSections/InformationSection';
 
 const avatarImage = require('../../../assets/icon.png');
 

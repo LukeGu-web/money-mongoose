@@ -1,7 +1,7 @@
 export { default as AssetAccountBasicForm } from 'components/Form/AssetAccountBasicForm';
 export { default as AssetAccountOtherForm } from 'components/Form/AssetAccountOtherForm';
 export { default as AssetCreditForm } from 'components/Form/AssetCreditForm';
-export { default as AccountPad } from 'components/AccountPad/AccountPad';
+export { default as AccountPad } from 'components/AccountSections/AccountPad';
 export { default as BudgetCard } from 'components/Card/BudgetCard';
 export { default as Calendar } from 'components/Calendar/Calendar';
 export { default as Camera } from 'components/Camera/Camera';
