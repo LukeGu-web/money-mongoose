@@ -1,15 +1,25 @@
+import { useRef } from 'react';
 import { View, Text, Switch, Pressable } from 'react-native';
+import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useSettingStore } from 'core/stateHooks';
 import Icon from '../Icon/Icon';
+import LockTimeBottomSheet from 'components/BottomSheet/LockTimeBottomSheet';
 
 export default function SecuritySection() {
-  const { isEnabledBlur, setIsEnabledBlur, isEnabledAuth, setIsEnabledAuth } =
-    useSettingStore();
+  const {
+    isEnabledBlur,
+    setIsEnabledBlur,
+    isEnabledAuth,
+    setIsEnabledAuth,
+    lockTime,
+  } = useSettingStore();
+
+  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
   const handleLockTime = () => {
-    console.log('press lock time');
+    bottomSheetModalRef.current?.present();
   };
   return (
     <View className='items-start justify-center flex-1 gap-2 mb-4 '>
@@ -34,18 +44,16 @@ export default function SecuritySection() {
         {isEnabledAuth && (
           <View className='flex-row items-center justify-between px-4 py-3 bg-blue-900 border-b-2 border-white border-x-2'>
             <View className='flex-row items-center gap-2'>
-              <MaterialIcons
-                name='screen-lock-portrait'
-                size={20}
-                color='white'
-              />
+              <MaterialIcons name='lock-clock' size={20} color='white' />
               <Text className='color-white'>Lock in</Text>
             </View>
             <Pressable
               className='flex-row items-center justify-end flex-1'
               onPress={handleLockTime}
             >
-              <Text className='color-white'>1 minute</Text>
+              <Text className='color-white'>
+                {lockTime} minute{lockTime > 1 ? 's' : ''}
+              </Text>
               <Icon name='arrow-right' size={18} color='#fff' />
             </Pressable>
           </View>
@@ -63,6 +71,7 @@ export default function SecuritySection() {
           />
         </View>
       </View>
+      <LockTimeBottomSheet bottomSheetModalRef={bottomSheetModalRef} />
     </View>
   );
 }

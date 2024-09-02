@@ -15,10 +15,11 @@ import log from 'core/logger';
 export default function Providers({ children }: { children: React.ReactNode }) {
   const appState = useRef(AppState.currentState);
   const [appStateVisible, setAppStateVisible] = useState(appState.current);
-  const { isEnabledBlur, isEnabledAuth } = useSettingStore(
+  const { isEnabledBlur, isEnabledAuth, lockTime } = useSettingStore(
     useShallow((state) => ({
       isEnabledAuth: state.isEnabledAuth,
       isEnabledBlur: state.isEnabledBlur,
+      lockTime: state.lockTime,
     }))
   );
 
@@ -31,7 +32,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   }, [isEnabledAuth]);
 
   const onBiometric = async () => {
-    if (Date.now() - lastAuthTimeRef.current < 10000) return; // Prevent auth more than once 10s
+    if (Date.now() - lastAuthTimeRef.current < lockTime * 60000) return; // Prevent auth more than once lock time (minutes)
     try {
       const compatible = await LocalAuthentication.hasHardwareAsync();
       log.info('BiometricSupported', compatible);
