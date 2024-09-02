@@ -24,8 +24,16 @@ export default function RootLayoutNav() {
         }}
       >
         <Stack.Screen name='(drawer)' options={{ headerShown: false }} />
-        <Stack.Screen name='user/onboarding' options={{ headerShown: false }} />
         <Stack.Screen name='user/agreement' options={{ headerShown: false }} />
+        <Stack.Screen name='user/onboarding' options={{ headerShown: false }} />
+        <Stack.Screen
+          name='user/privacy-policy'
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name='user/user-agreement'
+          options={{ headerShown: false }}
+        />
         <Stack.Screen name='media/camera' options={{ headerShown: false }} />
         <Stack.Screen
           name='records/index'
@@ -72,6 +80,13 @@ export default function RootLayoutNav() {
           name='book/details'
           options={{
             title: 'Book Details',
+            headerLeft: () => <GoBack />,
+          }}
+        />
+        <Stack.Screen
+          name='user/account-details'
+          options={{
+            title: 'Account Details',
             headerLeft: () => <GoBack />,
           }}
         />

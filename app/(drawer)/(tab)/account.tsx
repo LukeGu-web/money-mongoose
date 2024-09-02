@@ -1,4 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
+import { router } from 'expo-router';
 import { View, Image, Text, Pressable, ScrollView } from 'react-native';
 
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
@@ -31,7 +32,10 @@ export default function Account() {
       </View>
       <View className='items-start justify-center flex-1 gap-2 mb-4'>
         <Text className='color-zinc-600'>Account</Text>
-        <Pressable className='flex-row items-center w-full gap-2 px-4 py-2 bg-blue-400 rounded-lg'>
+        <Pressable
+          className='flex-row items-center w-full gap-2 px-4 py-2 bg-blue-400 rounded-lg'
+          onPress={() => router.navigate('/user/account-details')}
+        >
           <MaterialCommunityIcons
             name='card-account-details-outline'
             size={20}
