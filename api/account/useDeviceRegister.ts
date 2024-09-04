@@ -40,7 +40,6 @@ const useDeviceRegister = createMutation<Response, Variables, AxiosError>({
       data: variables,
     })
       .then((response) => {
-        console.log('useDeviceRegister: ', response);
         account = response.data.account;
         token = response.data.token;
         setHeaderToken(token);

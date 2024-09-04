@@ -1,5 +1,11 @@
 import React, { useState, useRef } from 'react';
-import { Text, View, Pressable, ImageBackground } from 'react-native';
+import {
+  Text,
+  View,
+  Pressable,
+  ImageBackground,
+  ActivityIndicator,
+} from 'react-native';
 import {
   CameraView,
   type CameraType,
@@ -23,7 +29,7 @@ export default function Camera() {
   const params = useLocalSearchParams();
   const { type: photoSaveType } = params;
   const { user, setUser } = useUserStore();
-  const { mutate: updateUserApi } = useUpdateUser();
+  const { mutate: updateUserApi, isPending } = useUpdateUser();
 
   const [permissionResponse, requestPermission] = MediaLibrary.usePermissions();
 
@@ -33,13 +39,13 @@ export default function Camera() {
   const [capturedImage, setCapturedImage] = useState<CameraCapturedPicture>();
 
   const cameraRef = useRef(null);
-  console.log('photoSaveType: ', photoSaveType);
   const handleTakePicture = () => {
     if (cameraRef.current) {
       (cameraRef.current as any)
         .takePictureAsync({
           skipProcessing: true,
           base64: true,
+          quality: 0.5,
         })
         .then((photoData: CameraCapturedPicture) => {
           setPreviewVisible(true);
@@ -108,10 +114,15 @@ export default function Camera() {
                 <Text className='text-xl color-white'>Re-take</Text>
               </Pressable>
               <Pressable
+                disabled={isPending}
                 onPress={handleSavePhoto}
                 className='items-center justify-center h-12 bg-black rounded-lg w-36'
               >
-                <Text className='text-xl color-white'>Save</Text>
+                {isPending ? (
+                  <ActivityIndicator size='small' color='#fff' />
+                ) : (
+                  <Text className='text-xl color-white'>Save</Text>
+                )}
               </Pressable>
             </View>
           </View>
