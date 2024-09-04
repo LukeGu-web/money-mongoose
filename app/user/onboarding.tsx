@@ -7,24 +7,17 @@ import { useShallow } from 'zustand/react/shallow';
 
 import { formatApiError } from 'api/errorFormat';
 import { useDeviceRegister } from 'api/account';
+import { UserType } from 'api/types';
 import log from 'core/logger';
-import { useBookStore, useLocalStore } from 'core/stateHooks';
+import { useBookStore, useLocalStore, useUserStore } from 'core/stateHooks';
 
 const avatarImage = require('../../assets/icon.png');
 
 export default function Onboarding() {
-  const {
-    isOnBoarding,
-    isAcceptedAgreement,
-    setDeviceId,
-    setToken,
-    setIsOnBoarding,
-  } = useLocalStore(
+  const { isOnBoarding, isAcceptedAgreement, setIsOnBoarding } = useLocalStore(
     useShallow((state) => ({
       isOnBoarding: state.isOnBoarding,
       isAcceptedAgreement: state.isAcceptedAgreement,
-      setDeviceId: state.setDeviceId,
-      setToken: state.setToken,
       setIsOnBoarding: state.setIsOnBoarding,
     }))
   );
@@ -36,6 +29,8 @@ export default function Onboarding() {
     }))
   );
 
+  const setUser = useUserStore((state) => state.setUser);
+
   if (!isAcceptedAgreement) {
     return <Redirect href='/user/agreement' />;
   }
@@ -44,20 +39,26 @@ export default function Onboarding() {
 
   const handleStart = () => {
     const deviceId = uuid();
-    setDeviceId(deviceId);
     registerDevice(
       {
         user: {
           username: deviceId,
           password: deviceId,
         },
+        account_id: deviceId,
         account_status: 'unregistered',
       },
       {
         onSuccess: (response) => {
           log.success('Complete onboarding process: ', response);
-          const { token, ...rest } = response;
-          setToken(response.token);
+          const { account, token, ...rest } = response;
+          const { user, ...accountRest } = account as UserType;
+          setUser({
+            ...accountRest,
+            token,
+            email: user.email,
+            date_joined: user.date_joined,
+          });
           setBooks([rest]);
           setCurrentBook(rest.id, rest.name);
           setIsOnBoarding(true);

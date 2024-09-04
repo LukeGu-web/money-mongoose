@@ -28,3 +28,25 @@ export type BookType = {
   note: string;
   monthly_goal: number | null;
 };
+
+export type UserType = {
+  id: number;
+  user: {
+    id: number;
+    last_login: string | null;
+    is_superuser: false;
+    username: string;
+    first_name: string;
+    last_name: string;
+    email: string;
+    is_staff: boolean;
+    is_active: boolean;
+    date_joined: string;
+    groups: [];
+    user_permissions: [];
+  };
+  account_id: string | null;
+  avatar: string | null;
+  nickname: string;
+  account_status: string;
+};

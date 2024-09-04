@@ -6,13 +6,13 @@ import dayjs from 'dayjs';
 
 import { setHeaderToken } from 'api/client';
 import { BudgetCard, ExpenseCard, RecordList, Icon } from 'components';
-import { useLocalStore, useRecordStore } from 'core/stateHooks';
+import { useUserStore, useRecordStore } from 'core/stateHooks';
 
 export default function Home() {
-  const token = useLocalStore((state) => state.token);
+  const user = useUserStore((state) => state.user);
   const records = useRecordStore((state) => state.records);
   useEffect(() => {
-    setHeaderToken(token);
+    setHeaderToken(user.token);
   }, []);
 
   const currentMonth = dayjs().month();

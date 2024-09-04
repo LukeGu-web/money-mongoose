@@ -3,12 +3,8 @@ import { devtools, persist, createJSONStorage } from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type LocalState = {
-  deviceId: string;
-  token: string;
   isOnBoarding: boolean;
   isAcceptedAgreement: boolean;
-  setDeviceId: (deviceId: string) => void;
-  setToken: (token: string) => void;
   setIsOnBoarding: (isOnBoarding: boolean) => void;
   setIsAcceptedAgreement: (isAcceptedAgreement: boolean) => void;
   reset: () => void;
@@ -17,16 +13,8 @@ type LocalState = {
 const useLocalStore = create<LocalState>()(
   persist(
     devtools((set) => ({
-      deviceId: '',
-      token: '',
       isOnBoarding: false,
       isAcceptedAgreement: false,
-      setDeviceId: (deviceId) => {
-        set(() => ({ deviceId }));
-      },
-      setToken: (token) => {
-        set(() => ({ token }));
-      },
       setIsOnBoarding: (isOnBoarding) => {
         set(() => ({ isOnBoarding }));
       },
@@ -35,8 +23,6 @@ const useLocalStore = create<LocalState>()(
       },
       reset: () => {
         set(() => ({
-          deviceId: '', // 851bfd8c-9017-4e4f-8fd2-82d560c7d67f
-          token: '', //41631ca394cd7441f37766dafebb220736e54644
           isOnBoarding: false,
           isAcceptedAgreement: false,
         }));

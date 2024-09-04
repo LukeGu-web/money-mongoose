@@ -5,6 +5,8 @@ import { useCameraPermissions } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
 import { FontAwesome, FontAwesome5 } from '@expo/vector-icons';
 
+import { useUpdateUser } from 'api/account';
+import { formatApiError } from 'api/errorFormat';
 import log from 'core/logger';
 import { useImage } from 'core/stateHooks';
 import BottomSheet from './BottomSheet';
@@ -18,6 +20,7 @@ export default function CameraBottomSheet({
   bottomSheetModalRef,
 }: CameraBottomSheetProps) {
   const { setImage } = useImage();
+  const { mutate: updateUserApi } = useUpdateUser();
   const [permission, requestPermission] = useCameraPermissions();
 
   const handleOpenCamera = () => {
@@ -38,7 +41,22 @@ export default function CameraBottomSheet({
       const base64Image =
         `data:${result.assets[0].mimeType};base64,` + result.assets[0].base64;
       setImage(base64Image);
-      bottomSheetModalRef.current?.dismiss();
+      // updateUserApi(
+      //   { id: data.id, avatar: base64Image },
+      //   {
+      //     onSuccess: (response) => {
+      //       log.success('Update user avatar success:', response);
+      //       // updateBook(response);
+      //       // resetBook();
+      //       // reset();
+      //       // router.back();
+      //       bottomSheetModalRef.current?.dismiss();
+      //     },
+      //     onError: (error) => {
+      //       log.error('Error: ', formatApiError(error));
+      //     },
+      //   }
+      // );
     } else {
       alert('You did not select any image.');
     }

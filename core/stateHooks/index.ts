@@ -7,3 +7,4 @@ export { default as useBookStore } from './useBookStore';
 export { default as useRecordStore } from './useRecordStore';
 export { default as useLocalStore } from './useLocalStore';
 export { default as useSettingStore } from './useSettingStore';
+export { default as useUserStore } from './useUserStore';

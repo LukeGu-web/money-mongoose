@@ -2,7 +2,7 @@ import type { AxiosError } from 'axios';
 import { createMutation } from 'react-query-kit';
 
 import { client, setHeaderToken } from '../client';
-import { AssetGroupType } from '../types';
+import { AssetGroupType, UserType } from '../types';
 import { defaultGroups } from 'api/book/useCreateBook';
 import log from 'core/logger';
 
@@ -11,6 +11,7 @@ type Variables = {
     username: string;
     password: string;
   };
+  account_id: string;
   account_status: string;
 };
 type Response = {
@@ -20,6 +21,7 @@ type Response = {
   note: string;
   monthly_goal: null | number;
   token: string;
+  account: UserType | null;
 };
 
 const defaultBook = {
@@ -27,7 +29,8 @@ const defaultBook = {
   note: 'Default book',
 };
 
-let token = '';
+let token = '',
+  account: UserType | null = null;
 
 const useDeviceRegister = createMutation<Response, Variables, AxiosError>({
   mutationFn: async (variables) =>
@@ -37,6 +40,7 @@ const useDeviceRegister = createMutation<Response, Variables, AxiosError>({
       data: variables,
     })
       .then((response) => {
+        account = response.data.account;
         token = response.data.token;
         setHeaderToken(token);
         return client({
@@ -45,7 +49,7 @@ const useDeviceRegister = createMutation<Response, Variables, AxiosError>({
           data: { ...defaultBook, groups: defaultGroups },
         });
       })
-      .then((response) => ({ ...response.data, token }))
+      .then((response) => ({ ...response.data, token, account }))
       .catch((err) => {
         log.error('Error (useDeviceRegister): ', err);
       }),
