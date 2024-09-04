@@ -10,14 +10,18 @@ import { router } from 'expo-router';
 import { MaterialIcons } from '@expo/vector-icons';
 import * as MediaLibrary from 'expo-media-library';
 import * as ImagePicker from 'expo-image-picker';
-import { useImage } from 'core/stateHooks';
+
+import { useUpdateUser } from 'api/account';
+import { formatApiError } from 'api/errorFormat';
+import { useUserStore } from 'core/stateHooks';
 import log from 'core/logger';
 import Icon from '../Icon/Icon';
 
 const flashOptions = ['auto', 'on', 'off'];
 
 export default function Camera() {
-  const { setImage } = useImage();
+  const { user, setUser } = useUserStore();
+  const { mutate: updateUserApi } = useUpdateUser();
   const [permissionResponse, requestPermission] = MediaLibrary.usePermissions();
 
   const [type, setType] = useState<CameraType>('back');
@@ -45,13 +49,24 @@ export default function Camera() {
     const base64Image =
       'data:image/jpg;base64,' +
       (capturedImage as CameraCapturedPicture).base64;
-    setImage(base64Image);
-    MediaLibrary.saveToLibraryAsync(
-      (capturedImage as CameraCapturedPicture).uri
-    ).then(() => {
-      setCapturedImage(undefined);
-      router.back();
-    });
+    updateUserApi(
+      { id: user.id, avatar: base64Image },
+      {
+        onSuccess: (response) => {
+          log.success('Update user avatar success:', response);
+          setUser({ ...user, avatar: response.avatar });
+          MediaLibrary.saveToLibraryAsync(
+            (capturedImage as CameraCapturedPicture).uri
+          ).then(() => {
+            setCapturedImage(undefined);
+            router.back();
+          });
+        },
+        onError: (error) => {
+          log.error('Error: ', formatApiError(error));
+        },
+      }
+    );
   };
 
   const handleFlash = () => {

@@ -5,11 +5,12 @@ import {
   DrawerItem,
   // DrawerItemList,
 } from '@react-navigation/drawer';
-import { useBookStore } from 'core/stateHooks';
+import { useBookStore, useUserStore } from 'core/stateHooks';
 
 const avatarImage = require('../../assets/icon.png');
 
 export default function DrawerContent(props: any) {
+  const user = useUserStore((state) => state.user);
   const currentBook = useBookStore((state) => state.currentBook);
   return (
     <DrawerContentScrollView
@@ -18,7 +19,10 @@ export default function DrawerContent(props: any) {
       contentContainerStyle={{ flex: 1, backgroundColor: '#6cd4ff' }}
     >
       <View className='items-center gap-4 my-8'>
-        <Image source={avatarImage} className='w-32 h-32' />
+        <Image
+          source={user.avatar ? { uri: user.avatar } : avatarImage}
+          className='w-32 h-32 rounded-lg'
+        />
         <Text className='text-lg font-bold color-white'>Luke</Text>
       </View>
       <View className='flex-1 py-8 bg-white'>

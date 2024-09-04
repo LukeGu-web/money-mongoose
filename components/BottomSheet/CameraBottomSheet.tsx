@@ -7,10 +7,9 @@ import { FontAwesome, FontAwesome5 } from '@expo/vector-icons';
 
 import { useUpdateUser } from 'api/account';
 import { formatApiError } from 'api/errorFormat';
+import { useUserStore } from 'core/stateHooks';
 import log from 'core/logger';
-import { useImage } from 'core/stateHooks';
 import BottomSheet from './BottomSheet';
-import Icon from '../Icon/Icon';
 
 type CameraBottomSheetProps = {
   bottomSheetModalRef: React.RefObject<BottomSheetModal>;
@@ -19,7 +18,7 @@ type CameraBottomSheetProps = {
 export default function CameraBottomSheet({
   bottomSheetModalRef,
 }: CameraBottomSheetProps) {
-  const { setImage } = useImage();
+  const { user, setUser } = useUserStore();
   const { mutate: updateUserApi } = useUpdateUser();
   const [permission, requestPermission] = useCameraPermissions();
 
@@ -40,23 +39,19 @@ export default function CameraBottomSheet({
     if (!result.canceled) {
       const base64Image =
         `data:${result.assets[0].mimeType};base64,` + result.assets[0].base64;
-      setImage(base64Image);
-      // updateUserApi(
-      //   { id: data.id, avatar: base64Image },
-      //   {
-      //     onSuccess: (response) => {
-      //       log.success('Update user avatar success:', response);
-      //       // updateBook(response);
-      //       // resetBook();
-      //       // reset();
-      //       // router.back();
-      //       bottomSheetModalRef.current?.dismiss();
-      //     },
-      //     onError: (error) => {
-      //       log.error('Error: ', formatApiError(error));
-      //     },
-      //   }
-      // );
+      updateUserApi(
+        { id: user.id, avatar: base64Image },
+        {
+          onSuccess: (response) => {
+            log.success('Update user avatar success:', response);
+            setUser({ ...user, avatar: response.avatar });
+            bottomSheetModalRef.current?.dismiss();
+          },
+          onError: (error) => {
+            log.error('Error: ', formatApiError(error));
+          },
+        }
+      );
     } else {
       alert('You did not select any image.');
     }
