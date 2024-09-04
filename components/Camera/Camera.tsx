@@ -10,12 +10,14 @@ import { router } from 'expo-router';
 import { MaterialIcons } from '@expo/vector-icons';
 import * as MediaLibrary from 'expo-media-library';
 import * as ImagePicker from 'expo-image-picker';
+import { useImage } from 'core/stateHooks';
 import log from 'core/logger';
 import Icon from '../Icon/Icon';
 
 const flashOptions = ['auto', 'on', 'off'];
 
 export default function Camera() {
+  const { setImage } = useImage();
   const [permissionResponse, requestPermission] = MediaLibrary.usePermissions();
 
   const [type, setType] = useState<CameraType>('back');
@@ -29,6 +31,7 @@ export default function Camera() {
       (cameraRef.current as any)
         .takePictureAsync({
           skipProcessing: true,
+          base64: true,
         })
         .then((photoData: CameraCapturedPicture) => {
           setPreviewVisible(true);
@@ -39,6 +42,10 @@ export default function Camera() {
 
   const handleSavePhoto = () => {
     if (!permissionResponse?.granted) requestPermission();
+    const base64Image =
+      'data:image/jpg;base64,' +
+      (capturedImage as CameraCapturedPicture).base64;
+    setImage(base64Image);
     MediaLibrary.saveToLibraryAsync(
       (capturedImage as CameraCapturedPicture).uri
     ).then(() => {

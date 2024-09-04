@@ -6,6 +6,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { FontAwesome, FontAwesome5 } from '@expo/vector-icons';
 
 import log from 'core/logger';
+import { useImage } from 'core/stateHooks';
 import BottomSheet from './BottomSheet';
 import Icon from '../Icon/Icon';
 
@@ -16,6 +17,7 @@ type CameraBottomSheetProps = {
 export default function CameraBottomSheet({
   bottomSheetModalRef,
 }: CameraBottomSheetProps) {
+  const { setImage } = useImage();
   const [permission, requestPermission] = useCameraPermissions();
 
   const handleOpenCamera = () => {
@@ -26,12 +28,17 @@ export default function CameraBottomSheet({
 
   const handleOpenCameraRoll = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      quality: 1,
+      base64: true,
+      quality: 0.5,
     });
 
     if (!result.canceled) {
-      log.info(result.assets[0].uri);
+      const base64Image =
+        `data:${result.assets[0].mimeType};base64,` + result.assets[0].base64;
+      setImage(base64Image);
+      bottomSheetModalRef.current?.dismiss();
     } else {
       alert('You did not select any image.');
     }
