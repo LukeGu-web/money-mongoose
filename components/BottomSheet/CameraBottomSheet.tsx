@@ -13,10 +13,12 @@ import BottomSheet from './BottomSheet';
 
 type CameraBottomSheetProps = {
   bottomSheetModalRef: React.RefObject<BottomSheetModal>;
+  type: string; // avatar | record
 };
 
 export default function CameraBottomSheet({
   bottomSheetModalRef,
+  type,
 }: CameraBottomSheetProps) {
   const { user, setUser } = useUserStore();
   const { mutate: updateUserApi } = useUpdateUser();
@@ -25,7 +27,7 @@ export default function CameraBottomSheet({
   const handleOpenCamera = () => {
     bottomSheetModalRef.current?.dismiss();
     if (!permission?.granted) requestPermission();
-    router.navigate('/media/camera');
+    router.navigate({ pathname: '/media/camera', params: { type } });
   };
 
   const handleOpenCameraRoll = async () => {
@@ -39,19 +41,21 @@ export default function CameraBottomSheet({
     if (!result.canceled) {
       const base64Image =
         `data:${result.assets[0].mimeType};base64,` + result.assets[0].base64;
-      updateUserApi(
-        { id: user.id, avatar: base64Image },
-        {
-          onSuccess: (response) => {
-            log.success('Update user avatar success:', response);
-            setUser({ ...user, avatar: response.avatar });
-            bottomSheetModalRef.current?.dismiss();
-          },
-          onError: (error) => {
-            log.error('Error: ', formatApiError(error));
-          },
-        }
-      );
+      if (type === 'avatar') {
+        updateUserApi(
+          { id: user.id, avatar: base64Image },
+          {
+            onSuccess: (response) => {
+              log.success('Update user avatar success:', response);
+              setUser({ ...user, avatar: response.avatar });
+              bottomSheetModalRef.current?.dismiss();
+            },
+            onError: (error) => {
+              log.error('Error: ', formatApiError(error));
+            },
+          }
+        );
+      }
     } else {
       alert('You did not select any image.');
     }

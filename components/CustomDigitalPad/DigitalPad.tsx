@@ -148,7 +148,10 @@ export default function DigitalPad({ onSubmit }: DigitalPadProps) {
         render={() => <Keypad onKeyInput={handlePriceInput} />}
         name='amount'
       />
-      <CameraBottomSheet bottomSheetModalRef={bottomSheetModalRef} />
+      <CameraBottomSheet
+        bottomSheetModalRef={bottomSheetModalRef}
+        type='record'
+      />
     </KeyboardAvoidingView>
   );
 }

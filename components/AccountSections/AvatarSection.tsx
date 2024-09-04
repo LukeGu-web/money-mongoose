@@ -29,7 +29,10 @@ export default function AvatarSection() {
         </View>
       </Pressable>
       <Text className='text-lg font-bold color-zinc-700'>Luke</Text>
-      <CameraBottomSheet bottomSheetModalRef={bottomSheetModalRef} />
+      <CameraBottomSheet
+        bottomSheetModalRef={bottomSheetModalRef}
+        type='avatar'
+      />
     </View>
   );
 }

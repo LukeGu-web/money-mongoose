@@ -6,7 +6,7 @@ import {
   type FlashMode,
   type CameraCapturedPicture,
 } from 'expo-camera';
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { MaterialIcons } from '@expo/vector-icons';
 import * as MediaLibrary from 'expo-media-library';
 import * as ImagePicker from 'expo-image-picker';
@@ -20,8 +20,11 @@ import Icon from '../Icon/Icon';
 const flashOptions = ['auto', 'on', 'off'];
 
 export default function Camera() {
+  const params = useLocalSearchParams();
+  const { type: photoSaveType } = params;
   const { user, setUser } = useUserStore();
   const { mutate: updateUserApi } = useUpdateUser();
+
   const [permissionResponse, requestPermission] = MediaLibrary.usePermissions();
 
   const [type, setType] = useState<CameraType>('back');
@@ -30,6 +33,7 @@ export default function Camera() {
   const [capturedImage, setCapturedImage] = useState<CameraCapturedPicture>();
 
   const cameraRef = useRef(null);
+  console.log('photoSaveType: ', photoSaveType);
   const handleTakePicture = () => {
     if (cameraRef.current) {
       (cameraRef.current as any)
