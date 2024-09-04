@@ -51,7 +51,7 @@ export default function Onboarding() {
           username: deviceId,
           password: deviceId,
         },
-        accountStatus: 'unregistered',
+        account_status: 'unregistered',
       },
       {
         onSuccess: (response) => {

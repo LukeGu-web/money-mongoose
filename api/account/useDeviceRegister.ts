@@ -11,7 +11,7 @@ type Variables = {
     username: string;
     password: string;
   };
-  accountStatus: string;
+  account_status: string;
 };
 type Response = {
   id: number;
