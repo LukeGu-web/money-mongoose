@@ -1,4 +1,4 @@
-import { View, Text, Pressable } from 'react-native';
+import { View, Text, Pressable, ActivityIndicator } from 'react-native';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { router } from 'expo-router';
 import { useCameraPermissions } from 'expo-camera';
@@ -21,7 +21,7 @@ export default function CameraBottomSheet({
   type,
 }: CameraBottomSheetProps) {
   const { user, setUser } = useUserStore();
-  const { mutate: updateUserApi } = useUpdateUser();
+  const { mutate: updateUserApi, isPending } = useUpdateUser();
   const [permission, requestPermission] = useCameraPermissions();
 
   const handleOpenCamera = () => {
@@ -41,6 +41,7 @@ export default function CameraBottomSheet({
     if (!result.canceled) {
       const base64Image =
         `data:${result.assets[0].mimeType};base64,` + result.assets[0].base64;
+      console.log(`data:${result.assets[0].mimeType};base64,`);
       if (type === 'avatar') {
         updateUserApi(
           { id: user.id, avatar: base64Image },
@@ -51,7 +52,10 @@ export default function CameraBottomSheet({
               bottomSheetModalRef.current?.dismiss();
             },
             onError: (error) => {
-              log.error('Error: ', formatApiError(error));
+              log.error(
+                'Upload image from gallery: Error: ',
+                formatApiError(error)
+              );
             },
           }
         );
@@ -63,27 +67,33 @@ export default function CameraBottomSheet({
 
   return (
     <BottomSheet bottomSheetModalRef={bottomSheetModalRef} height={250}>
-      <View className='items-center justify-center flex-1 w-full px-6'>
-        <View className='flex-row items-center w-full gap-2 px-4'>
-          <Text className='text-2xl font-semibold'>Select Picture</Text>
+      {isPending ? (
+        <View className='items-center justify-center flex-1'>
+          <ActivityIndicator size='large' />
         </View>
-        <View className='items-start flex-1 w-full gap-4 mt-6'>
-          <Pressable
-            className='flex-row items-center justify-center w-full gap-4 py-4 bg-blue-900 rounded-lg'
-            onPress={handleOpenCamera}
-          >
-            <FontAwesome name='camera-retro' size={24} color='#fff' />
-            <Text className='text-2xl font-medium color-white'>Camera</Text>
-          </Pressable>
-          <Pressable
-            className='flex-row items-center justify-center w-full gap-4 py-4 bg-blue-900 rounded-lg'
-            onPress={handleOpenCameraRoll}
-          >
-            <FontAwesome5 name='photo-video' size={24} color='#fff' />
-            <Text className='text-2xl font-medium color-white'>Gallery</Text>
-          </Pressable>
+      ) : (
+        <View className='items-center justify-center flex-1 w-full px-6'>
+          <View className='flex-row items-center w-full gap-2 px-4'>
+            <Text className='text-2xl font-semibold'>Select Picture</Text>
+          </View>
+          <View className='items-start flex-1 w-full gap-4 mt-6'>
+            <Pressable
+              className='flex-row items-center justify-center w-full gap-4 py-4 bg-blue-900 rounded-lg'
+              onPress={handleOpenCamera}
+            >
+              <FontAwesome name='camera-retro' size={24} color='#fff' />
+              <Text className='text-2xl font-medium color-white'>Camera</Text>
+            </Pressable>
+            <Pressable
+              className='flex-row items-center justify-center w-full gap-4 py-4 bg-blue-900 rounded-lg'
+              onPress={handleOpenCameraRoll}
+            >
+              <FontAwesome5 name='photo-video' size={24} color='#fff' />
+              <Text className='text-2xl font-medium color-white'>Gallery</Text>
+            </Pressable>
+          </View>
         </View>
-      </View>
+      )}
     </BottomSheet>
   );
 }

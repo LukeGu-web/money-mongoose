@@ -23,7 +23,7 @@ export default function DrawerContent(props: any) {
           source={user.avatar ? { uri: user.avatar } : avatarImage}
           className='w-32 h-32 rounded-lg'
         />
-        <Text className='text-lg font-bold color-white'>Luke</Text>
+        <Text className='text-lg font-bold color-white'>{user.nickname}</Text>
       </View>
       <View className='flex-1 py-8 bg-white'>
         <View className='mb-2 border-b-2'>

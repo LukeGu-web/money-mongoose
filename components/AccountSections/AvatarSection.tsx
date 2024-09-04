@@ -3,13 +3,14 @@ import { View, Image, Text, Pressable } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import CameraBottomSheet from '../BottomSheet/CameraBottomSheet';
-import { useImage, useUserStore } from 'core/stateHooks';
+import { useUserStore } from 'core/stateHooks';
 
 const avatarImage = require('../../assets/icon.png');
 
 export default function AvatarSection() {
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const user = useUserStore((state) => state.user);
+  console.log('user: ', user);
   return (
     <View className='flex-row items-center gap-8 p-6 mb-4 rounded-lg bg-sky-200'>
       <Pressable
@@ -28,7 +29,7 @@ export default function AvatarSection() {
           />
         </View>
       </Pressable>
-      <Text className='text-lg font-bold color-zinc-700'>Luke</Text>
+      <Text className='text-lg font-bold color-zinc-700'>{user.nickname}</Text>
       <CameraBottomSheet
         bottomSheetModalRef={bottomSheetModalRef}
         type='avatar'
