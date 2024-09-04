@@ -6,7 +6,7 @@ import { v4 as uuid } from 'uuid';
 import { useShallow } from 'zustand/react/shallow';
 
 import { formatApiError } from 'api/errorFormat';
-import { useDeviceRegister } from 'api/account/useDeviceRegister';
+import { useDeviceRegister } from 'api/account';
 import log from 'core/logger';
 import { useBookStore, useLocalStore } from 'core/stateHooks';
 

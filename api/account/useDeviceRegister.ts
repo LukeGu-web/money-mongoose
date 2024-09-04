@@ -29,11 +29,7 @@ const defaultBook = {
 
 let token = '';
 
-export const useDeviceRegister = createMutation<
-  Response,
-  Variables,
-  AxiosError
->({
+const useDeviceRegister = createMutation<Response, Variables, AxiosError>({
   mutationFn: async (variables) =>
     client({
       url: 'user/device-register/',
@@ -54,3 +50,5 @@ export const useDeviceRegister = createMutation<
         log.error('Error (useDeviceRegister): ', err);
       }),
 });
+
+export default useDeviceRegister;

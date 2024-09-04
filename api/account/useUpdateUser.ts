@@ -2,16 +2,19 @@ import type { AxiosError } from 'axios';
 import { createMutation } from 'react-query-kit';
 import { client } from '../client';
 
-type Variables = { username: string; password: string };
-type Response = { token: string };
+type Variables = {
+  id: number;
+  avatar?: string;
+};
+type Response = any;
 
-const useLogin = createMutation<Response, Variables, AxiosError>({
+const useUpdateUser = createMutation<Response, Variables, AxiosError>({
   mutationFn: async (variables) =>
     client({
-      url: 'user/login/',
-      method: 'POST',
+      url: `user/${variables.id}/`,
+      method: 'PATCH',
       data: variables,
     }).then((response) => response.data),
 });
 
-export default useLogin;
+export default useUpdateUser;
