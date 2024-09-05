@@ -8,6 +8,7 @@ import { clearAll } from 'core/localStorage/storage';
 import {
   AvatarSection,
   AccountPad,
+  DetailsSection,
   SecuritySection,
   InformationSection,
 } from 'components/AccountSections';
@@ -26,20 +27,7 @@ export default function Account() {
         <Text className='color-zinc-600'>Tools</Text>
         <AccountPad />
       </View>
-      <View className='items-start justify-center flex-1 gap-2 mb-4'>
-        <Text className='color-zinc-600'>Account</Text>
-        <Pressable
-          className='flex-row items-center w-full gap-2 px-4 py-2 bg-blue-400 rounded-lg'
-          onPress={() => router.navigate('/user/account-details')}
-        >
-          <MaterialCommunityIcons
-            name='card-account-details-outline'
-            size={20}
-            color='white'
-          />
-          <Text className='text-lg color-white'>Account Details</Text>
-        </Pressable>
-      </View>
+      <DetailsSection />
       <SecuritySection />
       <InformationSection />
       <View className='items-start justify-center flex-1 gap-2 mt-4'>
