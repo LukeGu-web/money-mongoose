@@ -1,7 +1,6 @@
 import { View, Text, Image, Pressable, TextInput } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import { Link } from 'expo-router';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 
 const avatarImage = require('../../assets/icon.png');
@@ -53,7 +52,6 @@ export default function LoginForm() {
                 className='w-full p-3 border-2 rounded-lg border-zinc-600'
                 placeholder='Please enter the budget amount'
                 keyboardType='numeric'
-                autoFocus={true}
                 onBlur={onBlur}
                 onChangeText={onChange}
                 value={value}
@@ -65,13 +63,16 @@ export default function LoginForm() {
         <Link className='ml-2' href='/'>
           <Text className='color-gray-600'>Forgot Password?</Text>
         </Link>
-        <Pressable className='self-end w-1/2 p-2 rounded-lg bg-primary'>
+        <Pressable className='self-end w-2/5 p-2 rounded-lg bg-primary'>
           <Text className='text-lg font-bold text-center color-white'>
             Login
           </Text>
         </Pressable>
       </View>
-      <View className='gap-3 mt-8'>
+      <Text className='self-center color-gray-400'>
+        ----------- or -----------
+      </Text>
+      <View className='gap-3 mt-4'>
         <Pressable className='flex-row items-center self-center w-3/4 gap-4 px-4 py-2 border-2 border-gray-400 rounded-lg'>
           <View className='items-center w-1/6'>
             <FontAwesome6 name='google' size={20} color='#03045e' />

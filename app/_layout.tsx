@@ -14,7 +14,6 @@ export default function RootLayoutNav() {
   if (!fontsLoaded) {
     return null;
   }
-
   return (
     <Providers>
       <Stack
@@ -86,8 +85,7 @@ export default function RootLayoutNav() {
         <Stack.Screen
           name='user/account-details'
           options={{
-            title: 'Account Details',
-            headerLeft: () => <GoBack />,
+            headerShown: false,
           }}
         />
       </Stack>
