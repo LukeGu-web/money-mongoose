@@ -83,9 +83,16 @@ export default function RootLayoutNav() {
           }}
         />
         <Stack.Screen
-          name='user/account-details'
+          name='user/register'
           options={{
             headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name='user/account-details'
+          options={{
+            title: 'Account Details',
+            headerLeft: () => <GoBack />,
           }}
         />
       </Stack>
