@@ -1,7 +1,7 @@
 import { View, Button, Image, Text, Pressable, ScrollView } from 'react-native';
 import AntDesign from '@expo/vector-icons/AntDesign';
 
-export default function AccountDetails() {
+export default function Details() {
   return (
     <View className='items-start justify-center flex-1 gap-2'>
       <Text className='color-zinc-600'>Infomation</Text>
