@@ -18,8 +18,8 @@ export default function Details() {
   });
 
   const handleLogin = handleSubmit((data) => {});
-  const { avatar, ...rest } = user;
-  console.log('user: ', rest);
+  // const { avatar, ...rest } = user;
+  // console.log('user: ', rest);
   return (
     <View className='items-center flex-1 w-full gap-4 p-2'>
       <View>

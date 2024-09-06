@@ -41,7 +41,6 @@ export default function CameraBottomSheet({
     if (!result.canceled) {
       const base64Image =
         `data:${result.assets[0].mimeType};base64,` + result.assets[0].base64;
-      console.log(`data:${result.assets[0].mimeType};base64,`);
       if (type === 'avatar') {
         updateUserApi(
           { id: user.id, avatar: base64Image },
