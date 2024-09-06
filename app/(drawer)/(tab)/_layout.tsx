@@ -5,7 +5,7 @@ import { DrawerToggleButton } from '@react-navigation/drawer';
 import { Entypo } from '@expo/vector-icons';
 import dayjs from 'dayjs';
 
-import { RecordHeader, Icon } from 'components';
+import { Icon } from 'components';
 import { useLocalStore, useCalendar } from 'core/stateHooks';
 import log from 'core/logger';
 
