@@ -172,6 +172,7 @@ export default function SignUpForm() {
         />
         <Pressable
           className='self-end w-2/5 p-2 rounded-lg bg-primary'
+          disabled={isPending}
           onPress={handleLogin}
         >
           {isPending ? (

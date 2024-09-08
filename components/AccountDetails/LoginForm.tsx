@@ -1,23 +1,51 @@
-import { View, Text, Image, Pressable, TextInput } from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  Pressable,
+  TextInput,
+  ActivityIndicator,
+} from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import { Link } from 'expo-router';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
+import { useLoginAndFetchData } from 'api/account';
 
 const avatarImage = require('../../assets/icon.png');
 
 export default function LoginForm() {
+  const { loginAndFetchData, isLoading, isError, error } =
+    useLoginAndFetchData();
   const {
     control,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     defaultValues: {
-      email: '',
+      email: '', // username
       password: '',
     },
   });
 
-  const handleLogin = handleSubmit((data) => {});
+  const handleLogin = handleSubmit(async (data) => {
+    console.log('login submit: ', data);
+    try {
+      const { userDetails, books } = await loginAndFetchData(
+        data.email,
+        data.password
+      );
+      console.log('Login successful');
+      const {
+        data: { avatar, ...other },
+        ...rest
+      } = userDetails;
+      console.log(other);
+      console.log('books: ', books.data);
+    } catch (err) {
+      console.error('Login failed', err);
+    }
+  });
   return (
     <View className='flex-1 w-full gap-8 p-4'>
       <View className='items-center justify-center gap-4'>
@@ -50,8 +78,8 @@ export default function LoginForm() {
               <Text className='ml-1 color-primary'>Password</Text>
               <TextInput
                 className='w-full p-3 border-2 rounded-lg border-zinc-600'
-                placeholder='Please enter the budget amount'
-                keyboardType='numeric'
+                placeholder='Please enter your password'
+                secureTextEntry={true}
                 onBlur={onBlur}
                 onChangeText={onChange}
                 value={value}
@@ -63,10 +91,18 @@ export default function LoginForm() {
         <Link className='ml-2' href='/'>
           <Text className='color-gray-600'>Forgot Password?</Text>
         </Link>
-        <Pressable className='self-end w-2/5 p-2 rounded-lg bg-primary'>
-          <Text className='text-lg font-bold text-center color-white'>
-            Login
-          </Text>
+        <Pressable
+          className='self-end w-2/5 p-2 rounded-lg bg-primary'
+          disabled={isLoading}
+          onPress={handleLogin}
+        >
+          {isLoading ? (
+            <ActivityIndicator size='small' color='#fff' />
+          ) : (
+            <Text className='text-lg font-bold text-center color-white'>
+              Login
+            </Text>
+          )}
         </Pressable>
       </View>
       <Text className='self-center color-gray-400'>
