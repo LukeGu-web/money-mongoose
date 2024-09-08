@@ -10,19 +10,7 @@ export default function DetailsSection() {
   return (
     <View className='items-start justify-center flex-1 gap-2 mb-4'>
       <Text className='color-zinc-600'>Account</Text>
-      {user.account_status !== 'unregistered' ? (
-        <Pressable
-          className='flex-row items-center w-full gap-2 px-4 py-2 bg-blue-400 rounded-lg'
-          onPress={() => router.navigate('/user/account-details')}
-        >
-          <MaterialCommunityIcons
-            name='card-account-details-outline'
-            size={20}
-            color='white'
-          />
-          <Text className='text-lg color-white'>Account Details</Text>
-        </Pressable>
-      ) : (
+      {user.account_status.includes('registered') ? (
         <View className='w-full bg-blue-400 rounded-lg'>
           <Pressable
             className='flex-row items-center gap-2 px-4 py-2 border-b-2 border-white'
@@ -49,6 +37,18 @@ export default function DetailsSection() {
             <Text className='text-lg color-white'>Sign Up</Text>
           </Pressable>
         </View>
+      ) : (
+        <Pressable
+          className='flex-row items-center w-full gap-2 px-4 py-2 bg-blue-400 rounded-lg'
+          onPress={() => router.navigate('/user/account-details')}
+        >
+          <MaterialCommunityIcons
+            name='card-account-details-outline'
+            size={20}
+            color='white'
+          />
+          <Text className='text-lg color-white'>Account Details</Text>
+        </Pressable>
       )}
     </View>
   );

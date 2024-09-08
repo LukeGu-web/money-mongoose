@@ -23,6 +23,7 @@ export default function SignUpForm() {
     watch,
     control,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -54,6 +55,7 @@ export default function SignUpForm() {
             email: data.email,
             account_status: 'registered',
           });
+          reset();
           router.navigate({
             pathname: '/user/register',
             params: { reason: 'login' },

@@ -1,17 +1,17 @@
 import type { AxiosError } from 'axios';
 import { createMutation } from 'react-query-kit';
-import { client } from '../client';
+import { client, setHeaderToken } from '../client';
 
 type Variables = { username: string; password: string };
 type Response = { token: string };
 
 const useLogin = createMutation<Response, Variables, AxiosError>({
-  mutationFn: async (variables) =>
-    client({
-      url: 'user/login/',
-      method: 'POST',
-      data: variables,
-    }).then((response) => response.data),
+  mutationFn: async (variables) => {
+    setHeaderToken(null);
+    return client
+      .post('user/login/', variables)
+      .then((response) => response.data);
+  },
 });
 
 export default useLogin;
