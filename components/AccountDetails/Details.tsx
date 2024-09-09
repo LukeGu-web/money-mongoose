@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { View, Text, Pressable } from 'react-native';
 import * as Updates from 'expo-updates';
 import dayjs from 'dayjs';
@@ -6,10 +6,12 @@ import { useUserDetails } from 'api/account';
 import { useUserStore } from 'core/stateHooks';
 import { clearAll } from 'core/localStorage/storage';
 import Icon from '../Icon/Icon';
+import NicknameModal from 'components/Modal/NicknameModal';
 
 export default function Details() {
   const { data } = useUserDetails();
   const { user, setUser } = useUserStore();
+  const [isVisible, setIsVisible] = useState<boolean>(false);
 
   useEffect(() => {
     if (data) {
@@ -31,7 +33,10 @@ export default function Details() {
       <View>
         <Text className='text-sm color-zinc-700'>Basic Information</Text>
         <View className='p-2 rounded-lg bg-zinc-100'>
-          <Pressable className='flex-row items-center justify-between w-full h-12'>
+          <Pressable
+            className='flex-row items-center justify-between w-full h-12'
+            onPress={() => setIsVisible(true)}
+          >
             <Text>Nickame</Text>
             <View className='flex-row gap-2'>
               <Text>{user.nickname}</Text>
@@ -95,6 +100,10 @@ export default function Details() {
           </Text>
         </Pressable>
       </View>
+      <NicknameModal
+        isVisible={isVisible}
+        onClose={() => setIsVisible(false)}
+      />
     </View>
   );
 }

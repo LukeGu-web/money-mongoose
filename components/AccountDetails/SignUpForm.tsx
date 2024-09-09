@@ -8,7 +8,6 @@ import {
 } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import { router } from 'expo-router';
-import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import { useUpdateUser } from 'api/account';
 import { formatApiError } from 'api/errorFormat';
 import { useUserStore } from 'core/stateHooks';

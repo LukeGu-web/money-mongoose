@@ -11,6 +11,7 @@ type Variables = {
     password?: string;
   };
   account_status?: string;
+  nickname?: string;
 };
 type Response = any;
 
