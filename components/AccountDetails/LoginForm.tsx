@@ -7,15 +7,19 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
-import { Link } from 'expo-router';
+import { Link, router } from 'expo-router';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import { useLoginAndFetchData } from 'api/account';
+import { useBookStore, useUserStore } from 'core/stateHooks';
+import log from 'core/logger';
+import { BookType } from 'api/types';
 
 const avatarImage = require('../../assets/icon.png');
 
 export default function LoginForm() {
-  const { loginAndFetchData, isLoading, isError, error } =
-    useLoginAndFetchData();
+  const setUser = useUserStore((state) => state.setUser);
+  const initBook = useBookStore((state) => state.initBook);
+  const { login, isLoading, isError, error } = useLoginAndFetchData();
   const {
     control,
     handleSubmit,
@@ -30,21 +34,39 @@ export default function LoginForm() {
 
   const handleLogin = handleSubmit(async (data) => {
     console.log('login submit: ', data);
-    try {
-      const { userDetails, books } = await loginAndFetchData(
-        data.email,
-        data.password
-      );
-      console.log('Login successful');
-      const {
-        data: { avatar, ...other },
-        ...rest
-      } = userDetails;
-      console.log(other);
-      console.log('books: ', books.data);
-    } catch (err) {
-      console.error('Login failed', err);
-    }
+    await login(
+      data.email,
+      data.password,
+      (token, userDetails, books) => {
+        log.success('Login successful', userDetails.account_id);
+        // Update your app state here
+        if (userDetails) {
+          const account = userDetails;
+          console.log('update user: ', token, userDetails.user);
+          setUser({
+            id: account.id,
+            account_id: account.account_id as string,
+            avatar: account.avatar as string,
+            nickname: account.nickname as string,
+            account_status: account.account_status as string,
+            email: account.user.email as string,
+            date_joined: account.user.date_joined as string,
+            token: token as string,
+          });
+        }
+        if (books && books.length > 0) {
+          console.log('update books: ', books[0]);
+          const booksData = books as BookType[];
+          initBook(booksData, booksData[0].id, booksData[0].name);
+        }
+        // Navigate to next page, etc.
+        router.navigate('/account');
+      },
+      (error) => {
+        console.error('Login failed', error);
+        // Handle error (show message, etc.)
+      }
+    );
   });
   return (
     <View className='flex-1 w-full gap-8 p-4'>

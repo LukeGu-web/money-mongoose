@@ -7,6 +7,7 @@ import { BookType, AssetGroupType, AssetType } from 'api/types';
 type BookState = {
   books: BookType[];
   currentBook: { id: number; name: string };
+  initBook: (books: BookType[], bookId: number, name: string) => void;
   setBooks: (books: BookType[]) => void;
   setCurrentBook: (bookId: number, name: string) => void;
   getCurrentBook: () => BookType | undefined;
@@ -28,6 +29,12 @@ const useBookStore = create<BookState>()(
       immer((set, get) => ({
         books: [],
         currentBook: { id: -1, name: '' },
+        initBook: (books, bookId, bookName) => {
+          set((state) => {
+            state.books = books;
+            state.currentBook = { id: bookId, name: bookName };
+          });
+        },
         setBooks: (books) => {
           set((state) => {
             state.books = books;

@@ -5,12 +5,15 @@ import { client } from '../client';
 type Response = {
   id: number;
   avatar?: string;
-  user?: {
+  account_id?: string;
+  user: {
+    date_joined: string;
     email?: string;
     username?: string;
     password?: string;
   };
   account_status?: string;
+  nickname?: string;
 };
 type Variables = void;
 

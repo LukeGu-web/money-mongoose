@@ -20,7 +20,7 @@ export default function DrawerContent(props: any) {
     >
       <View className='items-center gap-4 my-8'>
         <Image
-          source={user.avatar ? { uri: user.avatar } : avatarImage}
+          source={user?.avatar ? { uri: user.avatar } : avatarImage}
           className='w-32 h-32 rounded-lg'
         />
         <Text className='text-lg font-bold color-white'>{user.nickname}</Text>

@@ -1,50 +1,63 @@
 import { useState, useCallback } from 'react';
+import { AxiosError } from 'axios';
 import { setHeaderToken } from '../client';
 import useLogin from './useLogin';
 import useUserDetails from './useUserDetails';
 import useGetBooks from '../book/useGetBooks';
 
 const useLoginAndFetchData = () => {
-  const [isLoading, setIsLoading] = useState(false);
   const loginMutation = useLogin();
   const userDetailsQuery = useUserDetails();
   const useGetBooksQuery = useGetBooks();
 
-  const loginAndFetchData = useCallback(
-    async (username: string, password: string) => {
-      setIsLoading(true);
+  const login = useCallback(
+    async (
+      username: string,
+      password: string,
+      onSuccess?: (token: string, userDetails: any, books: any[]) => void,
+      onError?: (error: AxiosError) => void
+    ) => {
       try {
+        // Perform login
         const { token } = await loginMutation.mutateAsync({
           username,
           password,
         });
+
         setHeaderToken(token);
 
+        // Fetch user details and books
         const [userDetails, books] = await Promise.all([
-          userDetailsQuery,
-          useGetBooksQuery,
+          userDetailsQuery.refetch(),
+          useGetBooksQuery.refetch(),
         ]);
 
-        return { userDetails, books };
+        if (userDetails.data && books.data && onSuccess) {
+          onSuccess(token, userDetails.data, books.data);
+        }
       } catch (error) {
-        console.error('Error:', error);
-        throw error;
-      } finally {
-        setIsLoading(false);
+        if (onError && error instanceof AxiosError) {
+          onError(error);
+        }
       }
     },
     [loginMutation, userDetailsQuery, useGetBooksQuery]
   );
 
   return {
-    loginAndFetchData,
-    isLoading,
+    login,
+    isLoading:
+      loginMutation.isPending ||
+      userDetailsQuery.isLoading ||
+      useGetBooksQuery.isLoading,
     isError:
       loginMutation.isError ||
       userDetailsQuery.isError ||
       useGetBooksQuery.isError,
     error:
       loginMutation.error || userDetailsQuery.error || useGetBooksQuery.error,
+    userDetails: userDetailsQuery.data,
+    books: useGetBooksQuery.data,
   };
 };
 
