@@ -33,6 +33,7 @@ export default function RootLayoutNav() {
           name='user/user-agreement'
           options={{ headerShown: false }}
         />
+        <Stack.Screen name='user/user-leave' options={{ headerShown: false }} />
         <Stack.Screen name='media/camera' options={{ headerShown: false }} />
         <Stack.Screen
           name='records/index'

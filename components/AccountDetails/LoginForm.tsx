@@ -8,15 +8,22 @@ import {
 } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import { Link, router } from 'expo-router';
+import { useShallow } from 'zustand/react/shallow';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import { useLoginAndFetchData } from 'api/account';
-import { useBookStore, useUserStore } from 'core/stateHooks';
+import { useBookStore, useUserStore, useLocalStore } from 'core/stateHooks';
 import log from 'core/logger';
 import { BookType } from 'api/types';
 
 const avatarImage = require('../../assets/icon.png');
 
 export default function LoginForm() {
+  const { isOnBoarding, setIsOnBoarding } = useLocalStore(
+    useShallow((state) => ({
+      isOnBoarding: state.isOnBoarding,
+      setIsOnBoarding: state.setIsOnBoarding,
+    }))
+  );
   const setUser = useUserStore((state) => state.setUser);
   const initBook = useBookStore((state) => state.initBook);
   const { login, isLoading, isError, error } = useLoginAndFetchData();
@@ -60,7 +67,12 @@ export default function LoginForm() {
           initBook(booksData, booksData[0].id, booksData[0].name);
         }
         // Navigate to next page, etc.
-        router.navigate('/account');
+        if (isOnBoarding) {
+          router.navigate('/account');
+        } else {
+          setIsOnBoarding(true);
+          router.navigate('/');
+        }
       },
       (error) => {
         console.error('Login failed', error);

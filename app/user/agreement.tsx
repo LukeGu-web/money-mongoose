@@ -53,7 +53,7 @@ export default function Onboarding() {
           <View className='flex-row justify-between gap-6 mt-4'>
             <Pressable
               className='items-center justify-center flex-1 p-2 border-2 border-black rounded-3xl'
-              onPress={() => {}}
+              onPress={() => router.navigate('/user/user-leave')}
             >
               <Text>Disagree</Text>
             </Pressable>
