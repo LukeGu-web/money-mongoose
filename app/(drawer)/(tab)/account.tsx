@@ -1,9 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
-import { router } from 'expo-router';
 import { View, Text, Pressable, ScrollView } from 'react-native';
 
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { clearAll } from 'core/localStorage/storage';
 import {
   AvatarSection,

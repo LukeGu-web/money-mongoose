@@ -9,11 +9,12 @@ import {
 import { useForm, Controller } from 'react-hook-form';
 import { Link, router } from 'expo-router';
 import { useShallow } from 'zustand/react/shallow';
-import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
+
 import { useLoginAndFetchData } from 'api/account';
 import { useBookStore, useUserStore, useLocalStore } from 'core/stateHooks';
 import log from 'core/logger';
 import { BookType } from 'api/types';
+import ThirdPartyLogin from './ThirdPartyLogin';
 
 const avatarImage = require('../../assets/icon.png');
 
@@ -40,7 +41,6 @@ export default function LoginForm() {
   });
 
   const handleLogin = handleSubmit(async (data) => {
-    console.log('login submit: ', data);
     await login(
       data.email,
       data.password,
@@ -49,7 +49,6 @@ export default function LoginForm() {
         // Update your app state here
         if (userDetails) {
           const account = userDetails;
-          console.log('update user: ', token, userDetails.user);
           setUser({
             id: account.id,
             account_id: account.account_id as string,
@@ -62,7 +61,6 @@ export default function LoginForm() {
           });
         }
         if (books && books.length > 0) {
-          console.log('update books: ', books[0]);
           const booksData = books as BookType[];
           initBook(booksData, booksData[0].id, booksData[0].name);
         }
@@ -73,6 +71,7 @@ export default function LoginForm() {
           setIsOnBoarding(true);
           router.navigate('/');
         }
+        reset();
       },
       (error) => {
         console.error('Login failed', error);
@@ -139,35 +138,7 @@ export default function LoginForm() {
           )}
         </Pressable>
       </View>
-      <Text className='self-center color-gray-400'>
-        ----------- or -----------
-      </Text>
-      <View className='gap-3 mt-4'>
-        <Pressable className='flex-row items-center self-center w-3/4 gap-4 px-4 py-2 border-2 border-gray-400 rounded-lg'>
-          <View className='items-center w-1/6'>
-            <FontAwesome6 name='google' size={20} color='#03045e' />
-          </View>
-          <Text className='text-lg font-semibold color-primary'>
-            Continue with Google
-          </Text>
-        </Pressable>
-        <Pressable className='flex-row items-center self-center w-3/4 gap-4 px-4 py-2 border-2 border-gray-400 rounded-lg'>
-          <View className='items-center w-1/6'>
-            <FontAwesome6 name='meta' size={20} color='blue' />
-          </View>
-          <Text className='w-3/4 text-lg font-semibold color-primary'>
-            Continue with Meta
-          </Text>
-        </Pressable>
-        <Pressable className='flex-row items-center self-center w-3/4 gap-4 px-4 py-2 border-2 border-gray-400 rounded-lg'>
-          <View className='items-center w-1/6'>
-            <FontAwesome6 name='apple' size={24} color='black' />
-          </View>
-          <Text className='text-lg font-semibold color-primary'>
-            Continue with Apple
-          </Text>
-        </Pressable>
-      </View>
+      <ThirdPartyLogin />
     </View>
   );
 }
