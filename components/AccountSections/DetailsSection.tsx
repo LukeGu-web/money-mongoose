@@ -1,16 +1,33 @@
+import { useEffect } from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { useUserStore } from 'core/stateHooks';
 import { router } from 'expo-router';
 import Entypo from '@expo/vector-icons/Entypo';
 import Octicons from '@expo/vector-icons/Octicons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { useUserDetails } from 'api/account';
 
 export default function DetailsSection() {
-  const user = useUserStore((state) => state.user);
+  const { data } = useUserDetails();
+  const { user, setUser } = useUserStore();
+  useEffect(() => {
+    if (data) {
+      if (
+        data.account_status !== user.account_status ||
+        data.nickname !== user.nickname
+      ) {
+        setUser({
+          ...user,
+          account_status: data.account_status as string,
+          nickname: data.nickname as string,
+        });
+      }
+    }
+  }, [data]);
   return (
     <View className='items-start justify-center flex-1 gap-2 mb-4'>
       <Text className='color-zinc-600'>Account</Text>
-      {user.account_status.includes('registered') ? (
+      {user.account_status === 'unregistered' ? (
         <View className='w-full bg-blue-400 rounded-lg'>
           <Pressable
             className='flex-row items-center gap-2 px-4 py-2 border-b-2 border-white'

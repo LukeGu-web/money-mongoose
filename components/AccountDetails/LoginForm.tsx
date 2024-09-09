@@ -88,13 +88,24 @@ export default function LoginForm() {
       <View className='gap-4'>
         <Controller
           control={control}
+          rules={{
+            required: {
+              value: true,
+              message: 'Please enter your email.',
+            },
+            pattern: {
+              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+              message: 'Invalid email address',
+            },
+          }}
           render={({ field: { onChange, onBlur, value } }) => (
             <View>
               <Text className='ml-1 color-primary'>Email</Text>
               <TextInput
                 className='w-full p-3 border-2 rounded-lg border-zinc-600'
-                placeholder='Please enter the budget amount'
-                keyboardType='numeric'
+                placeholder='Please enter your email'
+                inputMode='email'
+                autoCapitalize='none'
                 autoFocus={true}
                 onBlur={onBlur}
                 onChangeText={onChange}
