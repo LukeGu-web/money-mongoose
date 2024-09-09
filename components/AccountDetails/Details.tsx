@@ -1,16 +1,31 @@
-import { View, TextInput, Text, Pressable } from 'react-native';
+import { useEffect } from 'react';
+import { View, Text, Pressable } from 'react-native';
 import * as Updates from 'expo-updates';
-import { useForm, Controller } from 'react-hook-form';
 import dayjs from 'dayjs';
+import { useUserDetails } from 'api/account';
 import { useUserStore } from 'core/stateHooks';
 import { clearAll } from 'core/localStorage/storage';
 import Icon from '../Icon/Icon';
 
 export default function Details() {
-  const user = useUserStore((state) => state.user);
+  const { data } = useUserDetails();
+  const { user, setUser } = useUserStore();
 
-  // const { avatar, ...rest } = user;
-  // console.log('user: ', rest);
+  useEffect(() => {
+    if (data) {
+      if (
+        data.account_status !== user.account_status ||
+        data.nickname !== user.nickname
+      ) {
+        setUser({
+          ...user,
+          account_status: data.account_status as string,
+          nickname: data.nickname as string,
+        });
+      }
+    }
+  }, [data]);
+
   return (
     <View className='items-center flex-1 w-full gap-4 p-2'>
       <View>
