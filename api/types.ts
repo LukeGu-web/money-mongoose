@@ -50,3 +50,9 @@ export type UserType = {
   nickname: string;
   account_status: string;
 };
+
+export type PieChartDataType = {
+  value: number;
+  color: string;
+  text: string;
+}[];

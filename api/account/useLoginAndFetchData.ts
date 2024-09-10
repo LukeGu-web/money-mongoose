@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useCallback } from 'react';
 import { AxiosError } from 'axios';
 import { setHeaderToken } from '../client';
 import useLogin from './useLogin';
@@ -48,8 +48,8 @@ const useLoginAndFetchData = () => {
     login,
     isLoading:
       loginMutation.isPending ||
-      userDetailsQuery.isLoading ||
-      useGetBooksQuery.isLoading,
+      userDetailsQuery.isRefetching ||
+      useGetBooksQuery.isRefetching,
     isError:
       loginMutation.isError ||
       userDetailsQuery.isError ||

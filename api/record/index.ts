@@ -5,3 +5,5 @@ export { default as useUpdateRecord } from './useUpdateRecord';
 export { default as useAddTransfer } from './useAddTransfer';
 export { default as useDeleteTransfer } from './useDeleteTransfer';
 export { default as useUpdateTransfer } from './useUpdateTransfer';
+
+export { default as useGetCategoriedRecords } from './useGetCategoriedRecords';
