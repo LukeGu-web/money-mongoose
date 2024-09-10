@@ -85,7 +85,7 @@ export default function TabLayout() {
         options={{
           title: 'Asset',
           headerLeft: () => (
-            <Link href='/' className='pl-3'>
+            <Link href='/chart/pie' className='pl-3'>
               <Icon name='chart-line' size={24} color='#fff' />
             </Link>
           ),
