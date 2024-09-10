@@ -2,6 +2,7 @@ import type { AxiosError } from 'axios';
 import { createMutation } from 'react-query-kit';
 import { client } from '../client';
 import type { TransferAPI as Transfer } from './types';
+import { queryClient } from '../api-provider';
 
 type Variables = Transfer;
 type Response = Transfer;
@@ -13,6 +14,11 @@ const useAddTransfer = createMutation<Response, Variables, AxiosError>({
       method: 'POST',
       data: variables,
     }).then((response) => response.data),
+  onSuccess: () => {
+    queryClient.refetchQueries({
+      queryKey: ['records'],
+    });
+  },
 });
 
 export default useAddTransfer;

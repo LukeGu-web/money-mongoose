@@ -28,7 +28,7 @@ type Response = {
 type Variables = void;
 
 const useGetCategoriedRecords = createQuery<Response, Variables, AxiosError>({
-  queryKey: ['category'],
+  queryKey: ['records'],
   fetcher: () =>
     client.get('record/category/').then((response) => response.data),
 });

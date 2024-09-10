@@ -1,6 +1,7 @@
 import type { AxiosError } from 'axios';
 import { createMutation } from 'react-query-kit';
 import { client } from '../client';
+import { queryClient } from '../api-provider';
 
 type Variables = { id: number };
 type Response = {};
@@ -12,6 +13,11 @@ const useDeleteRecord = createMutation<Response, Variables, AxiosError>({
       method: 'DELETE',
       data: variables,
     }).then((response) => response.data),
+  onSuccess: () => {
+    queryClient.refetchQueries({
+      queryKey: ['records'],
+    });
+  },
 });
 
 export default useDeleteRecord;

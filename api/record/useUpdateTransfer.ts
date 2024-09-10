@@ -1,6 +1,7 @@
 import type { AxiosError } from 'axios';
 import { createMutation } from 'react-query-kit';
 import { client } from '../client';
+import { queryClient } from '../api-provider';
 import type { TransferAPI as Transfer } from './types';
 
 type Variables = Transfer;
@@ -13,6 +14,11 @@ const useUpdateTransfer = createMutation<Response, Variables, AxiosError>({
       method: 'PUT',
       data: variables,
     }).then((response) => response.data),
+  onSuccess: () => {
+    queryClient.refetchQueries({
+      queryKey: ['records'],
+    });
+  },
 });
 
 export default useUpdateTransfer;
