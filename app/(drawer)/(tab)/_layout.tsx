@@ -1,8 +1,16 @@
 import { useCallback, useEffect } from 'react';
-import { Pressable } from 'react-native';
-import { Tabs, SplashScreen, Redirect, Link, useNavigation } from 'expo-router';
+import { Pressable, View } from 'react-native';
+import {
+  Tabs,
+  SplashScreen,
+  Redirect,
+  Link,
+  useNavigation,
+  router,
+} from 'expo-router';
 import { DrawerToggleButton } from '@react-navigation/drawer';
 import { Entypo } from '@expo/vector-icons';
+import AntDesign from '@expo/vector-icons/AntDesign';
 import dayjs from 'dayjs';
 
 import { Icon } from 'components';
@@ -64,9 +72,17 @@ export default function TabLayout() {
         options={{
           title: 'Calendar',
           headerRight: () => (
-            <Pressable className='pr-3' onPress={handleBackToday}>
-              <Icon name='center_focus' size={24} color='#fff' />
-            </Pressable>
+            <View className='flex-row gap-2'>
+              <Pressable
+                className='pr-3'
+                onPress={() => router.navigate('/chart/pie/')}
+              >
+                <AntDesign name='piechart' size={22} color='#fff' />
+              </Pressable>
+              <Pressable className='pr-3' onPress={handleBackToday}>
+                <Icon name='center_focus' size={24} color='#fff' />
+              </Pressable>
+            </View>
           ),
           tabBarIcon: ({ color }) => (
             <Icon name='calendar' size={28} color={color} />
@@ -85,7 +101,7 @@ export default function TabLayout() {
         options={{
           title: 'Asset',
           headerLeft: () => (
-            <Link href='/chart/pie' className='pl-3'>
+            <Link href='/chart/line/' className='pl-3'>
               <Icon name='chart-line' size={24} color='#fff' />
             </Link>
           ),

@@ -34,8 +34,6 @@ export default function SignUpForm() {
   });
 
   const handleLogin = handleSubmit((data) => {
-    console.log('sign up submit: ', data);
-
     updateUserApi(
       {
         id: user.id,

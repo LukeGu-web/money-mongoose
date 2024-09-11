@@ -25,12 +25,16 @@ type Response = {
   expense?: InnerType;
   income?: InnerType;
 };
-type Variables = void;
+type Variables = {
+  book_id: number;
+};
 
 const useGetCategoriedRecords = createQuery<Response, Variables, AxiosError>({
   queryKey: ['records'],
-  fetcher: () =>
-    client.get('record/category/').then((response) => response.data),
+  fetcher: (variables: Variables) =>
+    client
+      .get(`record/category/?book_id=${variables.book_id}`)
+      .then((response) => response.data),
 });
 
 export default useGetCategoriedRecords;
