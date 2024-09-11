@@ -8,3 +8,4 @@ export { default as useUpdateTransfer } from './useUpdateTransfer';
 
 export { default as useGetCategoriedRecords } from './useGetCategoriedRecords';
 export { default as useGetMonthlyData } from './useGetMonthlyData';
+export { default as useGetTrendDate } from './useGetTrendDate';
