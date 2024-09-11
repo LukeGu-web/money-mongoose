@@ -7,3 +7,4 @@ export { default as useDeleteTransfer } from './useDeleteTransfer';
 export { default as useUpdateTransfer } from './useUpdateTransfer';
 
 export { default as useGetCategoriedRecords } from './useGetCategoriedRecords';
+export { default as useGetMonthlyData } from './useGetMonthlyData';

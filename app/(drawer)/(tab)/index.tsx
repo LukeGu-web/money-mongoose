@@ -5,28 +5,24 @@ import { router } from 'expo-router';
 import dayjs from 'dayjs';
 
 import { setHeaderToken } from 'api/client';
+import { useGetMonthlyData } from 'api/record';
 import { BudgetCard, ExpenseCard, RecordList, Icon } from 'components';
-import { useUserStore, useRecordStore } from 'core/stateHooks';
+import { useUserStore, useBookStore } from 'core/stateHooks';
 
 export default function Home() {
   const user = useUserStore((state) => state.user);
-  const records = useRecordStore((state) => state.records);
+  const currentBook = useBookStore((state) => state.currentBook);
+  const { data } = useGetMonthlyData({
+    variables: { book_id: currentBook.id },
+  });
   useEffect(() => {
     setHeaderToken(user.token);
   }, []);
 
-  const currentMonth = dayjs().month();
-  let n = 0,
-    monthIncome = 0,
-    monthExpense = 0;
-  while (
-    dayjs(records[n]?.date).month() === currentMonth &&
-    records.length > n
-  ) {
-    monthIncome += Number(records[n].sum_of_income);
-    monthExpense += Number(records[n].sum_of_expense);
-    n++;
-  }
+  const monthIncome =
+    data && data.length > 0 ? Number(data[0].monthly_income) : 0;
+  const monthExpense =
+    data && data.length > 0 ? Number(data[0].monthly_expense) : 0;
 
   return (
     <View className='flex-1 gap-2 p-2 bg-white'>
