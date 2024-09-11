@@ -3,9 +3,10 @@ import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { router } from 'expo-router';
 import { Feather } from '@expo/vector-icons';
 
+import { queryClient } from 'api/api-provider';
 import { useDeleteBook } from 'api/book';
 import { formatApiError } from 'api/errorFormat';
-import { useBookStore, useBook, useRecordStore } from 'core/stateHooks';
+import { useBookStore, useBook } from 'core/stateHooks';
 import log from 'core/logger';
 import BottomSheet from './BottomSheet';
 import Icon from '../Icon/Icon';
@@ -18,14 +19,15 @@ export default function BookBottomSheet({
   bottomSheetModalRef,
 }: BookBottomSheetProps) {
   const { books, setCurrentBook, setBooks } = useBookStore();
-  const { resetRecords } = useRecordStore();
   const book = useBook((state) => state.book);
   const { mutate: deleteBookApi } = useDeleteBook();
 
   const handleSelectCurrentBook = () => {
     bottomSheetModalRef.current?.dismiss();
     setCurrentBook(book.id, book.name);
-    resetRecords();
+    queryClient.refetchQueries({
+      queryKey: ['records', book.id],
+    });
   };
 
   const handleEditSelectedBook = async () => {

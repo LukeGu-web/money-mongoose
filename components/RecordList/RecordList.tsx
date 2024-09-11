@@ -4,14 +4,14 @@ import { usePathname } from 'expo-router';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { FlashList } from '@shopify/flash-list';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
-import dayjs from 'dayjs';
 
 import { client } from 'api/client';
 import { formatApiError } from 'api/errorFormat';
 import log from 'core/logger';
-import { useRecord, useRecordStore, useBookStore } from 'core/stateHooks';
+import { useRecord, useBookStore } from 'core/stateHooks';
 import RecordBottomSheet from '../BottomSheet/RecordBottomSheet';
 import ListDayItem from './ListDayItem';
+import { RecordsByDay } from 'api/record/types';
 
 type RecordListProps = {
   extra?: string;
@@ -27,13 +27,13 @@ export default function RecordList({
   bgColor = 'bg-white',
 }: RecordListProps) {
   const path = usePathname();
-  const { records, setRecords } = useRecordStore();
   const currentBook = useBookStore((state) => state.currentBook);
+  const bookId = currentBook.id;
   const [page, setPage] = useState(1);
 
-  const getRecords = (page = 1) =>
+  const getRecords = (page = 1, bookId: number) =>
     client
-      .get(`/record/combined/?page=${page}&book_id=${currentBook.id}${extra}`)
+      .get(`/record/combined/?page=${page}&book_id=${bookId}${extra}`)
       .then((response) => response.data);
 
   const {
@@ -45,8 +45,8 @@ export default function RecordList({
     isPlaceholderData,
     refetch,
   } = useQuery({
-    queryKey: ['projects', page],
-    queryFn: () => getRecords(page),
+    queryKey: ['records', page, bookId],
+    queryFn: () => getRecords(page, bookId),
     placeholderData: keepPreviousData,
   });
 
@@ -65,12 +65,6 @@ export default function RecordList({
   const handleDismissItem = () => {
     if (path !== '/record') resetRecord();
   };
-
-  useEffect(() => {
-    if (data) {
-      setRecords(data.results);
-    }
-  }, [data, setRecords]);
 
   if (isPending || isFetching)
     return (
@@ -93,10 +87,10 @@ export default function RecordList({
 
   return (
     <View className={`flex-1 p-2 ${bgColor}`}>
-      {records.length > 0 ? (
+      {data.results.length > 0 ? (
         <FlashList
-          data={records}
-          renderItem={({ item }) => (
+          data={data.results}
+          renderItem={({ item }: { item: RecordsByDay }) => (
             <ListDayItem item={item} onPress={handlePressItem} />
           )}
           estimatedItemSize={50}

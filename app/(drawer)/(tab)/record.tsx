@@ -20,7 +20,7 @@ import {
 import { formatApiError } from 'api/errorFormat';
 import { RecordTypes, Record as RecordType } from 'api/record/types';
 
-import { useRecord, useBookStore, useRecordStore } from 'core/stateHooks';
+import { useRecord, useBookStore } from 'core/stateHooks';
 import log from 'core/logger';
 
 export default function Record() {
@@ -30,8 +30,6 @@ export default function Record() {
   const { mutate: updateTransferApi } = useUpdateTransfer();
   const { record } = useRecord();
   const { currentBook } = useBookStore();
-  const { addRecord, updateRecord, addTransfer, updateTransfer } =
-    useRecordStore();
   const methods = useForm({
     defaultValues: record,
     criteriaMode: 'all',
@@ -62,10 +60,6 @@ export default function Record() {
           onSuccess: (response) => {
             log.success('Add record success:', response);
             methods.reset();
-            updateRecord({
-              ...response,
-              amount: Number(response.amount),
-            });
             router.navigate('/');
           },
           onError: (error) => {
@@ -80,10 +74,6 @@ export default function Record() {
           onSuccess: (response) => {
             log.success('Add record success:', response);
             methods.reset();
-            addRecord({
-              ...response,
-              amount: Number(response.amount),
-            });
             router.navigate('/');
           },
           onError: (error) => {
@@ -111,10 +101,6 @@ export default function Record() {
         {
           onSuccess: (response) => {
             log.success('Add record success:', response);
-            updateTransfer({
-              ...response,
-              amount: Number(response.amount),
-            });
             methods.reset();
             router.navigate('/');
           },
@@ -131,10 +117,6 @@ export default function Record() {
         {
           onSuccess: (response) => {
             log.success('Add record success:', response);
-            addTransfer({
-              ...response,
-              amount: Number(response.amount),
-            });
             methods.reset();
             router.navigate('/');
           },

@@ -5,7 +5,7 @@ import { RecordTypes } from 'api/record/types';
 import { useDeleteRecord } from 'api/record';
 import { formatApiError } from 'api/errorFormat';
 import log from 'core/logger';
-import { useRecord, useRecordStore } from 'core/stateHooks';
+import { useRecord } from 'core/stateHooks';
 import BottomSheet from './BottomSheet';
 import Icon from '../Icon/Icon';
 
@@ -20,7 +20,6 @@ export default function RecordBottomSheet({
 }: RecordBottomSheetProps) {
   const { mutate: deleteRecordApi } = useDeleteRecord();
   const { record, resetRecord, setRecord } = useRecord();
-  const { removeRecord } = useRecordStore();
   const handleGoRecord = () => {
     router.navigate('/record');
     bottomSheetModalRef.current?.dismiss();
@@ -49,8 +48,6 @@ export default function RecordBottomSheet({
               {
                 onSuccess: () => {
                   log.success('Delete asset successfully!');
-                  // delete record from store
-                  removeRecord(record.id as number);
                   resetRecord();
                   bottomSheetModalRef.current?.dismiss();
                 },

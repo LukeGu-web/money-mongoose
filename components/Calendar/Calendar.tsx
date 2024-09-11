@@ -11,12 +11,7 @@ import { client } from 'api/client';
 import { formatApiError } from 'api/errorFormat';
 import { RecordsByDay } from 'api/record/types';
 import log from 'core/logger';
-import {
-  useRecord,
-  useRecordStore,
-  useBookStore,
-  useCalendar,
-} from 'core/stateHooks';
+import { useRecord, useBookStore, useCalendar } from 'core/stateHooks';
 import CalendarDay from './CalendarDay';
 import ListDayItem from '../RecordList/ListDayItem';
 import RecordBottomSheet from '../BottomSheet/RecordBottomSheet';
@@ -25,7 +20,6 @@ export default function Calendar() {
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const path = usePathname();
   const resetRecord = useRecord((state) => state.resetRecord);
-  const { records, setRecords } = useRecordStore();
   const { visiableMonth, setVisiableMonth } = useCalendar();
   const currentBook = useBookStore((state) => state.currentBook);
   const now = dayjs();
@@ -40,14 +34,10 @@ export default function Calendar() {
 
   const { isPending, isError, error, data, isFetching, isPlaceholderData } =
     useQuery({
-      queryKey: ['projects', page],
+      queryKey: ['records', page],
       queryFn: () => getRecords(page),
       placeholderData: keepPreviousData,
     });
-
-  useEffect(() => {
-    if (data) setRecords(data.results);
-  }, [data, setRecords]);
 
   if (isPending || isFetching)
     return (
@@ -96,7 +86,7 @@ export default function Calendar() {
             state={state}
             selectedDate={selectedDay}
             onSelectDay={setSelectedDay}
-            recordData={records.find(
+            recordData={data.results.find(
               (item: RecordsByDay) => item.date === date?.dateString
             )}
           />
@@ -104,10 +94,12 @@ export default function Calendar() {
         onMonthChange={handleMonthChange}
       />
       <View className='flex-1 p-2 rounded-lg bg-sky-100'>
-        {records.find((item: RecordsByDay) => item.date === selectedDay) ? (
+        {data.results.find(
+          (item: RecordsByDay) => item.date === selectedDay
+        ) ? (
           <FlashList
             data={[
-              records.find(
+              data.results.find(
                 (item: RecordsByDay) => item.date === selectedDay
               ) as RecordsByDay,
             ]}
