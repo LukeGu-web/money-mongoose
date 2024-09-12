@@ -5,7 +5,7 @@ import { router } from 'expo-router';
 import { FlashList } from '@shopify/flash-list';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 
-import { useUpdateAsset, useDeleteAsset } from 'api/asset';
+import { useGetAllAssets, useUpdateAsset, useDeleteAsset } from 'api/asset';
 import { formatApiError } from 'api/errorFormat';
 import { useAsset, useBookStore } from 'core/stateHooks';
 import log from 'core/logger';
@@ -16,11 +16,15 @@ import SelectGroupBottomSheet from '../BottomSheet/SelectGroupBottomSheet';
 
 export default function EditableAccountList() {
   const { asset, resetAsset } = useAsset();
-  const { getCurrentBook, updateAsset, removeAsset } = useBookStore();
-  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-  const selectGroupModalRef = useRef<BottomSheetModal>(null);
+  const currentBook = useBookStore((state) => state.currentBook);
+  const { data } = useGetAllAssets({
+    variables: { book_id: currentBook.id },
+  });
   const { mutate: updateAssetApi } = useUpdateAsset();
   const { mutate: deleteAssetApi } = useDeleteAsset();
+
+  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+  const selectGroupModalRef = useRef<BottomSheetModal>(null);
 
   const methods = useForm({
     defaultValues: {
@@ -57,8 +61,6 @@ export default function EditableAccountList() {
       {
         onSuccess: () => {
           log.success('Delete asset successfully!');
-          // remove asset from store
-          removeAsset(asset);
           resetAsset();
         },
         onError: (error) => {
@@ -76,7 +78,6 @@ export default function EditableAccountList() {
       {
         onSuccess: (response) => {
           log.success('update asset success:', response);
-          updateAsset(response);
           resetAsset();
           reset();
         },
@@ -105,7 +106,7 @@ export default function EditableAccountList() {
 
   return (
     <View className='flex-1 gap-2'>
-      {getCurrentBook()?.groups.map((group) => {
+      {data?.groups.map((group) => {
         const assets = group.assets;
         const title = {
           text: group.name,

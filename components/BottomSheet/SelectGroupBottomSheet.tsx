@@ -4,8 +4,7 @@ import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { useForm, useFormContext, Controller } from 'react-hook-form';
 import { PickerIOS } from '@react-native-picker/picker';
 
-import { BookType } from 'api/types';
-import { useCreateAssetGroup } from 'api/asset';
+import {useGetAllAssets, useCreateAssetGroup } from 'api/asset';
 import { formatApiError } from 'api/errorFormat';
 import { useBookStore } from 'core/stateHooks';
 import log from 'core/logger';
@@ -25,7 +24,10 @@ export default function SelectGroupBottomSheet({
   onChange,
   onDismiss,
 }: SelectGroupBottomSheetProps) {
-  const { getCurrentBook, addAssetGroup } = useBookStore();
+  const currentBook = useBookStore((state) => state.currentBook);
+  const { data } = useGetAllAssets({
+    variables: { book_id: currentBook.id },
+  });
   const { mutate: addAssetGroupApi } = useCreateAssetGroup();
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
@@ -43,11 +45,10 @@ export default function SelectGroupBottomSheet({
 
   const handleConfirm = handleSubmit((data) => {
     addAssetGroupApi(
-      { ...data, book: (getCurrentBook() as BookType).id },
+      { ...data, book: currentBook.id },
       {
         onSuccess: (response) => {
           log.success('Add asset success:', response);
-          addAssetGroup(response);
           setValue('group', `${response.id}-${response.name}`);
           reset();
           setIsVisible(false);
@@ -82,7 +83,7 @@ export default function SelectGroupBottomSheet({
             onValueChange={onChange}
             style={{ flex: 1, width: '100%' }}
           >
-            {getCurrentBook()?.groups.map((item) => (
+            {data?.groups.map((item) => (
               <PickerIOS.Item
                 key={item.id}
                 label={item.name}

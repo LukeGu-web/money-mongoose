@@ -12,11 +12,10 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useForm, FormProvider } from 'react-hook-form';
-import { useShallow } from 'zustand/react/shallow';
 
 import { useCreateAsset, useUpdateAsset } from 'api/asset';
 import { formatApiError } from 'api/errorFormat';
-import { useBookStore, useAsset } from 'core/stateHooks';
+import { useAsset } from 'core/stateHooks';
 import log from 'core/logger';
 import {
   AssetAccountBasicForm,
@@ -30,12 +29,6 @@ export default function AssetDetails() {
   const { mutate: addAssetApi } = useCreateAsset();
   const { mutate: updateAssetApi } = useUpdateAsset();
   const { asset, resetAsset } = useAsset();
-  const { addAsset, updateAsset } = useBookStore(
-    useShallow((state) => ({
-      addAsset: state.addAsset,
-      updateAsset: state.updateAsset,
-    }))
-  );
   const [isMore, setIsMore] = useState(false);
   const methods = useForm({
     defaultValues: asset,
@@ -65,7 +58,6 @@ export default function AssetDetails() {
         {
           onSuccess: (response) => {
             log.success('Create asset success:', response);
-            addAsset(response);
             resetAsset();
             reset();
             router.back();
@@ -87,7 +79,6 @@ export default function AssetDetails() {
         {
           onSuccess: (response) => {
             log.success('update asset success:', response);
-            updateAsset(response);
             resetAsset();
             reset();
             router.navigate('/asset/management');

@@ -1,7 +1,6 @@
 import { Text, View, Modal, Button, TextInput } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 
-import { BookType } from 'api/types';
 import { useCreateAssetGroup, useUpdateAssetGroup } from 'api/asset';
 import { formatApiError } from 'api/errorFormat';
 import { useBookStore } from 'core/stateHooks';
@@ -22,7 +21,7 @@ export default function AssetGroupModal({
 }: AssetGroupModalProps) {
   const { mutate: addAssetGroupApi } = useCreateAssetGroup();
   const { mutate: updateAssetGroupApi } = useUpdateAssetGroup();
-  const { getCurrentBook, addAssetGroup, updateAssetGroup } = useBookStore();
+  const currentBook = useBookStore((state) => state.currentBook);
 
   const { control, handleSubmit, reset } = useForm({
     defaultValues: {
@@ -37,11 +36,10 @@ export default function AssetGroupModal({
   const handleConfirm = handleSubmit((data) => {
     if (name === '') {
       addAssetGroupApi(
-        { ...data, book: (getCurrentBook() as BookType).id },
+        { ...data, book: currentBook.id },
         {
           onSuccess: (response) => {
             log.success('create success:', response);
-            addAssetGroup(response);
             reset();
             onClose();
           },
@@ -56,7 +54,6 @@ export default function AssetGroupModal({
         {
           onSuccess: (response) => {
             log.success('update success:', response);
-            updateAssetGroup(response);
             reset();
             onClose();
           },
