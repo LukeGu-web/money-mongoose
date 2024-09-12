@@ -9,7 +9,7 @@ type Variables = {
 };
 
 const useGetFlatAssets = createQuery<Response, Variables, AxiosError>({
-  queryKey: ['assets'],
+  queryKey: ['assets', 'flat'],
   fetcher: (variables: Variables) =>
     client
       .get(`asset/?book_id=${variables.book_id}`)

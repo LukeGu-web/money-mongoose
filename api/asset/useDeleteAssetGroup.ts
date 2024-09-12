@@ -14,7 +14,7 @@ const useDeleteAssetGroup = createMutation<Response, Variables, AxiosError>({
     }).then((response) => response.data),
   onSuccess: () => {
     queryClient.invalidateQueries({
-      queryKey: ['assets'],
+      queryKey: ['assets', 'grouped'],
     });
   },
 });

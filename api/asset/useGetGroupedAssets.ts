@@ -14,7 +14,7 @@ type Variables = {
 };
 
 const useGetGroupedAssets = createQuery<Response, Variables, AxiosError>({
-  queryKey: ['assets'],
+  queryKey: ['assets', 'grouped'],
   fetcher: (variables: Variables) =>
     client
       .get(`asset/group-list/?book_id=${variables.book_id}`)
