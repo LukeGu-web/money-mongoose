@@ -13,7 +13,7 @@ import { useForm, Controller } from 'react-hook-form';
 
 import { useCreateBook, useUpdateBook } from 'api/book';
 import { formatApiError } from 'api/errorFormat';
-import { useBook } from 'core/stateHooks';
+import { useBook, useBookStore } from 'core/stateHooks';
 import log from 'core/logger';
 
 export default function AddNewBook() {
@@ -21,6 +21,7 @@ export default function AddNewBook() {
   const { mutate: addBookApi } = useCreateBook();
   const { mutate: updateBookApi } = useUpdateBook();
   const { book, resetBook } = useBook();
+  const { currentBook, setCurrentBook } = useBookStore();
   const { control, handleSubmit, reset } = useForm({
     defaultValues: book,
   });
@@ -32,6 +33,9 @@ export default function AddNewBook() {
         {
           onSuccess: (response) => {
             log.success('Update book success:', response);
+            if (currentBook.id === data.id) {
+              setCurrentBook(data);
+            }
             resetBook();
             reset();
             router.back();

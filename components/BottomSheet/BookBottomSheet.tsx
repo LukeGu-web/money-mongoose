@@ -18,7 +18,7 @@ type BookBottomSheetProps = {
 export default function BookBottomSheet({
   bottomSheetModalRef,
 }: BookBottomSheetProps) {
-  const { setCurrentBook } = useBookStore();
+  const { setCurrentBook, currentBook } = useBookStore();
   const book = useBook((state) => state.book);
   const { mutate: deleteBookApi } = useDeleteBook();
 
@@ -35,8 +35,20 @@ export default function BookBottomSheet({
     router.navigate('/book/details');
   };
 
-  const handleDeleteBook = () =>
-    Alert.alert(
+  const handleDeleteBook = () => {
+    if (book.id === currentBook.id) {
+      return Alert.alert(
+        'Delete current book',
+        `You cannot delete your current book. You have to switch to another book first.`,
+        [
+          {
+            text: 'Ok',
+            onPress: () => bottomSheetModalRef.current?.dismiss(),
+          },
+        ]
+      );
+    }
+    return Alert.alert(
       'Delete this book',
       `Are you sure you want to delete ${book.name}?`,
       [
@@ -48,6 +60,7 @@ export default function BookBottomSheet({
         { text: 'Yes', onPress: () => onDeleteBook() },
       ]
     );
+  };
 
   const onDeleteBook = () => {
     deleteBookApi(

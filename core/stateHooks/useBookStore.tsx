@@ -15,7 +15,9 @@ const useBookStore = create<BookState>()(
       immer((set, get) => ({
         currentBook: { id: -1, name: '', note: '', monthly_goal: null },
         setCurrentBook: (book) => {
-          set(() => ({ currentBook: book }));
+          set((state) => {
+            state.currentBook = book;
+          });
         },
       })),
       {

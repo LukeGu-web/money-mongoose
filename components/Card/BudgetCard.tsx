@@ -1,5 +1,13 @@
 import { useState } from 'react';
-import { Text, TextInput, View, Modal, Pressable, Button } from 'react-native';
+import {
+  Text,
+  TextInput,
+  View,
+  Modal,
+  Pressable,
+  Button,
+  ActivityIndicator,
+} from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import dayjs from 'dayjs';
 
@@ -16,13 +24,14 @@ type BudgetCardProps = {
 };
 
 export default function BudgetCard({ monthExpense }: BudgetCardProps) {
-  const { mutate: updateBookApi } = useUpdateBook();
-  const { id, monthly_goal } = useBookStore((state) => state.currentBook);
+  const { mutate: updateBookApi, isPending } = useUpdateBook();
+  const { currentBook, setCurrentBook } = useBookStore();
   const expenseAmount = Math.abs(monthExpense);
   const days = dayjs().date();
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [remaining, setRemaining] = useState<number>(
-    (monthly_goal !== null ? Number(monthly_goal) : 0) + monthExpense
+    (currentBook.monthly_goal !== null ? Number(currentBook.monthly_goal) : 0) +
+      monthExpense
   );
 
   const {
@@ -41,11 +50,12 @@ export default function BudgetCard({ monthExpense }: BudgetCardProps) {
 
   const handleConfirm = handleSubmit((data) => {
     updateBookApi(
-      { id: id, monthly_goal: Number(data.amount) },
+      { id: currentBook.id, monthly_goal: Number(data.amount) },
       {
         onSuccess: (response) => {
           log.success('Set monthly goal on book success:', response);
-          setRemaining(Number(response.monthly_goal));
+          setCurrentBook(response);
+          setRemaining(Number(response.monthly_goal) + monthExpense);
           setIsVisible(false);
         },
         onError: (error) => {
@@ -65,7 +75,11 @@ export default function BudgetCard({ monthExpense }: BudgetCardProps) {
             setIsVisible(true);
           }}
         >
-          <Text>{monthly_goal === null ? 'set goal' : monthly_goal}</Text>
+          <Text>
+            {currentBook.monthly_goal === null
+              ? 'set goal'
+              : currentBook.monthly_goal}
+          </Text>
           <Icon name='edit' size={14} color='#000' />
         </Pressable>
       </View>
@@ -73,7 +87,9 @@ export default function BudgetCard({ monthExpense }: BudgetCardProps) {
         <View className='items-center justify-center flex-1 pt-2.5 rounded-lg bg-zinc-100'>
           <GoalProcess
             targetPercentage={
-              monthly_goal !== null ? expenseAmount / Number(monthly_goal) : 0
+              currentBook.monthly_goal !== null
+                ? expenseAmount / Number(currentBook.monthly_goal)
+                : 0
             }
           />
         </View>
@@ -120,26 +136,31 @@ export default function BudgetCard({ monthExpense }: BudgetCardProps) {
         >
           <View className='items-center w-11/12 gap-6 p-6 bg-white rounded-lg'>
             <Text className='text-3xl'>Monthly Budget</Text>
-            <Controller
-              control={control}
-              render={({ field: { onChange, onBlur, value } }) => (
-                <TextInput
-                  className='w-full p-3 border-2 rounded-lg border-zinc-600'
-                  placeholder='Please enter the budget amount'
-                  keyboardType='numeric'
-                  autoFocus={true}
-                  onBlur={onBlur}
-                  onChangeText={onChange}
-                  value={value}
+            {isPending ? (
+              <ActivityIndicator size='large' />
+            ) : (
+              <View className='items-center w-full gap-4'>
+                <Controller
+                  control={control}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <TextInput
+                      className='w-full p-3 border-2 rounded-lg border-zinc-600'
+                      placeholder='Please enter the budget amount'
+                      keyboardType='numeric'
+                      autoFocus={true}
+                      onBlur={onBlur}
+                      onChangeText={onChange}
+                      value={value}
+                    />
+                  )}
+                  name='amount'
                 />
-              )}
-              name='amount'
-            />
-
-            <View className='flex-row w-4/5 justify-evenly'>
-              <Button color='gray' title='Cancel' onPress={handleCancel} />
-              <Button title='Confirm' onPress={handleConfirm} />
-            </View>
+                <View className='flex-row w-4/5 justify-evenly'>
+                  <Button color='gray' title='Cancel' onPress={handleCancel} />
+                  <Button title='Confirm' onPress={handleConfirm} />
+                </View>
+              </View>
+            )}
           </View>
         </View>
       </Modal>
