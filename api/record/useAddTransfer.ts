@@ -15,7 +15,7 @@ const useAddTransfer = createMutation<Response, Variables, AxiosError>({
       data: variables,
     }).then((response) => response.data),
   onSuccess: () => {
-    queryClient.refetchQueries({
+    queryClient.invalidateQueries({
       queryKey: ['records'],
     });
   },

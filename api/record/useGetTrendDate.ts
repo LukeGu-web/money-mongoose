@@ -13,7 +13,7 @@ type Response = {
 }[];
 
 const useGetTrendDate = createQuery<Response, Variables, AxiosError>({
-  queryKey: ['records'],
+  queryKey: ['records', 'trend'],
   fetcher: (variables: Variables): Promise<Response> => {
     return client
       .get(

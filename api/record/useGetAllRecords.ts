@@ -17,7 +17,7 @@ type Response = {
 };
 
 const useGetAllRecords = createQuery<Response, Variables, AxiosError>({
-  queryKey: ['records'],
+  queryKey: ['records', 'combined'],
   fetcher: (variables: Variables): Promise<Response> => {
     return client
       .get(

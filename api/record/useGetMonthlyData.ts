@@ -12,7 +12,7 @@ type Response = {
 }[];
 
 const useGetMonthlyData = createQuery<Response, Variables, AxiosError>({
-  queryKey: ['records'],
+  queryKey: ['records', 'monthly-data'],
   fetcher: (variables: Variables): Promise<Response> => {
     return client
       .get(`/record/monthly-data/?book_id=${variables.book_id}`)
