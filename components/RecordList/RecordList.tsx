@@ -1,17 +1,16 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import { View, Text, ActivityIndicator } from 'react-native';
 import { usePathname } from 'expo-router';
-import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { FlashList } from '@shopify/flash-list';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 
-import { client } from 'api/client';
+import { RecordsByDay } from 'api/record/types';
+import { useGetAllRecords } from 'api/record';
 import { formatApiError } from 'api/errorFormat';
 import log from 'core/logger';
 import { useRecord, useBookStore } from 'core/stateHooks';
 import RecordBottomSheet from '../BottomSheet/RecordBottomSheet';
 import ListDayItem from './ListDayItem';
-import { RecordsByDay } from 'api/record/types';
 
 type RecordListProps = {
   extra?: string;
@@ -28,35 +27,14 @@ export default function RecordList({
 }: RecordListProps) {
   const path = usePathname();
   const currentBook = useBookStore((state) => state.currentBook);
-  const bookId = currentBook.id;
   const [page, setPage] = useState(1);
 
-  const getRecords = (page = 1, bookId: number) =>
-    client
-      .get(`/record/combined/?page=${page}&book_id=${bookId}${extra}`)
-      .then((response) => response.data);
-
-  const {
-    isPending,
-    isError,
-    error,
-    data,
-    isFetching,
-    isPlaceholderData,
-    refetch,
-  } = useQuery({
-    queryKey: ['records', page, bookId],
-    queryFn: () => getRecords(page, bookId),
-    placeholderData: keepPreviousData,
-  });
+  const { isPending, isError, error, data, isFetching, isPlaceholderData } =
+    useGetAllRecords({ variables: { book_id: currentBook.id, page, extra } });
 
   const resetRecord = useRecord((state) => state.resetRecord);
 
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-
-  useEffect(() => {
-    refetch();
-  }, [extra]);
 
   const handlePressItem = useCallback(() => {
     bottomSheetModalRef.current?.present();

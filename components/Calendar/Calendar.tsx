@@ -1,13 +1,12 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { View, Text, ActivityIndicator } from 'react-native';
 import { Calendar as ClendarPicker, DateData } from 'react-native-calendars';
 import { usePathname } from 'expo-router';
 import dayjs from 'dayjs';
 import { FlashList } from '@shopify/flash-list';
-import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 
-import { client } from 'api/client';
+import { useGetAllRecords } from 'api/record';
 import { formatApiError } from 'api/errorFormat';
 import { RecordsByDay } from 'api/record/types';
 import log from 'core/logger';
@@ -27,16 +26,9 @@ export default function Calendar() {
   const [selectedDay, setSelectedDay] = useState(today);
   const [page, setPage] = useState(1);
 
-  const getRecords = (page = 1) =>
-    client
-      .get(`/record/combined/?page=${page}&book_id=${currentBook.id}`)
-      .then((response) => response.data);
-
   const { isPending, isError, error, data, isFetching, isPlaceholderData } =
-    useQuery({
-      queryKey: ['records', page],
-      queryFn: () => getRecords(page),
-      placeholderData: keepPreviousData,
+    useGetAllRecords({
+      variables: { book_id: currentBook.id, page, extra: '' },
     });
 
   if (isPending || isFetching)
@@ -57,7 +49,7 @@ export default function Calendar() {
   const handleMonthChange = (dateData: DateData) => {
     const diffMonth = dayjs(visiableMonth).diff(dateData.dateString, 'month');
     // previous month
-    if (diffMonth === 1 && !isPlaceholderData && data.hasMore) {
+    if (diffMonth === 1 && !isPlaceholderData && data.next) {
       setPage((old) => old + 1);
     }
     // next month
