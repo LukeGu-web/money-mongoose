@@ -1,36 +1,15 @@
 import { StatusBar } from 'expo-status-bar';
 import { router } from 'expo-router';
-import { View, Text, ScrollView, Pressable } from 'react-native';
+import { Text, ScrollView, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import BookList from 'components/Book/BookList';
-
-import { client } from 'api/client';
-import { BookType } from 'api/types';
-import { formatApiError } from 'api/errorFormat';
-import { useBookStore, useBook } from 'core/stateHooks';
-import log from 'core/logger';
+import { useBook } from 'core/stateHooks';
 
 export default function BookManagement() {
-  const { setBooks, setCurrentBook, currentBook } = useBookStore();
   const resetBook = useBook((state) => state.resetBook);
   const handleCreate = () => {
     resetBook();
     router.navigate('/book/details');
-  };
-  const handleSync = () => {
-    client
-      .get('book/')
-      .then((response) => {
-        log.success('Get all books success:', response.data);
-        setBooks(response.data);
-        const updated = response.data.find(
-          (book: BookType) => book.id === currentBook.id
-        );
-        setCurrentBook(updated.id, updated.name);
-      })
-      .catch((error) => {
-        log.error('Error: ', formatApiError(error));
-      });
   };
   return (
     <SafeAreaView
@@ -43,15 +22,6 @@ export default function BookManagement() {
       edges={['bottom']}
     >
       <ScrollView className='w-full'>
-        <View className='flex-row items-center justify-between p-2 mb-3 bg-gray-200'>
-          <Text>Sync your books with database</Text>
-          <Pressable
-            className='items-center p-1 bg-gray-500 rounded-lg'
-            onPress={handleSync}
-          >
-            <Text className='font-medium color-white'>Sync</Text>
-          </Pressable>
-        </View>
         <BookList />
       </ScrollView>
       <Pressable

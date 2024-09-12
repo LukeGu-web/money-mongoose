@@ -23,7 +23,7 @@ export type AssetGroupType = {
 
 export type BookType = {
   id: number;
-  groups: AssetGroupType[];
+  groups?: AssetGroupType[];
   name: string;
   note: string;
   monthly_goal: number | null;

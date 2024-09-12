@@ -1,7 +1,8 @@
 import type { AxiosError } from 'axios';
 import { createMutation } from 'react-query-kit';
+import { queryClient } from '../api-provider';
 import { client } from '../client';
-import { AssetGroupType, BookType } from '../types';
+import { BookType } from '../types';
 
 type Variables = {
   name: string;
@@ -22,6 +23,11 @@ const useCreateBook = createMutation<Response, Variables, AxiosError>({
       method: 'POST',
       data: { ...variables, groups: defaultGroups },
     }).then((response) => response.data),
+  onSuccess: () => {
+    queryClient.invalidateQueries({
+      queryKey: ['books'],
+    });
+  },
 });
 
 export default useCreateBook;

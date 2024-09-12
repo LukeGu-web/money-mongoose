@@ -1,7 +1,8 @@
 import type { AxiosError } from 'axios';
 import { createMutation } from 'react-query-kit';
 import { client } from '../client';
-import { AssetGroupType, BookType } from '../types';
+import { queryClient } from '../api-provider';
+import { BookType } from '../types';
 
 type Variables = {
   id: number;
@@ -18,6 +19,11 @@ const useUpdateBook = createMutation<Response, Variables, AxiosError>({
       method: 'PATCH',
       data: variables,
     }).then((response) => response.data),
+  onSuccess: () => {
+    queryClient.invalidateQueries({
+      queryKey: ['books'],
+    });
+  },
 });
 
 export default useUpdateBook;
