@@ -10,10 +10,10 @@ import { useForm, Controller } from 'react-hook-form';
 import { Link, router } from 'expo-router';
 import { useShallow } from 'zustand/react/shallow';
 
-import { useLoginAndFetchData } from 'api/account';
-import { useBookStore, useUserStore, useLocalStore } from 'core/stateHooks';
+import { useLogin } from 'api/account';
+import { formatApiError } from 'api/errorFormat';
+import { useLocalStore } from 'core/stateHooks';
 import log from 'core/logger';
-import { BookType } from 'api/types';
 import ThirdPartyLogin from './ThirdPartyLogin';
 
 const avatarImage = require('../../assets/icon.png');
@@ -25,9 +25,7 @@ export default function LoginForm() {
       setIsOnBoarding: state.setIsOnBoarding,
     }))
   );
-  const setUser = useUserStore((state) => state.setUser);
-  const initBook = useBookStore((state) => state.initBook);
-  const { login, isLoading, isError, error } = useLoginAndFetchData();
+  const { mutate: login, isPending, isError, error } = useLogin();
   const {
     control,
     handleSubmit,
@@ -41,41 +39,26 @@ export default function LoginForm() {
   });
 
   const handleLogin = handleSubmit(async (data) => {
-    await login(
-      data.email,
-      data.password,
-      (token, userDetails, books) => {
-        log.success('Login successful', userDetails.account_id);
-        // Update your app state here
-        if (userDetails) {
-          const account = userDetails;
-          setUser({
-            id: account.id,
-            account_id: account.account_id as string,
-            avatar: account.avatar as string,
-            nickname: account.nickname as string,
-            account_status: account.account_status as string,
-            email: account.user.email as string,
-            date_joined: account.user.date_joined as string,
-            token: token as string,
-          });
-        }
-        if (books && books.length > 0) {
-          const booksData = books as BookType[];
-          initBook(booksData, booksData[0].id, booksData[0].name);
-        }
-        // Navigate to next page, etc.
-        if (isOnBoarding) {
-          router.navigate('/account');
-        } else {
-          setIsOnBoarding(true);
-          router.navigate('/');
-        }
-        reset();
+    login(
+      {
+        username: data.email,
+        password: data.password,
       },
-      (error) => {
-        console.error('Login failed', error);
-        // Handle error (show message, etc.)
+      {
+        onSuccess: (response) => {
+          log.success('Add asset success:', response);
+          // Navigate to next page, etc.
+          if (isOnBoarding) {
+            router.navigate('/account');
+          } else {
+            setIsOnBoarding(true);
+            router.navigate('/');
+          }
+          reset();
+        },
+        onError: (error) => {
+          log.error('Error: ', formatApiError(error));
+        },
       }
     );
   });
@@ -137,10 +120,10 @@ export default function LoginForm() {
         </Link>
         <Pressable
           className='self-end w-2/5 p-2 rounded-lg bg-primary'
-          disabled={isLoading}
+          disabled={isPending}
           onPress={handleLogin}
         >
-          {isLoading ? (
+          {isPending ? (
             <ActivityIndicator size='small' color='#fff' />
           ) : (
             <Text className='text-lg font-bold text-center color-white'>
