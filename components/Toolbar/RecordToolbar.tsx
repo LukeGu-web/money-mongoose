@@ -4,27 +4,25 @@ import { useFormContext, Controller } from 'react-hook-form';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 
-import { BookType } from 'api/types';
+import { useGetFlatAssets } from 'api/asset';
 import { RecordTypes } from 'api/record/types';
 import { useBookStore } from 'core/stateHooks';
 import SelectAssetBottomSheet from 'components/BottomSheet/SelectAssetBottomSheet';
 
 export default function RecordToolbar() {
   const { control, getValues, setValue, reset } = useFormContext();
-  const { getCurrentBook } = useBookStore();
+  const currentBook = useBookStore((state) => state.currentBook);
+  const { data, isPending, isError } = useGetFlatAssets({
+    variables: { book_id: currentBook.id },
+  });
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
   const handlePressSelect = useCallback(() => {
     bottomSheetModalRef.current?.present();
     Keyboard.dismiss();
-    if (!getValues('asset')) {
-      const flatAssets = (getCurrentBook() as BookType).groups.flatMap(
-        (group) => group.assets
-      );
-      if (flatAssets.length > 0) {
-        const defaultAsset = flatAssets[0];
-        setValue('asset', `${defaultAsset.id}-${defaultAsset.name}`);
-      }
+    if (!getValues('asset') && data && data.length > 0) {
+      const defaultAsset = data[0];
+      setValue('asset', `${defaultAsset.id}-${defaultAsset.name}`);
     }
   }, []);
 

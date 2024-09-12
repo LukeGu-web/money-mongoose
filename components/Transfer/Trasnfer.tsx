@@ -4,7 +4,7 @@ import { useFormContext, Controller } from 'react-hook-form';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 
-import { BookType } from 'api/types';
+import { useGetFlatAssets } from 'api/asset';
 import { useBookStore } from 'core/stateHooks';
 import SelectAssetBottomSheet from 'components/BottomSheet/SelectAssetBottomSheet';
 
@@ -12,7 +12,10 @@ type TargetType = 'from_asset' | 'to_asset';
 
 export default function Transfer() {
   const { control, getValues, setValue, reset } = useFormContext();
-  const { getCurrentBook } = useBookStore();
+  const currentBook = useBookStore((state) => state.currentBook);
+  const { data, isPending, isError } = useGetFlatAssets({
+    variables: { book_id: currentBook.id },
+  });
   const fromAssetModalRef = useRef<BottomSheetModal>(null);
   const toAssetModalRef = useRef<BottomSheetModal>(null);
 
@@ -23,14 +26,10 @@ export default function Transfer() {
       toAssetModalRef.current?.present();
     }
     Keyboard.dismiss();
-    if (!getValues(value)) {
-      const flatAssets = (getCurrentBook() as BookType).groups.flatMap(
-        (group) => group.assets
-      );
-      if (flatAssets.length > 0) {
-        const defaultAsset = flatAssets[0];
-        setValue(value, `${defaultAsset.id}-${defaultAsset.name}`);
-      }
+
+    if (!getValues(value) && data && data.length > 0) {
+      const defaultAsset = data[0];
+      setValue(value, `${defaultAsset.id}-${defaultAsset.name}`);
     }
   };
 

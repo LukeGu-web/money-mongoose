@@ -18,13 +18,13 @@ type BookBottomSheetProps = {
 export default function BookBottomSheet({
   bottomSheetModalRef,
 }: BookBottomSheetProps) {
-  const { books, setCurrentBook, setBooks } = useBookStore();
+  const { setCurrentBook } = useBookStore();
   const book = useBook((state) => state.book);
   const { mutate: deleteBookApi } = useDeleteBook();
 
   const handleSelectCurrentBook = () => {
     bottomSheetModalRef.current?.dismiss();
-    setCurrentBook(book.id, book.name);
+    setCurrentBook(book);
     queryClient.refetchQueries({
       queryKey: ['records', book.id],
     });
@@ -55,9 +55,6 @@ export default function BookBottomSheet({
       {
         onSuccess: () => {
           log.success('Delete book successfully!');
-          // remove book from store
-          const newBooks = books.filter((item) => item.id !== book.id);
-          setBooks(newBooks);
           router.navigate('/book/management');
         },
         onError: (error) => {

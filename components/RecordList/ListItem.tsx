@@ -31,9 +31,7 @@ const textColorMap = {
 
 export default function ListItem({ item, onPress }: ListItemProps) {
   const setRecord = useRecord((state) => state.setRecord);
-  const { getCurrentBook } = useBookStore();
-  const book = getCurrentBook() as BookType;
-
+  const book = useBookStore((state) => state.currentBook);
   return (
     <Pressable
       className={`flex-row justify-between items-center border-b-2 p-2 ${

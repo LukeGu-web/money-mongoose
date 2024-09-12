@@ -10,24 +10,16 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useForm, Controller } from 'react-hook-form';
-import { useShallow } from 'zustand/react/shallow';
 
 import { useCreateBook, useUpdateBook } from 'api/book';
 import { formatApiError } from 'api/errorFormat';
-import { useBookStore, useBook } from 'core/stateHooks';
+import { useBook } from 'core/stateHooks';
 import log from 'core/logger';
 
 export default function AddNewBook() {
   const inputAccessoryCreateBtnID = 'inputAccessoryCreateBtnID-book';
   const { mutate: addBookApi } = useCreateBook();
   const { mutate: updateBookApi } = useUpdateBook();
-
-  const { addBook, updateBook } = useBookStore(
-    useShallow((state) => ({
-      addBook: state.addBook,
-      updateBook: state.updateBook,
-    }))
-  );
   const { book, resetBook } = useBook();
   const { control, handleSubmit, reset } = useForm({
     defaultValues: book,
@@ -40,7 +32,6 @@ export default function AddNewBook() {
         {
           onSuccess: (response) => {
             log.success('Update book success:', response);
-            updateBook(response);
             resetBook();
             reset();
             router.back();
@@ -54,7 +45,6 @@ export default function AddNewBook() {
       addBookApi(data, {
         onSuccess: (response) => {
           log.success('Add book success:', response);
-          addBook(response);
           resetBook();
           reset();
           router.navigate('/book/management');

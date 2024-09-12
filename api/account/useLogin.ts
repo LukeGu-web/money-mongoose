@@ -9,7 +9,7 @@ type Response = { token: string };
 
 const useLogin = () => {
   const setUser = useUserStore((state) => state.setUser);
-  const initBook = useBookStore((state) => state.initBook);
+  const setCurrentBook = useBookStore((state) => state.setCurrentBook);
 
   return createMutation<Response, Variables, AxiosError>({
     mutationFn: async (variables) => {
@@ -42,7 +42,7 @@ const useLogin = () => {
         queryFn: () => client.get('book/').then((response) => response.data),
       });
       if (booksData && booksData.length > 0) {
-        initBook(booksData, booksData[0].id, booksData[0].name);
+        setCurrentBook(booksData[0]);
       }
     },
   })();

@@ -15,10 +15,14 @@ import { useBookStore } from 'core/stateHooks';
 import SelectGroupBottomSheet from '../BottomSheet/SelectGroupBottomSheet';
 import { inputAccessoryCreateBtnID } from './static';
 import { BookType } from 'api/types';
+import { useGetGroupedAssets } from 'api/asset';
 
 export default function AssetAccountBasicForm() {
   const { control, setValue, getValues } = useFormContext();
-  const { getCurrentBook } = useBookStore();
+  const currentBook = useBookStore((state) => state.currentBook);
+  const { data, isPending, isError } = useGetGroupedAssets({
+    variables: { book_id: currentBook.id },
+  });
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const nameRef = useRef<TextInput>(null);
   const balanceRef = useRef<TextInput>(null);
@@ -26,8 +30,8 @@ export default function AssetAccountBasicForm() {
   const handlePressSelect = useCallback(() => {
     bottomSheetModalRef.current?.present();
     Keyboard.dismiss();
-    if (!getValues('group')) {
-      const defaultGroup = (getCurrentBook() as BookType).groups[0];
+    if (!getValues('group') && data && data.groups.length > 0) {
+      const defaultGroup = data.groups[0];
       setValue('group', `${defaultGroup.id}-${defaultGroup.name}`);
     }
   }, []);

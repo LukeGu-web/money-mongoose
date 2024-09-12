@@ -22,12 +22,7 @@ export default function Onboarding() {
     }))
   );
 
-  const { setBooks, setCurrentBook } = useBookStore(
-    useShallow((state) => ({
-      setBooks: state.setBooks,
-      setCurrentBook: state.setCurrentBook,
-    }))
-  );
+  const { setCurrentBook } = useBookStore();
 
   const setUser = useUserStore((state) => state.setUser);
 
@@ -59,8 +54,8 @@ export default function Onboarding() {
             email: user.email,
             date_joined: user.date_joined,
           });
-          setBooks([rest]);
-          setCurrentBook(rest.id, rest.name);
+
+          setCurrentBook(rest);
           setIsOnBoarding(true);
         },
         onError: (error) => {

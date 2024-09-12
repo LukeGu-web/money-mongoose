@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Text, TextInput, View, Modal, Pressable, Button } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import dayjs from 'dayjs';
@@ -10,7 +10,6 @@ import { formatter } from 'core/utils';
 import log from 'core/logger';
 import { GoalProcess } from '../Chart/GoalProcess';
 import Icon from '../Icon/Icon';
-import { BookType } from 'api/types';
 
 type BudgetCardProps = {
   monthExpense: number;
@@ -18,8 +17,7 @@ type BudgetCardProps = {
 
 export default function BudgetCard({ monthExpense }: BudgetCardProps) {
   const { mutate: updateBookApi } = useUpdateBook();
-  const { getCurrentBook, updateBook } = useBookStore();
-  const { id, monthly_goal } = getCurrentBook() as BookType;
+  const { id, monthly_goal } = useBookStore((state) => state.currentBook);
   const expenseAmount = Math.abs(monthExpense);
   const days = dayjs().date();
   const [isVisible, setIsVisible] = useState<boolean>(false);
@@ -47,7 +45,6 @@ export default function BudgetCard({ monthExpense }: BudgetCardProps) {
       {
         onSuccess: (response) => {
           log.success('Set monthly goal on book success:', response);
-          updateBook(response);
           setRemaining(Number(response.monthly_goal));
           setIsVisible(false);
         },

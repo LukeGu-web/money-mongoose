@@ -4,7 +4,7 @@ import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { useForm, useFormContext, Controller } from 'react-hook-form';
 import { PickerIOS } from '@react-native-picker/picker';
 
-import {useGetAllAssets, useCreateAssetGroup } from 'api/asset';
+import { useGetGroupedAssets, useCreateAssetGroup } from 'api/asset';
 import { formatApiError } from 'api/errorFormat';
 import { useBookStore } from 'core/stateHooks';
 import log from 'core/logger';
@@ -25,7 +25,7 @@ export default function SelectGroupBottomSheet({
   onDismiss,
 }: SelectGroupBottomSheetProps) {
   const currentBook = useBookStore((state) => state.currentBook);
-  const { data } = useGetAllAssets({
+  const { data } = useGetGroupedAssets({
     variables: { book_id: currentBook.id },
   });
   const { mutate: addAssetGroupApi } = useCreateAssetGroup();

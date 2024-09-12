@@ -2,9 +2,9 @@ import { View, Text, Switch, Pressable } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import dayjs from 'dayjs';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { useGetFlatAssets } from 'api/asset';
 import { RecordTypes } from 'api/record/types';
 import { useBookStore } from 'core/stateHooks';
-import { BookType } from 'api/types';
 
 export type FilterType = {
   date_after?: Date;
@@ -37,10 +37,10 @@ export default function RecordsFilter({
   onSetFilter,
   onCloseFilter,
 }: FilterContentProps) {
-  const { getCurrentBook } = useBookStore();
-  const flatAssets = (getCurrentBook() as BookType).groups.flatMap(
-    (group) => group.assets
-  );
+  const currentBook = useBookStore((state) => state.currentBook);
+  const { data, isPending, isError } = useGetFlatAssets({
+    variables: { book_id: currentBook.id },
+  });
   const { control, handleSubmit, reset, setValue } = useForm({
     defaultValues: filter,
   });
@@ -170,7 +170,7 @@ export default function RecordsFilter({
           <View className='gap-2'>
             <Text className='text-lg font-semibold color-white'>Account</Text>
             <View className='flex-row gap-2'>
-              {flatAssets.map((item) => (
+              {data?.map((item) => (
                 <Pressable
                   key={item.id}
                   className={`items-center justify-center px-3  rounded-lg ${

@@ -4,12 +4,12 @@ import { View, ScrollView } from 'react-native';
 import NetAssetCard from 'components/Card/NetAssetCard';
 import InfoCard from 'components/Card/InfoCard';
 import AccountList from 'components/BankAccount/AccountList';
-import { useGetAllAssets } from 'api/asset';
+import { useGetGroupedAssets } from 'api/asset';
 import { useBookStore } from 'core/stateHooks';
 
 export default function Asset() {
   const currentBook = useBookStore((state) => state.currentBook);
-  const { data, isPending, isError } = useGetAllAssets({
+  const { data, isPending, isError } = useGetGroupedAssets({
     variables: { book_id: currentBook.id },
   });
   return (

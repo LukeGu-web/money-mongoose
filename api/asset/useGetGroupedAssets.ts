@@ -13,7 +13,7 @@ type Variables = {
   book_id: number;
 };
 
-const useGetAllAssets = createQuery<Response, Variables, AxiosError>({
+const useGetGroupedAssets = createQuery<Response, Variables, AxiosError>({
   queryKey: ['assets'],
   fetcher: (variables: Variables) =>
     client
@@ -21,4 +21,4 @@ const useGetAllAssets = createQuery<Response, Variables, AxiosError>({
       .then((response) => response.data),
 });
 
-export default useGetAllAssets;
+export default useGetGroupedAssets;
