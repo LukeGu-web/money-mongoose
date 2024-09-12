@@ -1,13 +1,17 @@
 import { Text, View } from 'react-native';
-import { useBookStore } from 'core/stateHooks';
-import { formatter, calculateAssets } from 'core/utils';
-import { BookType } from 'api/types';
+import { formatter } from 'core/utils';
 
-export default function NetAssetCard() {
-  const { getCurrentBook } = useBookStore();
-  const [netAsset, assets, liabilities] = calculateAssets(
-    getCurrentBook() as BookType
-  );
+type NetAssetCardProps = {
+  netAsset: number;
+  assets: number;
+  liabilities: number;
+};
+
+export default function NetAssetCard({
+  netAsset,
+  assets,
+  liabilities,
+}: NetAssetCardProps) {
   return (
     <View className='justify-between flex-1 p-3 bg-teal-100 rounded-lg'>
       <Text className='text-2xl'>Net Asset</Text>

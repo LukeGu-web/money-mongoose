@@ -4,14 +4,17 @@ import { FlashList } from '@shopify/flash-list';
 import ListItem from './ListItem';
 import Icon from '../Icon/Icon';
 import ExpandGroupTitle from '../ExpandView/ExpandGroupTitle';
-import { useBookStore } from 'core/stateHooks';
+import { AssetGroupType } from 'api/types';
 
-export default function AccountList() {
+type AccountListProps = {
+  groups: AssetGroupType[];
+};
+
+export default function AccountList({ groups }: AccountListProps) {
   let numOfAssets = 0;
-  const { getCurrentBook } = useBookStore();
   return (
     <View className='flex-1 gap-2'>
-      {getCurrentBook()?.groups.map((group) => {
+      {groups.map((group) => {
         if (group.assets.length > 0) {
           const assets = group.assets;
           const title = {
@@ -24,7 +27,7 @@ export default function AccountList() {
             <ExpandGroupTitle
               key={group.id}
               title={title}
-              height={40 * assets.length}
+              height={30 * assets.length}
             >
               <View className='flex-1 w-full'>
                 <FlashList

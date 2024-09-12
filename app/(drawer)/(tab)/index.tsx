@@ -4,7 +4,7 @@ import { StatusBar } from 'expo-status-bar';
 import { router } from 'expo-router';
 import dayjs from 'dayjs';
 
-import { setHeaderToken } from 'api/client';
+import { client, setHeaderToken } from 'api/client';
 import { useGetMonthlyData } from 'api/record';
 import { BudgetCard, ExpenseCard, RecordList, Icon } from 'components';
 import { useUserStore, useBookStore } from 'core/stateHooks';
@@ -16,7 +16,8 @@ export default function Home() {
     variables: { book_id: currentBook.id },
   });
   useEffect(() => {
-    setHeaderToken(user.token);
+    if (!client.defaults.headers.common['Authorization'])
+      setHeaderToken(user.token);
   }, []);
 
   const monthIncome =
