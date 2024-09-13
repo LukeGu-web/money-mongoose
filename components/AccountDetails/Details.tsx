@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { View, Text, Pressable } from 'react-native';
+import { Alert, View, Text, Pressable } from 'react-native';
 import * as Updates from 'expo-updates';
 import dayjs from 'dayjs';
-import { useUserDetails } from 'api/account';
+import { useUserDetails, useVerifyEmail } from 'api/account';
 import { useUserStore } from 'core/stateHooks';
 import { clearAll } from 'core/localStorage/storage';
 import Icon from '../Icon/Icon';
@@ -10,6 +10,7 @@ import NicknameModal from 'components/Modal/NicknameModal';
 
 export default function Details() {
   const { data } = useUserDetails();
+  const { mutate: verifyEmailApi, isPending } = useVerifyEmail();
   const { user, setUser } = useUserStore();
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
@@ -28,6 +29,24 @@ export default function Details() {
     }
   }, [data]);
 
+  const handleVerifyEmail = () => {
+    verifyEmailApi(null, {
+      onSuccess: () =>
+        Alert.alert(
+          'Verify your email',
+          "We've just sent a verification email to your account. Please check your inbox (and spam folder, just in case) and follow the link provided to complete your registration.",
+          [
+            {
+              text: 'Ok',
+              onPress: () => {
+                console.log('Close alert');
+              },
+            },
+          ]
+        ),
+    });
+  };
+
   return (
     <View className='items-center flex-1 w-full gap-4 p-2'>
       <View>
@@ -43,7 +62,11 @@ export default function Details() {
               <Icon name='arrow-right' size={16} color='black' />
             </View>
           </Pressable>
-          <Pressable className='flex-row items-center justify-between w-full h-12'>
+          <Pressable
+            className='flex-row items-center justify-between w-full h-12'
+            disabled={user.account_status === 'verified'}
+            onPress={handleVerifyEmail}
+          >
             <View className='flex-row items-center justify-center gap-2'>
               <Text>Email</Text>
               <View
@@ -63,7 +86,9 @@ export default function Details() {
 
             <View className='flex-row gap-2'>
               <Text>{user.email || 'unset'}</Text>
-              <Icon name='arrow-right' size={16} color='black' />
+              {user.account_status !== 'verified' && (
+                <Icon name='arrow-right' size={16} color='black' />
+              )}
             </View>
           </Pressable>
         </View>
