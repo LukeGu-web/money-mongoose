@@ -17,6 +17,9 @@ const useDeleteTransfer = createMutation<Response, Variables, AxiosError>({
     queryClient.invalidateQueries({
       queryKey: ['records'],
     });
+    queryClient.invalidateQueries({
+      queryKey: ['assets'],
+    });
   },
 });
 

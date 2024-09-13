@@ -14,10 +14,15 @@ const useAddRecord = createMutation<Response, Variables, AxiosError>({
       method: 'POST',
       data: variables,
     }).then((response) => response.data),
-  onSuccess: () => {
+  onSuccess: (variables) => {
     queryClient.invalidateQueries({
       queryKey: ['records'],
     });
+    if (variables.asset) {
+      queryClient.invalidateQueries({
+        queryKey: ['assets'],
+      });
+    }
   },
 });
 

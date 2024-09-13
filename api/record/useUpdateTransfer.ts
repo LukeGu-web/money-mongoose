@@ -14,10 +14,15 @@ const useUpdateTransfer = createMutation<Response, Variables, AxiosError>({
       method: 'PUT',
       data: variables,
     }).then((response) => response.data),
-  onSuccess: () => {
+  onSuccess: (variables) => {
     queryClient.invalidateQueries({
       queryKey: ['records'],
     });
+    if (variables.from_asset || variables.to_asset) {
+      queryClient.invalidateQueries({
+        queryKey: ['assets'],
+      });
+    }
   },
 });
 
