@@ -1,4 +1,4 @@
-import { Alert, View, Text, Pressable } from 'react-native';
+import { ActivityIndicator, Alert, View, Text, Pressable } from 'react-native';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { router } from 'expo-router';
 import { Feather } from '@expo/vector-icons';
@@ -20,7 +20,7 @@ export default function BookBottomSheet({
 }: BookBottomSheetProps) {
   const { setCurrentBook, currentBook } = useBookStore();
   const book = useBook((state) => state.book);
-  const { mutate: deleteBookApi } = useDeleteBook();
+  const { mutate: deleteBookApi, isPending } = useDeleteBook();
 
   const handleSelectCurrentBook = () => {
     bottomSheetModalRef.current?.dismiss();
@@ -80,34 +80,38 @@ export default function BookBottomSheet({
 
   return (
     <BottomSheet bottomSheetModalRef={bottomSheetModalRef} height={270}>
-      <View className='items-center justify-between w-full gap-4 px-4'>
-        <View className='flex-row w-full p-4'>
-          <Text className='text-2xl font-bold'>{book.name}</Text>
-        </View>
+      {isPending ? (
+        <ActivityIndicator size='large' />
+      ) : (
         <View className='items-center justify-between w-full gap-4 px-4'>
-          <Pressable
-            className='flex-row items-center justify-center w-full gap-4 py-3 bg-blue-500 rounded-lg'
-            onPress={handleSelectCurrentBook}
-          >
-            <Feather name='check-circle' size={16} color='#fff' />
-            <Text className='text-lg color-white'>Select</Text>
-          </Pressable>
-          <Pressable
-            className='flex-row items-center justify-center w-full gap-4 py-3 bg-blue-500 rounded-lg'
-            onPress={handleEditSelectedBook}
-          >
-            <Icon name='edit' size={16} color='#fff' />
-            <Text className='text-lg color-white'>Edit</Text>
-          </Pressable>
-          <Pressable
-            className='flex-row items-center justify-center w-full gap-4 py-3 bg-red-500 rounded-lg'
-            onPress={handleDeleteBook}
-          >
-            <Icon name='delete' size={16} color='#fff' />
-            <Text className='text-lg color-white'>Delete</Text>
-          </Pressable>
+          <View className='flex-row w-full p-4'>
+            <Text className='text-2xl font-bold'>{book.name}</Text>
+          </View>
+          <View className='items-center justify-between w-full gap-4 px-4'>
+            <Pressable
+              className='flex-row items-center justify-center w-full gap-4 py-3 bg-blue-500 rounded-lg'
+              onPress={handleSelectCurrentBook}
+            >
+              <Feather name='check-circle' size={16} color='#fff' />
+              <Text className='text-lg color-white'>Select</Text>
+            </Pressable>
+            <Pressable
+              className='flex-row items-center justify-center w-full gap-4 py-3 bg-blue-500 rounded-lg'
+              onPress={handleEditSelectedBook}
+            >
+              <Icon name='edit' size={16} color='#fff' />
+              <Text className='text-lg color-white'>Edit</Text>
+            </Pressable>
+            <Pressable
+              className='flex-row items-center justify-center w-full gap-4 py-3 bg-red-500 rounded-lg'
+              onPress={handleDeleteBook}
+            >
+              <Icon name='delete' size={16} color='#fff' />
+              <Text className='text-lg color-white'>Delete</Text>
+            </Pressable>
+          </View>
         </View>
-      </View>
+      )}
     </BottomSheet>
   );
 }

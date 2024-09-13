@@ -1,4 +1,12 @@
-import { Text, View, Modal, Button, TextInput } from 'react-native';
+import {
+  Text,
+  View,
+  Modal,
+  Button,
+  TextInput,
+  Pressable,
+  ActivityIndicator,
+} from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 
 import { useCreateAssetGroup, useUpdateAssetGroup } from 'api/asset';
@@ -19,8 +27,10 @@ export default function AssetGroupModal({
   isVisible,
   onClose,
 }: AssetGroupModalProps) {
-  const { mutate: addAssetGroupApi } = useCreateAssetGroup();
-  const { mutate: updateAssetGroupApi } = useUpdateAssetGroup();
+  const { mutate: addAssetGroupApi, isPending: isCreating } =
+    useCreateAssetGroup();
+  const { mutate: updateAssetGroupApi, isPending: isUpdating } =
+    useUpdateAssetGroup();
   const currentBook = useBookStore((state) => state.currentBook);
 
   const { control, handleSubmit, reset } = useForm({
@@ -94,9 +104,18 @@ export default function AssetGroupModal({
             )}
             name='name'
           />
-          <View className='flex-row w-4/5 justify-evenly'>
+          <View className='flex-row justify-between w-4/5'>
             <Button color='gray' title='Cancel' onPress={handleCancel} />
-            <Button title='Confirm' onPress={handleConfirm} />
+            <Pressable
+              className='items-center justify-center w-2/5 p-2 bg-yellow-300 rounded-lg'
+              onPress={handleConfirm}
+            >
+              {isCreating || isUpdating ? (
+                <ActivityIndicator size='small' />
+              ) : (
+                <Text className='font-semibold'>Confirm</Text>
+              )}
+            </Pressable>
           </View>
         </View>
       </View>

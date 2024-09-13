@@ -5,6 +5,7 @@ import {
   Text,
   TextInput,
   Pressable,
+  ActivityIndicator,
   InputAccessoryView,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -18,8 +19,8 @@ import log from 'core/logger';
 
 export default function AddNewBook() {
   const inputAccessoryCreateBtnID = 'inputAccessoryCreateBtnID-book';
-  const { mutate: addBookApi } = useCreateBook();
-  const { mutate: updateBookApi } = useUpdateBook();
+  const { mutate: addBookApi, isPending: isCreating } = useCreateBook();
+  const { mutate: updateBookApi, isPending: isUpdating } = useUpdateBook();
   const { book, resetBook } = useBook();
   const { currentBook, setCurrentBook } = useBookStore();
   const { control, handleSubmit, reset } = useForm({
@@ -108,18 +109,26 @@ export default function AddNewBook() {
           className='items-center w-full p-2 my-2 bg-yellow-300 rounded-lg'
           onPress={handleSubmitData}
         >
-          <Text className='font-semibold'>
-            {book.id > 0 ? 'Update' : 'Create'}
-          </Text>
+          {isCreating || isUpdating ? (
+            <ActivityIndicator size='small' />
+          ) : (
+            <Text className='font-semibold'>
+              {book.id > 0 ? 'Update' : 'Create'}
+            </Text>
+          )}
         </Pressable>
       </InputAccessoryView>
       <Pressable
         className='items-center w-full p-2 bg-yellow-300 rounded-lg'
         onPress={handleSubmitData}
       >
-        <Text className='font-semibold'>
-          {book.id > 0 ? 'Update' : 'Create'}
-        </Text>
+        {isCreating || isUpdating ? (
+          <ActivityIndicator size='small' />
+        ) : (
+          <Text className='font-semibold'>
+            {book.id > 0 ? 'Update' : 'Create'}
+          </Text>
+        )}
       </Pressable>
       <StatusBar style='light' />
     </SafeAreaView>

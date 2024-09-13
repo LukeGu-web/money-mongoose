@@ -7,6 +7,7 @@ import {
   Pressable,
   TouchableWithoutFeedback,
   Keyboard,
+  ActivityIndicator,
   InputAccessoryView,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -26,8 +27,8 @@ import {
 import { inputAccessoryCreateBtnID } from 'components/Form/static';
 
 export default function AssetDetails() {
-  const { mutate: addAssetApi } = useCreateAsset();
-  const { mutate: updateAssetApi } = useUpdateAsset();
+  const { mutate: addAssetApi, isPending: isCreating } = useCreateAsset();
+  const { mutate: updateAssetApi, isPending: isUpdating } = useUpdateAsset();
   const { asset, resetAsset } = useAsset();
   const [isMore, setIsMore] = useState(false);
   const methods = useForm({
@@ -143,18 +144,26 @@ export default function AssetDetails() {
           className='items-center w-full p-2 my-2 bg-yellow-300 rounded-lg'
           onPress={handleCreate}
         >
-          <Text className='font-semibold'>
-            {Number(asset.id) > 0 ? 'Update' : 'Create'}
-          </Text>
+          {isCreating || isUpdating ? (
+            <ActivityIndicator size='small' />
+          ) : (
+            <Text className='font-semibold'>
+              {Number(asset.id) > 0 ? 'Update' : 'Create'}
+            </Text>
+          )}
         </Pressable>
       </InputAccessoryView>
       <Pressable
         className='items-center w-full p-2 bg-yellow-300 rounded-lg'
         onPress={handleCreate}
       >
-        <Text className='font-semibold'>
-          {Number(asset.id) > 0 ? 'Update' : 'Create'}
-        </Text>
+        {isCreating || isUpdating ? (
+          <ActivityIndicator size='small' />
+        ) : (
+          <Text className='font-semibold'>
+            {Number(asset.id) > 0 ? 'Update' : 'Create'}
+          </Text>
+        )}
       </Pressable>
       <StatusBar style='light' />
     </SafeAreaView>
