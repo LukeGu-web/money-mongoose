@@ -22,7 +22,7 @@ export default function NetAssetCard({
         <Text className='font-extrabold'>Liabilities</Text>
         <Text>
           {liabilities > 0 && '-'}
-          {formatter(liabilities)}
+          {formatter(Math.abs(liabilities))}
         </Text>
       </View>
     </View>

@@ -1,13 +1,12 @@
 import { View, Text, Pressable } from 'react-native';
 import { Link, router } from 'expo-router';
 import { useBookStore } from 'core/stateHooks';
-import { Entypo } from '@expo/vector-icons';
 import Icon from '../Icon/Icon';
 import { useState } from 'react';
 
 const timeframes = ['all', 'year', 'month', 'week'];
 
-export default function CategoryHeader() {
+export default function TimeframeHeader() {
   const currentBook = useBookStore((state) => state.currentBook);
   const [timeframe, setTimeframe] = useState('all');
   return (

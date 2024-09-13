@@ -1,8 +1,9 @@
 import { View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { StatusBar } from 'expo-status-bar';
 import { useGetTrendDate } from 'api/record';
 import { useBookStore } from 'core/stateHooks';
-// import Line from 'components/Chart/Line';
-import Line from 'components/Chart/Line';
+import { TimeframeHeader, LineChart } from 'components';
 
 export default function UserAgreement() {
   const currentBook = useBookStore((state) => state.currentBook);
@@ -15,8 +16,15 @@ export default function UserAgreement() {
   });
   console.log('data: ', data);
   return (
-    <View className='items-center justify-center flex-1 '>
-      {data && data.length > 0 && <Line data={data} />}
-    </View>
+    <SafeAreaView
+      style={{ flex: 1, backgroundColor: '#03045E' }}
+      edges={['top']}
+    >
+      <TimeframeHeader />
+      <View className='items-center justify-center flex-1 '>
+        {data && data.length > 0 && <LineChart data={data} />}
+      </View>
+      <StatusBar style='light' />
+    </SafeAreaView>
   );
 }

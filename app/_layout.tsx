@@ -47,12 +47,12 @@ export default function RootLayoutNav() {
             headerShown: false,
           }}
         />
-        {/* <Stack.Screen
+        <Stack.Screen
           name='chart/line'
           options={{
             headerShown: false,
           }}
-        /> */}
+        />
         <Stack.Screen
           name='asset/details'
           options={{
