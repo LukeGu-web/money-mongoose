@@ -1,15 +1,6 @@
 import { useCallback, useEffect } from 'react';
 import { Pressable, View } from 'react-native';
-import {
-  Tabs,
-  SplashScreen,
-  Redirect,
-  Link,
-  useNavigation,
-  router,
-} from 'expo-router';
-import { DrawerToggleButton } from '@react-navigation/drawer';
-import { Entypo } from '@expo/vector-icons';
+import { Tabs, SplashScreen, Redirect, Link, router } from 'expo-router';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import dayjs from 'dayjs';
 
@@ -33,7 +24,6 @@ export default function TabLayout() {
   }
 
   const setVisiableMonth = useCalendar((state) => state.setVisiableMonth);
-  const navigation = useNavigation();
 
   const handleBackToday = () => {
     log.info('Back Today');
@@ -55,13 +45,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name='index'
         options={{
-          title: 'Home',
-          headerLeft: () => <DrawerToggleButton tintColor='#fff' />,
-          headerRight: () => (
-            <Link href='/records' className='pr-3'>
-              <Entypo name='text-document' size={24} color='#fff' />
-            </Link>
-          ),
+          headerShown: false,
           tabBarIcon: ({ color }) => (
             <Icon size={28} name='home' color={color} />
           ),
@@ -74,10 +58,10 @@ export default function TabLayout() {
           headerRight: () => (
             <View className='flex-row gap-2'>
               <Pressable
-                className='pr-3'
+                className='pt-0.5 pr-3'
                 onPress={() => router.navigate('/chart/pie/')}
               >
-                <AntDesign name='piechart' size={22} color='#fff' />
+                <AntDesign name='piechart' size={20} color='#fff' />
               </Pressable>
               <Pressable className='pr-3' onPress={handleBackToday}>
                 <Icon name='center_focus' size={24} color='#fff' />
@@ -100,11 +84,6 @@ export default function TabLayout() {
         name='asset'
         options={{
           title: 'Asset',
-          headerLeft: () => (
-            <Link href='/chart/line/' className='pl-3'>
-              <Icon name='chart-line' size={24} color='#fff' />
-            </Link>
-          ),
           headerRight: () => (
             <Link href='/asset/management' className='pr-3'>
               <Icon name='credit-card-multiple' size={24} color='#fff' />

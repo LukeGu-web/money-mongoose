@@ -7,6 +7,7 @@ export { default as Calendar } from 'components/Calendar/Calendar';
 export { default as Camera } from 'components/Camera/Camera';
 export { default as DigitalPad } from 'components/CustomDigitalPad/DigitalPad';
 export { default as ExpenseCard } from 'components/Card/ExpenseCard';
+export { default as HomeHeader } from 'components/Header/HomeHeader';
 export { default as Providers } from 'components/Providers/Providers';
 export { default as RecordHeader } from 'components/Header/RecordHeader';
 export { default as RecordCategory } from 'components/Category/RecordCategroy';
