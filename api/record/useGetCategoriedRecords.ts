@@ -16,8 +16,8 @@ type InnerType = {
         total_amount: string;
         percentage: number;
         record_count: number;
-      };
-    }[];
+      }[];
+    };
   };
 };
 

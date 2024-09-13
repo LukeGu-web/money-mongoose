@@ -1,49 +1,27 @@
 import { PieChartDataType } from 'api/types';
 import { View, Text } from 'react-native';
 import { PieChart } from 'react-native-gifted-charts';
+import Legend, { DetailsType } from './PieLegend';
 
 type PieProps = {
   data: PieChartDataType;
   total: string;
+  details: { [key: string]: DetailsType };
 };
 
-function Legend({
-  text,
-  color,
-  value,
-}: {
-  text: string;
-  color: string;
-  value: number;
-}) {
-  return (
-    <View className='flex-row'>
-      <View
-        className='w-4 h-4 mr-2 rounded-md opacity-70'
-        style={{
-          backgroundColor: color || 'white',
-        }}
-      />
-      <Text>{text}</Text>
-      <Text className='ml-4'>{value}%</Text>
-    </View>
-  );
-}
-
-export default function Pie({ data, total }: PieProps) {
+export default function Pie({ data, details, total }: PieProps) {
   return (
     <View className='items-center justify-start flex-1 w-full gap-4 '>
       <View className='opacity-70'>
         <PieChart
-          strokeColor='black'
+          strokeColor='white'
           strokeWidth={2}
           donut
           data={data}
           innerCircleColor='#fff'
           innerCircleBorderWidth={2}
-          innerCircleBorderColor={'black'}
+          innerCircleBorderColor={'white'}
           showValuesAsLabels={true}
-          // showText
           textSize={18}
           centerLabelComponent={() => {
             return (
@@ -56,13 +34,14 @@ export default function Pie({ data, total }: PieProps) {
         />
       </View>
       {/*********************    Custom Legend component      ********************/}
-      <View className='items-start gap-2'>
+      <View className='items-start gap-2 p-2 m-2 rounded-lg bg-slate-100'>
         {data.map((item) => (
           <Legend
             key={item.text}
             value={item.value}
             text={item.text}
             color={item.color}
+            details={details[item.text]}
           />
         ))}
       </View>

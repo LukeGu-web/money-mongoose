@@ -25,6 +25,7 @@ export default function CategoriedAnalysis() {
         ) : (
           <PieChart
             data={data.expense.data}
+            details={data.expense.details}
             total={data.expense.total_amount}
           />
         )}
