@@ -67,10 +67,6 @@ export default function Home() {
           />
         </View>
       </View>
-      <SafeAreaView
-        edges={['bottom']}
-        style={{ flex: 0, backgroundColor: '#ffffff' }}
-      />
       <StatusBar style='light' />
     </SafeAreaView>
   );

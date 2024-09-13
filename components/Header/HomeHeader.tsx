@@ -1,5 +1,5 @@
-import { View, Pressable, Text } from 'react-native';
-import { router, Link } from 'expo-router';
+import { View, Text } from 'react-native';
+import { Link } from 'expo-router';
 import { DrawerToggleButton } from '@react-navigation/drawer';
 import { useBookStore } from 'core/stateHooks';
 import { Entypo } from '@expo/vector-icons';
@@ -8,7 +8,7 @@ import Icon from '../Icon/Icon';
 export default function HomeHeader() {
   const currentBook = useBookStore((state) => state.currentBook);
   return (
-    <View className='flex-row items-center justify-between h-12 px-4 pb-1 -mt-1 bg-primary'>
+    <View className='flex-row items-center justify-between h-12 px-1 pb-1 -mt-1 bg-primary'>
       <View className='flex-row items-center justify-center gap-2'>
         <DrawerToggleButton tintColor='#fff' />
         <Text className='text-lg font-bold color-white'>

@@ -42,6 +42,18 @@ export default function RootLayoutNav() {
           }}
         />
         <Stack.Screen
+          name='chart/pie'
+          options={{
+            headerShown: false,
+          }}
+        />
+        {/* <Stack.Screen
+          name='chart/line'
+          options={{
+            headerShown: false,
+          }}
+        /> */}
+        <Stack.Screen
           name='asset/details'
           options={{
             title: 'Account Details',
