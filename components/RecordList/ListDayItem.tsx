@@ -1,15 +1,21 @@
 import { View, Text } from 'react-native';
 import dayjs from 'dayjs';
 
+import { AssetType } from 'api/types';
 import { RecordsByDay } from 'api/record/types';
 import ListItem from './ListItem';
 
 type ListDayItemProps = {
   item: RecordsByDay;
+  flatAssets: AssetType[];
   onPress: () => void;
 };
 
-export default function ListDayItem({ item, onPress }: ListDayItemProps) {
+export default function ListDayItem({
+  item,
+  flatAssets,
+  onPress,
+}: ListDayItemProps) {
   let formattedDate = dayjs(item.date).format('MMM DD ddd');
   return (
     <View className='p-3 '>
@@ -30,7 +36,12 @@ export default function ListDayItem({ item, onPress }: ListDayItemProps) {
       </View>
       <View className='flex-1'>
         {item.records.map((record) => (
-          <ListItem key={`${record.id}`} item={record} onPress={onPress} />
+          <ListItem
+            key={`${record.id}`}
+            item={record}
+            flatAssets={flatAssets}
+            onPress={onPress}
+          />
         ))}
       </View>
     </View>

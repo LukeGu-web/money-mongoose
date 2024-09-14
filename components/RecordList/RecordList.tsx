@@ -5,8 +5,8 @@ import { FlashList } from '@shopify/flash-list';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 
 import { RecordsByDay } from 'api/record/types';
+import { useGetFlatAssets } from 'api/asset';
 import { useGetAllRecords } from 'api/record';
-import { formatApiError } from 'api/errorFormat';
 import log from 'core/logger';
 import { useRecord, useBookStore } from 'core/stateHooks';
 import RecordBottomSheet from '../BottomSheet/RecordBottomSheet';
@@ -32,6 +32,10 @@ export default function RecordList({
   const { isPending, isError, error, data, isFetching, isPlaceholderData } =
     useGetAllRecords({ variables: { book_id: currentBook.id, page, extra } });
 
+  const { data: flatAssets } = useGetFlatAssets({
+    variables: { book_id: currentBook.id },
+  });
+
   const resetRecord = useRecord((state) => state.resetRecord);
 
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
@@ -44,7 +48,7 @@ export default function RecordList({
     if (path !== '/record') resetRecord();
   };
 
-  if (isPending || isFetching)
+  if (isPending || isFetching || !flatAssets)
     return (
       <View className={`items-center justify-center flex-1 gap-2 ${bgColor}`}>
         <ActivityIndicator size='large' />
@@ -69,7 +73,11 @@ export default function RecordList({
         <FlashList
           data={data.results}
           renderItem={({ item }: { item: RecordsByDay }) => (
-            <ListDayItem item={item} onPress={handlePressItem} />
+            <ListDayItem
+              item={item}
+              flatAssets={flatAssets}
+              onPress={handlePressItem}
+            />
           )}
           estimatedItemSize={50}
           onEndReachedThreshold={5}

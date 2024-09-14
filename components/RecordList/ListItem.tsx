@@ -1,19 +1,20 @@
-import { View, Text, Pressable, ActivityIndicator } from 'react-native';
+import { View, Text, Pressable } from 'react-native';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import Icon from 'components/Icon/Icon';
 
+import { AssetType } from 'api/types';
 import {
   RecordTypes,
   RecordAPI as Record,
   TransferAPI as Transfer,
 } from 'api/record/types';
-import { useGetFlatAssets } from 'api/asset';
-import { useRecord, useBookStore } from 'core/stateHooks';
+import { useRecord } from 'core/stateHooks';
 import { formatAsset } from 'core/utils';
 
 type ListItemProps = {
   item: Record | Transfer;
+  flatAssets: AssetType[];
   onPress: () => void;
 };
 
@@ -29,17 +30,8 @@ const textColorMap = {
   transfer: 'color-blue-700',
 };
 
-export default function ListItem({ item, onPress }: ListItemProps) {
+export default function ListItem({ item, flatAssets, onPress }: ListItemProps) {
   const setRecord = useRecord((state) => state.setRecord);
-  const book = useBookStore((state) => state.currentBook);
-  const { data } = useGetFlatAssets({
-    variables: { book_id: book.id },
-  });
-
-  if (!data) {
-    return <ActivityIndicator size='small' />;
-  }
-
   return (
     <Pressable
       className={`flex-row justify-between items-center border-b-2 p-2 ${
@@ -50,14 +42,14 @@ export default function ListItem({ item, onPress }: ListItemProps) {
           setRecord({
             ...item,
             date: new Date(item.date),
-            from_asset: formatAsset(Number(item.from_asset), data, false),
-            to_asset: formatAsset(Number(item.to_asset), data, false),
+            from_asset: formatAsset(Number(item.from_asset), flatAssets, false),
+            to_asset: formatAsset(Number(item.to_asset), flatAssets, false),
           });
         } else {
           setRecord({
             ...item,
             date: new Date(item.date),
-            asset: formatAsset(Number(item.asset), data, false),
+            asset: formatAsset(Number(item.asset), flatAssets, false),
           });
         }
         onPress();
@@ -70,9 +62,9 @@ export default function ListItem({ item, onPress }: ListItemProps) {
           </View>
           <Text className='pb-1 text-lg font-bold'>{`from ${formatAsset(
             Number(item.from_asset),
-            data,
+            flatAssets,
             true
-          )} to ${formatAsset(Number(item.to_asset), data, true)}`}</Text>
+          )} to ${formatAsset(Number(item.to_asset), flatAssets, true)}`}</Text>
         </View>
       ) : (
         <View className='flex-row flex-1 gap-2'>
@@ -104,7 +96,7 @@ export default function ListItem({ item, onPress }: ListItemProps) {
         </Text>
         {item.type !== RecordTypes.TRANSFER && (
           <Text className='text-sm text-right'>
-            {formatAsset(Number(item.asset), data, true)}
+            {formatAsset(Number(item.asset), flatAssets, true)}
           </Text>
         )}
       </View>
