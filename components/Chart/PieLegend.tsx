@@ -23,8 +23,14 @@ function Item({ item, text }: { item: SubcategoryType; text: string }) {
       <Text className='text-sm color-gray-800'>
         - {item.subcategory || text}
       </Text>
-      <Text className='text-sm color-gray-800'>{item.percentage}</Text>
-      <Text className='text-sm color-gray-800'>{item.total_amount}</Text>
+
+      <View className='flex-row gap-2'>
+        <Text className='text-sm color-gray-800'>
+          [{item.record_count} record{item.record_count > 1 && 's'} (
+          {item.percentage}%)]
+        </Text>
+        <Text className='text-sm color-gray-800'>${item.total_amount}</Text>
+      </View>
     </View>
   );
 }
