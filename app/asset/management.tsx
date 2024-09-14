@@ -3,11 +3,13 @@ import { StatusBar } from 'expo-status-bar';
 import { router } from 'expo-router';
 import { Text, View, ScrollView, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useAsset } from 'core/stateHooks';
 import EditableAccountList from 'components/BankAccount/EditableAccountList';
 import AssetGroupModal from 'components/Modal/AssetGroupModal';
 
 export default function Account() {
   const [showModal, setShowModal] = useState(false);
+  const resetAsset = useAsset((state) => state.resetAsset);
   return (
     <SafeAreaView
       style={{
@@ -29,7 +31,10 @@ export default function Account() {
         </Pressable>
         <Pressable
           className='items-center flex-1 p-3 bg-yellow-300 rounded-lg'
-          onPress={() => router.navigate('/asset/details')}
+          onPress={() => {
+            resetAsset();
+            router.navigate('/asset/details');
+          }}
         >
           <Text className='font-semibold color-white'>Create Account</Text>
         </Pressable>

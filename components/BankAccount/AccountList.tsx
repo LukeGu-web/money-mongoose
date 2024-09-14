@@ -5,6 +5,7 @@ import ListItem from './ListItem';
 import Icon from '../Icon/Icon';
 import ExpandGroupTitle from '../ExpandView/ExpandGroupTitle';
 import { AssetGroupType } from 'api/types';
+import { useAsset } from 'core/stateHooks';
 
 type AccountListProps = {
   groups: AssetGroupType[];
@@ -12,6 +13,7 @@ type AccountListProps = {
 
 export default function AccountList({ groups }: AccountListProps) {
   let numOfAssets = 0;
+  const resetAsset = useAsset((state) => state.resetAsset);
   return (
     <View className='flex-1 gap-2'>
       {groups.map((group) => {
@@ -52,7 +54,10 @@ export default function AccountList({ groups }: AccountListProps) {
       )}
       <Pressable
         className='flex-row items-center justify-center w-full gap-2 p-2'
-        onPress={() => router.navigate('/asset/details')}
+        onPress={() => {
+          resetAsset();
+          router.navigate('/asset/details');
+        }}
       >
         <Text className='color-blue-500'>Add account</Text>
         <Icon name='credit-card-plus' size={20} color='#3b82f6' />
