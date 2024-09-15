@@ -6,8 +6,8 @@ import dayjs from 'dayjs';
 import { FlashList } from '@shopify/flash-list';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 
+import { useGetFlatAssets } from 'api/asset';
 import { useGetAllRecords } from 'api/record';
-import { formatApiError } from 'api/errorFormat';
 import { RecordsByDay } from 'api/record/types';
 import log from 'core/logger';
 import { useRecord, useBookStore, useCalendar } from 'core/stateHooks';
@@ -30,8 +30,11 @@ export default function Calendar() {
     useGetAllRecords({
       variables: { book_id: currentBook.id, page, extra: '' },
     });
+  const { data: flatAssets } = useGetFlatAssets({
+    variables: { book_id: currentBook.id },
+  });
 
-  if (isPending || isFetching)
+  if (isPending || isFetching || !flatAssets)
     return (
       <View className='items-center justify-center flex-1 gap-2'>
         <ActivityIndicator size='large' />
@@ -96,7 +99,11 @@ export default function Calendar() {
               ) as RecordsByDay,
             ]}
             renderItem={({ item }) => (
-              <ListDayItem item={item} onPress={handlePressItem} />
+              <ListDayItem
+                item={item}
+                flatAssets={flatAssets}
+                onPress={handlePressItem}
+              />
             )}
             estimatedItemSize={20}
           />

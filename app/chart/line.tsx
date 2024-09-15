@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { View, Text, Pressable, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
+import dayjs, { Dayjs } from 'dayjs';
 import { useGetTrendDate } from 'api/record';
 import { useBookStore } from 'core/stateHooks';
 import { TimeframeHeader, LineChart } from 'components';
@@ -10,7 +11,7 @@ import { LineDataType, Types } from 'components/Chart/types';
 export default function UserAgreement() {
   const currentBook = useBookStore((state) => state.currentBook);
   const [type, setType] = useState<Types>(Types.EXPENSE);
-  const [timeframe, setTimeframe] = useState(''); // year 2024 | month 2024-09 | week 2024@09
+  const [timeframe, setTimeframe] = useState(dayjs().format('YYYY-MM')); // year 2024 | month 2024-09 | week 2024@09
   const { data, isPending, isError } = useGetTrendDate({
     variables: {
       book_id: currentBook.id,

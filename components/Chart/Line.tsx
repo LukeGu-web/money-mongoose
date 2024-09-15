@@ -69,7 +69,7 @@ export default function Line({ data, type }: LineProps) {
 
   const yAxisLabelTexts = useMemo(() => {
     return [
-      { value: 0, label: '0' },
+      { value: 0, label: '' },
       { value: avgValue, label: avgValue === 0 ? '' : 'Avg' },
       { value: maxValue, label: maxValue === 0 ? '' : 'Max' },
     ];
