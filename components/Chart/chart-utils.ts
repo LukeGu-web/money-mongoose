@@ -1,7 +1,4 @@
-export type LineDataType = {
-  value: number;
-  date: string;
-};
+import { LineDataType } from './types';
 
 export const formatYAxisLabel = (value: number) => {
   if (value >= 1000000) return `$${(value / 1000000).toFixed(1)}M`;

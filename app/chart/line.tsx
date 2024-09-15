@@ -5,13 +5,7 @@ import { StatusBar } from 'expo-status-bar';
 import { useGetTrendDate } from 'api/record';
 import { useBookStore } from 'core/stateHooks';
 import { TimeframeHeader, LineChart } from 'components';
-import { LineDataType } from 'components/Chart/chart-utils';
-
-enum Types {
-  EXPENSE = 'expense',
-  INCOME = 'income',
-  BALANCE = 'balance',
-}
+import { LineDataType, Types } from 'components/Chart/types';
 
 export default function UserAgreement() {
   const currentBook = useBookStore((state) => state.currentBook);
@@ -37,7 +31,7 @@ export default function UserAgreement() {
               <ActivityIndicator size='large' />
             </View>
           ) : (
-            <LineChart data={data as LineDataType[]} />
+            <LineChart data={data as LineDataType[]} type={type} />
           )}
         </View>
         <View className='items-center justify-center'>

@@ -1,11 +1,8 @@
 import { useState, useMemo } from 'react';
 import { View, Text, Dimensions } from 'react-native';
 import { LineChart } from 'react-native-gifted-charts';
-import {
-  LineDataType,
-  getChartTypeAndLabels,
-  formatYAxisLabel,
-} from './chart-utils';
+import { getChartTypeAndLabels, formatYAxisLabel } from './chart-utils';
+import { LineDataType, Types } from './types';
 
 const Pointer = (items: LineDataType[]) => {
   const item = items[0];
@@ -20,11 +17,28 @@ const Pointer = (items: LineDataType[]) => {
   );
 };
 
-export default function Line({ data }: { data: LineDataType[] }) {
+const colors = {
+  income: {
+    color: '#00ff83',
+    startFill: 'rgba(0, 255, 131, 0.6)',
+  },
+  expense: {
+    color: '#ff4d4d',
+    startFill: 'rgba(255, 77, 77, 0.6)',
+  },
+  balance: {
+    color: '#4da6ff',
+    startFill: 'rgba(77, 166, 255, 0.6)',
+  },
+};
+
+type LineProps = { data: LineDataType[]; type: Types };
+
+export default function Line({ data, type }: LineProps) {
   const [isRight, setIsRight] = useState(false);
   const screenWidth = Dimensions.get('window').width;
   const chartWidth = screenWidth - 70;
-  const chartHeight = 300;
+  const chartHeight = 250;
 
   const handleLabelPosition = ({
     pointerX,
@@ -73,16 +87,16 @@ export default function Line({ data }: { data: LineDataType[] }) {
     <View className='w-full p-2 bg-white'>
       <LineChart
         areaChart
-        curved
+        // curved
         data={chartData}
         width={chartWidth}
         height={chartHeight}
         hideDataPoints
         spacing={chartWidth / (data.length + 1)}
-        color='#00ff83'
+        color={colors[type].color}
         thickness={2}
-        startFillColor='rgba(20,105,81,0.3)'
-        endFillColor='rgba(20,85,81,0.01)'
+        startFillColor={colors[type].startFill}
+        endFillColor='rgba(255, 255, 255, 0.1)'
         startOpacity={0.8}
         endOpacity={0.1}
         initialSpacing={20}
@@ -91,9 +105,10 @@ export default function Line({ data }: { data: LineDataType[] }) {
         yAxisLabelTexts={yAxisLabelTexts.map((item) =>
           formatYAxisLabel(item.value)
         )}
-        yAxisColor='lightgray'
+        yAxisColor='white'
         rulesColor='lightgray'
         rulesType='dashed'
+        yAxisTextStyle={{ color: 'gray' }}
         xAxisColor='lightgray'
         xAxisLabelTextStyle={{
           color: 'gray',
@@ -113,7 +128,24 @@ export default function Line({ data }: { data: LineDataType[] }) {
           autoAdjustPointerLabelPosition: false,
           pointerLabelComponent: Pointer,
         }}
+        xAxisLabelsVerticalShift={5}
+        animateOnDataChange // Enable animation on data change
+        animationDuration={5000} // Duration for the animation (in ms)
       />
+      {yAxisLabelTexts.map((item, index) => (
+        <Text
+          key={index}
+          style={{
+            position: 'absolute',
+            left: 15,
+            top: chartHeight - (index * chartHeight) / 2,
+            color: 'gray',
+            fontSize: 10,
+          }}
+        >
+          {item.label}
+        </Text>
+      ))}
     </View>
   );
 }

@@ -17,19 +17,21 @@ export default function CategoriedAnalysis() {
       style={{ flex: 1, backgroundColor: '#03045E' }}
       edges={['top']}
     >
-      <TimeframeHeader onChangeTimeframe={(value) => setTimeframe(value)} />
-      <View className='items-center justify-center flex-1 p-2 bg-white'>
-        {!data?.expense ? (
-          <View className='items-center justify-center flex-1 '>
-            <ActivityIndicator size='large' />
-          </View>
-        ) : (
-          <PieChart
-            data={data.expense.data}
-            details={data.expense.details}
-            total={data.expense.total_amount}
-          />
-        )}
+      <View className='flex-1 bg-white'>
+        <TimeframeHeader onChangeTimeframe={(value) => setTimeframe(value)} />
+        <View className='items-center justify-center flex-1 p-2 bg-white'>
+          {!data?.expense ? (
+            <View className='items-center justify-center flex-1 '>
+              <ActivityIndicator size='large' />
+            </View>
+          ) : (
+            <PieChart
+              data={data.expense.data}
+              details={data.expense.details}
+              total={data.expense.total_amount}
+            />
+          )}
+        </View>
       </View>
       <StatusBar style='light' />
     </SafeAreaView>
