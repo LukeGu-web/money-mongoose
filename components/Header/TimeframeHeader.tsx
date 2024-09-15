@@ -43,6 +43,7 @@ export default function TimeframeHeader({
         break;
       default:
         setDisplyDate('All Records');
+        onChangeTimeframe('');
     }
   };
   const handleChangeTimeRange = (item: TimeRangeType | 'all') => {

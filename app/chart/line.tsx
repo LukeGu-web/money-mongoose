@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { View, Text, Pressable } from 'react-native';
+import { View, Text, Pressable, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { useGetTrendDate } from 'api/record';
 import { useBookStore } from 'core/stateHooks';
 import { TimeframeHeader, LineChart } from 'components';
+import { LineDataType } from 'components/Chart/chart-utils';
 
 enum Types {
   EXPENSE = 'expense',
@@ -31,7 +32,13 @@ export default function UserAgreement() {
       <View className='flex-1 bg-white'>
         <TimeframeHeader onChangeTimeframe={(value) => setTimeframe(value)} />
         <View className='items-center justify-center'>
-          {data && data.length > 0 && <LineChart data={data} />}
+          {isPending ? (
+            <View className='items-center justify-center h-72'>
+              <ActivityIndicator size='large' />
+            </View>
+          ) : (
+            <LineChart data={data as LineDataType[]} />
+          )}
         </View>
         <View className='items-center justify-center'>
           <View className='flex-row items-center border-2 rounded-lg border-slate-800'>
