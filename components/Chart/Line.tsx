@@ -1,13 +1,11 @@
 import { useState } from 'react';
-import { View, Text, Pressable } from 'react-native';
+import { View, Text } from 'react-native';
 import { LineChart } from 'react-native-gifted-charts';
 
 type LinePointType = {
   value: number;
   date: string;
 };
-
-const types = ['expense', 'income', 'balance'];
 
 const Pointer = (items: LinePointType[]) => (
   <View className='justify-center w-24 h-20'>
@@ -29,7 +27,6 @@ type LineProps = {
 };
 
 export default function Line({ data }: LineProps) {
-  const [type, setType] = useState('expense');
   const [isRight, setIsRight] = useState(false);
   const handleLabelPosition = ({
     pointerX,
@@ -45,7 +42,7 @@ export default function Line({ data }: LineProps) {
     }
   };
   return (
-    <View className='flex-1 w-full p-2 bg-white'>
+    <View className='w-full p-2 bg-white'>
       <LineChart
         areaChart
         data={data}
@@ -82,27 +79,6 @@ export default function Line({ data }: LineProps) {
           pointerLabelComponent: Pointer,
         }}
       />
-      <View className='items-center justify-center'>
-        <View className='flex-row items-center border-2 rounded-lg border-slate-800'>
-          {Object.values(types).map((item, index) => (
-            <Pressable
-              key={item}
-              className={`items-center justify-center py-1 px-2 border-slate-800 ${
-                index < 2 && 'border-r-2'
-              } ${type === item && 'bg-slate-800'}`}
-              onPress={() => setType(item)}
-            >
-              <Text
-                className={`text-center font-medium ${
-                  type === item ? 'color-white' : 'color-slate-800'
-                }`}
-              >
-                {item}
-              </Text>
-            </Pressable>
-          ))}
-        </View>
-      </View>
     </View>
   );
 }

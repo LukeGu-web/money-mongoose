@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
@@ -6,17 +7,17 @@ import { useBookStore } from 'core/stateHooks';
 import { TimeframeHeader, PieChart } from 'components';
 
 export default function CategoriedAnalysis() {
+  const [timeframe, setTimeframe] = useState(''); // year 2024 | month 2024-09 | week 2024@09
   const currentBook = useBookStore((state) => state.currentBook);
   const { data } = useGetCategoriedRecords({
     variables: { book_id: currentBook.id },
   });
-  console.log('CategoriedAnalysis: ', data);
   return (
     <SafeAreaView
       style={{ flex: 1, backgroundColor: '#03045E' }}
       edges={['top']}
     >
-      <TimeframeHeader />
+      <TimeframeHeader onChangeTimeframe={(value) => setTimeframe(value)} />
       <View className='items-center justify-center flex-1 p-2 bg-white'>
         {!data?.expense ? (
           <View className='items-center justify-center flex-1 '>
