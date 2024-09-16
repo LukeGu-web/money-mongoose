@@ -16,7 +16,7 @@ export default function HomeHeader() {
         </Text>
       </View>
       <View className='flex-row items-center justify-center gap-4'>
-        <Link href='/chart/line/' className='pl-3'>
+        <Link href='/statistics/trending/' className='pl-3'>
           <Icon name='chart-line' size={24} color='#fff' />
         </Link>
         <Link href='/records' className='pr-3'>

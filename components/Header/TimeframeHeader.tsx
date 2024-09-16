@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { View, Text, Pressable } from 'react-native';
-import { Link, router } from 'expo-router';
+import { Link, router, usePathname } from 'expo-router';
 import dayjs, { Dayjs } from 'dayjs';
 import weekday from 'dayjs/plugin/weekday';
 import weekOfYear from 'dayjs/plugin/weekOfYear';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
+import AntDesign from '@expo/vector-icons/AntDesign';
 import Icon from '../Icon/Icon';
 
 dayjs.extend(weekday);
@@ -24,6 +25,9 @@ export default function TimeframeHeader({
   onChangeTimeframe,
 }: TimeframeHeaderProps) {
   const today = dayjs();
+  const pathname = usePathname();
+  const isCategory = pathname.includes('category');
+  console.log('TimeframeHeader: ', pathname, isCategory);
   const [timeRange, setTimeRange] = useState<TimeRangeTypes>(
     TimeRangeTypes.MONTH
   );
@@ -90,9 +94,15 @@ export default function TimeframeHeader({
             </Pressable>
           ))}
         </View>
-        <Link href='/chart/line/' className='pl-3'>
-          <Icon name='chart-line' size={24} color='#fff' />
-        </Link>
+        {isCategory ? (
+          <Link href='/statistics/trending/' className='pl-3'>
+            <Icon name='chart-line' size={24} color='#fff' />
+          </Link>
+        ) : (
+          <Link href='/statistics/category/' className='pl-3'>
+            <AntDesign name='piechart' size={20} color='#fff' />
+          </Link>
+        )}
       </View>
       <View className='items-center justify-center h-12'>
         <View className='flex-row items-center justify-center gap-4'>

@@ -42,13 +42,13 @@ export default function RootLayoutNav() {
           }}
         />
         <Stack.Screen
-          name='chart/pie'
+          name='statistics/category'
           options={{
             headerShown: false,
           }}
         />
         <Stack.Screen
-          name='chart/line'
+          name='statistics/trending'
           options={{
             headerShown: false,
           }}

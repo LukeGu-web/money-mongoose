@@ -59,7 +59,7 @@ export default function TabLayout() {
             <View className='flex-row gap-2'>
               <Pressable
                 className='pt-0.5 pr-3'
-                onPress={() => router.navigate('/chart/pie/')}
+                onPress={() => router.navigate('/statistics/category/')}
               >
                 <AntDesign name='piechart' size={20} color='#fff' />
               </Pressable>

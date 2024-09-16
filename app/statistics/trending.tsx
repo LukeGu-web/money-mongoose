@@ -9,7 +9,7 @@ import { TimeframeHeader, LineChart } from 'components';
 import { LineDataType, Types } from 'components/Chart/types';
 import TypeSelector from 'components/Chart/TypeSelector';
 
-export default function UserAgreement() {
+export default function Trending() {
   const currentBook = useBookStore((state) => state.currentBook);
   const [type, setType] = useState<Types>(Types.EXPENSE);
   const [timeframe, setTimeframe] = useState(dayjs().format('YYYY-MM')); // year 2024 | month 2024-09 | week 2024@09
