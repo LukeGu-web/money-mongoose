@@ -2,12 +2,15 @@ import { useState } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
+import dayjs from 'dayjs';
 import { useGetCategoriedRecords } from 'api/record';
 import { useBookStore } from 'core/stateHooks';
 import { TimeframeHeader, PieChart } from 'components';
+import { Types } from 'components/Chart/Pie';
 
 export default function CategoriedAnalysis() {
-  const [timeframe, setTimeframe] = useState(''); // year 2024 | month 2024-09 | week 2024@09
+  const [timeframe, setTimeframe] = useState(dayjs().format('YYYY-MM')); // year 2024 | month 2024-09 | week 2024@09
+  const [type, setType] = useState<Types>(Types.EXPENSE);
   const currentBook = useBookStore((state) => state.currentBook);
   const { data } = useGetCategoriedRecords({
     variables: { book_id: currentBook.id },
@@ -29,6 +32,8 @@ export default function CategoriedAnalysis() {
               data={data.expense.data}
               details={data.expense.details}
               total={data.expense.total_amount}
+              type={type}
+              onChangeType={(value: any) => setType(value)}
             />
           )}
         </View>

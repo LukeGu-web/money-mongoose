@@ -2,11 +2,12 @@ import { useState } from 'react';
 import { View, Text, Pressable, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
-import dayjs, { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 import { useGetTrendDate } from 'api/record';
 import { useBookStore } from 'core/stateHooks';
 import { TimeframeHeader, LineChart } from 'components';
 import { LineDataType, Types } from 'components/Chart/types';
+import TypeSelector from 'components/Chart/TypeSelector';
 
 export default function UserAgreement() {
   const currentBook = useBookStore((state) => state.currentBook);
@@ -36,25 +37,11 @@ export default function UserAgreement() {
           )}
         </View>
         <View className='items-center justify-center'>
-          <View className='flex-row items-center border-2 rounded-lg border-slate-800'>
-            {Object.values(Types).map((item, index) => (
-              <Pressable
-                key={item}
-                className={`items-center justify-center py-1 px-2 border-slate-800 ${
-                  index < 2 && 'border-r-2'
-                } ${type === item && 'bg-slate-800'}`}
-                onPress={() => setType(item)}
-              >
-                <Text
-                  className={`text-center font-medium ${
-                    type === item ? 'color-white' : 'color-slate-800'
-                  }`}
-                >
-                  {item}
-                </Text>
-              </Pressable>
-            ))}
-          </View>
+          <TypeSelector
+            Types={Types}
+            type={type}
+            onChangeType={(value: any) => setType(value)}
+          />
         </View>
       </View>
       <StatusBar style='light' />

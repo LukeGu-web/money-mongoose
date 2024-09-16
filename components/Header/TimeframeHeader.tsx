@@ -27,7 +27,7 @@ export default function TimeframeHeader({
   const [timeRange, setTimeRange] = useState<TimeRangeTypes>(
     TimeRangeTypes.MONTH
   );
-  const [displayDate, setDisplyDate] = useState('All Records');
+  const [displayDate, setDisplyDate] = useState(today.format('YYYY-MM'));
   const [currentDate, setCurrentDate] = useState(today);
 
   const changeDisplayDate = (date: Dayjs, tf: TimeRangeTypes) => {
@@ -48,9 +48,6 @@ export default function TimeframeHeader({
         setDisplyDate(`${monday} ~ ${sunday}`);
         onChangeTimeframe(`${date.format('YYYY')}@${mondayDate.week()}`);
         break;
-      default:
-        setDisplyDate('All Records');
-        onChangeTimeframe('');
     }
   };
   const handleChangeTimeRange = (item: TimeRangeTypes) => {
