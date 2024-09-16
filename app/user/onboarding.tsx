@@ -11,7 +11,7 @@ import { UserType } from 'api/types';
 import log from 'core/logger';
 import { useBookStore, useLocalStore, useUserStore } from 'core/stateHooks';
 
-const avatarImage = require('../../assets/icon.png');
+const welcomeImage = require('../../assets/illustrations/welcome.png');
 
 export default function Onboarding() {
   const { isOnBoarding, isAcceptedAgreement, setIsOnBoarding } = useLocalStore(
@@ -79,11 +79,14 @@ export default function Onboarding() {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1 }} edges={['right', 'bottom', 'left']}>
-      <View className='flex-1 py-48'>
+    <SafeAreaView
+      style={{ flex: 1, backgroundColor: 'white' }}
+      edges={['right', 'bottom', 'left']}
+    >
+      <View className='flex-1 py-48 bg-white'>
         <View className='items-center justify-between flex-1 gap-4'>
-          <Text className='text-6xl text-blue-500'>Welcome</Text>
-          <Image className='w-32 h-32' source={avatarImage} />
+          <Text className='text-5xl text-blue-500'>Welcome</Text>
+          <Image className='w-72 h-72' source={welcomeImage} />
           <View className='items-center w-full gap-6'>
             <Pressable
               className='items-center justify-center w-1/2 p-2 border-2 border-black rounded-3xl'
