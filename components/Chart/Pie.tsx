@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { PieChartDataType } from 'api/types';
-import { View, Text, Pressable } from 'react-native';
+import { View, Text, Image } from 'react-native';
 import { PieChart } from 'react-native-gifted-charts';
 import Legend, { DetailsType } from './PieLegend';
 import TypeSelector from './TypeSelector';
+const noDataImage = require('../../assets/illustrations/nodata/no-data-pie-chart.png');
 
 export enum Types {
   EXPENSE = 'expense',
@@ -25,6 +26,15 @@ export default function Pie({
   type,
   onChangeType,
 }: PieProps) {
+  if (data.length === 0) {
+    return (
+      <View className='items-center justify-center w-full p-2 bg-white'>
+        <Image className='w-72 h-72' source={noDataImage} />
+        <Text className='text-lg font-semibold'>No data to display</Text>
+      </View>
+    );
+  }
+
   return (
     <View className='items-center justify-start flex-1 w-full gap-4 '>
       <View className='mb-8 opacity-70'>

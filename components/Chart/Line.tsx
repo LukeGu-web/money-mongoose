@@ -1,8 +1,9 @@
 import { useState, useMemo } from 'react';
-import { View, Text, Dimensions } from 'react-native';
+import { View, Text, Image, Dimensions } from 'react-native';
 import { LineChart } from 'react-native-gifted-charts';
 import { getChartTypeAndLabels, formatYAxisLabel } from './chart-utils';
 import { LineDataType, Types } from './types';
+const noDataImage = require('../../assets/illustrations/nodata/no-data-line-chart.png');
 
 const Pointer = (items: LineDataType[]) => {
   const item = items[0];
@@ -77,8 +78,9 @@ export default function Line({ data, type }: LineProps) {
 
   if (data.every((item) => item.value === 0)) {
     return (
-      <View className='items-center justify-center w-full p-2 bg-white h-72'>
-        <Text>No meaningful data to display</Text>
+      <View className='items-center justify-center flex-1 w-full p-2 bg-white'>
+        <Image className='w-72 h-72' source={noDataImage} />
+        <Text className='text-lg font-semibold'>No data to display</Text>
       </View>
     );
   }

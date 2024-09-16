@@ -27,22 +27,24 @@ export default function Trending() {
     >
       <View className='flex-1 bg-white'>
         <TimeframeHeader onChangeTimeframe={(value) => setTimeframe(value)} />
-        <View className='items-center justify-center'>
-          {isPending ? (
-            <View className='items-center justify-center h-72'>
-              <ActivityIndicator size='large' />
-            </View>
-          ) : (
-            <LineChart data={data ?? []} type={type} />
-          )}
-        </View>
-        <View className='items-center justify-center'>
-          <TypeSelector
-            Types={Types}
-            type={type}
-            onChangeType={(value: any) => setType(value)}
-          />
-        </View>
+        {/* <View className='items-center justify-center'> */}
+        {isPending ? (
+          <View className='items-center justify-center h-72'>
+            <ActivityIndicator size='large' />
+          </View>
+        ) : (
+          <LineChart data={data ?? []} type={type} />
+        )}
+        {/* </View> */}
+        {data && !data.every((item) => item.value === 0) && (
+          <View className='items-center justify-center'>
+            <TypeSelector
+              Types={Types}
+              type={type}
+              onChangeType={(value: any) => setType(value)}
+            />
+          </View>
+        )}
       </View>
       <StatusBar style='light' />
     </SafeAreaView>
