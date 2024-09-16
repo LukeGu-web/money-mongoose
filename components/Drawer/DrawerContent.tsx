@@ -5,6 +5,9 @@ import {
   DrawerItem,
   // DrawerItemList,
 } from '@react-navigation/drawer';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import AntDesign from '@expo/vector-icons/AntDesign';
+import Icon from '../Icon/Icon';
 import { useBookStore, useUserStore } from 'core/stateHooks';
 
 const avatarImage = require('../../assets/icon.png');
@@ -34,12 +37,21 @@ export default function DrawerContent(props: any) {
           />
         </View>
         <DrawerItem
-          label='Book Management'
+          label='Books'
+          icon={() => (
+            <Ionicons name='library-outline' size={24} color='#03045E' />
+          )}
           onPress={() => router.navigate('/book/management')}
         />
         <DrawerItem
-          label='Create new book'
-          onPress={() => router.navigate('/book/details')}
+          label='Category Analysis'
+          icon={() => <AntDesign name='piechart' size={24} color='#03045E' />}
+          onPress={() => router.navigate('/statistics/category')}
+        />
+        <DrawerItem
+          label='Overview Analysis'
+          icon={() => <Icon name='chart-line' size={24} color='#03045E' />}
+          onPress={() => router.navigate('/statistics/trending')}
         />
         {/* <DrawerItemList {...props} /> */}
       </View>

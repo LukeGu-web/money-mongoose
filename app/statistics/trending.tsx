@@ -6,7 +6,7 @@ import dayjs from 'dayjs';
 import { useGetTrendDate } from 'api/record';
 import { useBookStore } from 'core/stateHooks';
 import { TimeframeHeader, LineChart } from 'components';
-import { LineDataType, Types } from 'components/Chart/types';
+import { Types } from 'components/Chart/types';
 import TypeSelector from 'components/Chart/TypeSelector';
 
 export default function Trending() {
@@ -27,7 +27,6 @@ export default function Trending() {
     >
       <View className='flex-1 bg-white'>
         <TimeframeHeader onChangeTimeframe={(value) => setTimeframe(value)} />
-        {/* <View className='items-center justify-center'> */}
         {isPending ? (
           <View className='items-center justify-center h-72'>
             <ActivityIndicator size='large' />
@@ -35,7 +34,6 @@ export default function Trending() {
         ) : (
           <LineChart data={data ?? []} type={type} />
         )}
-        {/* </View> */}
         {data && !data.every((item) => item.value === 0) && (
           <View className='items-center justify-center'>
             <TypeSelector

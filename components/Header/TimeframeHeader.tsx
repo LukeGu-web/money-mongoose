@@ -27,7 +27,6 @@ export default function TimeframeHeader({
   const today = dayjs();
   const pathname = usePathname();
   const isCategory = pathname.includes('category');
-  console.log('TimeframeHeader: ', pathname, isCategory);
   const [timeRange, setTimeRange] = useState<TimeRangeTypes>(
     TimeRangeTypes.MONTH
   );
