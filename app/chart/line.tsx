@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { View, Text, Pressable, ActivityIndicator } from 'react-native';
+import { View, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import dayjs from 'dayjs';
@@ -17,7 +17,7 @@ export default function UserAgreement() {
     variables: {
       book_id: currentBook.id,
       type: type,
-      time_frame: timeframe,
+      timeframe: timeframe,
     },
   });
   return (
@@ -33,7 +33,7 @@ export default function UserAgreement() {
               <ActivityIndicator size='large' />
             </View>
           ) : (
-            <LineChart data={data as LineDataType[]} type={type} />
+            <LineChart data={data ?? []} type={type} />
           )}
         </View>
         <View className='items-center justify-center'>

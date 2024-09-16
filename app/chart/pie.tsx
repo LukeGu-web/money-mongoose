@@ -13,7 +13,7 @@ export default function CategoriedAnalysis() {
   const [type, setType] = useState<Types>(Types.EXPENSE);
   const currentBook = useBookStore((state) => state.currentBook);
   const { data } = useGetCategoriedRecords({
-    variables: { book_id: currentBook.id },
+    variables: { book_id: currentBook.id, type: type, timeframe: timeframe },
   });
   return (
     <SafeAreaView
@@ -23,15 +23,15 @@ export default function CategoriedAnalysis() {
       <View className='flex-1 bg-white'>
         <TimeframeHeader onChangeTimeframe={(value) => setTimeframe(value)} />
         <View className='items-center justify-center flex-1 p-2 bg-white'>
-          {!data?.expense ? (
+          {!data ? (
             <View className='items-center justify-center flex-1 '>
               <ActivityIndicator size='large' />
             </View>
           ) : (
             <PieChart
-              data={data.expense.data}
-              details={data.expense.details}
-              total={data.expense.total_amount}
+              data={data.data}
+              details={data.details}
+              total={data.total_amount}
               type={type}
               onChangeType={(value: any) => setType(value)}
             />

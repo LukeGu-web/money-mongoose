@@ -5,7 +5,7 @@ import { client } from '../client';
 type Variables = {
   book_id: number;
   type: 'balance' | 'expense' | 'income';
-  time_frame: string;
+  timeframe: string;
 };
 type Response = {
   value: number;
@@ -17,7 +17,7 @@ const useGetTrendDate = createQuery<Response, Variables, AxiosError>({
   fetcher: (variables: Variables): Promise<Response> => {
     return client
       .get(
-        `/record/trend/?book_id=${variables.book_id}&type=${variables.type}&time_frame=${variables.time_frame}`
+        `/record/trend/?book_id=${variables.book_id}&type=${variables.type}&timeframe=${variables.timeframe}`
       )
       .then((response) => response.data);
   },

@@ -3,7 +3,7 @@ import { createQuery } from 'react-query-kit';
 import { client } from '../client';
 import { PieChartDataType } from 'api/types';
 
-type InnerType = {
+type Response = {
   total_amount: string;
   data: PieChartDataType;
   details: {
@@ -20,20 +20,19 @@ type InnerType = {
     };
   };
 };
-
-type Response = {
-  expense?: InnerType;
-  income?: InnerType;
-};
 type Variables = {
   book_id: number;
+  type: 'expense' | 'income';
+  timeframe: string;
 };
 
 const useGetCategoriedRecords = createQuery<Response, Variables, AxiosError>({
   queryKey: ['records', 'category'],
   fetcher: (variables: Variables) =>
     client
-      .get(`record/category/?book_id=${variables.book_id}`)
+      .get(
+        `record/category/?book_id=${variables.book_id}&type=${variables.type}&timeframe=${variables.timeframe}`
+      )
       .then((response) => response.data),
 });
 
