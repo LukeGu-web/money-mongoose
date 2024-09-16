@@ -80,7 +80,7 @@ export default function Line({ data, type }: LineProps) {
     return (
       <View className='items-center justify-center flex-1 w-full p-2 bg-white'>
         <Image className='w-72 h-72' source={noDataImage} />
-        <Text className='text-lg font-semibold'>No data to display</Text>
+        <Text className='text-lg font-medium'>No data to display</Text>
       </View>
     );
   }

@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import { View, Text, ActivityIndicator } from 'react-native';
+import { View, Text, Image, ActivityIndicator } from 'react-native';
 import { Calendar as ClendarPicker, DateData } from 'react-native-calendars';
 import { usePathname } from 'expo-router';
 import dayjs from 'dayjs';
@@ -14,6 +14,8 @@ import { useRecord, useBookStore, useCalendar } from 'core/stateHooks';
 import CalendarDay from './CalendarDay';
 import ListDayItem from '../RecordList/ListDayItem';
 import RecordBottomSheet from '../BottomSheet/RecordBottomSheet';
+
+const noDataImage = require('../../assets/illustrations/nodata/no-data-board.png');
 
 export default function Calendar() {
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
@@ -108,8 +110,9 @@ export default function Calendar() {
             estimatedItemSize={20}
           />
         ) : (
-          <View className='self-center justify-center flex-1'>
-            <Text className='text-xl font-medium'>No record</Text>
+          <View className='self-center justify-center flex-1 gap-4'>
+            <Image className='w-32 h-32' source={noDataImage} />
+            <Text className='text-lg font-medium text-center'>No record</Text>
           </View>
         )}
       </View>

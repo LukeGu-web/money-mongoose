@@ -1,5 +1,5 @@
 import { useState, useCallback, useRef } from 'react';
-import { View, Text, ActivityIndicator } from 'react-native';
+import { View, Text, Image, ActivityIndicator } from 'react-native';
 import { usePathname } from 'expo-router';
 import { FlashList } from '@shopify/flash-list';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
@@ -11,6 +11,7 @@ import log from 'core/logger';
 import { useRecord, useBookStore } from 'core/stateHooks';
 import RecordBottomSheet from '../BottomSheet/RecordBottomSheet';
 import ListDayItem from './ListDayItem';
+const noDataImage = require('../../assets/illustrations/nodata/no-data-board.png');
 
 type RecordListProps = {
   extra?: string;
@@ -91,7 +92,8 @@ export default function RecordList({
           )}
         />
       ) : (
-        <View className='items-center justify-center flex-1'>
+        <View className='items-center justify-center flex-1 gap-4'>
+          <Image className='w-32 h-32' source={noDataImage} />
           <Text>{noItemMsg}</Text>
         </View>
       )}

@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { PieChartDataType } from 'api/types';
 import { View, Text, Image } from 'react-native';
 import { PieChart } from 'react-native-gifted-charts';
@@ -30,7 +29,7 @@ export default function Pie({
     return (
       <View className='items-center justify-center w-full p-2 bg-white'>
         <Image className='w-72 h-72' source={noDataImage} />
-        <Text className='text-lg font-semibold'>No data to display</Text>
+        <Text className='text-lg font-medium'>No data to display</Text>
       </View>
     );
   }
