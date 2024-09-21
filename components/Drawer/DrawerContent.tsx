@@ -1,14 +1,12 @@
 import { View, Image, Text } from 'react-native';
 import { router } from 'expo-router';
-import {
-  DrawerContentScrollView,
-  DrawerItem,
-  // DrawerItemList,
-} from '@react-navigation/drawer';
+import * as Updates from 'expo-updates';
+import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Icon from '../Icon/Icon';
 import { useBookStore, useUserStore } from 'core/stateHooks';
+import { clearAll } from 'core/localStorage/storage';
 
 const avatarImage = require('../../assets/icon.png');
 
@@ -29,7 +27,7 @@ export default function DrawerContent(props: any) {
         <Text className='text-lg font-bold color-white'>{user.nickname}</Text>
       </View>
       <View className='flex-1 py-8 bg-white'>
-        <View className='mb-2 border-b-2'>
+        <View className='pl-4 mb-2 border-b-2'>
           <Text className='p-2'>Current book:</Text>
           <DrawerItem
             label={name ?? 'No book'}
@@ -38,9 +36,7 @@ export default function DrawerContent(props: any) {
         </View>
         <DrawerItem
           label='Books'
-          icon={() => (
-            <Ionicons name='library-outline' size={24} color='#03045E' />
-          )}
+          icon={() => <Ionicons name='library' size={24} color='#03045E' />}
           onPress={() => router.navigate('/book/management')}
         />
         <DrawerItem
@@ -50,10 +46,46 @@ export default function DrawerContent(props: any) {
         />
         <DrawerItem
           label='Overview Analysis'
-          icon={() => <Icon name='chart-line' size={24} color='#03045E' />}
+          icon={() => <AntDesign name='areachart' size={24} color='#03045E' />}
           onPress={() => router.navigate('/statistics/trending')}
         />
-        {/* <DrawerItemList {...props} /> */}
+      </View>
+      <View className='pb-8 bg-white border-t-2 border-gray-400'>
+        {user.account_status === 'unregistered' ? (
+          <View>
+            <DrawerItem
+              label='Login'
+              icon={() => <AntDesign name='login' size={24} color='gray' />}
+              onPress={() =>
+                router.navigate({
+                  pathname: '/user/register',
+                  params: { reason: 'login' },
+                })
+              }
+            />
+            <DrawerItem
+              label='Sign up'
+              icon={() => (
+                <Ionicons name='person-add-outline' size={24} color='gray' />
+              )}
+              onPress={() =>
+                router.navigate({
+                  pathname: '/user/register',
+                  params: { reason: 'sign-up' },
+                })
+              }
+            />
+          </View>
+        ) : (
+          <DrawerItem
+            label='Logout'
+            icon={() => <AntDesign name='logout' size={24} color='gray' />}
+            onPress={() => {
+              clearAll();
+              Updates.reloadAsync();
+            }}
+          />
+        )}
       </View>
     </DrawerContentScrollView>
   );

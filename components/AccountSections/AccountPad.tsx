@@ -18,7 +18,7 @@ export default function AccountPad() {
             <Ionicons name='sunny' size={30} color='#03045e' />
           )}
         </View>
-        <Text className='text-sm font-semibold text-center  text color-primary'>
+        <Text className='text-sm font-semibold text-center text color-primary'>
           {colorScheme === 'light' ? 'Dark' : 'Light'} Mode
         </Text>
       </Pressable>
@@ -35,13 +35,13 @@ export default function AccountPad() {
       </Pressable>
       <Pressable
         className='gap-2'
-        onPress={() => router.navigate('/asset/management')}
+        onPress={() => router.navigate('/tools/tax-calculator')}
       >
         <View className='items-center justify-center w-20 h-20 border-2 rounded-lg border-primary'>
           <MaterialIcons name='account-balance' size={28} color='#03045e' />
         </View>
         <Text className='text-sm font-semibold text-center color-primary'>
-          Accounts
+          Tax Cal
         </Text>
       </Pressable>
       <Pressable className='gap-2' onPress={() => router.navigate('/records')}>
