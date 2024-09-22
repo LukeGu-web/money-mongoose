@@ -4,7 +4,6 @@ import { useColorScheme } from 'nativewind';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 export default function AccountPad() {
   const { colorScheme, toggleColorScheme } = useColorScheme();
@@ -38,10 +37,10 @@ export default function AccountPad() {
         onPress={() => router.navigate('/tools/tax-calculator')}
       >
         <View className='items-center justify-center w-20 h-20 border-2 rounded-lg border-primary'>
-          <MaterialIcons name='account-balance' size={28} color='#03045e' />
+          <FontAwesome6 name='calculator' size={28} color='#03045e' />
         </View>
-        <Text className='text-sm font-semibold text-center color-primary'>
-          Tax Cal
+        <Text className='mt-1 -ml-1 text-xs font-semibold text-center color-primary'>
+          Tax Calculator
         </Text>
       </Pressable>
       <Pressable className='gap-2' onPress={() => router.navigate('/records')}>

@@ -108,6 +108,13 @@ export default function RootLayoutNav() {
             headerLeft: () => <GoBack />,
           }}
         />
+        <Stack.Screen
+          name='tools/tax-calculator'
+          options={{
+            title: 'Tax Calculator',
+            headerLeft: () => <GoBack />,
+          }}
+        />
       </Stack>
     </Providers>
   );

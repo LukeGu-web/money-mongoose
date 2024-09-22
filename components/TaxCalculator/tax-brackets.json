@@ -1,0 +1,58 @@
+{
+  "2024-2025": [
+    { "threshold": 0, "rate": 0, "baseTax": 0 },
+    { "threshold": 18200, "rate": 0.19, "baseTax": 0 },
+    { "threshold": 45000, "rate": 0.3, "baseTax": 4288 },
+    { "threshold": 135000, "rate": 0.37, "baseTax": 31288 },
+    { "threshold": 190000, "rate": 0.45, "baseTax": 51638 }
+  ],
+  "2023-2024": [
+    { "threshold": 0, "rate": 0, "baseTax": 0 },
+    { "threshold": 18200, "rate": 0.19, "baseTax": 0 },
+    { "threshold": 45000, "rate": 0.325, "baseTax": 5092 },
+    { "threshold": 120000, "rate": 0.37, "baseTax": 29467 },
+    { "threshold": 180000, "rate": 0.45, "baseTax": 51667 }
+  ],
+  "2022-2023": [
+    { "threshold": 0, "rate": 0, "baseTax": 0 },
+    { "threshold": 18200, "rate": 0.19, "baseTax": 0 },
+    { "threshold": 45000, "rate": 0.325, "baseTax": 5092 },
+    { "threshold": 120000, "rate": 0.37, "baseTax": 29467 },
+    { "threshold": 180000, "rate": 0.45, "baseTax": 51667 }
+  ],
+  "2021-2022": [
+    { "threshold": 0, "rate": 0, "baseTax": 0 },
+    { "threshold": 18200, "rate": 0.19, "baseTax": 0 },
+    { "threshold": 45000, "rate": 0.325, "baseTax": 5092 },
+    { "threshold": 120000, "rate": 0.37, "baseTax": 29467 },
+    { "threshold": 180000, "rate": 0.45, "baseTax": 51667 }
+  ],
+  "2020-2021": [
+    { "threshold": 0, "rate": 0, "baseTax": 0 },
+    { "threshold": 18200, "rate": 0.19, "baseTax": 0 },
+    { "threshold": 45000, "rate": 0.325, "baseTax": 5092 },
+    { "threshold": 120000, "rate": 0.37, "baseTax": 29467 },
+    { "threshold": 180000, "rate": 0.45, "baseTax": 51667 }
+  ],
+  "2019-2020": [
+    { "threshold": 0, "rate": 0, "baseTax": 0 },
+    { "threshold": 18200, "rate": 0.19, "baseTax": 0 },
+    { "threshold": 37000, "rate": 0.325, "baseTax": 3572 },
+    { "threshold": 90000, "rate": 0.37, "baseTax": 20797 },
+    { "threshold": 180000, "rate": 0.45, "baseTax": 54097 }
+  ],
+  "2018-2019": [
+    { "threshold": 0, "rate": 0, "baseTax": 0 },
+    { "threshold": 18200, "rate": 0.19, "baseTax": 0 },
+    { "threshold": 37000, "rate": 0.325, "baseTax": 3572 },
+    { "threshold": 90000, "rate": 0.37, "baseTax": 20797 },
+    { "threshold": 180000, "rate": 0.45, "baseTax": 54097 }
+  ],
+  "2017-2018": [
+    { "threshold": 0, "rate": 0, "baseTax": 0 },
+    { "threshold": 18200, "rate": 0.19, "baseTax": 0 },
+    { "threshold": 37000, "rate": 0.325, "baseTax": 3572 },
+    { "threshold": 87000, "rate": 0.37, "baseTax": 19822 },
+    { "threshold": 180000, "rate": 0.45, "baseTax": 54232 }
+  ]
+}
