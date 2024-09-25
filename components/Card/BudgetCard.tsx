@@ -8,13 +8,12 @@ import {
   Button,
   ActivityIndicator,
 } from 'react-native';
-import { useColorScheme } from 'nativewind';
 import { useForm, Controller } from 'react-hook-form';
 import dayjs from 'dayjs';
 
 import { useUpdateBook } from 'api/book';
 import { formatApiError } from 'api/errorFormat';
-import { useBookStore } from 'core/stateHooks';
+import { useBookStore, useSettingStore } from 'core/stateHooks';
 import { formatter } from 'core/utils';
 import log from 'core/logger';
 import { GoalProcess } from '../Chart/GoalProcess';
@@ -27,6 +26,7 @@ type BudgetCardProps = {
 export default function BudgetCard({ monthExpense }: BudgetCardProps) {
   const { mutate: updateBookApi, isPending } = useUpdateBook();
   const { currentBook, setCurrentBook } = useBookStore();
+  const theme = useSettingStore((state) => state.theme);
   const expenseAmount = Math.abs(monthExpense);
   const days = dayjs().date();
   const [isVisible, setIsVisible] = useState<boolean>(false);
@@ -34,7 +34,6 @@ export default function BudgetCard({ monthExpense }: BudgetCardProps) {
     (currentBook.monthly_goal !== null ? Number(currentBook.monthly_goal) : 0) +
       monthExpense
   );
-  const { colorScheme } = useColorScheme();
   const {
     control,
     handleSubmit,
@@ -86,7 +85,7 @@ export default function BudgetCard({ monthExpense }: BudgetCardProps) {
           <Icon
             name='edit'
             size={14}
-            color={colorScheme === 'dark' ? 'white' : 'black'}
+            color={theme === 'dark' ? 'white' : 'black'}
           />
         </Pressable>
       </View>

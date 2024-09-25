@@ -6,9 +6,11 @@ type SettingStoreState = {
   isEnabledAuth: boolean;
   isEnabledBlur: boolean;
   lockTime: number;
+  theme: 'light' | 'dark';
   setIsEnabledAuth: (isEnabledAuth: boolean) => void;
   setIsEnabledBlur: (isEnabledBlur: boolean) => void;
   setLockTime: (lockTime: number) => void;
+  setTheme: (theme: 'light' | 'dark') => void;
 };
 
 const useSettingStore = create<SettingStoreState>()(
@@ -17,6 +19,7 @@ const useSettingStore = create<SettingStoreState>()(
       isEnabledAuth: false,
       isEnabledBlur: false,
       lockTime: 1,
+      theme: 'light',
       setIsEnabledAuth: (isEnabledAuth) => {
         set(() => ({ isEnabledAuth }));
       },
@@ -25,6 +28,9 @@ const useSettingStore = create<SettingStoreState>()(
       },
       setLockTime: (lockTime) => {
         set(() => ({ lockTime }));
+      },
+      setTheme: (theme) => {
+        set(() => ({ theme }));
       },
     })),
     {

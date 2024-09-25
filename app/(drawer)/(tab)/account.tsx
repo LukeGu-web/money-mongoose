@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { View, Text, Pressable, ScrollView } from 'react-native';
-import { useColorScheme } from 'nativewind';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { useSettingStore } from 'core/stateHooks';
 import { clearAll } from 'core/localStorage/storage';
 import {
   AvatarSection,
@@ -12,13 +12,13 @@ import {
 } from 'components/AccountSections';
 
 export default function Account() {
-  const { colorScheme } = useColorScheme();
+  const theme = useSettingStore((state) => state.theme);
   return (
     <ScrollView
       style={{
         flex: 1,
         padding: 8,
-        backgroundColor: colorScheme === 'dark' ? 'black' : 'white',
+        backgroundColor: theme === 'dark' ? 'black' : 'white',
       }}
     >
       <AvatarSection />

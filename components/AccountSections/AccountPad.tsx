@@ -1,31 +1,41 @@
 import { View, Text, Pressable } from 'react-native';
 import { router } from 'expo-router';
 import { useColorScheme } from 'nativewind';
+import { useShallow } from 'zustand/react/shallow';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
+import { useSettingStore } from 'core/stateHooks';
 
 export default function AccountPad() {
-  const { colorScheme, toggleColorScheme } = useColorScheme();
-  const color = colorScheme === 'dark' ? '#60a5fa' : '#03045e';
+  const { theme, setTheme } = useSettingStore(
+    useShallow((state) => ({
+      theme: state.theme,
+      setTheme: state.setTheme,
+    }))
+  );
+  const { setColorScheme } = useColorScheme();
+  const color = theme === 'dark' ? '#60a5fa' : '#03045e';
   return (
     <View className='flex-row items-center justify-between'>
       <Pressable
         className='gap-2'
         onPress={() => {
-          toggleColorScheme();
+          const newTheme = theme === 'dark' ? 'light' : 'dark';
+          setColorScheme(newTheme);
+          setTheme(newTheme);
           router.replace('account/');
         }}
       >
         <View className='items-center justify-center w-20 h-20 border-2 rounded-lg border-primary dark:border-primarydark'>
-          {colorScheme === 'light' ? (
+          {theme === 'light' ? (
             <Ionicons name='moon' size={28} color={color} />
           ) : (
             <Ionicons name='sunny' size={30} color={color} />
           )}
         </View>
         <Text className='text-sm font-semibold text-center text color-primary dark:color-primarydark'>
-          {colorScheme === 'light' ? 'Dark' : 'Light'} Mode
+          {theme === 'light' ? 'Dark' : 'Light'} Mode
         </Text>
       </Pressable>
       <Pressable

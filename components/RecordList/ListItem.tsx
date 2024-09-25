@@ -1,7 +1,6 @@
 import { View, Text, Pressable } from 'react-native';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import { colorScheme, useColorScheme } from 'nativewind';
 import Icon from 'components/Icon/Icon';
 
 import { AssetType } from 'api/types';
@@ -10,7 +9,7 @@ import {
   RecordAPI as Record,
   TransferAPI as Transfer,
 } from 'api/record/types';
-import { useRecord } from 'core/stateHooks';
+import { useRecord, useSettingStore } from 'core/stateHooks';
 import { formatAsset } from 'core/utils';
 
 type ListItemProps = {
@@ -33,7 +32,7 @@ const textColorMap = {
 
 export default function ListItem({ item, flatAssets, onPress }: ListItemProps) {
   const setRecord = useRecord((state) => state.setRecord);
-  const { colorScheme } = useColorScheme();
+  const theme = useSettingStore((state) => state.theme);
   return (
     <Pressable
       className={`flex-row justify-between items-center border-b-2 p-2 ${
@@ -60,7 +59,11 @@ export default function ListItem({ item, flatAssets, onPress }: ListItemProps) {
       {item.type === RecordTypes.TRANSFER ? (
         <View className='flex-row flex-1'>
           <View className='items-start justify-center w-1/6'>
-            <FontAwesome name='exchange' size={24} color='black' />
+            <FontAwesome
+              name='exchange'
+              size={24}
+              color={theme === 'dark' ? 'white' : 'black'}
+            />
           </View>
           <Text className='pb-1 text-lg font-bold dark:color-white'>{`from ${formatAsset(
             Number(item.from_asset),
@@ -74,7 +77,7 @@ export default function ListItem({ item, flatAssets, onPress }: ListItemProps) {
             <Icon
               name={item.category}
               size={28}
-              color={colorScheme === 'dark' ? 'white' : 'black'}
+              color={theme === 'dark' ? 'white' : 'black'}
             />
             {item.is_marked_tax_return && (
               <MaterialCommunityIcons

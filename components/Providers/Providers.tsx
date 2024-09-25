@@ -2,7 +2,6 @@ import { BlurView } from 'expo-blur';
 import { useEffect, useRef, useState } from 'react';
 import { AppState, Alert } from 'react-native';
 import Toast from 'react-native-toast-message';
-import { colorScheme } from 'nativewind';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import * as LocalAuthentication from 'expo-local-authentication';
 import { useShallow } from 'zustand/react/shallow';
@@ -91,8 +90,6 @@ export default function Providers({ children }: { children: React.ReactNode }) {
       subscription.remove();
     };
   }, []);
-  // Use imperatively
-  colorScheme.set('light');
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>

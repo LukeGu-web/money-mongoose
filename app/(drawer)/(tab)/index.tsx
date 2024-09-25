@@ -3,7 +3,6 @@ import { View, Text, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { router } from 'expo-router';
-import { useColorScheme } from 'nativewind';
 import dayjs from 'dayjs';
 
 import { client, setHeaderToken } from 'api/client';
@@ -15,7 +14,7 @@ import {
   HomeHeader,
   Icon,
 } from 'components';
-import { useUserStore, useBookStore } from 'core/stateHooks';
+import { useUserStore, useBookStore, useSettingStore } from 'core/stateHooks';
 
 export default function Home() {
   const user = useUserStore((state) => state.user);
@@ -23,7 +22,7 @@ export default function Home() {
   const { data } = useGetMonthlyData({
     variables: { book_id: currentBook.id },
   });
-  const { colorScheme } = useColorScheme();
+  const theme = useSettingStore((state) => state).theme;
   useEffect(() => {
     if (!client.defaults.headers.common['Authorization'])
       setHeaderToken(user.token);
@@ -60,7 +59,7 @@ export default function Home() {
               <Icon
                 name='double-right'
                 size={14}
-                color={colorScheme === 'dark' ? 'white' : 'black'}
+                color={theme === 'dark' ? 'white' : 'black'}
               />
             </Pressable>
           </View>
