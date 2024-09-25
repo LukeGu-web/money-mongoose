@@ -15,20 +15,24 @@ export default function ExpenseCard({
   const balance = monthIncome + monthExpense;
   return (
     <View className='justify-between flex-1 p-2 '>
-      <Text className='text-3xl'>
+      <Text className='text-3xl dark:color-white'>
         {month}
-        <Text className='text-xl'>&#183; Expense</Text>
+        <Text className='text-xl dark:color-white'>&#183; Expense</Text>
       </Text>
-      <Text className='text-4xl'>{formatter(Math.abs(monthExpense))}</Text>
+      <Text className='text-4xl dark:color-white'>
+        {formatter(Math.abs(monthExpense))}
+      </Text>
       <View className='flex-row gap-2'>
-        <Text className='font-extrabold'>Income</Text>
-        <Text className='font-semibold color-green-700'>
+        <Text className='font-extrabold dark:color-white'>Income</Text>
+        <Text className='font-semibold color-green-700 dark:color-green-200'>
           {formatter(monthIncome)}
         </Text>
-        <Text className='font-extrabold'>Balance</Text>
+        <Text className='font-extrabold dark:color-white'>Balance</Text>
         <Text
           className={`font-semibold ${
-            balance > 0 ? 'color-green-700' : 'color-red-700'
+            balance > 0
+              ? 'color-green-700 dark:color-green-200'
+              : 'color-red-700 dark:color-red-200'
           } `}
         >
           {formatter(balance)}

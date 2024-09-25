@@ -18,6 +18,7 @@ type RecordListProps = {
   noItemMsg?: string;
   loadMore?: boolean;
   bgColor?: string;
+  darkBgColor?: string;
 };
 
 export default function RecordList({
@@ -25,6 +26,7 @@ export default function RecordList({
   noItemMsg = "You don't have any record.",
   loadMore = true,
   bgColor = 'bg-white',
+  darkBgColor = 'bg-zinc-600',
 }: RecordListProps) {
   const path = usePathname();
   const currentBook = useBookStore((state) => state.currentBook);
@@ -51,7 +53,9 @@ export default function RecordList({
 
   if (isPending || isFetching || !flatAssets)
     return (
-      <View className={`items-center justify-center flex-1 gap-2 ${bgColor}`}>
+      <View
+        className={`items-center justify-center flex-1 gap-2 ${bgColor} dark:${darkBgColor}`}
+      >
         <ActivityIndicator size='large' />
         <Text>Loading data...</Text>
       </View>
@@ -62,14 +66,16 @@ export default function RecordList({
     log.error(error.message);
     // if (formattedError.status !== 404)
     return (
-      <View className={`items-center justify-center flex-1 gap-2 ${bgColor}`}>
+      <View
+        className={`items-center justify-center flex-1 gap-2 ${bgColor} dark:${darkBgColor}`}
+      >
         <Text>Sorry, something went wrong. Please try it again.</Text>
       </View>
     );
   }
 
   return (
-    <View className={`flex-1 p-2 ${bgColor}`}>
+    <View className={`flex-1 p-2 ${bgColor} dark:${darkBgColor}`}>
       {data.results.length > 0 ? (
         <FlashList
           data={data.results}
@@ -88,13 +94,15 @@ export default function RecordList({
             }
           }}
           ListFooterComponent={() => (
-            <Text className='w-full mt-4 text-center'>- The End -</Text>
+            <Text className='w-full mt-4 text-center dark:color-white'>
+              - The End -
+            </Text>
           )}
         />
       ) : (
         <View className='items-center justify-center flex-1 gap-4'>
           <Image className='w-32 h-32' source={noDataImage} />
-          <Text>{noItemMsg}</Text>
+          <Text className='dark:color-white'>{noItemMsg}</Text>
         </View>
       )}
       <RecordBottomSheet

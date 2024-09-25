@@ -2,7 +2,7 @@ import { useCallback, useEffect } from 'react';
 import { Pressable, View } from 'react-native';
 import { Tabs, SplashScreen, Redirect, Link, router } from 'expo-router';
 import AntDesign from '@expo/vector-icons/AntDesign';
-import { colorScheme } from 'nativewind';
+import { useColorScheme } from 'nativewind';
 import dayjs from 'dayjs';
 
 import { Icon } from 'components';
@@ -25,6 +25,7 @@ export default function TabLayout() {
   }
 
   const setVisiableMonth = useCalendar((state) => state.setVisiableMonth);
+  const { colorScheme } = useColorScheme();
 
   const handleBackToday = () => {
     log.info('Back Today');
@@ -37,11 +38,10 @@ export default function TabLayout() {
       screenOptions={({ route }) => ({
         headerStyle: { backgroundColor: '#03045E' },
         headerTintColor: '#fff',
-        tabBarActiveTintColor:
-          colorScheme.get() === 'dark' ? '#60a5fa' : '#03045E',
+        tabBarActiveTintColor: colorScheme === 'dark' ? '#60a5fa' : '#03045E',
         tabBarStyle: {
           display: hideTab.includes(route.name) ? 'none' : 'flex',
-          backgroundColor: colorScheme.get() === 'dark' ? 'black' : 'white',
+          backgroundColor: colorScheme === 'dark' ? 'black' : 'white',
         },
       })}
     >

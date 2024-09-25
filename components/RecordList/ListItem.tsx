@@ -1,6 +1,7 @@
 import { View, Text, Pressable } from 'react-native';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { colorScheme, useColorScheme } from 'nativewind';
 import Icon from 'components/Icon/Icon';
 
 import { AssetType } from 'api/types';
@@ -25,13 +26,14 @@ const borderColorMap = {
 };
 
 const textColorMap = {
-  expense: 'color-red-700',
-  income: 'color-green-700',
-  transfer: 'color-blue-700',
+  expense: 'color-red-700 dark:color-red-200',
+  income: 'color-green-700 dark:color-green-200',
+  transfer: 'color-blue-700 dark:color-blue-200',
 };
 
 export default function ListItem({ item, flatAssets, onPress }: ListItemProps) {
   const setRecord = useRecord((state) => state.setRecord);
+  const { colorScheme } = useColorScheme();
   return (
     <Pressable
       className={`flex-row justify-between items-center border-b-2 p-2 ${
@@ -60,7 +62,7 @@ export default function ListItem({ item, flatAssets, onPress }: ListItemProps) {
           <View className='items-start justify-center w-1/6'>
             <FontAwesome name='exchange' size={24} color='black' />
           </View>
-          <Text className='pb-1 text-lg font-bold'>{`from ${formatAsset(
+          <Text className='pb-1 text-lg font-bold dark:color-white'>{`from ${formatAsset(
             Number(item.from_asset),
             flatAssets,
             true
@@ -69,7 +71,11 @@ export default function ListItem({ item, flatAssets, onPress }: ListItemProps) {
       ) : (
         <View className='flex-row flex-1 gap-2'>
           <View className='items-start justify-center w-1/6'>
-            <Icon name={item.category} size={28} color='black' />
+            <Icon
+              name={item.category}
+              size={28}
+              color={colorScheme === 'dark' ? 'white' : 'black'}
+            />
             {item.is_marked_tax_return && (
               <MaterialCommunityIcons
                 className='absolute -bottom-2 -left-2'
@@ -81,21 +87,30 @@ export default function ListItem({ item, flatAssets, onPress }: ListItemProps) {
           </View>
           <View className='flex-1'>
             <View className='flex-row'>
-              <Text className='pb-1 text-lg font-bold'>{item.category}</Text>
+              <Text className='pb-1 text-lg font-bold dark:color-white'>
+                {item.category}
+              </Text>
               {item.subcategory && (
-                <Text className='pb-1 text-lg '> - {item.subcategory}</Text>
+                <Text className='pb-1 text-lg dark:color-white'>
+                  {' '}
+                  - {item.subcategory}
+                </Text>
               )}
             </View>
-            {item.note !== '' && <Text>{item.note}</Text>}
+            {item.note !== '' && (
+              <Text className='dark:color-white'>{item.note}</Text>
+            )}
           </View>
         </View>
       )}
       <View>
-        <Text className={`font-bold ${textColorMap[item.type]}`}>
+        <Text
+          className={`font-bold ${textColorMap[item.type]} dark:color-white`}
+        >
           {Number(item.amount).toFixed(2)}
         </Text>
         {item.type !== RecordTypes.TRANSFER && (
-          <Text className='text-sm text-right'>
+          <Text className='text-sm text-right dark:color-white'>
             {formatAsset(Number(item.asset), flatAssets, true)}
           </Text>
         )}

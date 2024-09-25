@@ -8,6 +8,7 @@ import {
   Button,
   ActivityIndicator,
 } from 'react-native';
+import { useColorScheme } from 'nativewind';
 import { useForm, Controller } from 'react-hook-form';
 import dayjs from 'dayjs';
 
@@ -33,7 +34,7 @@ export default function BudgetCard({ monthExpense }: BudgetCardProps) {
     (currentBook.monthly_goal !== null ? Number(currentBook.monthly_goal) : 0) +
       monthExpense
   );
-
+  const { colorScheme } = useColorScheme();
   const {
     control,
     handleSubmit,
@@ -68,19 +69,25 @@ export default function BudgetCard({ monthExpense }: BudgetCardProps) {
   return (
     <View className='justify-between flex-1 p-2'>
       <View className='flex-row items-center justify-between'>
-        <Text className='text-2xl font-bold'>Month Budget</Text>
+        <Text className='text-2xl font-bold dark:color-white'>
+          Month Budget
+        </Text>
         <Pressable
           className='flex-row items-center justify-between gap-2'
           onPress={() => {
             setIsVisible(true);
           }}
         >
-          <Text>
+          <Text className='dark:color-white'>
             {currentBook.monthly_goal === null
               ? 'set goal'
               : currentBook.monthly_goal}
           </Text>
-          <Icon name='edit' size={14} color='#000' />
+          <Icon
+            name='edit'
+            size={14}
+            color={colorScheme === 'dark' ? 'white' : 'black'}
+          />
         </Pressable>
       </View>
       <View className='flex-row items-stretch justify-between flex-1 gap-2 py-2'>
@@ -110,12 +117,14 @@ export default function BudgetCard({ monthExpense }: BudgetCardProps) {
       </View>
       <View>
         <View className='flex-row items-center justify-between'>
-          <Text>Average Daily Spending</Text>
-          <Text>{formatter(expenseAmount / days)}</Text>
+          <Text className='dark:color-white'>Average Daily Spending</Text>
+          <Text className='dark:color-white'>
+            {formatter(expenseAmount / days)}
+          </Text>
         </View>
         <View className='flex-row items-center justify-between'>
-          <Text>Remaining Daily</Text>
-          <Text>
+          <Text className='dark:color-white'>Remaining Daily</Text>
+          <Text className='dark:color-white'>
             {formatter(
               remaining > 0 ? remaining / (dayjs().daysInMonth() + 1 - days) : 0
             )}
