@@ -39,7 +39,7 @@ export default function Home() {
       edges={['top']}
     >
       <HomeHeader />
-      <View className='flex-1 gap-2 p-2 bg-white'>
+      <View className='flex-1 gap-2 p-2 bg-white dark:bg-black'>
         <View className='rounded-lg h-36 bg-sky-200'>
           <ExpenseCard monthIncome={monthIncome} monthExpense={monthExpense} />
         </View>

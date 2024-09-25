@@ -92,7 +92,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     };
   }, []);
   // Use imperatively
-  colorScheme.set('system');
+  colorScheme.set('light');
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>

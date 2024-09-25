@@ -9,7 +9,13 @@ export default function AccountPad() {
   const { colorScheme, toggleColorScheme } = useColorScheme();
   return (
     <View className='flex-row items-center justify-between'>
-      <Pressable className='gap-2' onPress={() => toggleColorScheme()}>
+      <Pressable
+        className='gap-2'
+        onPress={() => {
+          toggleColorScheme();
+          router.replace('account/');
+        }}
+      >
         <View className='items-center justify-center w-20 h-20 border-2 rounded-lg border-primary'>
           {colorScheme === 'light' ? (
             <Ionicons name='moon' size={28} color='#03045e' />

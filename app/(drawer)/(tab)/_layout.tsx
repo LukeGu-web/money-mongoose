@@ -2,6 +2,7 @@ import { useCallback, useEffect } from 'react';
 import { Pressable, View } from 'react-native';
 import { Tabs, SplashScreen, Redirect, Link, router } from 'expo-router';
 import AntDesign from '@expo/vector-icons/AntDesign';
+import { colorScheme } from 'nativewind';
 import dayjs from 'dayjs';
 
 import { Icon } from 'components';
@@ -39,6 +40,7 @@ export default function TabLayout() {
         tabBarActiveTintColor: '#03045E',
         tabBarStyle: {
           display: hideTab.includes(route.name) ? 'none' : 'flex',
+          backgroundColor: colorScheme.get() === 'dark' ? 'black' : 'white',
         },
       })}
     >

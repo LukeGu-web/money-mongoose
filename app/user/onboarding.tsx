@@ -85,7 +85,9 @@ export default function Onboarding() {
     >
       <View className='flex-1 py-48 bg-white'>
         <View className='items-center justify-between flex-1 gap-4'>
-          <Text className='text-5xl text-blue-500'>Welcome</Text>
+          <Text className='font-mono text-5xl font-medium text-blue-500'>
+            Welcome
+          </Text>
           <Image className='w-72 h-72' source={welcomeImage} />
           <View className='items-center w-full gap-6'>
             <Pressable

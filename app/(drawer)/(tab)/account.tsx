@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { View, Text, Pressable, ScrollView } from 'react-native';
-
+import { colorScheme } from 'nativewind';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { clearAll } from 'core/localStorage/storage';
 import {
@@ -17,7 +17,7 @@ export default function Account() {
       style={{
         flex: 1,
         padding: 8,
-        backgroundColor: '#fff',
+        backgroundColor: colorScheme.get() === 'dark' ? 'black' : 'white',
       }}
     >
       <AvatarSection />
