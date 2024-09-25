@@ -23,8 +23,8 @@ export default function SecuritySection() {
   };
   return (
     <View className='items-start justify-center flex-1 gap-2 mb-4 '>
-      <Text className='color-zinc-600'>Security</Text>
-      <View className='w-full bg-blue-400 rounded-lg'>
+      <Text className='color-zinc-600 dark:color-zinc-300'>Security</Text>
+      <View className='w-full bg-blue-400 rounded-lg dark:bg-blue-800'>
         <View
           className={`flex-row items-center justify-between px-4 py-2 ${
             !isEnabledAuth && 'border-b-2 border-white'

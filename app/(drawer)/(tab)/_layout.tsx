@@ -37,7 +37,8 @@ export default function TabLayout() {
       screenOptions={({ route }) => ({
         headerStyle: { backgroundColor: '#03045E' },
         headerTintColor: '#fff',
-        tabBarActiveTintColor: '#03045E',
+        tabBarActiveTintColor:
+          colorScheme.get() === 'dark' ? '#60a5fa' : '#03045E',
         tabBarStyle: {
           display: hideTab.includes(route.name) ? 'none' : 'flex',
           backgroundColor: colorScheme.get() === 'dark' ? 'black' : 'white',

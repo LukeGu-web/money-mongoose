@@ -9,9 +9,9 @@ export default function DetailsSection() {
   const user = useUserStore((state) => state.user);
   return (
     <View className='items-start justify-center flex-1 gap-2 mb-4'>
-      <Text className='color-zinc-600'>Account</Text>
+      <Text className='color-zinc-600 dark:color-zinc-300'>Account</Text>
       {user.account_status === 'unregistered' ? (
-        <View className='w-full bg-blue-400 rounded-lg'>
+        <View className='w-full bg-blue-400 rounded-lg dark:bg-blue-800'>
           <Pressable
             className='flex-row items-center gap-2 px-4 py-2 border-b-2 border-white'
             onPress={() =>
@@ -39,7 +39,7 @@ export default function DetailsSection() {
         </View>
       ) : (
         <Pressable
-          className='flex-row items-center w-full gap-2 px-4 py-2 bg-blue-400 rounded-lg'
+          className='flex-row items-center w-full gap-2 px-4 py-2 bg-blue-400 rounded-lg dark:bg-blue-800'
           onPress={() => router.navigate('/user/account-details')}
         >
           <MaterialCommunityIcons

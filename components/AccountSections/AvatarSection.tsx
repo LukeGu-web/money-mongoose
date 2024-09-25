@@ -11,7 +11,7 @@ export default function AvatarSection() {
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const user = useUserStore((state) => state.user);
   return (
-    <View className='flex-row items-center gap-8 p-6 mb-4 rounded-lg bg-sky-200'>
+    <View className='flex-row items-center gap-8 p-6 mb-4 rounded-lg bg-sky-200 dark:bg-blue-400'>
       <Pressable
         className='rounded-full bg-zinc-100'
         onPress={() => bottomSheetModalRef.current?.present()}
