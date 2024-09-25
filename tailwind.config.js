@@ -7,7 +7,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        permanentMarker: ['PermanentMarker-Regular'],
+        permanentmarker: ['PermanentMarker-Regular'],
       },
       colors: {
         primary: '#03045E',

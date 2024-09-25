@@ -20,7 +20,9 @@ export default function Onboarding() {
       <View className='flex-1'>
         <View className='items-center justify-center flex-1 gap-4'>
           <Image className='w-32 h-32' source={avatarImage} />
-          <Text className='text-3xl text-red-500'>Get Rich</Text>
+          <Text className='text-3xl text-red-500 font-permanentmarker'>
+            Get Rich
+          </Text>
         </View>
         <View className='self-center w-11/12 gap-2 p-4 bg-blue-400 rounded-xl'>
           <Text className='text-xl font-semibold text-center text-white'>
