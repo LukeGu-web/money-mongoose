@@ -16,7 +16,7 @@ import { useForm, FormProvider } from 'react-hook-form';
 
 import { useCreateAsset, useUpdateAsset } from 'api/asset';
 import { formatApiError } from 'api/errorFormat';
-import { useAsset } from 'core/stateHooks';
+import { useAsset, useSettingStore } from 'core/stateHooks';
 import log from 'core/logger';
 import {
   AssetAccountBasicForm,
@@ -30,6 +30,7 @@ export default function AssetDetails() {
   const { mutate: addAssetApi, isPending: isCreating } = useCreateAsset();
   const { mutate: updateAssetApi, isPending: isUpdating } = useUpdateAsset();
   const { asset, resetAsset } = useAsset();
+  const theme = useSettingStore((state) => state.theme);
   const [isMore, setIsMore] = useState(false);
   const methods = useForm({
     defaultValues: asset,
@@ -94,8 +95,11 @@ export default function AssetDetails() {
 
   return (
     <SafeAreaView
-      className='bg-white '
-      style={{ flex: 1, padding: 8 }}
+      style={{
+        flex: 1,
+        padding: 8,
+        backgroundColor: theme === 'dark' ? 'black' : 'white',
+      }}
       edges={['bottom']}
     >
       <KeyboardAwareScrollView extraScrollHeight={50}>
