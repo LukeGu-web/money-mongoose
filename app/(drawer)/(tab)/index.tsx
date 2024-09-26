@@ -46,7 +46,7 @@ export default function Home() {
         <View className='h-48 bg-blue-200 rounded-lg dark:bg-blue-800'>
           <BudgetCard monthExpense={monthExpense} />
         </View>
-        <View className='flex-1 rounded-lg bg-zinc-100 dark:bg-zinc-600'>
+        <View className='flex-1 pb-2 rounded-lg bg-zinc-100 dark:bg-zinc-600'>
           <View className='flex-row items-center justify-between p-2'>
             <Text className='text-2xl font-semibold dark:color-white'>
               Last 7 days

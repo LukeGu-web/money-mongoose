@@ -11,7 +11,7 @@ export default function AvatarSection() {
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const user = useUserStore((state) => state.user);
   return (
-    <View className='flex-row items-center gap-8 p-6 mb-4 rounded-lg bg-sky-200 dark:bg-blue-400'>
+    <View className='flex-row items-center gap-8 p-6 mb-4 rounded-lg bg-sky-200 dark:bg-sky-900'>
       <Pressable
         className='rounded-full bg-zinc-100'
         onPress={() => bottomSheetModalRef.current?.present()}
@@ -28,7 +28,9 @@ export default function AvatarSection() {
           />
         </View>
       </Pressable>
-      <Text className='text-lg font-bold color-zinc-700'>{user.nickname}</Text>
+      <Text className='text-lg font-bold color-zinc-700 dark:color-white'>
+        {user.nickname}
+      </Text>
       <CameraBottomSheet
         bottomSheetModalRef={bottomSheetModalRef}
         type='avatar'
