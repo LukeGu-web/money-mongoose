@@ -5,10 +5,11 @@ import NetAssetCard from 'components/Card/NetAssetCard';
 import InfoCard from 'components/Card/InfoCard';
 import AccountList from 'components/BankAccount/AccountList';
 import { useGetGroupedAssets } from 'api/asset';
-import { useBookStore } from 'core/stateHooks';
+import { useBookStore, useSettingStore } from 'core/stateHooks';
 
 export default function Asset() {
   const currentBook = useBookStore((state) => state.currentBook);
+  const theme = useSettingStore((state) => state.theme);
   const { data, isPending, isError } = useGetGroupedAssets({
     variables: { book_id: currentBook.id },
   });
@@ -17,7 +18,7 @@ export default function Asset() {
       style={{
         flex: 1,
         padding: 8,
-        backgroundColor: '#fff',
+        backgroundColor: theme === 'dark' ? 'black' : 'white',
       }}
     >
       <View className='mb-3 h-36'>

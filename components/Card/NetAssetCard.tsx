@@ -13,14 +13,14 @@ export default function NetAssetCard({
   liabilities,
 }: NetAssetCardProps) {
   return (
-    <View className='justify-between flex-1 p-3 bg-teal-100 rounded-lg'>
-      <Text className='text-2xl'>Net Asset</Text>
-      <Text className='text-4xl'>{formatter(netAsset)}</Text>
+    <View className='justify-between flex-1 p-3 bg-teal-100 rounded-lg dark:bg-teal-900'>
+      <Text className='text-2xl dark:color-white'>Net Asset</Text>
+      <Text className='text-4xl dark:color-white'>{formatter(netAsset)}</Text>
       <View className='flex-row gap-2'>
-        <Text className='font-extrabold'>Assets</Text>
-        <Text>{formatter(assets)}</Text>
-        <Text className='font-extrabold'>Liabilities</Text>
-        <Text>
+        <Text className='font-extrabold dark:color-white'>Assets</Text>
+        <Text className='dark:color-white'>{formatter(assets)}</Text>
+        <Text className='font-extrabold dark:color-white'>Liabilities</Text>
+        <Text className='dark:color-white'>
           {liabilities > 0 && '-'}
           {formatter(Math.abs(liabilities))}
         </Text>

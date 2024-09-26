@@ -29,7 +29,7 @@ export default function AccountList({ groups }: AccountListProps) {
             <ExpandGroupTitle
               key={group.id}
               title={title}
-              height={30 * assets.length}
+              height={40 * assets.length}
             >
               <View className='flex-1 w-full'>
                 <FlashList
