@@ -6,12 +6,13 @@ import { BottomSheetModal } from '@gorhom/bottom-sheet';
 
 import { useGetFlatAssets } from 'api/asset';
 import { RecordTypes } from 'api/record/types';
-import { useBookStore } from 'core/stateHooks';
+import { useBookStore, useSettingStore } from 'core/stateHooks';
 import SelectAssetBottomSheet from 'components/BottomSheet/SelectAssetBottomSheet';
 
 export default function RecordToolbar() {
   const { control, getValues, setValue, reset } = useFormContext();
   const currentBook = useBookStore((state) => state.currentBook);
+  const theme = useSettingStore((state) => state.theme);
   const { data, isPending, isError } = useGetFlatAssets({
     variables: { book_id: currentBook.id },
   });
@@ -32,10 +33,11 @@ export default function RecordToolbar() {
         control={control}
         render={({ field: { onChange, onBlur, value } }) => (
           <DateTimePicker
+            key={theme}
             style={{ width: 90 }}
             value={value}
             display='compact'
-            // themeVariant='dark'
+            themeVariant={theme}
             onChange={(e: any, selectedDate: any) => {
               setValue('date', selectedDate);
             }}
@@ -48,10 +50,10 @@ export default function RecordToolbar() {
           control={control}
           render={({ field: { onChange, onBlur, value } }) => (
             <Pressable
-              className='items-center justify-center px-3 bg-gray-100 rounded-lg'
+              className='items-center justify-center px-3 bg-gray-100 rounded-lg dark:bg-zinc-800'
               onPress={handlePressSelect}
             >
-              <Text className='text-lg '>
+              <Text className='text-lg dark:color-white'>
                 {value ? value.split('-')[1] : 'no account'}
               </Text>
               <SelectAssetBottomSheet

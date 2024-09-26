@@ -120,6 +120,7 @@ export default function DigitalPad({ onSubmit }: DigitalPadProps) {
           render={({ field: { onChange, value } }) => (
             <TextInput
               placeholder='note'
+              placeholderTextColor='#a1a1aa'
               className='flex-1 p-1 mr-2 text-2xl'
               value={value}
               onChangeText={onChange}

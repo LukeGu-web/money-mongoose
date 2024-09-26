@@ -12,10 +12,12 @@ import IconTable from './IconTable';
 import Icon from '../Icon/Icon';
 
 import { RecordTypes } from 'api/record/types';
+import { useSettingStore } from 'core/stateHooks';
 import expenseCategory from 'static/record-expense-category.json';
 import incomeCategory from 'static/record-income-category.json';
 
 export default function RecordCategory() {
+  const theme = useSettingStore((state) => state.theme);
   const { control, getValues, setValue } = useFormContext();
   const [subcategory, setSubcategory] = useState<string[]>([]);
   const [isVisible, setIsVisible] = useState<boolean>(false);
@@ -72,13 +74,17 @@ export default function RecordCategory() {
             className='items-center justify-center h-full'
             style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
           >
-            <View className='items-center w-11/12 gap-6 p-6 bg-white rounded-lg'>
+            <View className='items-center w-11/12 gap-6 p-6 bg-white rounded-lg dark:bg-zinc-600'>
               <View className='flex-row justify-between w-full'>
-                <Text className='mb-4 text-center'>
+                <Text className='mb-4 text-center dark:color-white'>
                   {getValues('category')}
                 </Text>
                 <Pressable onPress={() => setIsVisible(false)}>
-                  <Icon name='close' size={24} color='#000' />
+                  <Icon
+                    name='close'
+                    size={24}
+                    color={theme === 'dark' ? 'white' : 'black'}
+                  />
                 </Pressable>
               </View>
               <Controller

@@ -20,7 +20,7 @@ import {
 import { formatApiError } from 'api/errorFormat';
 import { RecordTypes, Record as RecordType } from 'api/record/types';
 
-import { useRecord, useBookStore } from 'core/stateHooks';
+import { useRecord, useBookStore, useSettingStore } from 'core/stateHooks';
 import log from 'core/logger';
 
 export default function Record() {
@@ -30,6 +30,7 @@ export default function Record() {
   const { mutate: updateTransferApi } = useUpdateTransfer();
   const { record } = useRecord();
   const { currentBook } = useBookStore();
+  const theme = useSettingStore((state) => state.theme);
   const methods = useForm({
     defaultValues: record,
     criteriaMode: 'all',
@@ -145,7 +146,7 @@ export default function Record() {
       style={{ flex: 1, backgroundColor: '#03045E' }}
       edges={['top']}
     >
-      <View className='flex-1 bg-white'>
+      <View className='flex-1 bg-white dark:bg-black'>
         <FormProvider {...methods}>
           <RecordHeader />
           {methods.getValues('type') === RecordTypes.TRANSFER ? (
@@ -159,7 +160,10 @@ export default function Record() {
       </View>
       <SafeAreaView
         edges={['bottom']}
-        style={{ flex: 0, backgroundColor: '#ffffff' }}
+        style={{
+          flex: 0,
+          backgroundColor: theme === 'dark' ? 'black' : 'white',
+        }}
       />
       <StatusBar style='light' />
     </SafeAreaView>
