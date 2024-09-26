@@ -3,10 +3,11 @@ import { router } from 'expo-router';
 import { Text, ScrollView, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import BookList from 'components/Book/BookList';
-import { useBook } from 'core/stateHooks';
+import { useBook, useSettingStore } from 'core/stateHooks';
 
 export default function BookManagement() {
   const resetBook = useBook((state) => state.resetBook);
+  const theme = useSettingStore((state) => state.theme);
   const handleCreate = () => {
     resetBook();
     router.navigate('/book/details');
@@ -17,7 +18,7 @@ export default function BookManagement() {
         flex: 1,
         padding: 8,
         alignItems: 'center',
-        backgroundColor: '#fff',
+        backgroundColor: theme === 'dark' ? 'black' : 'white',
       }}
       edges={['bottom']}
     >

@@ -14,7 +14,7 @@ import { useForm, Controller } from 'react-hook-form';
 
 import { useCreateBook, useUpdateBook } from 'api/book';
 import { formatApiError } from 'api/errorFormat';
-import { useBook, useBookStore } from 'core/stateHooks';
+import { useBook, useBookStore, useSettingStore } from 'core/stateHooks';
 import log from 'core/logger';
 
 export default function AddNewBook() {
@@ -22,6 +22,7 @@ export default function AddNewBook() {
   const { mutate: addBookApi, isPending: isCreating } = useCreateBook();
   const { mutate: updateBookApi, isPending: isUpdating } = useUpdateBook();
   const { book, resetBook } = useBook();
+  const theme = useSettingStore((state) => state.theme);
   const { currentBook, setCurrentBook } = useBookStore();
   const { control, handleSubmit, reset } = useForm({
     defaultValues: book,
@@ -62,8 +63,11 @@ export default function AddNewBook() {
   });
   return (
     <SafeAreaView
-      className='bg-white '
-      style={{ flex: 1, padding: 8 }}
+      style={{
+        flex: 1,
+        padding: 8,
+        backgroundColor: theme === 'dark' ? 'black' : 'white',
+      }}
       edges={['bottom']}
     >
       <KeyboardAwareScrollView extraScrollHeight={50}>
@@ -71,10 +75,11 @@ export default function AddNewBook() {
           control={control}
           render={({ field: { onChange, onBlur, value } }) => (
             <View className='flex-row items-center justify-between w-full h-12'>
-              <Text>Book Name</Text>
+              <Text className='dark:color-white'>Book Name</Text>
               <TextInput
                 inputAccessoryViewID={inputAccessoryCreateBtnID}
                 placeholder='Enter the book name'
+                placeholderTextColor='#a1a1aa'
                 onBlur={onBlur}
                 onChangeText={onChange}
                 value={value}
@@ -87,7 +92,7 @@ export default function AddNewBook() {
           control={control}
           render={({ field: { onChange, onBlur, value } }) => (
             <View className='flex-1 w-full gap-2'>
-              <Text>Note</Text>
+              <Text className='dark:color-white'>Note</Text>
               <TextInput
                 inputAccessoryViewID={inputAccessoryCreateBtnID}
                 className='items-start p-2 border-2 border-gray-400 rounded-lg'
@@ -95,6 +100,7 @@ export default function AddNewBook() {
                 multiline={true}
                 numberOfLines={6}
                 placeholder='Enter a note'
+                placeholderTextColor='#a1a1aa'
                 onBlur={onBlur}
                 onChangeText={onChange}
                 value={value}
