@@ -10,7 +10,12 @@ import { useGetFlatAssets } from 'api/asset';
 import { useGetAllRecords } from 'api/record';
 import { RecordsByDay } from 'api/record/types';
 import log from 'core/logger';
-import { useRecord, useBookStore, useCalendar } from 'core/stateHooks';
+import {
+  useRecord,
+  useBookStore,
+  useSettingStore,
+  useCalendar,
+} from 'core/stateHooks';
 import CalendarDay from './CalendarDay';
 import ListDayItem from '../RecordList/ListDayItem';
 import RecordBottomSheet from '../BottomSheet/RecordBottomSheet';
@@ -21,6 +26,7 @@ export default function Calendar() {
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const path = usePathname();
   const resetRecord = useRecord((state) => state.resetRecord);
+  const theme = useSettingStore((state) => state.theme);
   const { visiableMonth, setVisiableMonth } = useCalendar();
   const currentBook = useBookStore((state) => state.currentBook);
   const now = dayjs();
@@ -72,10 +78,15 @@ export default function Calendar() {
   };
 
   return (
-    <View className='flex-1'>
+    <View className='flex-1 gap-2'>
       <ClendarPicker
+        key={theme}
         enableSwipeMonths={true}
         style={{ borderRadius: 10, padding: 8 }}
+        theme={{
+          calendarBackground: theme === 'dark' ? '#d6d3d1' : '#ffffff',
+          textSectionTitleColor: theme === 'dark' ? '#ffffff' : '#94a3b8',
+        }}
         initialDate={visiableMonth}
         dayComponent={({ date, state }: { date: any; state: any }) => (
           <CalendarDay
@@ -90,7 +101,7 @@ export default function Calendar() {
         )}
         onMonthChange={handleMonthChange}
       />
-      <View className='flex-1 p-2 rounded-lg bg-sky-100'>
+      <View className='flex-1 p-2 rounded-lg bg-sky-100 dark:bg-sky-900'>
         {data.results.find(
           (item: RecordsByDay) => item.date === selectedDay
         ) ? (
@@ -112,7 +123,9 @@ export default function Calendar() {
         ) : (
           <View className='self-center justify-center flex-1 gap-4'>
             <Image className='w-32 h-32' source={noDataImage} />
-            <Text className='text-lg font-medium text-center'>No record</Text>
+            <Text className='text-lg font-medium text-center dark:color-white'>
+              No record
+            </Text>
           </View>
         )}
       </View>

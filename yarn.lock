@@ -7626,7 +7626,7 @@ __metadata:
     react: "npm:18.2.0"
     react-hook-form: "npm:^7.53.0"
     react-native: "npm:0.74.5"
-    react-native-calendars: "npm:^1.1306.0"
+    react-native-calendars: "npm:^1.1307.0"
     react-native-gesture-handler: "npm:~2.16.1"
     react-native-get-random-values: "npm:~1.11.0"
     react-native-gifted-charts: "npm:^1.4.33"
@@ -8641,9 +8641,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-calendars@npm:^1.1306.0":
-  version: 1.1306.0
-  resolution: "react-native-calendars@npm:1.1306.0"
+"react-native-calendars@npm:^1.1307.0":
+  version: 1.1307.0
+  resolution: "react-native-calendars@npm:1.1307.0"
   dependencies:
     hoist-non-react-statics: "npm:^3.3.1"
     lodash: "npm:^4.17.15"
@@ -8656,7 +8656,7 @@ __metadata:
   dependenciesMeta:
     moment:
       optional: true
-  checksum: 10c0/a9926965239ec0b0cefe04d6ec5ac033b3c32388a602ec7a832d98cd46896e3de10d31387137caafa5571a86c2e8000800af3ccfc18b221668f1631aa16b05b6
+  checksum: 10c0/c097259660eac529f847f40a84eb1f4c622b419334a6e43e1f0168a729eb15dcce88426a8a3f3bff58653cf2e8db848cdd67a15176926d523b3c0880147720f5
   languageName: node
   linkType: hard
 

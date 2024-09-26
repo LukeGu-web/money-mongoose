@@ -4,7 +4,7 @@ import { Calendar as CalendarView } from 'components';
 
 export default function Calendar() {
   return (
-    <View className='flex-1 gap-2 p-2 bg-white'>
+    <View className='flex-1 p-2 bg-white dark:bg-black'>
       <CalendarView />
       <StatusBar style='light' />
     </View>
