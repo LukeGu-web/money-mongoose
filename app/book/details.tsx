@@ -77,6 +77,7 @@ export default function AddNewBook() {
             <View className='flex-row items-center justify-between w-full h-12'>
               <Text className='dark:color-white'>Book Name</Text>
               <TextInput
+                className='dark:color-white'
                 inputAccessoryViewID={inputAccessoryCreateBtnID}
                 placeholder='Enter the book name'
                 placeholderTextColor='#a1a1aa'
@@ -95,7 +96,7 @@ export default function AddNewBook() {
               <Text className='dark:color-white'>Note</Text>
               <TextInput
                 inputAccessoryViewID={inputAccessoryCreateBtnID}
-                className='items-start p-2 border-2 border-gray-400 rounded-lg'
+                className='items-start p-2 border-2 border-gray-400 rounded-lg dark:color-white'
                 style={{ minHeight: 240 }}
                 multiline={true}
                 numberOfLines={6}

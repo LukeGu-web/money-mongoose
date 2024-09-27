@@ -87,7 +87,7 @@ export default function LoginForm() {
             <View>
               <Text className='ml-1 color-primary dark:color-white'>Email</Text>
               <TextInput
-                className='w-full p-3 border-2 rounded-lg border-zinc-600'
+                className='w-full p-3 border-2 rounded-lg border-zinc-600 dark:color-white'
                 placeholder='Please enter your email'
                 placeholderTextColor='#a1a1aa'
                 inputMode='email'
@@ -109,7 +109,7 @@ export default function LoginForm() {
                 Password
               </Text>
               <TextInput
-                className='w-full p-3 border-2 rounded-lg border-zinc-600'
+                className='w-full p-3 border-2 rounded-lg border-zinc-600 dark:color-white'
                 placeholder='Please enter your password'
                 placeholderTextColor='#a1a1aa'
                 secureTextEntry={true}

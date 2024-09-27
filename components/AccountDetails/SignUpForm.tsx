@@ -106,7 +106,7 @@ export default function SignUpForm() {
             <View>
               <Text className='ml-1 color-primary dark:color-white'>Email</Text>
               <TextInput
-                className='w-full p-3 border-2 rounded-lg border-zinc-600'
+                className='w-full p-3 border-2 rounded-lg border-zinc-600 dark:color-white'
                 placeholder='Please enter your email'
                 placeholderTextColor='#a1a1aa'
                 inputMode='email'
@@ -134,7 +134,7 @@ export default function SignUpForm() {
                 Password
               </Text>
               <TextInput
-                className='w-full p-3 border-2 rounded-lg border-zinc-600'
+                className='w-full p-3 border-2 rounded-lg border-zinc-600 dark:color-white'
                 placeholder='Please enter your password'
                 placeholderTextColor='#a1a1aa'
                 secureTextEntry={true}
@@ -165,7 +165,7 @@ export default function SignUpForm() {
                 Confirm Password
               </Text>
               <TextInput
-                className='w-full p-3 border-2 rounded-lg border-zinc-600'
+                className='w-full p-3 border-2 rounded-lg border-zinc-600 dark:color-white'
                 placeholder='Please repeat your password'
                 placeholderTextColor='#a1a1aa'
                 secureTextEntry={true}
