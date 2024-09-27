@@ -1,13 +1,9 @@
-import { router, useLocalSearchParams } from 'expo-router';
-import { View, Text, Pressable } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { useLocalStore } from 'core/stateHooks';
-import { LoginForm, SignUpForm, Details } from 'components/AccountDetails';
-import { Icon } from 'components';
+import { View } from 'react-native';
+import { Details } from 'components/AccountDetails';
 
 export default function AccountDetails() {
   return (
-    <View className='items-center justify-center flex-1 bg-white'>
+    <View className='items-center justify-center flex-1 bg-white dark:bg-black'>
       <Details />
     </View>
   );

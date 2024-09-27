@@ -72,7 +72,9 @@ export default function SignUpForm() {
     <View className='flex-1 w-full gap-8 p-4'>
       <View className='items-center justify-center gap-4'>
         <Image className='w-32 h-32' source={avatarImage} />
-        <Text className='text-3xl color-primary'>SIGN UP</Text>
+        <Text className='text-3xl font-semibold color-primary dark:color-blue-100'>
+          SIGN UP
+        </Text>
       </View>
       <View className='ml-4'>
         {errors.email && (
@@ -102,10 +104,11 @@ export default function SignUpForm() {
           }}
           render={({ field: { onChange, onBlur, value } }) => (
             <View>
-              <Text className='ml-1 color-primary'>Email</Text>
+              <Text className='ml-1 color-primary dark:color-white'>Email</Text>
               <TextInput
                 className='w-full p-3 border-2 rounded-lg border-zinc-600'
                 placeholder='Please enter your email'
+                placeholderTextColor='#a1a1aa'
                 inputMode='email'
                 autoCapitalize='none'
                 autoFocus={true}
@@ -127,10 +130,13 @@ export default function SignUpForm() {
           }}
           render={({ field: { onChange, onBlur, value } }) => (
             <View>
-              <Text className='ml-1 color-primary'>Password</Text>
+              <Text className='ml-1 color-primary dark:color-white'>
+                Password
+              </Text>
               <TextInput
                 className='w-full p-3 border-2 rounded-lg border-zinc-600'
                 placeholder='Please enter your password'
+                placeholderTextColor='#a1a1aa'
                 secureTextEntry={true}
                 onBlur={onBlur}
                 onChangeText={onChange}
@@ -155,10 +161,13 @@ export default function SignUpForm() {
           }}
           render={({ field: { onChange, onBlur, value } }) => (
             <View>
-              <Text className='ml-1 color-primary'>Confirm Password</Text>
+              <Text className='ml-1 color-primary dark:color-white'>
+                Confirm Password
+              </Text>
               <TextInput
                 className='w-full p-3 border-2 rounded-lg border-zinc-600'
                 placeholder='Please repeat your password'
+                placeholderTextColor='#a1a1aa'
                 secureTextEntry={true}
                 onBlur={onBlur}
                 onChangeText={onChange}

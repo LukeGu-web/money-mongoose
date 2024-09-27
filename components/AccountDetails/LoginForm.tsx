@@ -66,7 +66,9 @@ export default function LoginForm() {
     <View className='flex-1 w-full gap-8 p-4'>
       <View className='items-center justify-center gap-4'>
         <Image className='w-32 h-32' source={avatarImage} />
-        <Text className='text-3xl color-primary'>LOGIN</Text>
+        <Text className='text-3xl font-semibold color-primary dark:color-blue-100'>
+          LOGIN
+        </Text>
       </View>
       <View className='gap-4'>
         <Controller
@@ -83,10 +85,11 @@ export default function LoginForm() {
           }}
           render={({ field: { onChange, onBlur, value } }) => (
             <View>
-              <Text className='ml-1 color-primary'>Email</Text>
+              <Text className='ml-1 color-primary dark:color-white'>Email</Text>
               <TextInput
                 className='w-full p-3 border-2 rounded-lg border-zinc-600'
                 placeholder='Please enter your email'
+                placeholderTextColor='#a1a1aa'
                 inputMode='email'
                 autoCapitalize='none'
                 autoFocus={true}
@@ -102,10 +105,13 @@ export default function LoginForm() {
           control={control}
           render={({ field: { onChange, onBlur, value } }) => (
             <View>
-              <Text className='ml-1 color-primary'>Password</Text>
+              <Text className='ml-1 color-primary dark:color-white'>
+                Password
+              </Text>
               <TextInput
                 className='w-full p-3 border-2 rounded-lg border-zinc-600'
                 placeholder='Please enter your password'
+                placeholderTextColor='#a1a1aa'
                 secureTextEntry={true}
                 onBlur={onBlur}
                 onChangeText={onChange}
@@ -116,7 +122,9 @@ export default function LoginForm() {
           name='password'
         />
         <Link className='ml-2' href='/'>
-          <Text className='color-gray-600'>Forgot Password?</Text>
+          <Text className='color-gray-600 dark:color-gray-200'>
+            Forgot Password?
+          </Text>
         </Link>
         <Pressable
           className='self-end w-2/5 p-2 rounded-lg bg-primary'

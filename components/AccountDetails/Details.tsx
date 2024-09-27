@@ -3,7 +3,7 @@ import { Alert, View, Text, Pressable } from 'react-native';
 import * as Updates from 'expo-updates';
 import dayjs from 'dayjs';
 import { useUserDetails, useVerifyEmail } from 'api/account';
-import { useUserStore } from 'core/stateHooks';
+import { useUserStore, useSettingStore } from 'core/stateHooks';
 import { clearAll } from 'core/localStorage/storage';
 import Icon from '../Icon/Icon';
 import NicknameModal from 'components/Modal/NicknameModal';
@@ -12,6 +12,7 @@ export default function Details() {
   const { data } = useUserDetails();
   const { mutate: verifyEmailApi, isPending } = useVerifyEmail();
   const { user, setUser } = useUserStore();
+  const theme = useSettingStore((state) => state.theme);
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
   useEffect(() => {
@@ -50,16 +51,22 @@ export default function Details() {
   return (
     <View className='items-center flex-1 w-full gap-4 p-2'>
       <View>
-        <Text className='text-sm color-zinc-700'>Basic Information</Text>
-        <View className='p-2 rounded-lg bg-zinc-100'>
+        <Text className='text-sm color-zinc-700 dark:color-zinc-100'>
+          Basic Information
+        </Text>
+        <View className='p-2 rounded-lg bg-zinc-100 dark:bg-zinc-500'>
           <Pressable
             className='flex-row items-center justify-between w-full h-12'
             onPress={() => setIsVisible(true)}
           >
-            <Text>Nickame</Text>
+            <Text className='dark:color-white'>Nickame</Text>
             <View className='flex-row gap-2'>
-              <Text>{user.nickname}</Text>
-              <Icon name='arrow-right' size={16} color='black' />
+              <Text className='dark:color-white'>{user.nickname}</Text>
+              <Icon
+                name='arrow-right'
+                size={16}
+                color={theme === 'dark' ? 'white' : 'black'}
+              />
             </View>
           </Pressable>
           <Pressable
@@ -68,7 +75,7 @@ export default function Details() {
             onPress={handleVerifyEmail}
           >
             <View className='flex-row items-center justify-center gap-2'>
-              <Text>Email</Text>
+              <Text className='dark:color-white'>Email</Text>
               <View
                 className={`px-2 rounded-full ${
                   user.account_status === 'verified'
@@ -85,27 +92,41 @@ export default function Details() {
             </View>
 
             <View className='flex-row gap-2'>
-              <Text>{user.email || 'unset'}</Text>
+              <Text className='dark:color-white'>{user.email || 'unset'}</Text>
               {user.account_status !== 'verified' && (
-                <Icon name='arrow-right' size={16} color='black' />
+                <Icon
+                  name='arrow-right'
+                  size={16}
+                  color={theme === 'dark' ? 'white' : 'black'}
+                />
               )}
             </View>
           </Pressable>
         </View>
       </View>
       <View className='w-full'>
-        <Text className='text-sm color-zinc-700'>Account Information</Text>
-        <View className='gap-2 p-2 rounded-lg bg-zinc-100'>
+        <Text className='text-sm color-zinc-700 dark:color-zinc-100'>
+          Account Information
+        </Text>
+        <View className='gap-2 p-2 rounded-lg bg-zinc-100 dark:bg-zinc-500'>
           <View className='flex-row items-center justify-between'>
-            <Text>ID</Text>
+            <Text className='dark:color-white'>ID</Text>
             <Pressable className='flex-row items-center justify-between w-1/2 gap-2'>
-              <Text className='flex-1 text-sm'>{user.account_id}</Text>
-              <Icon name='copy' size={16} color='#000' />
+              <Text className='flex-1 text-sm dark:color-white'>
+                {user.account_id}
+              </Text>
+              <Icon
+                name='copy'
+                size={16}
+                color={theme === 'dark' ? 'white' : 'black'}
+              />
             </Pressable>
           </View>
           <View className='flex-row justify-between'>
-            <Text>Registration Date</Text>
-            <Text>{dayjs(user.date_joined).format('MMMM YYYY')}</Text>
+            <Text className='dark:color-white'>Registration Date</Text>
+            <Text className='dark:color-white'>
+              {dayjs(user.date_joined).format('MMMM YYYY')}
+            </Text>
           </View>
         </View>
       </View>
