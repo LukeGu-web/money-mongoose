@@ -20,9 +20,9 @@ export default function CategoriedAnalysis() {
       style={{ flex: 1, backgroundColor: '#03045E' }}
       edges={['top']}
     >
-      <View className='flex-1 bg-white'>
+      <View className='flex-1 bg-white dark:bg-black'>
         <TimeframeHeader onChangeTimeframe={(value) => setTimeframe(value)} />
-        <View className='items-center justify-center flex-1 p-2 bg-white'>
+        <View className='items-center justify-center flex-1 p-2 bg-white dark:bg-black'>
           {!data ? (
             <View className='items-center justify-center flex-1 '>
               <ActivityIndicator size='large' />

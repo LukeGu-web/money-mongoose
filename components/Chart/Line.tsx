@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react';
 import { View, Text, Image, Dimensions } from 'react-native';
 import { LineChart } from 'react-native-gifted-charts';
+import { useSettingStore } from 'core/stateHooks';
 import { getChartTypeAndLabels, formatYAxisLabel } from './chart-utils';
 import { LineDataType, Types } from './types';
 const noDataImage = require('../../assets/illustrations/nodata/no-data-line-chart.png');
@@ -10,7 +11,7 @@ const Pointer = (items: LineDataType[]) => {
   if (!item) return null;
   return (
     <View className='justify-center w-24 h-20'>
-      <Text className='text-center'>{item.date}</Text>
+      <Text className='text-center dark:color-white'>{item.date}</Text>
       <View className='px-3 py-1 rounded-2xl bg-slate-200'>
         <Text className='font-bold text-center'>{'$' + item.value}</Text>
       </View>
@@ -36,6 +37,7 @@ const colors = {
 type LineProps = { data: LineDataType[]; type: Types };
 
 export default function Line({ data, type }: LineProps) {
+  const theme = useSettingStore((state) => state.theme);
   const [isRight, setIsRight] = useState(false);
   const screenWidth = Dimensions.get('window').width;
   const chartWidth = screenWidth - 70;
@@ -86,7 +88,7 @@ export default function Line({ data, type }: LineProps) {
   }
 
   return (
-    <View className='w-full p-2 bg-white'>
+    <View className='w-full p-2 bg-white dark:bg-black'>
       <LineChart
         areaChart
         // curved
@@ -110,10 +112,10 @@ export default function Line({ data, type }: LineProps) {
         yAxisColor='white'
         rulesColor='lightgray'
         rulesType='dashed'
-        yAxisTextStyle={{ color: 'gray' }}
+        yAxisTextStyle={{ color: theme === 'dark' ? 'white' : 'gray' }}
         xAxisColor='lightgray'
         xAxisLabelTextStyle={{
-          color: 'gray',
+          color: theme === 'dark' ? 'white' : 'gray',
           fontSize: data.length > 7 ? 8 : 10,
           textAlign: 'center',
         }}
@@ -137,12 +139,9 @@ export default function Line({ data, type }: LineProps) {
       {yAxisLabelTexts.map((item, index) => (
         <Text
           key={index}
+          className='absolute text-xs color-gray-400 dark:color-white left-4'
           style={{
-            position: 'absolute',
-            left: 15,
             top: chartHeight - (index * chartHeight) / 2,
-            color: 'gray',
-            fontSize: 10,
           }}
         >
           {item.label}

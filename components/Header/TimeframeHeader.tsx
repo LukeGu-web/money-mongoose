@@ -79,7 +79,7 @@ export default function TimeframeHeader({
             <Pressable
               key={item}
               className={`items-center justify-center py-1 w-16 border-white ${
-                index < 3 && 'border-r-2'
+                index < 2 && 'border-r-2'
               } ${timeRange === item && 'bg-white'}`}
               onPress={() => handleChangeTimeRange(item)}
             >
@@ -108,7 +108,7 @@ export default function TimeframeHeader({
           <Pressable onPress={handleDecrease}>
             <FontAwesome5 name='chevron-circle-left' size={16} color='gray' />
           </Pressable>
-          <Text>{displayDate}</Text>
+          <Text className='dark:color-white'>{displayDate}</Text>
           <Pressable onPress={handleIncrease}>
             <FontAwesome5 name='chevron-circle-right' size={16} color='gray' />
           </Pressable>

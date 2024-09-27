@@ -25,7 +25,7 @@ export default function Trending() {
       style={{ flex: 1, backgroundColor: '#03045E' }}
       edges={['top']}
     >
-      <View className='flex-1 bg-white'>
+      <View className='flex-1 bg-white dark:bg-black'>
         <TimeframeHeader onChangeTimeframe={(value) => setTimeframe(value)} />
         {isPending ? (
           <View className='items-center justify-center h-72'>

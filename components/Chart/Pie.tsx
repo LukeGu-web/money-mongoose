@@ -59,7 +59,7 @@ export default function Pie({
       </View>
       <TypeSelector Types={Types} type={type} onChangeType={onChangeType} />
       {/*********************    Custom Legend component      ********************/}
-      <View className='items-start gap-2 p-2 m-2 rounded-lg bg-slate-100'>
+      <View className='items-start gap-2 p-2 m-2 rounded-lg bg-slate-100 dark:bg-slate-300 '>
         {data.map((item) => (
           <Legend
             key={item.text}

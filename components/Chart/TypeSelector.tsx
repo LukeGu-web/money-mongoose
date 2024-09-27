@@ -14,18 +14,20 @@ export default function TypeSelector({
   onChangeType,
 }: TypeSelectorProps) {
   return (
-    <View className='flex-row items-center border-2 rounded-lg border-slate-800'>
+    <View className='flex-row items-center border-2 rounded-lg border-slate-800 dark:border-slate-200'>
       {Object.values(Types).map((item, index) => (
         <Pressable
           key={item}
-          className={`items-center justify-center py-1 px-2 border-slate-800 ${
-            index === 0 && 'border-r-2'
-          } ${type === item && 'bg-slate-800'}`}
+          className={`items-center justify-center py-1 px-2 border-slate-800 dark:border-slate-200 ${
+            index < Object.keys(Types).length - 1 && 'border-r-2'
+          } ${type === item && 'bg-slate-800 dark:bg-slate-200'}`}
           onPress={() => onChangeType(item)}
         >
           <Text
             className={`text-center font-medium ${
-              type === item ? 'color-white' : 'color-slate-800'
+              type === item
+                ? 'color-white dark:color-black'
+                : 'color-slate-800 dark:color-slate-200'
             }`}
           >
             {item}
