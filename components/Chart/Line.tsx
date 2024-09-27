@@ -4,7 +4,8 @@ import { LineChart } from 'react-native-gifted-charts';
 import { useSettingStore } from 'core/stateHooks';
 import { getChartTypeAndLabels, formatYAxisLabel } from './chart-utils';
 import { LineDataType, Types } from './types';
-const noDataImage = require('../../assets/illustrations/nodata/no-data-line-chart.png');
+
+const noDataImage = require('../../assets/illustrations/nodata/no-data-line.png');
 
 const Pointer = (items: LineDataType[]) => {
   const item = items[0];
@@ -80,9 +81,11 @@ export default function Line({ data, type }: LineProps) {
 
   if (data.every((item) => item.value === 0)) {
     return (
-      <View className='items-center justify-center flex-1 w-full p-2 bg-white'>
-        <Image className='w-72 h-72' source={noDataImage} />
-        <Text className='text-lg font-medium'>No data to display</Text>
+      <View className='items-center justify-start flex-1 w-full p-2 bg-white dark:bg-black'>
+        <Image className='w-96 h-96' source={noDataImage} />
+        <Text className='text-lg font-medium dark:color-white'>
+          No data to display
+        </Text>
       </View>
     );
   }

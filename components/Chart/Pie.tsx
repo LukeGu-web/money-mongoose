@@ -3,7 +3,7 @@ import { View, Text, Image } from 'react-native';
 import { PieChart } from 'react-native-gifted-charts';
 import Legend, { DetailsType } from './PieLegend';
 import TypeSelector from './TypeSelector';
-const noDataImage = require('../../assets/illustrations/nodata/no-data-pie-chart.png');
+const noDataImage = require('../../assets/illustrations/nodata/no-data-pie.png');
 
 export enum Types {
   EXPENSE = 'expense',
@@ -27,9 +27,11 @@ export default function Pie({
 }: PieProps) {
   if (data.length === 0) {
     return (
-      <View className='items-center justify-center w-full p-2 bg-white'>
-        <Image className='w-72 h-72' source={noDataImage} />
-        <Text className='text-lg font-medium'>No data to display</Text>
+      <View className='items-center justify-start flex-1 w-full p-2 bg-white dark:bg-black'>
+        <Image className='w-96 h-96' source={noDataImage} />
+        <Text className='text-lg font-medium dark:color-white'>
+          No data to display
+        </Text>
       </View>
     );
   }
