@@ -1,7 +1,7 @@
 import { View, Text, Pressable } from 'react-native';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import Icon from 'components/Icon/Icon';
+import Icon from '../Icon/CIcon';
 
 import { AssetType } from 'api/types';
 import {
@@ -75,7 +75,8 @@ export default function ListItem({ item, flatAssets, onPress }: ListItemProps) {
         <View className='flex-row flex-1 gap-2'>
           <View className='items-start justify-center w-1/6'>
             <Icon
-              name={item.category}
+              // @ts-ignore: ignore json type
+              name={`c-${item.category}`}
               size={28}
               color={theme === 'dark' ? 'white' : 'black'}
             />

@@ -1,9 +1,13 @@
 {
   "salary": [],
+  "refund": [],
   "stock": [],
   "bonus": [],
   "commission": [],
   "allowance": [],
+  "gift": [],
+  "investment": [],
+  "part-time": [],
   "overtime": [],
   "others": []
 }

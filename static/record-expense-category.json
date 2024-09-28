@@ -1,11 +1,20 @@
 {
-  "food": ["breakfast", "lunch", "dinner", "beverage", "dessert"],
-  "transportation": ["car", "bus", "taxi", "train", "ferry"],
-  "communication": [],
-  "housing": [],
-  "health": [],
-  "education": [],
-  "entertainment": ["movie", "sport", "music"],
-  "pet": [],
+  "dining": ["breakfast", "lunch", "dinner", "coffee", "beverage", "dessert"],
+  "groceries": ["fruits", "vegetables", "meat", "dairy", "snacks"],
+  "utilities": ["electricity", "water", "gas", "internet", "phone"],
+  "cosmetics": ["haircut", "skincare", "nail"],
+  "transport": ["car", "bus", "taxi", "train", "metro", "ferry"],
+  "housing": ["furniture", "appliances", "maintenance", "rent", "mortgage"],
+  "health": [
+    "insurance",
+    "medication",
+    "dental",
+    "vision",
+    "therapy",
+    "vaccination"
+  ],
+  "education": ["tuition", "books", "supplies", "workshops", "uniform"],
+  "entertainment": ["movie", "sport", "music", "concerts", "gaming"],
+  "pet": ["pet-food", "veterinary", "grooming", "toys"],
   "others": []
 }

@@ -1,7 +1,8 @@
 import { View, FlatList, Pressable, Text } from 'react-native';
 import { useFormContext } from 'react-hook-form';
 import { useSettingStore } from 'core/stateHooks';
-import Icon from '../Icon/Icon';
+import Entypo from '@expo/vector-icons/Entypo';
+import Icon from '../Icon/CIcon';
 
 export default function IconTable({ data, onSelect }: IconTableProps) {
   const theme = useSettingStore((state) => state.theme);
@@ -33,14 +34,15 @@ export default function IconTable({ data, onSelect }: IconTableProps) {
               }`}
             >
               <Icon
-                name={item}
+                // @ts-ignore: ignore json type
+                name={`c-${item}`}
                 color={theme === 'dark' ? '#6366f1' : '#1e1b4b'}
                 size={30}
               />
             </View>
             {hasSubcategory && (
               <View className='absolute right-0 items-center justify-center w-5 h-5 m-4 rounded-full bg-zinc-200 bottom-4'>
-                <Icon name='dots-three-vertical' size={10} color='#000' />
+                <Entypo name='dots-three-vertical' size={10} color='black' />
               </View>
             )}
             <View className='items-center -mt-1'>
