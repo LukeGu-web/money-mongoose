@@ -60,12 +60,15 @@ export default function AccountPad() {
           Tax Calculator
         </Text>
       </Pressable>
-      <Pressable className='gap-2' onPress={() => router.navigate('/records')}>
+      <Pressable
+        className='gap-2'
+        onPress={() => router.navigate('/tools/currency')}
+      >
         <View className='items-center justify-center w-20 h-20 border-2 rounded-lg border-primary dark:border-primarydark'>
           <FontAwesome6 name='money-bill-transfer' size={24} color={color} />
         </View>
         <Text className='text-sm font-semibold text-center color-primary dark:color-primarydark'>
-          Records
+          Currency
         </Text>
       </Pressable>
     </View>

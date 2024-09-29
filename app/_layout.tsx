@@ -116,6 +116,13 @@ export default function RootLayoutNav() {
             headerLeft: () => <GoBack />,
           }}
         />
+        <Stack.Screen
+          name='tools/currency'
+          options={{
+            title: 'Currency Exchange',
+            headerLeft: () => <GoBack />,
+          }}
+        />
       </Stack>
     </Providers>
   );

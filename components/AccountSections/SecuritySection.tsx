@@ -26,7 +26,7 @@ export default function SecuritySection() {
         }
       : {
           trackColor: { false: '#cbd5e1', true: '#60a5fa' },
-          thumbColor: '#fff',
+          thumbColor: '#f4f4f5',
         };
 
   const handleLockTime = () => {
