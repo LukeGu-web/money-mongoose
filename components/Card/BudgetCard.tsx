@@ -90,7 +90,7 @@ export default function BudgetCard({ monthExpense }: BudgetCardProps) {
         </Pressable>
       </View>
       <View className='flex-row items-stretch justify-between flex-1 gap-2 py-2'>
-        <View className='items-center justify-center flex-1 pt-2.5 rounded-lg bg-zinc-100'>
+        <View className='items-center justify-center flex-1 pt-2.5 rounded-lg bg-zinc-100 dark:bg-zinc-300'>
           <GoalProcess
             targetPercentage={
               currentBook.monthly_goal !== null
@@ -99,11 +99,11 @@ export default function BudgetCard({ monthExpense }: BudgetCardProps) {
             }
           />
         </View>
-        <View className='items-center justify-center flex-1 rounded-lg bg-zinc-100 '>
+        <View className='items-center justify-center flex-1 rounded-lg bg-zinc-100 dark:bg-zinc-300'>
           <Text className='text-lg'>{formatter(expenseAmount)}</Text>
           <Text>Spend</Text>
         </View>
-        <View className='items-center justify-center flex-1 rounded-lg bg-zinc-100 '>
+        <View className='items-center justify-center flex-1 rounded-lg bg-zinc-100 dark:bg-zinc-300'>
           <Text
             className={`${
               remaining > 0 ? 'color-green-800' : 'color-red-800'

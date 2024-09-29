@@ -46,7 +46,7 @@ export default function ExpandGroupTitle({
 
   return (
     <View
-      className='p-2 bg-gray-200 rounded-lg'
+      className='p-2 bg-gray-200 rounded-lg dark:bg-zinc-300'
       style={{ minHeight: containerHeight }}
     >
       <Pressable
@@ -55,10 +55,14 @@ export default function ExpandGroupTitle({
       >
         <View className='flex-row items-center flex-1 gap-2 px-2'>
           <Text className='text-xl font-bold'>{title.text}</Text>
-          <Text className=' color-gray-500'>({title.number})</Text>
+          <Text className=' color-gray-500 dark:color-gray-600'>
+            ({title.number})
+          </Text>
         </View>
         <View className='flex-row items-center gap-2 px-2'>
-          <Text className='color-gray-500'>{formatter(title.amount)}</Text>
+          <Text className='color-gray-500 dark:color-gray-600'>
+            {formatter(title.amount)}
+          </Text>
           <Animated.View
             style={
               isScreenMountedRef.current ? { transform: [{ rotate }] } : null

@@ -48,7 +48,7 @@ export default function AccountList({ groups }: AccountListProps) {
         }
       })}
       {numOfAssets === 0 && (
-        <View className='items-center py-4 bg-gray-100 rounded-lg'>
+        <View className='items-center py-4 bg-gray-100 rounded-lg dark:bg-zinc-300'>
           <Text>No account yet</Text>
         </View>
       )}

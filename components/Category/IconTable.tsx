@@ -29,14 +29,14 @@ export default function IconTable({ data, onSelect }: IconTableProps) {
             <View
               className={`items-center justify-center m-4 rounded-full w-14 h-14 ${
                 item === getValues('category')
-                  ? 'bg-amber-200'
+                  ? 'bg-amber-200 dark:bg-yellow-800'
                   : 'bg-transparent'
               }`}
             >
               <Icon
                 // @ts-ignore: ignore json type
                 name={`c-${item}`}
-                color={theme === 'dark' ? '#6366f1' : '#1e1b4b'}
+                color={theme === 'dark' ? '#e0f2fe' : '#1e1b4b'}
                 size={30}
               />
             </View>

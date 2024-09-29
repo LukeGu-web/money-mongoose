@@ -76,7 +76,7 @@ export default function RecordCategory() {
           >
             <View className='items-center w-11/12 gap-6 p-6 bg-white rounded-lg dark:bg-zinc-600'>
               <View className='flex-row justify-between w-full'>
-                <Text className='mb-4 text-center dark:color-white'>
+                <Text className='mb-4 text-lg text-center dark:color-white'>
                   {getValues('category')}
                 </Text>
                 <Pressable onPress={() => setIsVisible(false)}>

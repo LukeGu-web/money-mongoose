@@ -43,7 +43,7 @@ export default function Home() {
         <View className='rounded-lg h-36 bg-sky-200 dark:bg-sky-900'>
           <ExpenseCard monthIncome={monthIncome} monthExpense={monthExpense} />
         </View>
-        <View className='h-48 bg-blue-200 rounded-lg dark:bg-blue-800'>
+        <View className='h-48 bg-blue-200 rounded-lg dark:bg-blue-950'>
           <BudgetCard monthExpense={monthExpense} />
         </View>
         <View className='flex-1 pb-2 rounded-lg bg-zinc-100 dark:bg-zinc-600'>

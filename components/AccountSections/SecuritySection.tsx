@@ -14,9 +14,20 @@ export default function SecuritySection() {
     isEnabledAuth,
     setIsEnabledAuth,
     lockTime,
+    theme,
   } = useSettingStore();
 
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+  const switchColors =
+    theme === 'dark'
+      ? {
+          trackColor: { false: '#334155', true: '#075985' },
+          thumbColor: '#27272a',
+        }
+      : {
+          trackColor: { false: '#cbd5e1', true: '#60a5fa' },
+          thumbColor: '#fff',
+        };
 
   const handleLockTime = () => {
     bottomSheetModalRef.current?.present();
@@ -24,48 +35,66 @@ export default function SecuritySection() {
   return (
     <View className='items-start justify-center flex-1 gap-2 mb-4 '>
       <Text className='color-zinc-600 dark:color-zinc-300'>Security</Text>
-      <View className='w-full bg-blue-400 rounded-lg dark:bg-blue-800'>
+      <View className='w-full rounded-lg bg-zinc-200 dark:bg-zinc-800'>
         <View
           className={`flex-row items-center justify-between px-4 py-2 ${
-            !isEnabledAuth && 'border-b-2 border-white'
+            !isEnabledAuth && 'border-b-2 border-white dark:border-black'
           }`}
         >
           <View className='flex-row items-center gap-2'>
-            <Ionicons name='finger-print' size={20} color='white' />
-            <Text className='text-lg color-white'>FaceID/Fingerpint</Text>
+            <Ionicons
+              name='finger-print'
+              size={20}
+              color={theme === 'dark' ? 'white' : 'black'}
+            />
+            <Text className='text-lg dark:color-white'>FaceID/Fingerpint</Text>
           </View>
           <Switch
-            trackColor={{ false: '#cbd5e1', true: '#fbbf24' }}
-            ios_backgroundColor='#cbd5e1'
+            trackColor={switchColors.trackColor}
+            thumbColor={switchColors.thumbColor}
+            ios_backgroundColor={switchColors.trackColor.false}
             onValueChange={(e) => setIsEnabledAuth(!isEnabledAuth)}
             value={isEnabledAuth}
           />
         </View>
         {isEnabledAuth && (
-          <View className='flex-row items-center justify-between px-4 py-3 bg-blue-900 border-b-2 border-white border-x-2'>
+          <View className='flex-row items-center justify-between px-4 py-3 border-b-2 border-white dark:border-black bg-zinc-300 dark:bg-zinc-900 border-x-2'>
             <View className='flex-row items-center gap-2'>
-              <MaterialIcons name='lock-clock' size={20} color='white' />
-              <Text className='color-white'>Lock in</Text>
+              <MaterialIcons
+                name='lock-clock'
+                size={20}
+                color={theme === 'dark' ? 'white' : 'black'}
+              />
+              <Text className='dark:color-white'>Lock in</Text>
             </View>
             <Pressable
               className='flex-row items-center justify-end flex-1'
               onPress={handleLockTime}
             >
-              <Text className='color-white'>
+              <Text className='dark:color-white'>
                 {lockTime} minute{lockTime > 1 ? 's' : ''}
               </Text>
-              <Icon name='arrow-right' size={18} color='#fff' />
+              <Icon
+                name='arrow-right'
+                size={18}
+                color={theme === 'dark' ? 'white' : 'black'}
+              />
             </Pressable>
           </View>
         )}
         <View className='flex-row items-center justify-between gap-2 px-4 py-2'>
           <View className='flex-row items-center gap-2'>
-            <MaterialIcons name='blur-on' size={20} color='white' />
-            <Text className='text-lg color-white'>Background Blur</Text>
+            <MaterialIcons
+              name='blur-on'
+              size={20}
+              color={theme === 'dark' ? 'white' : 'black'}
+            />
+            <Text className='text-lg dark:color-white'>Background Blur</Text>
           </View>
           <Switch
-            trackColor={{ false: '#cbd5e1', true: '#fbbf24' }}
-            ios_backgroundColor='#cbd5e1'
+            trackColor={switchColors.trackColor}
+            thumbColor={switchColors.thumbColor}
+            ios_backgroundColor={switchColors.trackColor.false}
             onValueChange={() => setIsEnabledBlur(!isEnabledBlur)}
             value={isEnabledBlur}
           />

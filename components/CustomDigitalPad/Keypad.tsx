@@ -22,7 +22,7 @@ export default function Keypad({ onKeyInput }: KeypadProps) {
           <Pressable onPress={() => onKeyInput(item)} disabled={isDisabled}>
             <View
               className={`items-center justify-center w-24 h-16 m-1 ${
-                isTax ? 'bg-amber-200' : 'bg-gray-100'
+                isTax ? 'bg-amber-200' : 'bg-gray-100 dark:bg-gray-800'
               }  rounded-lg`}
             >
               <Key value={item} disabled={isDisabled} />

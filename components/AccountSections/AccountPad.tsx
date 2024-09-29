@@ -15,7 +15,7 @@ export default function AccountPad() {
     }))
   );
   const { setColorScheme } = useColorScheme();
-  const color = theme === 'dark' ? '#60a5fa' : '#03045e';
+  const color = theme === 'dark' ? '#3b82f6' : '#03045e';
   return (
     <View className='flex-row items-center justify-between'>
       <Pressable

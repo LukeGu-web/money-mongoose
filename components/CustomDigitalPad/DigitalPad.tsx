@@ -129,8 +129,10 @@ export default function DigitalPad({ onSubmit }: DigitalPadProps) {
           name='note'
         />
         <Pressable
-          className={`justify-center p-2 rounded-lg bg-sky-600 border-2 ${
-            errors.amount ? 'border-red-500' : 'border-sky-600'
+          className={`justify-center p-2 rounded-lg bg-sky-600 dark:bg-sky-900 border-2 ${
+            errors.amount
+              ? 'border-red-500'
+              : 'border-sky-600 dark:border-sky-900'
           }`}
         >
           <Text className='text-2xl color-white'>{`A$ ${formatter(

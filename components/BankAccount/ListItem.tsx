@@ -12,7 +12,7 @@ export default function ListItem({ item, onPress }: ListItemProps) {
   const setSelect = useAsset((state) => state.setSelect);
   return (
     <Pressable
-      className='flex-row items-center justify-between p-2 border-b-2 border-gray-300'
+      className='flex-row items-center justify-between p-2 border-b-2 border-gray-300 dark:border-gray-400'
       onPress={() => {
         setSelect(item);
         onPress();
