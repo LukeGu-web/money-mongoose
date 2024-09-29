@@ -37,7 +37,7 @@ export default function Pie({
   }
 
   return (
-    <View className='items-center justify-start flex-1 w-full gap-4 '>
+    <View className='items-center justify-start flex-1 w-full gap-4 mb-8'>
       <View className='mb-8 opacity-70'>
         <PieChart
           strokeColor='white'

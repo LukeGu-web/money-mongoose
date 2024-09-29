@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ActivityIndicator, View } from 'react-native';
+import { ActivityIndicator, View, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import dayjs from 'dayjs';
@@ -22,7 +22,13 @@ export default function CategoriedAnalysis() {
     >
       <View className='flex-1 bg-white dark:bg-black'>
         <TimeframeHeader onChangeTimeframe={(value) => setTimeframe(value)} />
-        <View className='items-center justify-center flex-1 p-2 bg-white dark:bg-black'>
+        <ScrollView
+          className='flex-1 p-2 bg-white dark:bg-black'
+          contentContainerStyle={{
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
           {!data ? (
             <View className='items-center justify-center flex-1 '>
               <ActivityIndicator size='large' />
@@ -36,7 +42,7 @@ export default function CategoriedAnalysis() {
               onChangeType={(value: any) => setType(value)}
             />
           )}
-        </View>
+        </ScrollView>
       </View>
       <StatusBar style='light' />
     </SafeAreaView>

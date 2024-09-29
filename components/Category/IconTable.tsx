@@ -29,7 +29,7 @@ export default function IconTable({ data, onSelect }: IconTableProps) {
             <View
               className={`items-center justify-center m-4 rounded-full w-14 h-14 ${
                 item === getValues('category')
-                  ? 'bg-amber-200 dark:bg-yellow-800'
+                  ? 'bg-amber-200 dark:bg-amber-400'
                   : 'bg-transparent'
               }`}
             >
