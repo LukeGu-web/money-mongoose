@@ -8,6 +8,7 @@ import log from 'core/logger';
 import { useRecord } from 'core/stateHooks';
 import BottomSheet from './BottomSheet';
 import Icon from '../Icon/Icon';
+import CIcon from '../Icon/CIcon';
 
 type RecordBottomSheetProps = {
   bottomSheetModalRef: React.RefObject<BottomSheetModal>;
@@ -21,7 +22,7 @@ export default function RecordBottomSheet({
   const { mutate: deleteRecordApi } = useDeleteRecord();
   const { record, resetRecord, setRecord } = useRecord();
   const handleGoRecord = () => {
-    router.navigate('/record');
+    router.push('/record');
     bottomSheetModalRef.current?.dismiss();
   };
 
@@ -74,7 +75,12 @@ export default function RecordBottomSheet({
       <View className='items-center flex-1'>
         <View className='flex-row items-center justify-between p-2 border-b-2'>
           <View className='items-center justify-center w-1/6'>
-            <Icon name={record.category} size={28} color='#000' />
+            <CIcon
+              // @ts-ignore: ignore json type
+              name={`c-${record.category}`}
+              size={28}
+              color='#000'
+            />
           </View>
           <View className='flex-1'>
             <View className='flex-row'>
