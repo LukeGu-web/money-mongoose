@@ -1,13 +1,19 @@
 import { useState } from 'react';
 import { View, Text, Pressable, FlatList } from 'react-native';
-import CountryFlag from 'react-native-country-flag';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import CurrencyItem from './CurrencyItem';
 import CurrencyModal from 'components/Modal/CurrencyModal';
 import { useCurrencyStore } from 'core/stateHooks';
 
-export default function ExchangeList() {
-  const { list, addCountry, removeCountry } = useCurrencyStore();
+type ExchangeListProps = {
+  amount: number;
+  rates: {
+    [key: string]: number;
+  }[];
+};
+
+export default function ExchangeList({ amount, rates }: ExchangeListProps) {
+  const { list, removeCountry } = useCurrencyStore();
   const [isVisible, setIsVisible] = useState<boolean>(false);
   return (
     <View className='w-full gap-2 p-2 border-2 border-gray-400 rounded-lg'>
@@ -18,7 +24,12 @@ export default function ExchangeList() {
           data={list}
           keyExtractor={(item, index) => index.toString()}
           renderItem={({ item, index }) => (
-            <CurrencyItem key={index} country={item} amount={0} />
+            <CurrencyItem
+              key={index}
+              country={item}
+              // @ts-ignore: ignore type
+              amount={amount * rates[item.currency_code]}
+            />
           )}
         />
       ) : (

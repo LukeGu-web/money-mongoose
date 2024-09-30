@@ -14,21 +14,21 @@ import { CountryType } from './types';
 import countryData from 'static/country-by-currency-code.json';
 
 type CurrencyDropdownProps = {
+  amount?: number;
+  base: CountryType;
   countryOnly?: boolean;
   onChange: (country: CountryType, amount: number) => void;
 };
 
 export default function CurrencyDropdown({
+  amount: baseAmount,
+  base,
   countryOnly = false,
   onChange,
 }: CurrencyDropdownProps) {
-  const [country, setCountry] = useState<CountryType>({
-    country: 'Australia',
-    currency_code: 'AUD',
-    iso2: 'AU',
-  });
+  const [country, setCountry] = useState<CountryType>(base);
   const [value, setValue] = useState<string>('');
-  const [amount, setAmount] = useState<string>('1');
+  const [amount, setAmount] = useState<string>(String(baseAmount));
   const [filteredData, setFilteredData] = useState(countryData);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownHeight = useRef(new Animated.Value(0)).current;

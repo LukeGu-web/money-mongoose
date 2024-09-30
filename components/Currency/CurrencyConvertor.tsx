@@ -16,24 +16,30 @@ const getCurrencies = async (base: string) => {
 };
 
 export default function CurrencyConvertor() {
-  // const [base, setBase] = useState('AUD');
-  // const {
-  //   data: currencies,
-  //   error,
-  //   isLoading,
-  // } = useQuery({
-  //   queryKey: ['currencies', base],
-  //   queryFn: () => getCurrencies(base),
-  // });
-  // console.log(currencies);
+  const [base, setBase] = useState<CountryType>({
+    country: 'Australia',
+    currency_code: 'AUD',
+    iso2: 'AU',
+  });
+  const [amount, setAmount] = useState(1);
+  const {
+    data: currencies,
+    error,
+    isLoading,
+  } = useQuery({
+    queryKey: ['currencies', base],
+    queryFn: () => getCurrencies(base.currency_code),
+  });
   const theme = useSettingStore((state) => state.theme);
   const handleChange = (country: CountryType, amount: number) => {
     console.log('handleChange: ', country, amount);
   };
   return (
     <View className='items-start justify-start flex-1 w-full gap-2'>
-      <CurrencyDropdown onChange={handleChange} />
-      <ExchangeList />
+      <CurrencyDropdown amount={amount} base={base} onChange={handleChange} />
+      {currencies && (
+        <ExchangeList amount={amount} rates={currencies.conversion_rates} />
+      )}
     </View>
   );
 }

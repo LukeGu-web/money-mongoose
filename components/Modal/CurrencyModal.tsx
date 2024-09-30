@@ -48,7 +48,15 @@ export default function CurrencyModal({
       >
         <View className='items-center w-11/12 gap-6 p-6 bg-white rounded-lg'>
           <Text className='text-3xl'>Select Currency</Text>
-          <CurrencyDropdown countryOnly onChange={handleChange} />
+          <CurrencyDropdown
+            base={{
+              country: 'Australia',
+              currency_code: 'AUD',
+              iso2: 'AU',
+            }}
+            countryOnly
+            onChange={handleChange}
+          />
           <View className='flex-row justify-between w-4/5'>
             <Pressable
               onPress={onClose}
