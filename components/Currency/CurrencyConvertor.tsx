@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { View, Text } from 'react-native';
-import { useQuery } from '@tanstack/react-query';
+import { View } from 'react-native';
 import axios from 'axios';
+import { useQuery } from '@tanstack/react-query';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 import { useSettingStore } from 'core/stateHooks';
 import { CountryType } from '../Dropdown/types';
@@ -32,11 +33,15 @@ export default function CurrencyConvertor() {
   });
   const theme = useSettingStore((state) => state.theme);
   const handleChange = (country: CountryType, amount: number) => {
-    console.log('handleChange: ', country, amount);
+    setBase(country);
+    setAmount(amount);
   };
   return (
     <View className='items-start justify-start flex-1 w-full gap-2'>
       <CurrencyDropdown amount={amount} base={base} onChange={handleChange} />
+      <View className='self-center py-2'>
+        <MaterialIcons name='currency-exchange' size={32} color='#facc15' />
+      </View>
       {currencies && (
         <ExchangeList amount={amount} rates={currencies.conversion_rates} />
       )}

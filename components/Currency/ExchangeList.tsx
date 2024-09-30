@@ -28,7 +28,7 @@ export default function ExchangeList({ amount, rates }: ExchangeListProps) {
               key={index}
               country={item}
               // @ts-ignore: ignore type
-              amount={amount * rates[item.currency_code]}
+              amount={(amount * rates[item.currency_code]).toFixed(4)}
             />
           )}
         />

@@ -1,6 +1,7 @@
 import { Text, Pressable } from 'react-native';
 import CountryFlag from 'react-native-country-flag';
 import { CountryType } from '../Dropdown/types';
+import symbol from 'static/currency-symbol.json';
 
 type CurrencyItemProps = {
   country: CountryType;
@@ -21,7 +22,11 @@ export default function CurrencyItem({ country, amount }: CurrencyItemProps) {
       <Text className='flex-1 px-3 font-medium color-blue-500'>
         {country.currency_code}
       </Text>
-      <Text className='flex-1 px-3 font-medium color-zinc-700'>{amount}</Text>
+
+      <Text className='flex-1 px-3 font-medium text-right color-zinc-700'>
+        {/* @ts-ignore: ignore type */}
+        {symbol[country.currency_code]} {amount}
+      </Text>
     </Pressable>
   );
 }
