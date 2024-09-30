@@ -4,9 +4,9 @@ import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
 import { useSettingStore } from 'core/stateHooks';
-import Dropdown from '../Dropdown/Dropdown';
-import { DropdownDataType } from '../Dropdown/types';
-import CurrencyDropdown from 'components/Dropdown/CurrencyDropdown';
+import { CountryType } from '../Dropdown/types';
+import CurrencyDropdown from '../Dropdown/CurrencyDropdown';
+import ExchangeList from './ExchangeList';
 
 const getCurrencies = async (base: string) => {
   const response = await axios.get(
@@ -27,32 +27,13 @@ export default function CurrencyConvertor() {
   // });
   // console.log(currencies);
   const theme = useSettingStore((state) => state.theme);
-  // const [selected, setSelected] = useState<DropdownDataType<
-  //   string,
-  //   string
-  // > | null>(null);
-  // const [data] = useState<DropdownDataType<string, string>[]>([
-  //   { key: '1', value: 'Toothbrush' },
-  //   { key: '2', value: 'Laptop' },
-  //   { key: '3', value: 'Sunglasses' },
-  //   { key: '4', value: 'Baseball' },
-  //   { key: '5', value: 'Scissors' },
-  //   { key: '6', value: 'Bicycle' },
-  //   { key: '7', value: 'Camera' },
-  //   { key: '8', value: 'Umbrella' },
-  //   { key: '9', value: 'Backpack' },
-  //   { key: '10', value: 'Water bottle' },
-  // ]);
+  const handleChange = (country: CountryType, amount: number) => {
+    console.log('handleChange: ', country, amount);
+  };
   return (
-    <View className='items-start justify-start flex-1 gap-2'>
-      <Text>Currency: </Text>
-      {/* <Dropdown
-        data={data}
-        placeholder={'Select option'}
-        selected={selected}
-        setSelected={setSelected}
-      /> */}
-      <CurrencyDropdown />
+    <View className='items-start justify-start flex-1 w-full gap-2'>
+      <CurrencyDropdown onChange={handleChange} />
+      <ExchangeList />
     </View>
   );
 }

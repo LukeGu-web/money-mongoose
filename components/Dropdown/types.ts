@@ -17,13 +17,13 @@ export type DropdownItemProps = {
   select: (item: DropdownDataType<any, any>) => void;
 };
 
-export type countryType = {
+export type CountryType = {
   country: string;
   currency_code: string;
   iso2: string;
 };
 
 export type CurrencyItemProps = {
-  item: countryType;
-  onSelect: (item: countryType) => void;
+  item: CountryType;
+  onSelect: (item: CountryType) => void;
 };

@@ -1,33 +1,39 @@
 import {
   Text,
   TextInput,
-  TouchableOpacity,
+  Pressable,
   View,
   Animated,
   FlatList,
-  Keyboard,
 } from 'react-native';
 import { useRef, useState } from 'react';
 import CountryFlag from 'react-native-country-flag';
 import { MaterialIcons } from '@expo/vector-icons';
 import CurrencyItem from './CurrencyItem';
-import { countryType } from './types';
+import { CountryType } from './types';
 import countryData from 'static/country-by-currency-code.json';
 
-export default function CurrencyDropdown() {
-  const [country, setCountry] = useState<countryType>({
+type CurrencyDropdownProps = {
+  countryOnly?: boolean;
+  onChange: (country: CountryType, amount: number) => void;
+};
+
+export default function CurrencyDropdown({
+  countryOnly = false,
+  onChange,
+}: CurrencyDropdownProps) {
+  const [country, setCountry] = useState<CountryType>({
     country: 'Australia',
     currency_code: 'AUD',
     iso2: 'AU',
   });
   const [value, setValue] = useState<string>('');
-  const [amount, setAmount] = useState<string>('');
+  const [amount, setAmount] = useState<string>('1');
   const [filteredData, setFilteredData] = useState(countryData);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
   const dropdownHeight = useRef(new Animated.Value(0)).current;
 
-  const resetData = () => {
+  const resetCountry = () => {
     setFilteredData(countryData);
     setCountry({
       country: 'Australia',
@@ -37,8 +43,9 @@ export default function CurrencyDropdown() {
     setValue('');
   };
 
-  const onSelect = (item: countryType) => {
+  const onSelect = (item: CountryType) => {
     setCountry(item);
+    onChange(item, Number(amount));
     onDropdownToggle(false);
   };
 
@@ -70,7 +77,7 @@ export default function CurrencyDropdown() {
   };
 
   return (
-    <>
+    <View className='w-full'>
       {isDropdownOpen ? (
         <View className='flex-row gap-2 p-2 border-2 border-blue-400 rounded-lg min-h-8'>
           <MaterialIcons name='search' size={24} color='#9ca3af' />
@@ -85,7 +92,7 @@ export default function CurrencyDropdown() {
             name='close'
             size={24}
             color='#9ca3af'
-            onPress={resetData}
+            onPress={resetCountry}
           />
           <MaterialIcons
             name='keyboard-arrow-up'
@@ -95,46 +102,65 @@ export default function CurrencyDropdown() {
           />
         </View>
       ) : (
-        <View className='flex-row gap-2 p-1 border-2 border-gray-400 rounded-lg'>
-          <TouchableOpacity
-            className='flex-row items-center gap-2 p-2 border-2 border-blue-400 rounded-lg min-h-8'
-            onPress={() => onDropdownToggle(true)}
-          >
-            <CountryFlag isoCode={country.iso2} size={24} />
-            <Text className={`flex-grow font-medium`}>
-              {country.currency_code}
-            </Text>
-            <MaterialIcons
-              name='keyboard-arrow-down'
-              size={24}
-              color='#9ca3af'
-            />
-          </TouchableOpacity>
-          <TextInput
-            className='flex-1 px-2 text-right'
-            clearButtonMode='while-editing'
-            placeholder='enter amount'
-            keyboardType='numeric'
-            value={amount}
-            onChangeText={setAmount}
-            onBlur={() => console.log('onnnnnn')}
-          />
+        <View>
+          {countryOnly ? (
+            <Pressable
+              className='flex-row items-center gap-2 p-2 border-2 border-blue-400 rounded-lg min-h-8'
+              onPress={() => onDropdownToggle(true)}
+            >
+              <CountryFlag isoCode={country.iso2} size={24} />
+              <Text className={`flex-grow font-medium`}>
+                {country.currency_code}
+              </Text>
+              <MaterialIcons
+                name='keyboard-arrow-down'
+                size={24}
+                color='#9ca3af'
+              />
+            </Pressable>
+          ) : (
+            <View className='flex-row gap-2 p-1 border-2 border-gray-400 rounded-lg'>
+              <Pressable
+                className='flex-row items-center gap-2 p-2 border-2 border-blue-400 rounded-lg min-h-8'
+                onPress={() => onDropdownToggle(true)}
+              >
+                <CountryFlag isoCode={country.iso2} size={24} />
+                <Text className={`flex-grow font-medium`}>
+                  {country.currency_code}
+                </Text>
+                <MaterialIcons
+                  name='keyboard-arrow-down'
+                  size={24}
+                  color='#9ca3af'
+                />
+              </Pressable>
+              <TextInput
+                className='flex-1 px-2 text-right'
+                clearButtonMode='while-editing'
+                placeholder='enter amount'
+                keyboardType='numeric'
+                value={amount}
+                onChangeText={setAmount}
+                onBlur={() => onChange(country, Number(amount))}
+              />
+            </View>
+          )}
         </View>
       )}
       {isDropdownOpen ? (
         <Animated.View
-          className='border-2 border-blue-400 rounded-lg '
+          className='mt-1 border-2 border-blue-400 rounded-lg'
           style={{ maxHeight: dropdownHeight }}
         >
           {filteredData.length === 0 ? (
-            <View className='min-w-full p-4'>
+            <View className='w-full p-4'>
               <Text className='text-center color-gray-800'>
                 No results found
               </Text>
             </View>
           ) : (
             <FlatList
-              className='min-w-full p-2'
+              className='w-full p-2'
               nestedScrollEnabled={true}
               data={filteredData}
               keyExtractor={(item, index) => index.toString()}
@@ -145,6 +171,6 @@ export default function CurrencyDropdown() {
           )}
         </Animated.View>
       ) : null}
-    </>
+    </View>
   );
 }
