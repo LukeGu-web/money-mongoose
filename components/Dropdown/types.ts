@@ -12,7 +12,18 @@ export type DropdownProps = {
   setSelected: (selected: DropdownDataType<any, any> | null) => void;
 };
 
-export type DropdownItemsProps = {
+export type DropdownItemProps = {
   item: DropdownDataType<any, any>;
   select: (item: DropdownDataType<any, any>) => void;
+};
+
+export type countryType = {
+  country: string;
+  currency_code: string;
+  iso2: string;
+};
+
+export type CurrencyItemProps = {
+  item: countryType;
+  onSelect: (item: countryType) => void;
 };

@@ -1,7 +1,7 @@
 import { Text, Pressable } from 'react-native';
-import { DropdownItemsProps } from './types';
+import { DropdownItemProps } from './types';
 
-export default function DropdownItem({ item, select }: DropdownItemsProps) {
+export default function DropdownItem({ item, select }: DropdownItemProps) {
   return (
     <Pressable
       testID={`dropdown-item-${item.key}`}

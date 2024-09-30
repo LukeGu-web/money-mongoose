@@ -7616,6 +7616,7 @@ __metadata:
     react-hook-form: "npm:^7.53.0"
     react-native: "npm:0.74.5"
     react-native-calendars: "npm:^1.1307.0"
+    react-native-country-flag: "npm:^2.0.2"
     react-native-gesture-handler: "npm:~2.16.1"
     react-native-get-random-values: "npm:~1.11.0"
     react-native-gifted-charts: "npm:^1.4.33"
@@ -8646,6 +8647,13 @@ __metadata:
     moment:
       optional: true
   checksum: 10c0/c097259660eac529f847f40a84eb1f4c622b419334a6e43e1f0168a729eb15dcce88426a8a3f3bff58653cf2e8db848cdd67a15176926d523b3c0880147720f5
+  languageName: node
+  linkType: hard
+
+"react-native-country-flag@npm:^2.0.2":
+  version: 2.0.2
+  resolution: "react-native-country-flag@npm:2.0.2"
+  checksum: 10c0/274cdb226b7180b0c08248063f04fb55ae737439df3ecfe6f86cf8ca09679b886df8ad4368aff11fd6c5451fbec1731f059a28b662a405a372b56265193ed3e1
   languageName: node
   linkType: hard
 
