@@ -37,6 +37,11 @@ export default function CurrencyItem({ country, amount }: CurrencyItemProps) {
       },
     })
   ).current;
+
+  const handleDelete = () => {
+    translateX.setValue(0);
+    removeCountry(country);
+  };
   return (
     <View
       testID={`dropdown-item-${country.country}`}
@@ -67,7 +72,7 @@ export default function CurrencyItem({ country, amount }: CurrencyItemProps) {
         </View>
         <Pressable
           className='absolute items-center justify-center w-20 h-full p-2 bg-red-500 -right-24'
-          onPress={() => removeCountry(country)}
+          onPress={handleDelete}
         >
           <Text className='font-semibold text-center color-white'>Delete</Text>
         </Pressable>

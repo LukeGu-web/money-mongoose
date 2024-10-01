@@ -37,7 +37,7 @@ export default function CurrencyConvertor() {
     setAmount(amount);
   };
   return (
-    <View className='items-start justify-start flex-1 w-full gap-2'>
+    <View className='items-start justify-start flex-1 w-full gap-2 mt-2'>
       <CurrencyDropdown amount={amount} base={base} onChange={handleChange} />
       <View className='self-center py-2'>
         <MaterialIcons name='currency-exchange' size={32} color='#facc15' />
