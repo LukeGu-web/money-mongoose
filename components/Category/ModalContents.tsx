@@ -11,6 +11,7 @@ type SubCategoryProps = {
 
 type CustomCategoryProps = {
   onClose: () => void;
+  onCustom: (category: string, subcategory: string) => void;
 };
 
 export function Subcategory({ subcategory, onClose }: SubCategoryProps) {
@@ -45,7 +46,7 @@ export function Subcategory({ subcategory, onClose }: SubCategoryProps) {
   );
 }
 
-export function CustomCategory({ onClose }: CustomCategoryProps) {
+export function CustomCategory({ onClose, onCustom }: CustomCategoryProps) {
   const theme = useSettingStore((state) => state.theme);
   const {
     control,
@@ -58,7 +59,7 @@ export function CustomCategory({ onClose }: CustomCategoryProps) {
     },
   });
   const onSubmit = handleSubmit((data) => {
-    console.log(data);
+    onCustom(data.category, data.subcategory);
   });
   return (
     <View className='items-center w-11/12 gap-4 p-6 bg-white rounded-lg dark:bg-zinc-600'>

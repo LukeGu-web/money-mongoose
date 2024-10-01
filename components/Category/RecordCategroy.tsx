@@ -14,7 +14,7 @@ import expenseCategory from 'static/record-expense-category.json';
 import incomeCategory from 'static/record-income-category.json';
 
 export default function RecordCategory() {
-  const { control, getValues, setValue } = useFormContext();
+  const { control, getValues, setValue, resetField } = useFormContext();
   const [subcategory, setSubcategory] = useState<string[]>([]);
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [isCustom, setIsCustom] = useState<boolean>(false);
@@ -23,6 +23,7 @@ export default function RecordCategory() {
 
   const handleCategory = (item: string, hasSubcategory: boolean) => {
     setValue('category', item, { shouldValidate: true });
+    resetField('subcategory');
     setIsVisible(hasSubcategory);
     setIsCustom(false);
     if (hasSubcategory) {
@@ -34,9 +35,16 @@ export default function RecordCategory() {
     }
   };
 
-  const handleCustom = () => {
+  const handleOpenCustom = () => {
     setIsVisible(true);
     setIsCustom(true);
+  };
+
+  const handleCustomCategory = (category: string, subcategory: string) => {
+    console.log(category, subcategory);
+    setValue('category', category);
+    setValue('subcategory', subcategory);
+    setIsVisible(false);
   };
 
   return (
@@ -59,7 +67,7 @@ export default function RecordCategory() {
             <IconTable
               data={category}
               onSelect={handleCategory}
-              onSetCustom={handleCustom}
+              onSetCustom={handleOpenCustom}
             />
           )}
           name='category'
@@ -79,7 +87,10 @@ export default function RecordCategory() {
             style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
           >
             {isCustom ? (
-              <CustomCategory onClose={() => setIsVisible(false)} />
+              <CustomCategory
+                onClose={() => setIsVisible(false)}
+                onCustom={handleCustomCategory}
+              />
             ) : (
               <Subcategory
                 subcategory={subcategory}
