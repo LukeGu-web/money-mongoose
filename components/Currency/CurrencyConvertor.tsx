@@ -11,7 +11,7 @@ import ExchangeList from './ExchangeList';
 
 const getCurrencies = async (base: string) => {
   const response = await axios.get(
-    `https://v6.exchangerate-api.com/v6/5872f89cab9e8d980b25bf0a/latest/${base}`
+    `https://v6.exchangerate-api.com/v6/${process.env.EXPO_PUBLIC_CURRENCY_API_KEY}/latest/${base}`
   );
   return response.data;
 };
