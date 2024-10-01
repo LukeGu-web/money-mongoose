@@ -61,12 +61,14 @@ export default function DigitalPad({ onSubmit }: DigitalPadProps) {
               }
               break;
             case 1:
-              amount = num - Number(decimal[0]) / 10;
+              if (Number(decimal[0]) > 0)
+                amount = num - Number(decimal[0]) / 10;
               setDecimalLength(0);
               setIsDecimal(false);
               break;
             case 2:
-              amount = Number((num - Number(decimal[1]) / 100).toFixed(2));
+              if (Number(decimal[1]) > 0)
+                amount = Number((num - Number(decimal[1]) / 100).toFixed(2));
               setDecimalLength(1);
               break;
           }

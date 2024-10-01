@@ -86,7 +86,7 @@ export default function CurrencyDropdown({
           <MaterialIcons name='search' size={24} color={iconColor} />
           <TextInput
             autoFocus
-            className='flex-grow '
+            className='flex-grow dark:color-white'
             placeholder='select a country'
             placeholderTextColor='#a1a1aa'
             value={value}

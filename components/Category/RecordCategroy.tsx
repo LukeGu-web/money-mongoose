@@ -10,6 +10,7 @@ import {
 import { useFormContext, Controller } from 'react-hook-form';
 import IconTable from './IconTable';
 import Icon from '../Icon/Icon';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 import { RecordTypes } from 'api/record/types';
 import { useSettingStore } from 'core/stateHooks';
@@ -60,6 +61,7 @@ export default function RecordCategory() {
           render={() => <IconTable data={category} onSelect={handleCategory} />}
           name='category'
         />
+        <MaterialIcons name='add' size={24} color='white' />
       </ScrollView>
       <Modal
         animationType='slide'

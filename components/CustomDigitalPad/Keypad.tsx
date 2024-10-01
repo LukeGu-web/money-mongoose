@@ -15,6 +15,7 @@ export default function Keypad({ onKeyInput }: KeypadProps) {
       numColumns={4} // set number of columns
       keyExtractor={(_, index) => index.toString()}
       renderItem={({ item }) => {
+        const isSave = item === 'save';
         const isTax = item === 'tax' && getValues('is_marked_tax_return');
         const isDisabled =
           getValues('type') !== RecordTypes.EXPENSE && item === 'tax';
@@ -22,7 +23,9 @@ export default function Keypad({ onKeyInput }: KeypadProps) {
           <Pressable onPress={() => onKeyInput(item)} disabled={isDisabled}>
             <View
               className={`items-center justify-center w-24 h-16 m-1 ${
-                isTax
+                isSave
+                  ? 'bg-green-200 dark:bg-green-400'
+                  : isTax
                   ? 'bg-amber-200 dark:bg-amber-400'
                   : 'bg-gray-100 dark:bg-gray-800'
               }  rounded-lg`}
