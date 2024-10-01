@@ -16,5 +16,6 @@
   "education": ["tuition", "books", "supplies", "workshops", "uniform"],
   "entertainment": ["movie", "sport", "music", "concerts", "gaming"],
   "pet": ["pet-food", "veterinary", "grooming", "toys"],
-  "others": []
+  "others": [],
+  "custom": []
 }

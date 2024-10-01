@@ -4,7 +4,11 @@ import { useSettingStore } from 'core/stateHooks';
 import Entypo from '@expo/vector-icons/Entypo';
 import Icon from '../Icon/CIcon';
 
-export default function IconTable({ data, onSelect }: IconTableProps) {
+export default function IconTable({
+  data,
+  onSelect,
+  onSetCustom,
+}: IconTableProps) {
   const theme = useSettingStore((state) => state.theme);
   const {
     getValues,
@@ -23,6 +27,38 @@ export default function IconTable({ data, onSelect }: IconTableProps) {
         errors.category ? 'border-red-500' : 'border-white dark:border-black'
       } `}
       renderItem={({ item }) => {
+        if (item === 'custom' && onSetCustom)
+          return (
+            <Pressable onPress={() => onSetCustom()}>
+              <View
+                className={`items-center justify-center m-4 rounded-full w-14 h-14 ${
+                  item === getValues('category')
+                    ? 'bg-amber-200 dark:bg-amber-400'
+                    : 'bg-transparent'
+                }`}
+              >
+                <View className='border-2 border-dotted rounded-lg border-primary dark:border-sky-100'>
+                  <Entypo
+                    name='plus'
+                    size={30}
+                    color={theme === 'dark' ? '#e0f2fe' : '#1e1b4b'}
+                  />
+                </View>
+              </View>
+              <View className='items-center -mt-1'>
+                <Text className='text-xs dark:color-white'>{item}</Text>
+                <Text
+                  className='dark:color-white'
+                  style={{ fontSize: 8, opacity: 0.9 }}
+                >
+                  {item === getValues('category')
+                    ? getValues('subcategory')
+                    : ''}
+                </Text>
+              </View>
+            </Pressable>
+          );
+
         const hasSubcategory = !isArray && data[item].length > 0;
         return (
           <Pressable onPress={() => onSelect(item, hasSubcategory)}>
@@ -68,4 +104,5 @@ type IconTableProps = {
         [key: string]: string[];
       };
   onSelect: (item: string, hasSubcategory: boolean) => void;
+  onSetCustom?: () => void;
 };
