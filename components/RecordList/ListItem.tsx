@@ -1,6 +1,8 @@
 import { View, Text, Pressable } from 'react-native';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import Entypo from '@expo/vector-icons/Entypo';
+import allCategories from 'static/categories.json';
 import Icon from '../Icon/CIcon';
 
 import { AssetType } from 'api/types';
@@ -74,12 +76,20 @@ export default function ListItem({ item, flatAssets, onPress }: ListItemProps) {
       ) : (
         <View className='flex-row flex-1 gap-2'>
           <View className='items-start justify-center w-1/6'>
-            <Icon
-              // @ts-ignore: ignore json type
-              name={`c-${item.category}`}
-              size={28}
-              color={theme === 'dark' ? 'white' : 'black'}
-            />
+            {!allCategories.includes(item.category) ? (
+              <Entypo
+                name='new'
+                size={28}
+                color={theme === 'dark' ? 'white' : 'black'}
+              />
+            ) : (
+              <Icon
+                // @ts-ignore: ignore json type
+                name={`c-${item.category}`}
+                size={28}
+                color={theme === 'dark' ? 'white' : 'black'}
+              />
+            )}
             {item.is_marked_tax_return && (
               <MaterialCommunityIcons
                 className='absolute -bottom-2 -left-2'
