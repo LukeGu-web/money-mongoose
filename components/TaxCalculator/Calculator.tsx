@@ -51,6 +51,7 @@ export default function TaxCalculator() {
             onChangeText={(value) => setSalary(Number(value))}
             keyboardType='numeric'
             placeholder='Enter salary'
+            placeholderTextColor='#a1a1aa'
           />
         </View>
 
@@ -78,6 +79,7 @@ export default function TaxCalculator() {
             onChangeText={(value) => setSuperRate(Number(value))}
             keyboardType='numeric'
             placeholder='Enter superannuation rates'
+            placeholderTextColor='#a1a1aa'
           />
           <Text>%</Text>
         </View>

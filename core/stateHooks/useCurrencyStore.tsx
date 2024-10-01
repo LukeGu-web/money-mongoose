@@ -22,7 +22,6 @@ const useCurrencyStore = create<CurrencyState>()(
         },
         removeCountry: (country) => {
           set((state) => {
-            state.list.push(country);
             const index = state.list.findIndex(
               (item) => item.country === country.country
             );

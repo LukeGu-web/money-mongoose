@@ -113,6 +113,7 @@ export default function SelectGroupBottomSheet({
                 <TextInput
                   className='w-11/12 p-3 border-2 rounded-lg'
                   placeholder='Enter the group name'
+                  placeholderTextColor='#a1a1aa'
                   onBlur={onBlur}
                   onChangeText={onChange}
                   value={value}

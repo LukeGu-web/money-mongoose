@@ -154,6 +154,7 @@ export default function BudgetCard({ monthExpense }: BudgetCardProps) {
                     <TextInput
                       className='w-full p-3 border-2 rounded-lg border-zinc-600'
                       placeholder='Please enter the budget amount'
+                      placeholderTextColor='#a1a1aa'
                       keyboardType='numeric'
                       autoFocus={true}
                       onBlur={onBlur}

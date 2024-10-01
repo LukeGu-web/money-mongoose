@@ -50,6 +50,7 @@ export default function AssetAccountBasicForm() {
               inputAccessoryViewID={inputAccessoryCreateBtnID}
               ref={nameRef}
               placeholder='Enter the amount name'
+              placeholderTextColor='#a1a1aa'
               onBlur={onBlur}
               onChangeText={onChange}
               value={value}

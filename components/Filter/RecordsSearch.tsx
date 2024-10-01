@@ -10,6 +10,7 @@ export default function RecordsSearch({ onSearch }: RecordsSearchProps) {
       <TextInput
         className='flex-1 p-2 bg-white rounded-lg'
         placeholder='search'
+        placeholderTextColor='#a1a1aa'
         returnKeyType='search'
         autoFocus={true}
         clearButtonMode='while-editing'

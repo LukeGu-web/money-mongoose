@@ -74,6 +74,7 @@ export default function Dropdown({
           <TextInput
             className='flex-grow '
             placeholder={placeholder}
+            placeholderTextColor='#a1a1aa'
             clearButtonMode='while-editing'
             value={value}
             onChangeText={onSearching}

@@ -55,6 +55,7 @@ export default function AssetAccountOtherForm() {
               multiline={true}
               numberOfLines={6}
               placeholder='Enter a note'
+              placeholderTextColor='#a1a1aa'
               onBlur={onBlur}
               onChangeText={onChange}
               value={value}

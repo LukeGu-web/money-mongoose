@@ -44,6 +44,7 @@ export default function AssetCreditForm() {
               inputAccessoryViewID={inputAccessoryCreateBtnID}
               ref={creditRef}
               placeholder='0.00'
+              placeholderTextColor='#a1a1aa'
               keyboardType='numeric'
               onBlur={onBlur}
               onChangeText={onChange}

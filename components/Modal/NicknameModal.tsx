@@ -60,6 +60,7 @@ export default function NicknameModal({
           <TextInput
             className='w-full p-3 border-2 rounded-lg border-zinc-600'
             placeholder='Please enter your nickname'
+            placeholderTextColor='#a1a1aa'
             autoFocus={true}
             onChangeText={(value) => setNickname(value)}
             value={nickname}

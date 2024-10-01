@@ -11,6 +11,7 @@ import CountryFlag from 'react-native-country-flag';
 import { MaterialIcons } from '@expo/vector-icons';
 import CurrencyItem from './CurrencyItem';
 import { CountryType } from './types';
+import { useSettingStore } from 'core/stateHooks';
 import countryData from 'static/country-by-currency-code.json';
 
 type CurrencyDropdownProps = {
@@ -26,6 +27,8 @@ export default function CurrencyDropdown({
   countryOnly = false,
   onChange,
 }: CurrencyDropdownProps) {
+  const theme = useSettingStore((state) => state.theme);
+  const iconColor = theme === 'dark' ? '#e5e7eb' : '#9ca3af';
   const [country, setCountry] = useState<CountryType>(base);
   const [value, setValue] = useState<string>('');
   const [amount, setAmount] = useState<string>(String(baseAmount));
@@ -80,24 +83,25 @@ export default function CurrencyDropdown({
     <View className='w-full'>
       {isDropdownOpen ? (
         <View className='flex-row gap-2 p-2 border-2 border-blue-400 rounded-lg min-h-8'>
-          <MaterialIcons name='search' size={24} color='#9ca3af' />
+          <MaterialIcons name='search' size={24} color={iconColor} />
           <TextInput
             autoFocus
             className='flex-grow '
             placeholder='select a country'
+            placeholderTextColor='#a1a1aa'
             value={value}
             onChangeText={onSearching}
           />
           <MaterialIcons
             name='close'
             size={24}
-            color='#9ca3af'
+            color={iconColor}
             onPress={resetCountry}
           />
           <MaterialIcons
             name='keyboard-arrow-up'
             size={24}
-            color='#9ca3af'
+            color={iconColor}
             onPress={() => onDropdownToggle(false)}
           />
         </View>
@@ -115,7 +119,7 @@ export default function CurrencyDropdown({
               <MaterialIcons
                 name='keyboard-arrow-down'
                 size={24}
-                color='#9ca3af'
+                color={iconColor}
               />
             </Pressable>
           ) : (
@@ -125,19 +129,20 @@ export default function CurrencyDropdown({
                 onPress={() => onDropdownToggle(true)}
               >
                 <CountryFlag isoCode={country.iso2} size={24} />
-                <Text className={`flex-grow font-medium`}>
+                <Text className={`flex-grow font-medium dark:color-white`}>
                   {country.currency_code}
                 </Text>
                 <MaterialIcons
                   name='keyboard-arrow-down'
                   size={24}
-                  color='#9ca3af'
+                  color={iconColor}
                 />
               </Pressable>
               <TextInput
-                className='flex-1 px-2 text-right'
+                className='flex-1 px-2 text-right dark:color-white'
                 clearButtonMode='while-editing'
                 placeholder='enter amount'
+                placeholderTextColor='#a1a1aa'
                 keyboardType='numeric'
                 value={amount}
                 onChangeText={setAmount}
