@@ -3,6 +3,8 @@ import {
   View,
   ScrollView,
   TouchableWithoutFeedback,
+  KeyboardAvoidingView,
+  Platform,
   Modal,
 } from 'react-native';
 import { useFormContext, Controller } from 'react-hook-form';
@@ -18,6 +20,7 @@ export default function RecordCategory() {
   const [subcategory, setSubcategory] = useState<string[]>([]);
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [isCustom, setIsCustom] = useState<boolean>(false);
+  const keyboardVerticalOffset = Platform.OS === 'ios' ? -60 : 0;
   const category =
     getValues('type') === RecordTypes.INCOME ? incomeCategory : expenseCategory;
 
@@ -82,7 +85,9 @@ export default function RecordCategory() {
         }}
       >
         <TouchableWithoutFeedback onPress={() => setIsVisible(false)}>
-          <View
+          <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            keyboardVerticalOffset={keyboardVerticalOffset}
             className='items-center justify-center h-full'
             style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
           >
@@ -97,7 +102,7 @@ export default function RecordCategory() {
                 onClose={() => setIsVisible(false)}
               />
             )}
-          </View>
+          </KeyboardAvoidingView>
         </TouchableWithoutFeedback>
       </Modal>
     </View>

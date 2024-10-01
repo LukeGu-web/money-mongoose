@@ -40,6 +40,7 @@ export default function IconTable({
       } `}
       renderItem={({ item }) => {
         if (item === 'custom' && onSetCustom) {
+          const isSelected = isCustom && getValues('category');
           const handlePressCustom = () => {
             resetField('category');
             onSetCustom();
@@ -49,11 +50,12 @@ export default function IconTable({
             <Pressable onPress={handlePressCustom}>
               <View
                 className={`items-center justify-center m-4 rounded-full w-14 h-14 ${
-                  // item === getValues('category')
-                  isCustom ? 'bg-amber-200 dark:bg-amber-400' : 'bg-transparent'
+                  isSelected
+                    ? 'bg-amber-200 dark:bg-amber-400'
+                    : 'bg-transparent'
                 }`}
               >
-                {isCustom && getValues('category') ? (
+                {isSelected ? (
                   <Entypo
                     name='new'
                     size={30}
@@ -71,9 +73,7 @@ export default function IconTable({
               </View>
               <View className='items-center -mt-1'>
                 <Text className='text-xs dark:color-white'>
-                  {isCustom && getValues('category')
-                    ? getValues('category')
-                    : item}
+                  {isSelected ? getValues('category') : item}
                 </Text>
                 <Text
                   className='dark:color-white'
