@@ -86,15 +86,15 @@ export default function AssetGroupModal({
         className='items-center justify-center h-full'
         style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
       >
-        <View className='items-center w-11/12 gap-6 p-6 bg-white rounded-lg'>
-          <Text className='text-3xl'>
+        <View className='items-center w-11/12 gap-6 p-6 bg-white rounded-lg dark:bg-zinc-600'>
+          <Text className='text-3xl dark:color-white'>
             {name === '' ? 'Create' : 'Edit'} Group
           </Text>
           <Controller
             control={control}
             render={({ field: { onChange, onBlur, value } }) => (
               <TextInput
-                className='w-11/12 p-3 border-2 rounded-lg'
+                className='w-11/12 p-3 border-2 rounded-lg border-zinc-600 dark:border-zinc-200 dark:color-white'
                 placeholder='Enter the group name'
                 placeholderTextColor='#a1a1aa'
                 autoFocus={true}
@@ -106,15 +106,20 @@ export default function AssetGroupModal({
             name='name'
           />
           <View className='flex-row justify-between w-4/5'>
-            <Button color='gray' title='Cancel' onPress={handleCancel} />
             <Pressable
-              className='items-center justify-center w-2/5 p-2 bg-yellow-300 rounded-lg'
+              onPress={handleCancel}
+              className='items-center justify-center px-6 py-2 bg-gray-400 rounded-lg '
+            >
+              <Text className='text-xl color-white'>Cancel</Text>
+            </Pressable>
+            <Pressable
+              className='items-center justify-center px-6 py-2 rounded-lg bg-amber-400'
               onPress={handleConfirm}
             >
               {isCreating || isUpdating ? (
-                <ActivityIndicator size='small' />
+                <ActivityIndicator size='small' color='#fff' />
               ) : (
-                <Text className='font-semibold'>Confirm</Text>
+                <Text className='text-xl color-white'>Confirm</Text>
               )}
             </Pressable>
           </View>

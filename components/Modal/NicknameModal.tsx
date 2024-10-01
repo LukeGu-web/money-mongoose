@@ -55,10 +55,10 @@ export default function NicknameModal({
         className='items-center justify-center h-full'
         style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
       >
-        <View className='items-center w-11/12 gap-6 p-6 bg-white rounded-lg'>
-          <Text className='text-3xl'>Change Nickname</Text>
+        <View className='items-center w-11/12 gap-6 p-6 bg-white rounded-lg dark:bg-zinc-600'>
+          <Text className='text-3xl dark:color-white'>Change Nickname</Text>
           <TextInput
-            className='w-full p-3 border-2 rounded-lg border-zinc-600'
+            className='w-full p-3 border-2 rounded-lg border-zinc-600 dark:color-white dark:border-zinc-200'
             placeholder='Please enter your nickname'
             placeholderTextColor='#a1a1aa'
             autoFocus={true}

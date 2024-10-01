@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
-import { View, Text, Modal, TextInput, Button } from 'react-native';
+import {
+  ActivityIndicator,
+  View,
+  Text,
+  Modal,
+  TextInput,
+  Pressable,
+} from 'react-native';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { useForm, useFormContext, Controller } from 'react-hook-form';
 import { PickerIOS } from '@react-native-picker/picker';
@@ -28,7 +35,7 @@ export default function SelectGroupBottomSheet({
   const { data } = useGetGroupedAssets({
     variables: { book_id: currentBook.id },
   });
-  const { mutate: addAssetGroupApi } = useCreateAssetGroup();
+  const { mutate: addAssetGroupApi, isPending } = useCreateAssetGroup();
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
   const { setValue } = useFormContext();
@@ -105,13 +112,13 @@ export default function SelectGroupBottomSheet({
           className='items-center justify-center h-full'
           style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
         >
-          <View className='items-center w-11/12 gap-6 p-6 bg-white rounded-lg'>
-            <Text style={{ fontSize: 24 }}>Group Name</Text>
+          <View className='items-center w-11/12 gap-6 p-6 bg-white rounded-lg dark:bg-zinc-600'>
+            <Text className='text-3xl dark:color-white'>Group Name</Text>
             <Controller
               control={control}
               render={({ field: { onChange, onBlur, value } }) => (
                 <TextInput
-                  className='w-11/12 p-3 border-2 rounded-lg'
+                  className='w-11/12 p-3 border-2 rounded-lg border-zinc-600 dark:color-white dark:border-zinc-200'
                   placeholder='Enter the group name'
                   placeholderTextColor='#a1a1aa'
                   onBlur={onBlur}
@@ -122,8 +129,25 @@ export default function SelectGroupBottomSheet({
               name='name'
             />
             <View className='flex-row w-11/12 justify-evenly'>
-              <Button color='gray' title='Cancel' onPress={handleCancel} />
-              <Button title='Confirm' onPress={handleConfirm} />
+              {/* <Button color='gray' title='Cancel' onPress={handleCancel} />
+              <Button title='Confirm' onPress={handleConfirm} /> */}
+              <Pressable
+                onPress={handleCancel}
+                className='items-center justify-center px-6 py-2 bg-gray-400 rounded-lg '
+              >
+                <Text className='text-xl color-white'>Cancel</Text>
+              </Pressable>
+              <Pressable
+                disabled={isPending}
+                onPress={handleConfirm}
+                className='items-center justify-center px-6 py-2 rounded-lg bg-amber-400'
+              >
+                {isPending ? (
+                  <ActivityIndicator size='small' color='#fff' />
+                ) : (
+                  <Text className='text-xl color-white'>Confirm</Text>
+                )}
+              </Pressable>
             </View>
           </View>
         </View>

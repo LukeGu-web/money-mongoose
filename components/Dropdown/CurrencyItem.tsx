@@ -11,10 +11,10 @@ export default function CurrencyItem({ item, onSelect }: CurrencyItemProps) {
       onPress={() => onSelect(item)}
     >
       <CountryFlag isoCode={item.iso2} size={24} />
-      <Text className='flex-1 px-3 font-medium color-zinc-700'>
+      <Text className='flex-1 px-3 font-medium color-zinc-700 dark:color-white'>
         {item.country}
       </Text>
-      <Text className='flex-1 px-3 font-medium color-blue-500'>
+      <Text className='flex-1 px-3 font-medium color-blue-500 dark:color-yellow-300'>
         {item.currency_code}
       </Text>
     </Pressable>

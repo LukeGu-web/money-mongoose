@@ -142,34 +142,45 @@ export default function BudgetCard({ monthExpense }: BudgetCardProps) {
           className='items-center justify-center h-full'
           style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
         >
-          <View className='items-center w-11/12 gap-6 p-6 bg-white rounded-lg'>
-            <Text className='text-3xl'>Monthly Budget</Text>
-            {isPending ? (
-              <ActivityIndicator size='large' />
-            ) : (
-              <View className='items-center w-full gap-4'>
-                <Controller
-                  control={control}
-                  render={({ field: { onChange, onBlur, value } }) => (
-                    <TextInput
-                      className='w-full p-3 border-2 rounded-lg border-zinc-600'
-                      placeholder='Please enter the budget amount'
-                      placeholderTextColor='#a1a1aa'
-                      keyboardType='numeric'
-                      autoFocus={true}
-                      onBlur={onBlur}
-                      onChangeText={onChange}
-                      value={value}
-                    />
+          <View className='items-center w-11/12 gap-6 p-6 bg-white rounded-lg dark:bg-zinc-600'>
+            <Text className='text-3xl dark:color-white'>Monthly Budget</Text>
+            <View className='items-center w-full gap-4'>
+              <Controller
+                control={control}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    className='w-full p-3 border-2 rounded-lg border-zinc-600 dark:color-white dark:border-zinc-200'
+                    placeholder='Please enter the budget amount'
+                    placeholderTextColor='#a1a1aa'
+                    keyboardType='numeric'
+                    autoFocus={true}
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                )}
+                name='amount'
+              />
+              <View className='flex-row w-4/5 justify-evenly'>
+                <Pressable
+                  onPress={handleCancel}
+                  className='items-center justify-center px-6 py-2 bg-gray-400 rounded-lg '
+                >
+                  <Text className='text-xl color-white'>Cancel</Text>
+                </Pressable>
+                <Pressable
+                  disabled={isPending}
+                  onPress={handleConfirm}
+                  className='items-center justify-center px-6 py-2 rounded-lg bg-amber-400'
+                >
+                  {isPending ? (
+                    <ActivityIndicator size='small' color='#fff' />
+                  ) : (
+                    <Text className='text-xl color-white'>Confirm</Text>
                   )}
-                  name='amount'
-                />
-                <View className='flex-row w-4/5 justify-evenly'>
-                  <Button color='gray' title='Cancel' onPress={handleCancel} />
-                  <Button title='Confirm' onPress={handleConfirm} />
-                </View>
+                </Pressable>
               </View>
-            )}
+            </View>
           </View>
         </View>
       </Modal>

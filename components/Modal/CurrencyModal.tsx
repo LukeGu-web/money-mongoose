@@ -46,8 +46,8 @@ export default function CurrencyModal({
         className='items-center justify-center h-full'
         style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
       >
-        <View className='items-center w-11/12 gap-6 p-6 bg-white rounded-lg'>
-          <Text className='text-3xl'>Select Currency</Text>
+        <View className='items-center w-11/12 gap-6 p-6 bg-white rounded-lg dark:bg-zinc-600'>
+          <Text className='text-3xl dark:color-white'>Select Currency</Text>
           <CurrencyDropdown
             base={{
               country: 'Australia',

@@ -113,7 +113,7 @@ export default function CurrencyDropdown({
               onPress={() => onDropdownToggle(true)}
             >
               <CountryFlag isoCode={country.iso2} size={24} />
-              <Text className={`flex-grow font-medium`}>
+              <Text className={`flex-grow font-medium dark:color-white`}>
                 {country.currency_code}
               </Text>
               <MaterialIcons
