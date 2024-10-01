@@ -47,7 +47,7 @@ export const GoalProcess = ({
               ? 'lightcoral'
               : targetText > 60
               ? 'navajowhite'
-              : 'lightblue'
+              : '#60a5fa'
           }
           style='stroke'
           strokeJoin='round'
@@ -64,7 +64,7 @@ export const GoalProcess = ({
               ? 'lightcoral'
               : targetText > 60
               ? 'navajowhite'
-              : 'lightblue'
+              : '#60a5fa'
           }
           style='stroke'
           strokeJoin='round'

@@ -14,7 +14,7 @@ export default function DrawerContent(props: any) {
   const user = useUserStore((state) => state.user);
   const theme = useSettingStore((state) => state.theme);
   const { name } = useBookStore((state) => state.currentBook);
-  const iconColor = theme === 'dark' ? '#60a5fa' : '#03045E';
+  const iconColor = theme === 'dark' ? '#0891b2' : '#03045E';
   const labelColor = theme === 'dark' ? '#fff' : '#000';
   return (
     <DrawerContentScrollView
@@ -23,7 +23,7 @@ export default function DrawerContent(props: any) {
       scrollEnabled={false}
       contentContainerStyle={{
         flex: 1,
-        backgroundColor: theme === 'dark' ? '#4f46e5' : '#6cd4ff',
+        backgroundColor: theme === 'dark' ? '#164e63' : '#6cd4ff',
       }}
     >
       <View className='items-center gap-4 my-8'>
