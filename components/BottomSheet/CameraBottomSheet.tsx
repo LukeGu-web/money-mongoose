@@ -73,7 +73,9 @@ export default function CameraBottomSheet({
       ) : (
         <View className='items-center justify-center flex-1 w-full px-6'>
           <View className='flex-row items-center w-full gap-2 px-4'>
-            <Text className='text-2xl font-semibold'>Select Picture</Text>
+            <Text className='text-2xl font-semibold dark:color-white'>
+              Select Picture
+            </Text>
           </View>
           <View className='items-start flex-1 w-full gap-4 mt-6'>
             <Pressable

@@ -14,16 +14,19 @@ const timeData = [1, 5, 10];
 export default function LockTimeBottomSheet({
   bottomSheetModalRef,
 }: LockTimeBottomSheetProps) {
-  const { lockTime, setLockTime } = useSettingStore(
+  const { lockTime, setLockTime, theme } = useSettingStore(
     useShallow((state) => ({
       lockTime: state.lockTime,
       setLockTime: state.setLockTime,
+      theme: state.theme,
     }))
   );
   return (
     <BottomSheet bottomSheetModalRef={bottomSheetModalRef} height={240}>
       <View className='items-center flex-1 w-full gap-2 p-2'>
-        <Text className='text-xl font-semibold'>Select Lock Time</Text>
+        <Text className='text-xl font-semibold dark:color-white'>
+          Select Lock Time
+        </Text>
         <View className='items-center flex-1 w-full '>
           <PickerIOS
             selectedValue={lockTime}
@@ -31,6 +34,7 @@ export default function LockTimeBottomSheet({
               setLockTime(itemValue as number);
             }}
             style={{ flex: 1, width: '100%' }}
+            itemStyle={{ color: theme === 'dark' ? 'white' : 'black' }}
           >
             {timeData.map((item, index) => (
               <PickerIOS.Item

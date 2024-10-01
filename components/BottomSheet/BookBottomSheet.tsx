@@ -85,7 +85,9 @@ export default function BookBottomSheet({
       ) : (
         <View className='items-center justify-between w-full gap-4 px-4'>
           <View className='flex-row w-full p-4'>
-            <Text className='text-2xl font-bold'>{book.name}</Text>
+            <Text className='text-2xl font-bold dark:color-white'>
+              {book.name}
+            </Text>
           </View>
           <View className='items-center justify-between w-full gap-4 px-4'>
             <Pressable

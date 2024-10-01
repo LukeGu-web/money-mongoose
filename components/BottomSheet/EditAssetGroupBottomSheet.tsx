@@ -23,15 +23,14 @@ export default function EditAssetGroupBottomSheet({
       height={height ?? 320}
     >
       <View className='items-center justify-between w-full gap-4 px-4'>
-        <Text className='text-2xl font-bold'>{title}</Text>
+        <Text className='text-2xl font-bold dark:color-white'>{title}</Text>
         <View className='w-full'>
           {Object.keys(functions).map((item, index) => (
             <Pressable
               key={item}
               className={`py-3 border-white border-2 rounded-lg ${
                 item === 'Delete' ? 'bg-red-500' : 'bg-blue-400'
-              }`}
-              style={{ borderColor: '#fff' }}
+              } border-white dark:border-zinc-600`}
               onPress={functions[item]}
             >
               <Text className='text-lg text-center color-white'>{item}</Text>
@@ -39,10 +38,10 @@ export default function EditAssetGroupBottomSheet({
           ))}
         </View>
         <Pressable
-          className='w-full py-3 border-2 border-gray-500 rounded-lg'
+          className='w-full py-3 border-2 border-gray-500 rounded-lg dark:border-gray-300'
           onPress={onCancel}
         >
-          <Text className='text-lg text-center'>Cancel</Text>
+          <Text className='text-lg text-center dark:color-white'>Cancel</Text>
         </Pressable>
       </View>
     </BottomSheet>

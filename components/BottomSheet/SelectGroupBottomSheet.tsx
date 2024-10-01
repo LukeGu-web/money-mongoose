@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   ActivityIndicator,
   View,
@@ -13,7 +13,7 @@ import { PickerIOS } from '@react-native-picker/picker';
 
 import { useGetGroupedAssets, useCreateAssetGroup } from 'api/asset';
 import { formatApiError } from 'api/errorFormat';
-import { useBookStore } from 'core/stateHooks';
+import { useBookStore, useSettingStore } from 'core/stateHooks';
 import log from 'core/logger';
 import BottomSheet from './BottomSheet';
 import Icon from '../Icon/Icon';
@@ -31,6 +31,7 @@ export default function SelectGroupBottomSheet({
   onChange,
   onDismiss,
 }: SelectGroupBottomSheetProps) {
+  const theme = useSettingStore((state) => state.theme);
   const currentBook = useBookStore((state) => state.currentBook);
   const { data } = useGetGroupedAssets({
     variables: { book_id: currentBook.id },
@@ -76,11 +77,13 @@ export default function SelectGroupBottomSheet({
       <View className='items-center justify-between flex-1 w-full gap-2 px-2'>
         <View className='flex-row items-center justify-between w-full px-3'>
           <View style={{ width: 30 }}></View>
-          <Text className='text-xl font-bold'>Select Group</Text>
+          <Text className='text-xl font-bold dark:color-white'>
+            Select Group
+          </Text>
           <Icon
             name='plus-box-multiple'
             size={24}
-            color='black'
+            color={theme === 'dark' ? 'white' : 'black'}
             onPress={() => setIsVisible(true)}
           />
         </View>
@@ -89,6 +92,7 @@ export default function SelectGroupBottomSheet({
             selectedValue={value}
             onValueChange={onChange}
             style={{ flex: 1, width: '100%' }}
+            itemStyle={{ color: theme === 'dark' ? 'white' : 'black' }}
           >
             {data?.groups.map((item) => (
               <PickerIOS.Item

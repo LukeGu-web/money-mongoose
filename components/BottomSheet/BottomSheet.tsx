@@ -5,6 +5,7 @@ import {
   BottomSheetView,
   BottomSheetBackdrop,
 } from '@gorhom/bottom-sheet';
+import { useSettingStore } from 'core/stateHooks';
 
 type RecordBottomSheetProps = {
   bottomSheetModalRef: RefObject<BottomSheetModal>;
@@ -19,6 +20,7 @@ export default function BottomSheet({
   height,
   onDismiss,
 }: RecordBottomSheetProps) {
+  const theme = useSettingStore((state) => state.theme);
   const { bottom: bottomSafeArea } = useSafeAreaInsets();
 
   const snapPoints = useMemo(
@@ -26,12 +28,14 @@ export default function BottomSheet({
     [bottomSafeArea]
   );
 
-  // const handleSheetChanges = useCallback((index: number) => {
-  //   log.success('handleSheetChanges', index);
-  // }, []);
-
   return (
     <BottomSheetModal
+      backgroundStyle={{
+        backgroundColor: theme === 'dark' ? '#52525b' : 'white',
+      }}
+      handleIndicatorStyle={{
+        backgroundColor: theme === 'dark' ? '#f4f4f5' : 'black',
+      }}
       ref={bottomSheetModalRef}
       index={1}
       snapPoints={snapPoints}

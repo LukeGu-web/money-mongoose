@@ -3,7 +3,7 @@ import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { PickerIOS } from '@react-native-picker/picker';
 
 import { useGetFlatAssets } from 'api/asset';
-import { useBookStore } from 'core/stateHooks';
+import { useBookStore, useSettingStore } from 'core/stateHooks';
 import BottomSheet from './BottomSheet';
 import { AssetType } from 'api/types';
 
@@ -18,6 +18,7 @@ export default function SelectAssetBottomSheet({
   bottomSheetModalRef,
   onChange,
 }: SelectAssetBottomSheetProps) {
+  const theme = useSettingStore((state) => state.theme);
   const currentBook = useBookStore((state) => state.currentBook);
   const { data, isPending, isError } = useGetFlatAssets({
     variables: { book_id: currentBook.id },
@@ -34,13 +35,16 @@ export default function SelectAssetBottomSheet({
     <BottomSheet bottomSheetModalRef={bottomSheetModalRef} height={280}>
       <View className='items-center justify-between w-full gap-4 px-4'>
         <View className='flex-row w-full p-4'>
-          <Text className='text-2xl font-bold'>Select Account</Text>
+          <Text className='text-2xl font-bold dark:color-white'>
+            Select Account
+          </Text>
         </View>
         <View className='items-start flex-1 w-full'>
           <PickerIOS
             selectedValue={value}
             onValueChange={handleSelectItem}
             style={{ flex: 1, width: '100%' }}
+            itemStyle={{ color: theme === 'dark' ? 'white' : 'black' }}
           >
             {data?.map((item) => (
               <PickerIOS.Item

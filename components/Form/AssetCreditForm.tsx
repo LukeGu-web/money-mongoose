@@ -5,7 +5,7 @@ import { BottomSheetModal } from '@gorhom/bottom-sheet';
 
 import Icon from '../Icon/Icon';
 import { inputAccessoryCreateBtnID } from './static';
-import PickerBottomSheet from 'components/BottomSheet/PickerBottomSheet';
+import DayPickerBottomSheet from '../BottomSheet/DayPickerBottomSheet';
 import monthlyDay from 'static/monthly-day.json';
 
 export default function AssetCreditForm() {
@@ -71,7 +71,7 @@ export default function AssetCreditForm() {
                   <Icon name='arrow-right' size={14} color='#bfc0c0' />
                 </View>
               )}
-              <PickerBottomSheet
+              <DayPickerBottomSheet
                 key='billDay'
                 bottomSheetModalRef={billDayRef}
                 data={monthlyDay}
@@ -100,7 +100,7 @@ export default function AssetCreditForm() {
                   <Icon name='arrow-right' size={14} color='#bfc0c0' />
                 </View>
               )}
-              <PickerBottomSheet
+              <DayPickerBottomSheet
                 key='repaymentDay'
                 bottomSheetModalRef={repayDayRef}
                 data={monthlyDay}

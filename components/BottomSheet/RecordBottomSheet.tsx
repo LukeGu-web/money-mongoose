@@ -5,7 +5,7 @@ import { RecordTypes } from 'api/record/types';
 import { useDeleteRecord } from 'api/record';
 import { formatApiError } from 'api/errorFormat';
 import log from 'core/logger';
-import { useRecord } from 'core/stateHooks';
+import { useRecord, useSettingStore } from 'core/stateHooks';
 import BottomSheet from './BottomSheet';
 import Icon from '../Icon/Icon';
 import CIcon from '../Icon/CIcon';
@@ -19,6 +19,7 @@ export default function RecordBottomSheet({
   bottomSheetModalRef,
   onDismiss,
 }: RecordBottomSheetProps) {
+  const theme = useSettingStore((state) => state.theme);
   const { mutate: deleteRecordApi } = useDeleteRecord();
   const { record, resetRecord, setRecord } = useRecord();
   const handleGoRecord = () => {
@@ -69,37 +70,51 @@ export default function RecordBottomSheet({
   return (
     <BottomSheet
       bottomSheetModalRef={bottomSheetModalRef}
-      height={160}
+      height={180}
       onDismiss={onDismiss}
     >
       <View className='items-center flex-1'>
-        <View className='flex-row items-center justify-between p-2 border-b-2'>
+        <View className='flex-row items-start justify-between h-24 p-2 border-b-2 dark:border-zinc-300'>
           <View className='items-center justify-center w-1/6'>
             <CIcon
               // @ts-ignore: ignore json type
               name={`c-${record.category}`}
               size={28}
-              color='#000'
+              color={theme === 'dark' ? 'white' : 'black'}
             />
           </View>
           <View className='flex-1'>
             <View className='flex-row'>
-              <Text className='text-lg font-bold'>{record.category}</Text>
+              <Text className='text-lg font-bold dark:color-white'>
+                {record.category}
+              </Text>
               {record.subcategory && (
-                <Text className='text-lg'>- {record.subcategory}</Text>
+                <Text className='text-lg dark:color-white'>
+                  - {record.subcategory}
+                </Text>
               )}
             </View>
             {record.is_marked_tax_return && (
-              <Text>Marked as Tax Return item</Text>
+              <Text className='dark:color-white'>
+                Marked as Tax Return item
+              </Text>
             )}
-            {record.note !== '' && <Text>{record.note}</Text>}
+            {record.note !== '' && (
+              <Text
+                className='dark:color-white'
+                numberOfLines={2}
+                ellipsizeMode='tail'
+              >
+                {record.note}
+              </Text>
+            )}
           </View>
           <View className='mr-4'>
-            <Text className={`font-bold `}>
+            <Text className={`font-bold dark:color-white`}>
               {Number(record.amount).toFixed(2)}
             </Text>
             {record.type !== RecordTypes.TRANSFER && (
-              <Text className='text-sm text-right'>
+              <Text className='text-sm text-right dark:color-white'>
                 {String(record.asset).split('-')[1]}
               </Text>
             )}
