@@ -1,33 +1,21 @@
 import { useState } from 'react';
 import { View } from 'react-native';
-import axios from 'axios';
-import { useQuery } from '@tanstack/react-query';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
+import { useCurrency } from 'api/extra';
 import { useCurrencyStore, useSettingStore } from 'core/stateHooks';
 import { CountryType } from '../Dropdown/types';
 import CurrencyDropdown from '../Dropdown/CurrencyDropdown';
 import ExchangeList from './ExchangeList';
 
-const getCurrencies = async (base: string) => {
-  const response = await axios.get(
-    `https://v6.exchangerate-api.com/v6/${process.env.EXPO_PUBLIC_CURRENCY_API_KEY}/latest/${base}`
-  );
-  return response.data;
-};
-
 export default function CurrencyConvertor() {
   const baseCurrency = useCurrencyStore((state) => state.baseCurrency);
   const [base, setBase] = useState<CountryType>(baseCurrency);
   const [amount, setAmount] = useState(1);
-  const {
-    data: currencies,
-    error,
-    isLoading,
-  } = useQuery({
-    queryKey: ['currencies', base],
-    queryFn: () => getCurrencies(base.currency_code),
+  const { data: currencies } = useCurrency({
+    variables: { currency_code: base.currency_code },
   });
+
   const theme = useSettingStore((state) => state.theme);
   const handleChange = (country: CountryType, amount: number) => {
     setBase(country);

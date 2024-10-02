@@ -10,13 +10,14 @@ import {
 import { useFormContext, Controller } from 'react-hook-form';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 
-import Keypad from './Keypad';
+import { useCurrency } from 'api/extra';
 import { formatter, currencySymbol } from 'core/utils';
 import { useCurrencyStore } from 'core/stateHooks';
 import symbol from 'static/currency-symbol.json';
 import { CountryType } from '../Dropdown/types';
 import CurrencyModal from '../Modal/CurrencyModal';
 import CameraBottomSheet from '../BottomSheet/CameraBottomSheet';
+import Keypad from './Keypad';
 
 type DigitalPadProps = {
   onSubmit: () => void;
@@ -34,10 +35,20 @@ export default function DigitalPad({ onSubmit }: DigitalPadProps) {
   const baseCurrency = useCurrencyStore((state) => state.baseCurrency);
   const keyboardVerticalOffset = Platform.OS === 'ios' ? -150 : 0;
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+
   const [decimalLength, setDecimalLength] = useState(0);
   const [isDecimal, setIsDecimal] = useState(false);
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [country, setCountry] = useState<CountryType | null>(null);
+
+  const { data: currencies, isFetched } = useCurrency({
+    variables: {
+      currency_code: !!country
+        ? country.currency_code
+        : baseCurrency.currency_code,
+    },
+    enabled: Boolean(country),
+  });
 
   useEffect(() => {
     if (Boolean(getValues('amount'))) {
@@ -95,6 +106,17 @@ export default function DigitalPad({ onSubmit }: DigitalPadProps) {
         setValue('is_marked_tax_return', !getValues('is_marked_tax_return'));
         break;
       case 'save':
+        if (Boolean(country)) {
+          setValue(
+            'amount',
+            Number(
+              formatter(
+                getValues('amount') *
+                  currencies.conversion_rates[baseCurrency.currency_code]
+              )
+            )
+          );
+        }
         onSubmit();
         break;
       default:
@@ -158,7 +180,13 @@ export default function DigitalPad({ onSubmit }: DigitalPadProps) {
               <Text className='color-zinc-400'>
                 {/* @ts-ignore: ignore json type */}
                 {symbol[baseCurrency.currency_code]}
-                {formatter(Math.abs(getValues('amount')))}
+                {isFetched &&
+                  formatter(
+                    Math.abs(
+                      getValues('amount') *
+                        currencies.conversion_rates[baseCurrency.currency_code]
+                    )
+                  )}
               </Text>
             )}
         </Pressable>
