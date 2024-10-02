@@ -1,4 +1,6 @@
 import { AssetType } from 'api/types';
+import symbol from 'static/currency-symbol.json';
+import { CountryType } from 'components/Dropdown/types';
 
 export function calculateDate(date: Date, days: number) {
   return new Date(date.setDate(date.getDate() + days))
@@ -27,3 +29,7 @@ export const formatAsset = (
   }
   return curentAsset;
 };
+
+export const currencySymbol = (country: CountryType) =>
+  /* @ts-ignore: ignore json type */
+  symbol[country.currency_code] ?? country.currency_code;

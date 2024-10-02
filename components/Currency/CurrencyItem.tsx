@@ -3,7 +3,7 @@ import { Animated, Text, View, Pressable, PanResponder } from 'react-native';
 import CountryFlag from 'react-native-country-flag';
 import { CountryType } from '../Dropdown/types';
 import { useCurrencyStore } from 'core/stateHooks';
-import symbol from 'static/currency-symbol.json';
+import { currencySymbol } from 'core/utils';
 
 type CurrencyItemProps = {
   country: CountryType;
@@ -66,8 +66,7 @@ export default function CurrencyItem({ country, amount }: CurrencyItemProps) {
             {country.currency_code}
           </Text>
           <Text className='flex-1 px-3 font-medium text-right color-zinc-700 dark:color-zinc-200'>
-            {/* @ts-ignore: ignore type */}
-            {symbol[country.currency_code]} {amount}
+            {currencySymbol(country)} {amount}
           </Text>
         </View>
         <Pressable

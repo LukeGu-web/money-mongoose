@@ -11,8 +11,12 @@ import { useFormContext, Controller } from 'react-hook-form';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 
 import Keypad from './Keypad';
-import { formatter } from 'core/utils';
-import CameraBottomSheet from 'components/BottomSheet/CameraBottomSheet';
+import { formatter, currencySymbol } from 'core/utils';
+import { useCurrencyStore } from 'core/stateHooks';
+import symbol from 'static/currency-symbol.json';
+import { CountryType } from '../Dropdown/types';
+import CurrencyModal from '../Modal/CurrencyModal';
+import CameraBottomSheet from '../BottomSheet/CameraBottomSheet';
 
 type DigitalPadProps = {
   onSubmit: () => void;
@@ -27,11 +31,13 @@ export default function DigitalPad({ onSubmit }: DigitalPadProps) {
     formState: { errors },
   } = useFormContext();
   watch(['amount']);
-
+  const baseCurrency = useCurrencyStore((state) => state.baseCurrency);
   const keyboardVerticalOffset = Platform.OS === 'ios' ? -150 : 0;
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const [decimalLength, setDecimalLength] = useState(0);
   const [isDecimal, setIsDecimal] = useState(false);
+  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const [country, setCountry] = useState<CountryType | null>(null);
 
   useEffect(() => {
     if (Boolean(getValues('amount'))) {
@@ -110,6 +116,11 @@ export default function DigitalPad({ onSubmit }: DigitalPadProps) {
     setValue('amount', amount);
   };
 
+  const handleChangeCurrency = (country: CountryType) => {
+    console.log('handleChangeCurrency: ', country);
+    setCountry(country);
+  };
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -136,10 +147,20 @@ export default function DigitalPad({ onSubmit }: DigitalPadProps) {
               ? 'border-red-500'
               : 'border-sky-600 dark:border-sky-900'
           }`}
+          onPress={() => setIsVisible(true)}
         >
-          <Text className='text-2xl color-white'>{`A$ ${formatter(
-            Math.abs(getValues('amount'))
-          )}`}</Text>
+          <Text className='text-2xl color-white'>
+            {!!country ? currencySymbol(country) : currencySymbol(baseCurrency)}
+            {formatter(Math.abs(getValues('amount')))}
+          </Text>
+          {!!country &&
+            country.currency_code !== baseCurrency.currency_code && (
+              <Text className='color-zinc-400'>
+                {/* @ts-ignore: ignore json type */}
+                {symbol[baseCurrency.currency_code]}
+                {formatter(Math.abs(getValues('amount')))}
+              </Text>
+            )}
         </Pressable>
       </View>
       <Controller
@@ -152,6 +173,11 @@ export default function DigitalPad({ onSubmit }: DigitalPadProps) {
         }}
         render={() => <Keypad onKeyInput={handlePriceInput} />}
         name='amount'
+      />
+      <CurrencyModal
+        isVisible={isVisible}
+        onClose={() => setIsVisible(false)}
+        onSelectCountry={handleChangeCurrency}
       />
       <CameraBottomSheet
         bottomSheetModalRef={bottomSheetModalRef}

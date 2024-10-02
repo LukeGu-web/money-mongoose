@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { View, Text, Pressable, FlatList, ScrollView } from 'react-native';
+import { Text, Pressable, FlatList, ScrollView } from 'react-native';
+import { useShallow } from 'zustand/react/shallow';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import CurrencyItem from './CurrencyItem';
-import CurrencyModal from 'components/Modal/CurrencyModal';
+import CurrencyModal from '../Modal/CurrencyModal';
 import { useCurrencyStore } from 'core/stateHooks';
 
 type ExchangeListProps = {
@@ -13,7 +14,12 @@ type ExchangeListProps = {
 };
 
 export default function ExchangeList({ amount, rates }: ExchangeListProps) {
-  const list = useCurrencyStore((state) => state.list);
+  const { list, addCountry } = useCurrencyStore(
+    useShallow((state) => ({
+      list: state.list,
+      addCountry: state.addCountry,
+    }))
+  );
   const [isVisible, setIsVisible] = useState<boolean>(false);
   return (
     <ScrollView className='w-full gap-2 p-2 border-2 border-gray-400 rounded-lg'>
@@ -47,6 +53,7 @@ export default function ExchangeList({ amount, rates }: ExchangeListProps) {
       <CurrencyModal
         isVisible={isVisible}
         onClose={() => setIsVisible(false)}
+        onSelectCountry={addCountry}
       />
     </ScrollView>
   );
