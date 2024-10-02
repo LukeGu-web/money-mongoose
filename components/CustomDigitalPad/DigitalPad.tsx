@@ -177,7 +177,7 @@ export default function DigitalPad({ onSubmit }: DigitalPadProps) {
           </Text>
           {!!country &&
             country.currency_code !== baseCurrency.currency_code && (
-              <Text className='color-zinc-400'>
+              <Text className='font-semibold color-yellow-400'>
                 {/* @ts-ignore: ignore json type */}
                 {symbol[baseCurrency.currency_code]}
                 {isFetched &&

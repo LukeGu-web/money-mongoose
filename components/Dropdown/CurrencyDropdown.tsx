@@ -57,13 +57,13 @@ export default function CurrencyDropdown({
       setIsDropdownOpen(open);
       Animated.timing(dropdownHeight, {
         toValue: 200,
-        duration: 500,
+        duration: 400,
         useNativeDriver: false,
       }).start();
     } else {
       Animated.timing(dropdownHeight, {
         toValue: 10,
-        duration: 600,
+        duration: 200,
         useNativeDriver: false,
       }).start(() => setIsDropdownOpen(open));
     }
