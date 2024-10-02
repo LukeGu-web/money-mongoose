@@ -6,6 +6,8 @@ import {
   Modal,
   TextInput,
   Pressable,
+  Platform,
+  KeyboardAvoidingView,
 } from 'react-native';
 import { useUpdateUser } from 'api/account';
 import { useUserStore } from 'core/stateHooks';
@@ -23,9 +25,8 @@ export default function NicknameModal({
 }: NicknameModalProps) {
   const { mutate: updateUserApi, isPending } = useUpdateUser();
   const { user, setUser } = useUserStore();
-
   const [nickname, setNickname] = useState<string>(user.nickname);
-
+  const keyboardVerticalOffset = Platform.OS === 'ios' ? -200 : 0;
   const handleConfirm = () => {
     updateUserApi(
       { id: user.id, nickname },
@@ -51,7 +52,9 @@ export default function NicknameModal({
       visible={isVisible}
       onRequestClose={onClose}
     >
-      <View
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={keyboardVerticalOffset}
         className='items-center justify-center h-full'
         style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
       >
@@ -85,7 +88,7 @@ export default function NicknameModal({
             </Pressable>
           </View>
         </View>
-      </View>
+      </KeyboardAvoidingView>
     </Modal>
   );
 }

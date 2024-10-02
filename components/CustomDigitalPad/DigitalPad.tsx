@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import {
   View,
   Text,
@@ -8,6 +8,7 @@ import {
   KeyboardAvoidingView,
 } from 'react-native';
 import { useFormContext, Controller } from 'react-hook-form';
+import { useFocusEffect } from 'expo-router';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 
 import { useCurrency } from 'api/extra';
@@ -59,6 +60,14 @@ export default function DigitalPad({ onSubmit }: DigitalPadProps) {
       }
     }
   }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      return () => {
+        setCountry(null);
+      };
+    }, [])
+  );
 
   const handlePriceInput = (item: string) => {
     const num: number = Math.abs(getValues('amount'));

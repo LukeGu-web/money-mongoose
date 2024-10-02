@@ -34,8 +34,8 @@ export default function DrawerContent(props: any) {
         <Text className='text-lg font-bold color-white'>{user.nickname}</Text>
       </View>
       <View className='flex-1 py-8 bg-white dark:bg-zinc-700'>
-        <View className='pl-4 mb-2 border-b-2'>
-          <Text className='p-2 dark:color-white'>Current book:</Text>
+        <View className='pl-4 mb-2 border-b-2 border-gray-400'>
+          <Text className='p-2 text-lg dark:color-white'>Current book:</Text>
           <DrawerItem
             label={name ?? 'No book'}
             labelStyle={{ color: labelColor }}

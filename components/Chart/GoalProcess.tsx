@@ -44,9 +44,9 @@ export const GoalProcess = ({
           path={path}
           color={
             targetText > 100
-              ? 'lightcoral'
+              ? '#dc2626'
               : targetText > 60
-              ? 'navajowhite'
+              ? '#f59e0b'
               : '#60a5fa'
           }
           style='stroke'
@@ -61,9 +61,9 @@ export const GoalProcess = ({
           path={path}
           color={
             targetText > 100
-              ? 'lightcoral'
+              ? '#dc2626'
               : targetText > 60
-              ? 'navajowhite'
+              ? '#f59e0b'
               : '#60a5fa'
           }
           style='stroke'
@@ -79,7 +79,7 @@ export const GoalProcess = ({
           text={`${targetText}%`}
           font={font}
           color={
-            targetText > 100 ? '#540b0e' : targetText > 60 ? '#9a3412' : 'black'
+            targetText > 100 ? '#7f1d1d' : targetText > 60 ? '#9a3412' : 'black'
           }
         />
       </Canvas>
