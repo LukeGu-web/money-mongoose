@@ -110,6 +110,13 @@ export default function RootLayoutNav() {
           }}
         />
         <Stack.Screen
+          name='user/settings'
+          options={{
+            title: 'Settings',
+            headerLeft: () => <GoBack />,
+          }}
+        />
+        <Stack.Screen
           name='tools/tax-calculator'
           options={{
             title: 'Tax Calculator',

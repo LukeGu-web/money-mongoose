@@ -17,60 +17,63 @@ export default function AccountPad() {
   const { setColorScheme } = useColorScheme();
   const color = theme === 'dark' ? '#3b82f6' : '#03045e';
   return (
-    <View className='flex-row items-center justify-between'>
-      <Pressable
-        className='gap-2'
-        onPress={() => {
-          const newTheme = theme === 'dark' ? 'light' : 'dark';
-          setColorScheme(newTheme);
-          setTheme(newTheme);
-          router.replace('account/');
-        }}
-      >
-        <View className='items-center justify-center w-20 h-20 border-2 rounded-lg border-primary dark:border-primarydark'>
-          {theme === 'light' ? (
-            <Ionicons name='moon' size={28} color={color} />
-          ) : (
-            <Ionicons name='sunny' size={30} color={color} />
-          )}
-        </View>
-        <Text className='text-sm font-semibold text-center text color-primary dark:color-primarydark'>
-          {theme === 'light' ? 'Dark' : 'Light'} Mode
-        </Text>
-      </Pressable>
-      <Pressable
-        className='gap-2'
-        onPress={() => router.navigate('/book/management')}
-      >
-        <View className='items-center justify-center w-20 h-20 border-2 rounded-lg border-primary dark:border-primarydark'>
-          <FontAwesome5 name='book' size={26} color={color} />
-        </View>
-        <Text className='text-sm font-semibold text-center color-primary dark:color-primarydark'>
-          Books
-        </Text>
-      </Pressable>
-      <Pressable
-        className='gap-2'
-        onPress={() => router.navigate('/tools/tax-calculator')}
-      >
-        <View className='items-center justify-center w-20 h-20 border-2 rounded-lg border-primary dark:border-primarydark'>
-          <FontAwesome6 name='calculator' size={28} color={color} />
-        </View>
-        <Text className='mt-1 -ml-1 text-xs font-semibold text-center color-primary dark:color-primarydark'>
-          Tax Calculator
-        </Text>
-      </Pressable>
-      <Pressable
-        className='gap-2'
-        onPress={() => router.navigate('/tools/currency')}
-      >
-        <View className='items-center justify-center w-20 h-20 border-2 rounded-lg border-primary dark:border-primarydark'>
-          <FontAwesome6 name='money-bill-transfer' size={24} color={color} />
-        </View>
-        <Text className='text-sm font-semibold text-center color-primary dark:color-primarydark'>
-          Currency
-        </Text>
-      </Pressable>
+    <View className='gap-2 mb-4'>
+      <Text className='color-zinc-600 dark:color-zinc-300'>Tools</Text>
+      <View className='flex-row items-center justify-between'>
+        <Pressable
+          className='gap-2'
+          onPress={() => {
+            const newTheme = theme === 'dark' ? 'light' : 'dark';
+            setColorScheme(newTheme);
+            setTheme(newTheme);
+            router.replace('account/');
+          }}
+        >
+          <View className='items-center justify-center w-20 h-20 border-2 rounded-lg border-primary dark:border-primarydark'>
+            {theme === 'light' ? (
+              <Ionicons name='moon' size={28} color={color} />
+            ) : (
+              <Ionicons name='sunny' size={30} color={color} />
+            )}
+          </View>
+          <Text className='text-sm font-semibold text-center text color-primary dark:color-primarydark'>
+            {theme === 'light' ? 'Dark' : 'Light'} Mode
+          </Text>
+        </Pressable>
+        <Pressable
+          className='gap-2'
+          onPress={() => router.navigate('/book/management')}
+        >
+          <View className='items-center justify-center w-20 h-20 border-2 rounded-lg border-primary dark:border-primarydark'>
+            <FontAwesome5 name='book' size={26} color={color} />
+          </View>
+          <Text className='text-sm font-semibold text-center color-primary dark:color-primarydark'>
+            Books
+          </Text>
+        </Pressable>
+        <Pressable
+          className='gap-2'
+          onPress={() => router.navigate('/tools/tax-calculator')}
+        >
+          <View className='items-center justify-center w-20 h-20 border-2 rounded-lg border-primary dark:border-primarydark'>
+            <FontAwesome6 name='calculator' size={28} color={color} />
+          </View>
+          <Text className='mt-1 -ml-1 text-xs font-semibold text-center color-primary dark:color-primarydark'>
+            Tax Calculator
+          </Text>
+        </Pressable>
+        <Pressable
+          className='gap-2'
+          onPress={() => router.navigate('/tools/currency')}
+        >
+          <View className='items-center justify-center w-20 h-20 border-2 rounded-lg border-primary dark:border-primarydark'>
+            <FontAwesome6 name='money-bill-transfer' size={24} color={color} />
+          </View>
+          <Text className='text-sm font-semibold text-center color-primary dark:color-primarydark'>
+            Currency
+          </Text>
+        </Pressable>
+      </View>
     </View>
   );
 }

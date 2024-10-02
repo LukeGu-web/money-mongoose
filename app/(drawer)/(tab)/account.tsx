@@ -8,6 +8,7 @@ import {
   AccountPad,
   DetailsSection,
   SecuritySection,
+  SettingsSection,
   InformationSection,
 } from 'components/AccountSections';
 
@@ -22,11 +23,9 @@ export default function Account() {
       }}
     >
       <AvatarSection />
-      <View className='gap-2 mb-4'>
-        <Text className='color-zinc-600 dark:color-zinc-300'>Tools</Text>
-        <AccountPad />
-      </View>
+      <AccountPad />
       <DetailsSection />
+      <SettingsSection />
       <SecuritySection />
       <InformationSection />
       {/* <View className='items-start justify-center flex-1 gap-2 mt-4'>

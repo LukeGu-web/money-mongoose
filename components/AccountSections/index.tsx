@@ -3,3 +3,4 @@ export { default as AvatarSection } from './AvatarSection';
 export { default as DetailsSection } from './DetailsSection';
 export { default as InformationSection } from './InformationSection';
 export { default as SecuritySection } from './SecuritySection';
+export { default as SettingsSection } from './SettingsSection';
