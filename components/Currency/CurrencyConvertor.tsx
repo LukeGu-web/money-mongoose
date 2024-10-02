@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
-import { useSettingStore } from 'core/stateHooks';
+import { useCurrencyStore, useSettingStore } from 'core/stateHooks';
 import { CountryType } from '../Dropdown/types';
 import CurrencyDropdown from '../Dropdown/CurrencyDropdown';
 import ExchangeList from './ExchangeList';
@@ -17,11 +17,8 @@ const getCurrencies = async (base: string) => {
 };
 
 export default function CurrencyConvertor() {
-  const [base, setBase] = useState<CountryType>({
-    country: 'Australia',
-    currency_code: 'AUD',
-    iso2: 'AU',
-  });
+  const baseCurrency = useCurrencyStore((state) => state.baseCurrency);
+  const [base, setBase] = useState<CountryType>(baseCurrency);
   const [amount, setAmount] = useState(1);
   const {
     data: currencies,

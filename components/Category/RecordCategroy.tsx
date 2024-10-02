@@ -44,7 +44,6 @@ export default function RecordCategory() {
   };
 
   const handleCustomCategory = (category: string, subcategory: string) => {
-    console.log(category, subcategory);
     setValue('category', category);
     setValue('subcategory', subcategory);
     setIsVisible(false);

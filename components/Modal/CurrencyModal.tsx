@@ -7,6 +7,7 @@ import {
   KeyboardAvoidingView,
   Pressable,
 } from 'react-native';
+import { useShallow } from 'zustand/react/shallow';
 import { CountryType } from '../Dropdown/types';
 import CurrencyDropdown from '../Dropdown/CurrencyDropdown';
 import { useCurrencyStore } from 'core/stateHooks';
@@ -21,11 +22,15 @@ export default function CurrencyModal({
   onClose,
 }: CurrencyModalProps) {
   const keyboardVerticalOffset = Platform.OS === 'ios' ? -100 : 0;
-  const addCountry = useCurrencyStore((state) => state.addCountry);
+  const { baseCurrency, addCountry } = useCurrencyStore(
+    useShallow((state) => ({
+      baseCurrency: state.baseCurrency,
+      addCountry: state.addCountry,
+    }))
+  );
   const [country, setCountry] = useState<CountryType | null>(null);
   const handleChange = (country: CountryType, amount: number) => {
     setCountry(country);
-    console.log('handleChange: ', country, amount);
   };
   const handleConfirm = () => {
     if (country) {
@@ -49,11 +54,7 @@ export default function CurrencyModal({
         <View className='items-center w-11/12 gap-6 p-6 bg-white rounded-lg dark:bg-zinc-600'>
           <Text className='text-3xl dark:color-white'>Select Currency</Text>
           <CurrencyDropdown
-            base={{
-              country: 'Australia',
-              currency_code: 'AUD',
-              iso2: 'AU',
-            }}
+            base={baseCurrency}
             countryOnly
             onChange={handleChange}
           />

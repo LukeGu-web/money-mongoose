@@ -5,6 +5,7 @@ export { default as AccountPad } from 'components/AccountSections/AccountPad';
 export { default as BudgetCard } from 'components/Card/BudgetCard';
 export { default as Calendar } from 'components/Calendar/Calendar';
 export { default as Camera } from 'components/Camera/Camera';
+export { default as Currencies } from 'components/Settings/Currencies';
 export { default as TimeframeHeader } from 'components/Header/TimeframeHeader';
 export { default as DigitalPad } from 'components/CustomDigitalPad/DigitalPad';
 export { default as Dropdown } from 'components/Dropdown/Dropdown';

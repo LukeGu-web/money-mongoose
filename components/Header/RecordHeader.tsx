@@ -59,7 +59,7 @@ export default function RecordHeader() {
         )}
         name='type'
       />
-      <Pressable>
+      <Pressable onPress={() => router.navigate('/user/settings')}>
         <Icon name='setting' size={24} color='#fff' />
       </Pressable>
     </View>

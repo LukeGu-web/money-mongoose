@@ -6,8 +6,10 @@ import { CountryType } from 'components/Dropdown/types';
 
 type CurrencyState = {
   list: CountryType[];
+  baseCurrency: CountryType;
   addCountry: (country: CountryType) => void;
   removeCountry: (country: CountryType) => void;
+  setBaseCurrency: (baseCurrency: CountryType) => void;
 };
 
 const useCurrencyStore = create<CurrencyState>()(
@@ -15,6 +17,11 @@ const useCurrencyStore = create<CurrencyState>()(
     persist(
       immer((set, get) => ({
         list: [],
+        baseCurrency: {
+          country: 'Australia',
+          currency_code: 'AUD',
+          iso2: 'AU',
+        },
         addCountry: (country) => {
           set((state) => {
             state.list.push(country);
@@ -27,6 +34,9 @@ const useCurrencyStore = create<CurrencyState>()(
             );
             state.list.splice(index, 1);
           });
+        },
+        setBaseCurrency: (baseCurrency) => {
+          set(() => ({ baseCurrency }));
         },
       })),
       {
