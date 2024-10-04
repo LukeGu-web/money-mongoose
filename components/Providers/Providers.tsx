@@ -6,7 +6,6 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import * as LocalAuthentication from 'expo-local-authentication';
 import { useShallow } from 'zustand/react/shallow';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
-
 import { APIProvider } from 'api/api-provider';
 import { useSettingStore } from 'core/stateHooks';
 import log from 'core/logger';
@@ -26,10 +25,10 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   const isEnabledAuthRef = useRef(isEnabledAuth);
   const lastAuthTimeRef = useRef(0);
 
-  // const { expoPushToken, notification } = usePushNotifications();
-  // const data = JSON.stringify(notification, undefined, 2);
+  const { expoPushToken, notification } = usePushNotifications();
+  const data = JSON.stringify(notification, undefined, 2);
 
-  // console.log('usePushNotifications: ', data);
+  // console.log('usePushNotifications: ', expoPushToken, data);
 
   // Update the ref whenever isEnabledAuth changes
   useEffect(() => {
@@ -60,14 +59,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
       });
       if (bioAuth.success) {
         lastAuthTimeRef.current = Date.now();
-        Alert.alert('Success Bio Login', 'Success!', [
-          {
-            text: 'OK',
-            onPress: async () => {
-              log.success('Biometric Login: OK');
-            },
-          },
-        ]);
+        log.success('Biometric Login: OK');
       } else {
         // Handle failed authentication (e.g., lock the app or show a message)
         log.error('Authentication failed');
