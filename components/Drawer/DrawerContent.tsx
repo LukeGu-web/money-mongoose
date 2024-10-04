@@ -49,6 +49,14 @@ export default function DrawerContent(props: any) {
           onPress={() => router.navigate('/book/management')}
         />
         <DrawerItem
+          label='Budget'
+          labelStyle={{ color: labelColor }}
+          icon={() => (
+            <AntDesign name='calculator' size={24} color={iconColor} />
+          )}
+          onPress={() => router.navigate('/budget/index')}
+        />
+        <DrawerItem
           label='Category Analysis'
           labelStyle={{ color: labelColor }}
           icon={() => <AntDesign name='piechart' size={24} color={iconColor} />}
