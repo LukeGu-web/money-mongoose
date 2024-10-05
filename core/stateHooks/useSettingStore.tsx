@@ -5,10 +5,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 type SettingStoreState = {
   isEnabledAuth: boolean;
   isEnabledBlur: boolean;
+  isEnabledReminder: boolean;
   lockTime: number;
   theme: 'light' | 'dark';
   setIsEnabledAuth: (isEnabledAuth: boolean) => void;
   setIsEnabledBlur: (isEnabledBlur: boolean) => void;
+  setIsEnabledReminder: (isEnabledReminder: boolean) => void;
   setLockTime: (lockTime: number) => void;
   setTheme: (theme: 'light' | 'dark') => void;
 };
@@ -18,6 +20,7 @@ const useSettingStore = create<SettingStoreState>()(
     devtools((set) => ({
       isEnabledAuth: false,
       isEnabledBlur: false,
+      isEnabledReminder: false,
       lockTime: 1,
       theme: 'light',
       setIsEnabledAuth: (isEnabledAuth) => {
@@ -25,6 +28,9 @@ const useSettingStore = create<SettingStoreState>()(
       },
       setIsEnabledBlur: (isEnabledBlur) => {
         set(() => ({ isEnabledBlur }));
+      },
+      setIsEnabledReminder: (isEnabledReminder) => {
+        set(() => ({ isEnabledReminder }));
       },
       setLockTime: (lockTime) => {
         set(() => ({ lockTime }));
