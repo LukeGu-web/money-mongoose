@@ -14,6 +14,7 @@ import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { useDeleteAssetGroup } from 'api/asset';
 import { formatApiError } from 'api/errorFormat';
 import { useAsset } from 'core/stateHooks';
+import { formatter } from 'core/utils';
 import log from 'core/logger';
 import Icon from '../Icon/Icon';
 import EditAssetGroupBottomSheet from '../BottomSheet/EditAssetGroupBottomSheet';
@@ -132,7 +133,7 @@ export default function EditableGroupTitle({
           disabled={title.number === 0}
           onPress={toggleExpand}
         >
-          <Text className='color-gray-500'>{title.amount}</Text>
+          <Text className='color-gray-500'>{formatter(title.amount)}</Text>
           {title.number > 0 && (
             <Animated.View
               style={

@@ -20,7 +20,7 @@ export default function AvatarSection() {
           source={user.avatar ? { uri: user.avatar } : avatarImage}
           className='w-20 h-20 rounded-full'
         />
-        <View className='absolute bottom-0 right-0 p-1 bg-gray-100 rounded-full'>
+        <View className='absolute bottom-0 right-0 items-center justify-center w-6 h-6 bg-gray-100 rounded-full'>
           <MaterialCommunityIcons
             name='camera-outline'
             size={16}
