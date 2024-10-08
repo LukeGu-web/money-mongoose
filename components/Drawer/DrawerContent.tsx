@@ -54,7 +54,7 @@ export default function DrawerContent(props: any) {
           icon={() => (
             <AntDesign name='calculator' size={24} color={iconColor} />
           )}
-          onPress={() => router.navigate('/budget/index')}
+          onPress={() => router.navigate('budget')}
         />
         <DrawerItem
           label='Category Analysis'
