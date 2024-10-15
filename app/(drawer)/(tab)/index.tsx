@@ -6,8 +6,11 @@ import { router } from 'expo-router';
 import dayjs from 'dayjs';
 import { useShallow } from 'zustand/react/shallow';
 
+import { useRegisterPushToken } from 'api/account';
 import { client, setHeaderToken } from 'api/client';
+import { formatApiError } from 'api/errorFormat';
 import { useGetMonthlyData } from 'api/record';
+import log from 'core/logger';
 import {
   BudgetCard,
   ExpenseCard,
@@ -37,13 +40,25 @@ export default function Home() {
   const { data } = useGetMonthlyData({
     variables: { book_id: currentBook.id },
   });
+  const { mutate: registerPushTokenApi, isPending } = useRegisterPushToken();
 
   useEffect(() => {
     if (!client.defaults.headers.common['Authorization'])
       setHeaderToken(user.token);
 
     if (!expoPushToken && pushToken) {
-      setExpoPushToken(pushToken.data);
+      registerPushTokenApi(
+        { token: pushToken.data },
+        {
+          onSuccess: () => {
+            log.success('Expo push token registered successfully!');
+            setExpoPushToken(pushToken.data);
+          },
+          onError: (error) => {
+            log.error('Error: ', formatApiError(error));
+          },
+        }
+      );
     }
   }, []);
 
