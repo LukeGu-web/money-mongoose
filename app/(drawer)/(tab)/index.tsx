@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { router } from 'expo-router';
 import dayjs from 'dayjs';
+import { useShallow } from 'zustand/react/shallow';
 
 import { client, setHeaderToken } from 'api/client';
 import { useGetMonthlyData } from 'api/record';
@@ -14,18 +15,36 @@ import {
   HomeHeader,
   Icon,
 } from 'components';
-import { useUserStore, useBookStore, useSettingStore } from 'core/stateHooks';
+import {
+  useUserStore,
+  useBookStore,
+  useSettingStore,
+  useLocalStore,
+} from 'core/stateHooks';
+import { usePushNotifications } from 'core/features/usePushNotifications';
 
 export default function Home() {
+  const { expoPushToken: pushToken } = usePushNotifications();
   const user = useUserStore((state) => state.user);
   const currentBook = useBookStore((state) => state.currentBook);
+  const { expoPushToken, setExpoPushToken } = useLocalStore(
+    useShallow((state) => ({
+      expoPushToken: state.expoPushToken,
+      setExpoPushToken: state.setExpoPushToken,
+    }))
+  );
+  const theme = useSettingStore((state) => state).theme;
   const { data } = useGetMonthlyData({
     variables: { book_id: currentBook.id },
   });
-  const theme = useSettingStore((state) => state).theme;
+
   useEffect(() => {
     if (!client.defaults.headers.common['Authorization'])
       setHeaderToken(user.token);
+
+    if (!expoPushToken && pushToken) {
+      setExpoPushToken(pushToken.data);
+    }
   }, []);
 
   const monthIncome =

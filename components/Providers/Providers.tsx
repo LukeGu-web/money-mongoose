@@ -25,10 +25,10 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   const isEnabledAuthRef = useRef(isEnabledAuth);
   const lastAuthTimeRef = useRef(0);
 
-  const { expoPushToken, notification } = usePushNotifications();
+  const { expoPushToken: pushToken, notification } = usePushNotifications();
   const data = JSON.stringify(notification, undefined, 2);
 
-  // console.log('usePushNotifications: ', expoPushToken, data);
+  console.log('usePushNotifications: ', pushToken, data);
 
   // Update the ref whenever isEnabledAuth changes
   useEffect(() => {
