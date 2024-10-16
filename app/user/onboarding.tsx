@@ -5,7 +5,6 @@ import 'react-native-get-random-values'; // for uuid
 import { v4 as uuid } from 'uuid';
 import { useShallow } from 'zustand/react/shallow';
 
-import { formatApiError } from 'api/errorFormat';
 import { useDeviceRegister } from 'api/account';
 import { UserType } from 'api/types';
 import log from 'core/logger';

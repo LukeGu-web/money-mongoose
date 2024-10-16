@@ -35,7 +35,9 @@
       [
         "expo-font",
         {
-          "fonts": ["./assets/fonts/PermanentMarker-Regular.ttf"]
+          "fonts": [
+            "./assets/fonts/PermanentMarker-Regular.ttf"
+          ]
         }
       ],
       [
@@ -67,7 +69,8 @@
           "project": "money-mongoose",
           "url": "https://sentry.io/"
         }
-      ]
+      ],
+      "expo-localization"
     ],
     "extra": {
       "router": {

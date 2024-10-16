@@ -4,6 +4,7 @@ import { AppState, Alert } from 'react-native';
 import Toast from 'react-native-toast-message';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import * as LocalAuthentication from 'expo-local-authentication';
+import { usePostHog, PostHogProvider } from 'posthog-react-native';
 import { useShallow } from 'zustand/react/shallow';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { APIProvider } from 'api/api-provider';
@@ -90,18 +91,42 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <APIProvider>
-        {appStateVisible !== 'active' && isEnabledBlur && (
-          <BlurView
-            intensity={20}
-            tint='light'
-            className='absolute top-0 left-0 z-10 flex-1 w-full h-full'
-          />
-        )}
-        <BottomSheetModalProvider>{children}</BottomSheetModalProvider>
-        <Toast />
-      </APIProvider>
-    </GestureHandlerRootView>
+    <PostHogProvider
+      apiKey={process.env.EXPO_PUBLIC_POSTHOG_API_KEY}
+      // options={{
+      //   host: 'https://us.i.posthog.com',
+      // }}
+      autocapture={{
+        captureTouches: true,
+        captureLifecycleEvents: true,
+        captureScreens: true,
+        ignoreLabels: [], // Any labels here will be ignored from the stack in touch events
+        // customLabelProp: 'ph-label',
+        noCaptureProp: 'ph-no-capture',
+        // propsToCapture = ['testID'], // Limit which props are captured. By default, identifiers and text content are captured.
+        navigation: {
+          // By default, only the screen name is tracked but it is possible to track the
+          // params or modify the name by intercepting the autocapture like so
+          routeToName: (name, params) => {
+            if (params.id) return `${name}/${params.id}`;
+            return name;
+          },
+        },
+      }}
+    >
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <APIProvider>
+          {appStateVisible !== 'active' && isEnabledBlur && (
+            <BlurView
+              intensity={20}
+              tint='light'
+              className='absolute top-0 left-0 z-10 flex-1 w-full h-full'
+            />
+          )}
+          <BottomSheetModalProvider>{children}</BottomSheetModalProvider>
+          <Toast />
+        </APIProvider>
+      </GestureHandlerRootView>
+    </PostHogProvider>
   );
 }

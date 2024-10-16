@@ -5121,7 +5121,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expo-application@npm:~5.9.0":
+"expo-application@npm:~5.9.0, expo-application@npm:~5.9.1":
   version: 5.9.1
   resolution: "expo-application@npm:5.9.1"
   peerDependencies:
@@ -5327,6 +5327,17 @@ __metadata:
   peerDependencies:
     expo: "*"
   checksum: 10c0/0726f0b34e160efe016643af5171d92ccc04d1a26fc5f01d23580f552cb4032c382b36edbac9247deebc6f6678127e52a1ef2400ea1b132fb01abe1fba9bde6e
+  languageName: node
+  linkType: hard
+
+"expo-localization@npm:~15.0.3":
+  version: 15.0.3
+  resolution: "expo-localization@npm:15.0.3"
+  dependencies:
+    rtl-detect: "npm:^1.0.2"
+  peerDependencies:
+    expo: "*"
+  checksum: 10c0/caa6f68a0f22a067b6940d7f7e64a68eb5f17a767d172aa5793bff24baa2d804b4f827027ea071d1e23f4d8b41f693cfb2790db095f95dadc1d41a3b07072398
   languageName: node
   linkType: hard
 
@@ -8101,16 +8112,19 @@ __metadata:
     axios: "npm:^1.7.5"
     dayjs: "npm:^1.11.13"
     expo: "npm:~51.0.37"
+    expo-application: "npm:~5.9.1"
     expo-blur: "npm:~13.0.2"
     expo-camera: "npm:~15.0.16"
     expo-constants: "npm:~16.0.2"
     expo-dev-client: "npm:~4.0.28"
     expo-device: "npm:~6.0.2"
+    expo-file-system: "npm:~17.0.1"
     expo-font: "npm:^12.0.10"
     expo-image-picker: "npm:~15.0.7"
     expo-linear-gradient: "npm:~13.0.2"
     expo-linking: "npm:~6.3.1"
     expo-local-authentication: "npm:~14.0.1"
+    expo-localization: "npm:~15.0.3"
     expo-media-library: "npm:~16.0.5"
     expo-notifications: "npm:~0.28.18"
     expo-router: "npm:~3.5.23"
@@ -8118,6 +8132,7 @@ __metadata:
     expo-updates: "npm:~0.25.27"
     immer: "npm:^10.1.1"
     nativewind: "npm:^4.1.4"
+    posthog-react-native: "npm:^3.3.5"
     react: "npm:18.2.0"
     react-hook-form: "npm:^7.53.0"
     react-native: "npm:0.74.5"
@@ -8899,6 +8914,42 @@ __metadata:
     picocolors: "npm:^1.0.1"
     source-map-js: "npm:^1.2.0"
   checksum: 10c0/c1828fc59e7ec1a3bf52b3a42f615dba53c67960ed82a81df6441b485fe43c20aba7f4e7c55425762fd99c594ecabbaaba8cf5b30fd79dfec5b52a9f63a2d690
+  languageName: node
+  linkType: hard
+
+"posthog-react-native@npm:^3.3.5":
+  version: 3.3.5
+  resolution: "posthog-react-native@npm:3.3.5"
+  peerDependencies:
+    "@react-native-async-storage/async-storage": ">=1.0.0"
+    "@react-navigation/native": ">= 5.0.10"
+    expo-application: ">= 4.0.0"
+    expo-device: ">= 4.0.0"
+    expo-file-system: ">= 13.0.0"
+    expo-localization: ">= 11.0.0"
+    posthog-react-native-session-replay: ^0.1.2
+    react-native-device-info: ">= 10.0.0"
+    react-native-navigation: ">=6.0.0"
+  peerDependenciesMeta:
+    "@react-native-async-storage/async-storage":
+      optional: true
+    "@react-navigation/native":
+      optional: true
+    expo-application:
+      optional: true
+    expo-device:
+      optional: true
+    expo-file-system:
+      optional: true
+    expo-localization:
+      optional: true
+    posthog-react-native-session-replay:
+      optional: true
+    react-native-device-info:
+      optional: true
+    react-native-navigation:
+      optional: true
+  checksum: 10c0/cd1bdba01da1885ea03e278043f5ae30d1f3a2b65841a7f0e2c4a532904587076ff720d6a197294147c9d07cc2ea3d84d4c3e54f6ce72e0ecd6876ba05f9c074
   languageName: node
   linkType: hard
 
@@ -9796,6 +9847,13 @@ __metadata:
   bin:
     rimraf: ./bin.js
   checksum: 10c0/f1e646f8c567795f2916aef7aadf685b543da6b9a53e482bb04b07472c7eef2b476045ba1e29f401c301c66b630b22b815ab31fdd60c5e1ae6566ff523debf45
+  languageName: node
+  linkType: hard
+
+"rtl-detect@npm:^1.0.2":
+  version: 1.1.2
+  resolution: "rtl-detect@npm:1.1.2"
+  checksum: 10c0/1b92888aafca1593314f837e83fdf02eb208faae3e713ab87c176804728efd3b1980d53b64f65f1fa593348087e852c5cd729b7b9372950f6e9b7be489afc0ca
   languageName: node
   linkType: hard
 
