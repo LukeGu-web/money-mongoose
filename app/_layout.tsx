@@ -1,46 +1,18 @@
-import { useEffect } from 'react';
 import { Pressable } from 'react-native';
 import * as Sentry from '@sentry/react-native';
-import { isRunningInExpoGo } from 'expo';
-import {
-  SplashScreen,
-  Stack,
-  router,
-  Slot,
-  useNavigationContainerRef,
-} from 'expo-router';
+import { SplashScreen, Stack, router } from 'expo-router';
 import { useFonts } from 'expo-font';
+import { initSentry, useSentryNavigationConfig } from 'core/sentry';
 import { Icon, Providers } from 'components';
 import '../global.css';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
-// Construct a new instrumentation instance. This is needed to communicate between the integration and React
-const routingInstrumentation = new Sentry.ReactNavigationInstrumentation();
-
-Sentry.init({
-  dsn: 'https://4d6698e27f8c85e7f0a2162b49dee3cb@o4508129228226560.ingest.us.sentry.io/4508129275019264',
-  debug: true, // If `true`, Sentry will try to print out useful debugging information if something goes wrong with sending the event. Set it to `false` in production
-  integrations: [
-    new Sentry.ReactNativeTracing({
-      // Pass instrumentation to be used as `routingInstrumentation`
-      routingInstrumentation,
-      enableNativeFramesTracking: !isRunningInExpoGo(),
-      // ...
-    }),
-  ],
-});
+initSentry();
 
 function RootLayout() {
-  // Capture the NavigationContainer ref and register it with the instrumentation.
-  const ref = useNavigationContainerRef();
-
-  useEffect(() => {
-    if (ref) {
-      routingInstrumentation.registerNavigationContainer(ref);
-    }
-  }, [ref]);
+  useSentryNavigationConfig();
   const [fontsLoaded] = useFonts({
     IcoMoon: require('../assets/icomoon.ttf'),
     icon: require('../assets/icons/category/icon.ttf'),

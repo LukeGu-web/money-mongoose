@@ -53,7 +53,6 @@ const useDeviceRegister = createMutation<Response, Variables, AxiosError>({
       .then((response) => ({ ...response.data, token, account }))
       .catch((err) => {
         log.error('Error (useDeviceRegister): ', err);
-        // throw new Error('Hello, again, Sentry!');
       }),
 });
 

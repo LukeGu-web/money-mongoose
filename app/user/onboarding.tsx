@@ -38,8 +38,13 @@ export default function Onboarding() {
     return <Redirect href='/user/agreement' />;
   }
 
-  const { mutate: registerDevice, isPending } = useDeviceRegister();
+  const { mutate: registerDevice, isPending, isError } = useDeviceRegister();
 
+  if (isError) {
+    throw new Error(
+      `Error (Onboarding): Endpoint: ${process.env.EXPO_PUBLIC_API_URL}`
+    );
+  }
   const handleStart = () => {
     const deviceId = uuid();
     registerDevice(
@@ -68,7 +73,7 @@ export default function Onboarding() {
           if (pushToken) setExpoPushToken(pushToken.data);
         },
         onError: (error) => {
-          log.error('Error: ', formatApiError(error));
+          log.error('Error: ', 'Something wrong with our service.');
         },
       }
     );
