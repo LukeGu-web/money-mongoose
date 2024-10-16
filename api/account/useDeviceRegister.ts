@@ -13,6 +13,7 @@ type Variables = {
   };
   account_id: string;
   account_status: string;
+  expo_push_token?: string;
 };
 type Response = {
   id: number;
@@ -52,6 +53,7 @@ const useDeviceRegister = createMutation<Response, Variables, AxiosError>({
       .then((response) => ({ ...response.data, token, account }))
       .catch((err) => {
         log.error('Error (useDeviceRegister): ', err);
+        // throw new Error('Hello, again, Sentry!');
       }),
 });
 

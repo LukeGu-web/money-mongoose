@@ -4,13 +4,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { router } from 'expo-router';
 import dayjs from 'dayjs';
-import { useShallow } from 'zustand/react/shallow';
-
-import { useRegisterPushToken } from 'api/account';
 import { client, setHeaderToken } from 'api/client';
-import { formatApiError } from 'api/errorFormat';
 import { useGetMonthlyData } from 'api/record';
-import log from 'core/logger';
 import {
   BudgetCard,
   ExpenseCard,
@@ -18,48 +13,19 @@ import {
   HomeHeader,
   Icon,
 } from 'components';
-import {
-  useUserStore,
-  useBookStore,
-  useSettingStore,
-  useLocalStore,
-} from 'core/stateHooks';
-import { usePushNotifications } from 'core/features/usePushNotifications';
+import { useUserStore, useBookStore, useSettingStore } from 'core/stateHooks';
 
 export default function Home() {
-  const { expoPushToken: pushToken } = usePushNotifications();
   const user = useUserStore((state) => state.user);
   const currentBook = useBookStore((state) => state.currentBook);
-  const { expoPushToken, setExpoPushToken } = useLocalStore(
-    useShallow((state) => ({
-      expoPushToken: state.expoPushToken,
-      setExpoPushToken: state.setExpoPushToken,
-    }))
-  );
   const theme = useSettingStore((state) => state).theme;
   const { data } = useGetMonthlyData({
     variables: { book_id: currentBook.id },
   });
-  const { mutate: registerPushTokenApi, isPending } = useRegisterPushToken();
 
   useEffect(() => {
     if (!client.defaults.headers.common['Authorization'])
       setHeaderToken(user.token);
-
-    if (!expoPushToken && pushToken) {
-      registerPushTokenApi(
-        { token: pushToken.data },
-        {
-          onSuccess: () => {
-            log.success('Expo push token registered successfully!');
-            setExpoPushToken(pushToken.data);
-          },
-          onError: (error) => {
-            log.error('Error: ', formatApiError(error));
-          },
-        }
-      );
-    }
   }, []);
 
   const monthIncome =

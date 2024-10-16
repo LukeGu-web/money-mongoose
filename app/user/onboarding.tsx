@@ -10,15 +10,23 @@ import { useDeviceRegister } from 'api/account';
 import { UserType } from 'api/types';
 import log from 'core/logger';
 import { useBookStore, useLocalStore, useUserStore } from 'core/stateHooks';
+import { usePushNotifications } from 'core/features/usePushNotifications';
 
 const welcomeImage = require('../../assets/illustrations/welcome.png');
 
 export default function Onboarding() {
-  const { isOnBoarding, isAcceptedAgreement, setIsOnBoarding } = useLocalStore(
+  const { expoPushToken: pushToken } = usePushNotifications();
+  const {
+    isOnBoarding,
+    isAcceptedAgreement,
+    setIsOnBoarding,
+    setExpoPushToken,
+  } = useLocalStore(
     useShallow((state) => ({
       isOnBoarding: state.isOnBoarding,
       isAcceptedAgreement: state.isAcceptedAgreement,
       setIsOnBoarding: state.setIsOnBoarding,
+      setExpoPushToken: state.setExpoPushToken,
     }))
   );
 
@@ -42,6 +50,7 @@ export default function Onboarding() {
         },
         account_id: deviceId,
         account_status: 'unregistered',
+        expo_push_token: pushToken?.data,
       },
       {
         onSuccess: (response) => {
@@ -54,9 +63,9 @@ export default function Onboarding() {
             email: user.email,
             date_joined: user.date_joined,
           });
-
           setCurrentBook(rest);
           setIsOnBoarding(true);
+          if (pushToken) setExpoPushToken(pushToken.data);
         },
         onError: (error) => {
           log.error('Error: ', formatApiError(error));
