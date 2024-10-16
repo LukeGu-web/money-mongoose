@@ -37,7 +37,11 @@ export default function LoginForm() {
       password: '',
     },
   });
-
+  if (isError) {
+    throw new Error(
+      `Error (Login): Endpoint: ${process.env.EXPO_PUBLIC_API_URL}`
+    );
+  }
   const handleLogin = handleSubmit(async (data) => {
     login(
       {
