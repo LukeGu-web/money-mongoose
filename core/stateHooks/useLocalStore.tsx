@@ -5,8 +5,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 type LocalState = {
   isOnBoarding: boolean;
   isAcceptedAgreement: boolean;
+  expoPushToken: string | null;
   setIsOnBoarding: (isOnBoarding: boolean) => void;
   setIsAcceptedAgreement: (isAcceptedAgreement: boolean) => void;
+  setExpoPushToken: (expoPushToken: string) => void;
   reset: () => void;
 };
 
@@ -15,11 +17,15 @@ const useLocalStore = create<LocalState>()(
     devtools((set) => ({
       isOnBoarding: false,
       isAcceptedAgreement: false,
+      expoPushToken: null,
       setIsOnBoarding: (isOnBoarding) => {
         set(() => ({ isOnBoarding }));
       },
       setIsAcceptedAgreement: (isAcceptedAgreement) => {
         set(() => ({ isAcceptedAgreement }));
+      },
+      setExpoPushToken: (expoPushToken) => {
+        set(() => ({ expoPushToken }));
       },
       reset: () => {
         set(() => ({

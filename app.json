@@ -35,7 +35,9 @@
       [
         "expo-font",
         {
-          "fonts": ["./assets/fonts/PermanentMarker-Regular.ttf"]
+          "fonts": [
+            "./assets/fonts/PermanentMarker-Regular.ttf"
+          ]
         }
       ],
       [
@@ -59,7 +61,16 @@
         {
           "faceIDPermission": "Allow $(PRODUCT_NAME) to use Face ID."
         }
-      ]
+      ],
+      [
+        "@sentry/react-native/expo",
+        {
+          "organization": "xpper",
+          "project": "money-mongoose",
+          "url": "https://sentry.io/"
+        }
+      ],
+      "expo-localization"
     ],
     "extra": {
       "router": {

@@ -4,6 +4,7 @@ import { AppState, Alert } from 'react-native';
 import Toast from 'react-native-toast-message';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import * as LocalAuthentication from 'expo-local-authentication';
+import { usePostHog, PostHogProvider } from 'posthog-react-native';
 import { useShallow } from 'zustand/react/shallow';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { APIProvider } from 'api/api-provider';
@@ -90,18 +91,27 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <APIProvider>
-        {appStateVisible !== 'active' && isEnabledBlur && (
-          <BlurView
-            intensity={20}
-            tint='light'
-            className='absolute top-0 left-0 z-10 flex-1 w-full h-full'
-          />
-        )}
-        <BottomSheetModalProvider>{children}</BottomSheetModalProvider>
-        <Toast />
-      </APIProvider>
-    </GestureHandlerRootView>
+    <PostHogProvider
+      apiKey={process.env.EXPO_PUBLIC_POSTHOG_API_KEY}
+      autocapture={{
+        captureTouches: true,
+        captureLifecycleEvents: true,
+        captureScreens: true,
+      }}
+    >
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <APIProvider>
+          {appStateVisible !== 'active' && isEnabledBlur && (
+            <BlurView
+              intensity={20}
+              tint='light'
+              className='absolute top-0 left-0 z-10 flex-1 w-full h-full'
+            />
+          )}
+          <BottomSheetModalProvider>{children}</BottomSheetModalProvider>
+          <Toast />
+        </APIProvider>
+      </GestureHandlerRootView>
+    </PostHogProvider>
   );
 }

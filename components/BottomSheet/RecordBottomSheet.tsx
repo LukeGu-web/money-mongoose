@@ -6,7 +6,9 @@ import { useDeleteRecord } from 'api/record';
 import { formatApiError } from 'api/errorFormat';
 import log from 'core/logger';
 import { useRecord, useSettingStore } from 'core/stateHooks';
+import allCategories from 'static/categories.json';
 import BottomSheet from './BottomSheet';
+import Entypo from '@expo/vector-icons/Entypo';
 import Icon from '../Icon/Icon';
 import CIcon from '../Icon/CIcon';
 
@@ -76,12 +78,20 @@ export default function RecordBottomSheet({
       <View className='items-center flex-1'>
         <View className='flex-row items-start justify-between h-24 p-2 border-b-2 dark:border-zinc-300'>
           <View className='items-center justify-center w-1/6'>
-            <CIcon
-              // @ts-ignore: ignore json type
-              name={`c-${record.category}`}
-              size={28}
-              color={theme === 'dark' ? 'white' : 'black'}
-            />
+            {!allCategories.includes(String(record.category)) ? (
+              <Entypo
+                name='new'
+                size={28}
+                color={theme === 'dark' ? 'white' : 'black'}
+              />
+            ) : (
+              <CIcon
+                // @ts-ignore: ignore json type
+                name={`c-${record.category}`}
+                size={28}
+                color={theme === 'dark' ? 'white' : 'black'}
+              />
+            )}
           </View>
           <View className='flex-1'>
             <View className='flex-row'>

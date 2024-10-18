@@ -13,6 +13,7 @@ type Variables = {
   };
   account_id: string;
   account_status: string;
+  expo_push_token?: string;
 };
 type Response = {
   id: number;

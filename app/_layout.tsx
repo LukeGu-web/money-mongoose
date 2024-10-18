@@ -1,13 +1,18 @@
+import { Pressable } from 'react-native';
+import * as Sentry from '@sentry/react-native';
 import { SplashScreen, Stack, router } from 'expo-router';
 import { useFonts } from 'expo-font';
-import { Pressable } from 'react-native';
+import { initSentry, useSentryNavigationConfig } from 'core/sentry';
 import { Icon, Providers } from 'components';
 import '../global.css';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
-export default function RootLayoutNav() {
+initSentry();
+
+function RootLayout() {
+  useSentryNavigationConfig();
   const [fontsLoaded] = useFonts({
     IcoMoon: require('../assets/icomoon.ttf'),
     icon: require('../assets/icons/category/icon.ttf'),
@@ -97,6 +102,13 @@ export default function RootLayoutNav() {
           }}
         />
         <Stack.Screen
+          name='budget/index'
+          options={{
+            title: 'Budget',
+            headerLeft: () => <GoBack />,
+          }}
+        />
+        <Stack.Screen
           name='user/register'
           options={{
             headerShown: false,
@@ -140,3 +152,5 @@ const GoBack = () => (
     <Icon name='left' size={24} color='#fff' />
   </Pressable>
 );
+
+export default Sentry.wrap(RootLayout);

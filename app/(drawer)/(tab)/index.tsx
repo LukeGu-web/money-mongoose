@@ -4,7 +4,6 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { router } from 'expo-router';
 import dayjs from 'dayjs';
-
 import { client, setHeaderToken } from 'api/client';
 import { useGetMonthlyData } from 'api/record';
 import {
@@ -19,10 +18,11 @@ import { useUserStore, useBookStore, useSettingStore } from 'core/stateHooks';
 export default function Home() {
   const user = useUserStore((state) => state.user);
   const currentBook = useBookStore((state) => state.currentBook);
+  const theme = useSettingStore((state) => state).theme;
   const { data } = useGetMonthlyData({
     variables: { book_id: currentBook.id },
   });
-  const theme = useSettingStore((state) => state).theme;
+
   useEffect(() => {
     if (!client.defaults.headers.common['Authorization'])
       setHeaderToken(user.token);

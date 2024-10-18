@@ -148,7 +148,6 @@ export default function DigitalPad({ onSubmit }: DigitalPadProps) {
   };
 
   const handleChangeCurrency = (country: CountryType) => {
-    console.log('handleChangeCurrency: ', country);
     setCountry(country);
   };
 
