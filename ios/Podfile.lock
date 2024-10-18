@@ -15,7 +15,7 @@ PODS:
     - ExpoModulesCore
   - EXNotifications (0.28.18):
     - ExpoModulesCore
-  - Expo (51.0.37):
+  - Expo (51.0.38):
     - ExpoModulesCore
   - expo-dev-client (4.0.28):
     - EXManifests
@@ -253,7 +253,7 @@ PODS:
   - ExpoMediaLibrary (16.0.5):
     - ExpoModulesCore
     - React-Core
-  - ExpoModulesCore (1.12.25):
+  - ExpoModulesCore (1.12.26):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1924,7 +1924,7 @@ SPEC CHECKSUMS:
   EXJSONUtils: 30c17fd9cc364d722c0946a550dfbf1be92ef6a4
   EXManifests: c1fab4c3237675e7b0299ea8df0bcb14baca4f42
   EXNotifications: dd289340c26bc5388e440fc90d0b2c661cbd0285
-  Expo: 67b60b3b80a3c8e9f3bcaaa84d06d140229a246d
+  Expo: 9b6666ef2fedcfc89c5b9be2aa1ce12b81f9e7f5
   expo-dev-client: e25e1c63686cc097d9701354e475b2b60038b83b
   expo-dev-launcher: 8a308596a1a2fa9c4480eccdb8d0c1d1035bbfdf
   expo-dev-menu: 9c3004c35de890a799fd88f73b106c5e2c5b6d6d
@@ -1942,7 +1942,7 @@ SPEC CHECKSUMS:
   ExpoLocalAuthentication: 9e02a56a4cf9868f0052656a93d4c94101a42ed7
   ExpoLocalization: f04eeec2e35bed01ab61c72ee1768ec04d093d01
   ExpoMediaLibrary: 81573bcbd50cbd0a3ef57216c93593157d32b558
-  ExpoModulesCore: 0e7d4d5c13169bbbd53496721d811adbcc5d600a
+  ExpoModulesCore: 831ece8311a489418746925820bbffdda587d6f4
   EXSplashScreen: fbf0ec78e9cee911df188bf17b4fe51d15a84b87
   EXStructuredHeaders: cb8d1f698e144f4c5547b4c4963e1552f5d2b457
   EXUpdates: fe42e1cdace89a8db450351fbc38577b237af76b

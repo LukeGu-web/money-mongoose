@@ -1,6 +1,12 @@
 import { router, useLocalSearchParams } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { View, Text, Pressable } from 'react-native';
+import {
+  View,
+  Text,
+  Pressable,
+  Keyboard,
+  TouchableWithoutFeedback,
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useSettingStore } from 'core/stateHooks';
 import { LoginForm, SignUpForm, Details } from 'components/AccountDetails';
@@ -27,11 +33,13 @@ export default function Register() {
           <Text className='color-primary dark:color-blue-100'>Back</Text>
         </Pressable>
       </View>
-      <View className='items-center justify-center flex-1 bg-white dark:bg-black'>
-        {params.reason === 'login' && <LoginForm />}
-        {params.reason === 'sign-up' && <SignUpForm />}
-        {params.reason === 'details' && <Details />}
-      </View>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View className='items-center justify-center flex-1 bg-white dark:bg-black'>
+          {params.reason === 'login' && <LoginForm />}
+          {params.reason === 'sign-up' && <SignUpForm />}
+          {params.reason === 'details' && <Details />}
+        </View>
+      </TouchableWithoutFeedback>
       <StatusBar style={theme === 'dark' ? 'light' : 'dark'} />
     </SafeAreaView>
   );
