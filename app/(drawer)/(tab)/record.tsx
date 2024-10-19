@@ -28,7 +28,7 @@ export default function Record() {
   const { mutate: updateRecordApi } = useUpdateRecord();
   const { mutate: addTransferApi } = useAddTransfer();
   const { mutate: updateTransferApi } = useUpdateTransfer();
-  const { record } = useRecord();
+  const { record, resetRecord } = useRecord();
   const { currentBook } = useBookStore();
   const theme = useSettingStore((state) => state.theme);
   const methods = useForm({
@@ -62,6 +62,7 @@ export default function Record() {
             log.success('Add record success:', response);
             methods.reset();
             router.navigate('/');
+            resetRecord();
           },
           onError: (error) => {
             log.error('Error: ', formatApiError(error));
@@ -111,6 +112,7 @@ export default function Record() {
         }
       );
     } else {
+      console.log('addTransferApi: data: ', data);
       addTransferApi(
         {
           ...data,
