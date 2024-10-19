@@ -1,12 +1,21 @@
 import { View, Text, Pressable, Switch } from 'react-native';
 import { router } from 'expo-router';
 import * as Notifications from 'expo-notifications';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import { useSettingStore } from 'core/stateHooks';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import Icon from '../Icon/Icon';
 
 export default function SettingsSection() {
-  const { isEnabledReminder, setIsEnabledReminder, theme } = useSettingStore();
+  const {
+    isEnabledReminder,
+    setIsEnabledReminder,
+    reminderId,
+    setReminderId,
+    reminderTime,
+    setReminderTime,
+    theme,
+  } = useSettingStore();
   const switchColors =
     theme === 'dark'
       ? {
@@ -18,18 +27,42 @@ export default function SettingsSection() {
           thumbColor: '#f4f4f5',
         };
 
-  if (isEnabledReminder) {
-    Notifications.scheduleNotificationAsync({
+  const scheduleDailyReminder = async (time: Date) => {
+    const trigger = new Date(time);
+    trigger.setSeconds(0); // Ensures it triggers exactly at the selected minute
+
+    const id = await Notifications.scheduleNotificationAsync({
       content: {
         title: 'Daily Reminder',
         body: 'Any expenses to record today?',
       },
       trigger: {
-        day: 1,
+        hour: trigger.getHours(),
+        minute: trigger.getMinutes(),
         repeats: true,
       },
     });
-  }
+
+    setReminderId(id);
+  };
+
+  const cancelNotification = async () => {
+    if (reminderId) {
+      await Notifications.cancelScheduledNotificationAsync(reminderId);
+      setReminderId(null);
+    }
+  };
+
+  const handleReminderToggle = async () => {
+    setIsEnabledReminder(!isEnabledReminder);
+    if (!isEnabledReminder) {
+      // Schedule notification
+      await scheduleDailyReminder(reminderTime);
+    } else {
+      // Cancel notification
+      await cancelNotification();
+    }
+  };
   return (
     <View className='items-start justify-center flex-1 gap-2 mb-4'>
       <Text className='color-zinc-600 dark:color-zinc-300'>Settings</Text>
@@ -58,10 +91,34 @@ export default function SettingsSection() {
             trackColor={switchColors.trackColor}
             thumbColor={switchColors.thumbColor}
             ios_backgroundColor={switchColors.trackColor.false}
-            onValueChange={() => setIsEnabledReminder(!isEnabledReminder)}
+            onValueChange={handleReminderToggle}
             value={isEnabledReminder}
           />
         </View>
+        {isEnabledReminder && (
+          <View className='flex-row items-center justify-between px-4 py-3 border-b-2 border-white rounded-b-lg dark:border-black bg-zinc-300 dark:bg-zinc-900 border-x-2'>
+            <View className='flex-row items-center gap-2'>
+              <MaterialCommunityIcons
+                name='timer'
+                size={20}
+                color={theme === 'dark' ? 'white' : 'black'}
+              />
+              <Text className='dark:color-white'>Per day at</Text>
+            </View>
+            <DateTimePicker
+              key={theme}
+              style={{ width: 90 }}
+              value={reminderTime}
+              mode='time'
+              display='compact'
+              themeVariant={theme}
+              onChange={(e: any, selectedDate: any) => {
+                console.log('time: ', selectedDate);
+                if (selectedDate) setReminderTime(selectedDate);
+              }}
+            />
+          </View>
+        )}
       </View>
     </View>
   );
