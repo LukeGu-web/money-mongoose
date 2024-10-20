@@ -112,7 +112,6 @@ export default function Record() {
         }
       );
     } else {
-      console.log('addTransferApi: data: ', data);
       addTransferApi(
         {
           ...data,

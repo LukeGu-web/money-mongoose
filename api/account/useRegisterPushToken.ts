@@ -1,6 +1,7 @@
 import type { AxiosError } from 'axios';
 import { createMutation } from 'react-query-kit';
 import { client } from '../client';
+import log from 'core/logger';
 
 type Variables = {
   token: string;
@@ -16,7 +17,7 @@ const useRegisterPushToken = createMutation<Response, Variables, AxiosError>({
       method: 'POST',
     }).then((response) => response.data),
   onSuccess: () => {
-    console.log('push token registered successfully');
+    log.success('push token registered successfully');
   },
 });
 

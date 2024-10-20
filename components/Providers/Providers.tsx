@@ -4,13 +4,13 @@ import { AppState, Alert } from 'react-native';
 import Toast from 'react-native-toast-message';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import * as LocalAuthentication from 'expo-local-authentication';
-import { usePostHog, PostHogProvider } from 'posthog-react-native';
+import { PostHogProvider } from 'posthog-react-native';
 import { useShallow } from 'zustand/react/shallow';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { APIProvider } from 'api/api-provider';
 import { useSettingStore } from 'core/stateHooks';
 import log from 'core/logger';
-import { usePushNotifications } from 'core/features/usePushNotifications';
+// import { usePushNotifications } from 'core/features/usePushNotifications';
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   const appState = useRef(AppState.currentState);
@@ -26,10 +26,8 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   const isEnabledAuthRef = useRef(isEnabledAuth);
   const lastAuthTimeRef = useRef(0);
 
-  const { expoPushToken, notification } = usePushNotifications();
-  const data = JSON.stringify(notification, undefined, 2);
-
-  // console.log('usePushNotifications: ', expoPushToken, data);
+  // const { expoPushToken, notification } = usePushNotifications();
+  // const data = JSON.stringify(notification, undefined, 2);
 
   // Update the ref whenever isEnabledAuth changes
   useEffect(() => {

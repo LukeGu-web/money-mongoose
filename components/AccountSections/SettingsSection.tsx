@@ -64,6 +64,11 @@ export default function SettingsSection() {
     }
   };
 
+  const handleChangeReminderTime = async (selectedDate: Date) => {
+    setReminderTime(selectedDate);
+    await scheduleDailyReminder(reminderTime);
+  };
+
   return (
     <View className='items-start justify-center flex-1 gap-2 mb-4'>
       <Text className='color-zinc-600 dark:color-zinc-300'>Settings</Text>
@@ -114,8 +119,7 @@ export default function SettingsSection() {
               display='compact'
               themeVariant={theme}
               onChange={(e: any, selectedDate: any) => {
-                console.log('time: ', selectedDate);
-                if (selectedDate) setReminderTime(selectedDate);
+                if (selectedDate) handleChangeReminderTime(selectedDate);
               }}
             />
           </View>

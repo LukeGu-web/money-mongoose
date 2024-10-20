@@ -1,6 +1,7 @@
 import type { AxiosError } from 'axios';
 import { createMutation } from 'react-query-kit';
 import { client } from '../client';
+import log from 'core/logger';
 
 type Variables = null;
 type Response = {
@@ -14,7 +15,7 @@ const useVerifyEmail = createMutation<Response, Variables, AxiosError>({
       method: 'POST',
     }).then((response) => response.data),
   onSuccess: () => {
-    console.log('send verification email successfully');
+    log.success('Send verification email successfully');
   },
 });
 
