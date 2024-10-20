@@ -10,17 +10,17 @@ export default function HomeHeader() {
   return (
     <View className='flex-row items-center justify-between h-12 px-1 pb-1 -mt-1 bg-primary'>
       <View className='flex-row items-center justify-center gap-2'>
-        <DrawerToggleButton tintColor='#fff' />
+        <DrawerToggleButton tintColor='white' />
         <Text className='text-lg font-bold color-white'>
           {currentBook.name}
         </Text>
       </View>
       <View className='flex-row items-center justify-center gap-4'>
         <Link href='/statistics/trending/' className='pl-3'>
-          <Icon name='chart-line' size={24} color='#fff' />
+          <Icon name='chart-line' size={24} color='white' />
         </Link>
         <Link href='/records' className='pr-3'>
-          <Entypo name='text-document' size={24} color='#fff' />
+          <Entypo name='text-document' size={24} color='white' />
         </Link>
       </View>
     </View>

@@ -143,7 +143,7 @@ export default function LoginForm() {
           onPress={handleLogin}
         >
           {isPending ? (
-            <ActivityIndicator size='small' color='#fff' />
+            <ActivityIndicator size='small' color='white' />
           ) : (
             <Text className='text-lg font-bold text-center color-white'>
               Login

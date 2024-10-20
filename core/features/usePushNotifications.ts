@@ -1,10 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
+import { Platform } from 'react-native';
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
-
 import Constants from 'expo-constants';
-
-import { Platform } from 'react-native';
+import log from '../logger';
 
 export interface PushNotificationState {
   expoPushToken?: Notifications.ExpoPushToken;
@@ -43,7 +42,7 @@ export const usePushNotifications = (): PushNotificationState => {
         finalStatus = status;
       }
       if (finalStatus !== 'granted') {
-        alert('Failed to get push token for push notification');
+        log.error('Failed to get push token for push notification');
         return;
       }
 

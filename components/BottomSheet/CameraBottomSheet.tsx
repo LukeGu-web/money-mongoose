@@ -82,14 +82,14 @@ export default function CameraBottomSheet({
               className='flex-row items-center justify-center w-full gap-4 py-4 bg-blue-900 rounded-lg'
               onPress={handleOpenCamera}
             >
-              <FontAwesome name='camera-retro' size={24} color='#fff' />
+              <FontAwesome name='camera-retro' size={24} color='white' />
               <Text className='text-2xl font-medium color-white'>Camera</Text>
             </Pressable>
             <Pressable
               className='flex-row items-center justify-center w-full gap-4 py-4 bg-blue-900 rounded-lg'
               onPress={handleOpenCameraRoll}
             >
-              <FontAwesome5 name='photo-video' size={24} color='#fff' />
+              <FontAwesome5 name='photo-video' size={24} color='white' />
               <Text className='text-2xl font-medium color-white'>Gallery</Text>
             </Pressable>
           </View>

@@ -14,7 +14,7 @@ export default function Onboarding() {
   };
   return (
     <SafeAreaView
-      style={{ flex: 1, backgroundColor: '#fff' }}
+      style={{ flex: 1, backgroundColor: 'white' }}
       edges={['right', 'bottom', 'left']}
     >
       <View className='flex-1'>

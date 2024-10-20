@@ -18,7 +18,7 @@ export default function RecordHeader() {
   return (
     <View className='flex-row items-center justify-between h-12 px-4 pb-1 -mt-1 bg-primary'>
       <Pressable className='py-2 pr-2' onPress={handleGoBack}>
-        <Icon name='left' size={24} color='#fff' />
+        <Icon name='left' size={24} color='white' />
       </Pressable>
       <Controller
         control={control}
@@ -60,7 +60,7 @@ export default function RecordHeader() {
         name='type'
       />
       <Pressable onPress={() => router.navigate('/user/settings')}>
-        <Icon name='setting' size={24} color='#fff' />
+        <Icon name='setting' size={24} color='white' />
       </Pressable>
     </View>
   );

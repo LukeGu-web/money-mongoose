@@ -25,7 +25,7 @@ function RootLayout() {
       <Stack
         screenOptions={{
           headerStyle: { backgroundColor: '#03045E' },
-          headerTintColor: '#fff',
+          headerTintColor: 'white',
         }}
       >
         <Stack.Screen name='(drawer)' options={{ headerShown: false }} />
@@ -89,7 +89,7 @@ function RootLayout() {
                 className='py-2 pr-8'
                 onPress={() => router.replace('/')}
               >
-                <Icon name='left' size={24} color='#fff' />
+                <Icon name='left' size={24} color='white' />
               </Pressable>
             ),
           }}
@@ -149,7 +149,7 @@ function RootLayout() {
 
 const GoBack = () => (
   <Pressable className='py-2 pr-8' onPress={() => router.back()}>
-    <Icon name='left' size={24} color='#fff' />
+    <Icon name='left' size={24} color='white' />
   </Pressable>
 );
 

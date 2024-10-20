@@ -38,7 +38,7 @@ export default function TabLayout() {
     <Tabs
       screenOptions={({ route }) => ({
         headerStyle: { backgroundColor: '#03045E' },
-        headerTintColor: '#fff',
+        headerTintColor: 'white',
         tabBarActiveTintColor: theme === 'dark' ? '#60a5fa' : '#03045E',
         tabBarStyle: {
           display: hideTab.includes(route.name) ? 'none' : 'flex',
@@ -65,10 +65,10 @@ export default function TabLayout() {
                 className='pt-0.5 pr-3'
                 onPress={() => router.navigate('/statistics/category/')}
               >
-                <AntDesign name='piechart' size={20} color='#fff' />
+                <AntDesign name='piechart' size={20} color='white' />
               </Pressable>
               <Pressable className='pr-3' onPress={handleBackToday}>
-                <Icon name='center_focus' size={24} color='#fff' />
+                <Icon name='center_focus' size={24} color='white' />
               </Pressable>
             </View>
           ),
@@ -90,7 +90,7 @@ export default function TabLayout() {
           title: 'Asset',
           headerRight: () => (
             <Link href='/asset/management' className='pr-3'>
-              <Icon name='credit-card-multiple' size={24} color='#fff' />
+              <Icon name='credit-card-multiple' size={24} color='white' />
             </Link>
           ),
           tabBarIcon: ({ color }) => (

@@ -44,7 +44,7 @@ export default function Pie({
           strokeWidth={2}
           donut
           data={data}
-          innerCircleColor='#fff'
+          innerCircleColor='white'
           innerCircleBorderWidth={2}
           innerCircleBorderColor={'white'}
           showValuesAsLabels={true}

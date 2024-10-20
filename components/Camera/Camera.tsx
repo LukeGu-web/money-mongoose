@@ -119,7 +119,7 @@ export default function Camera() {
                 className='items-center justify-center h-12 bg-black rounded-lg w-36'
               >
                 {isPending ? (
-                  <ActivityIndicator size='small' color='#fff' />
+                  <ActivityIndicator size='small' color='white' />
                 ) : (
                   <Text className='text-xl color-white'>Save</Text>
                 )}
@@ -137,15 +137,19 @@ export default function Camera() {
           <View className='flex-row flex-1 bg-transparent'>
             <View className='absolute flex-row items-center justify-between w-full px-8 top-20 '>
               <Pressable onPress={() => router.back()}>
-                <Icon name='close' size={24} color='#fff' />
+                <Icon name='close' size={24} color='white' />
               </Pressable>
               <Pressable onPress={handleFlash}>
-                <MaterialIcons name={`flash-${flash}`} size={24} color='#fff' />
+                <MaterialIcons
+                  name={`flash-${flash}`}
+                  size={24}
+                  color='white'
+                />
               </Pressable>
             </View>
             <View className='absolute flex-row items-center justify-between w-full px-8 bottom-10 '>
               <Pressable onPress={handleOpenCameraRoll}>
-                <MaterialIcons name='photo-library' size={32} color='#fff' />
+                <MaterialIcons name='photo-library' size={32} color='white' />
               </Pressable>
               <View className='items-center self-center p-2 border-2 border-white rounded-full'>
                 <Pressable
@@ -158,7 +162,7 @@ export default function Camera() {
                   setType((current) => (current === 'back' ? 'front' : 'back'));
                 }}
               >
-                <MaterialIcons name='flip-camera-ios' size={32} color='#fff' />
+                <MaterialIcons name='flip-camera-ios' size={32} color='white' />
               </Pressable>
             </View>
           </View>

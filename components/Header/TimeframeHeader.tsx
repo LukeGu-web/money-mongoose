@@ -72,7 +72,7 @@ export default function TimeframeHeader({
     <View className='-mt-1'>
       <View className='flex-row items-center justify-between h-12 px-4 pb-1 bg-primary'>
         <Pressable className='py-2 pr-2' onPress={() => router.back()}>
-          <Icon name='left' size={24} color='#fff' />
+          <Icon name='left' size={24} color='white' />
         </Pressable>
         <View className='flex-row items-center border-2 border-white rounded-lg'>
           {Object.values(TimeRangeTypes).map((item, index) => (
@@ -95,11 +95,11 @@ export default function TimeframeHeader({
         </View>
         {isCategory ? (
           <Link href='/statistics/trending/' className='pl-3'>
-            <Icon name='chart-line' size={24} color='#fff' />
+            <Icon name='chart-line' size={24} color='white' />
           </Link>
         ) : (
           <Link href='/statistics/category/' className='pl-3'>
-            <AntDesign name='piechart' size={20} color='#fff' />
+            <AntDesign name='piechart' size={20} color='white' />
           </Link>
         )}
       </View>

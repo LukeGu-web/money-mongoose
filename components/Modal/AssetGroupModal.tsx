@@ -117,7 +117,7 @@ export default function AssetGroupModal({
               onPress={handleConfirm}
             >
               {isCreating || isUpdating ? (
-                <ActivityIndicator size='small' color='#fff' />
+                <ActivityIndicator size='small' color='white' />
               ) : (
                 <Text className='text-xl color-white'>Confirm</Text>
               )}

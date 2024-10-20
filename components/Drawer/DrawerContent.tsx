@@ -15,7 +15,7 @@ export default function DrawerContent(props: any) {
   const theme = useSettingStore((state) => state.theme);
   const { name } = useBookStore((state) => state.currentBook);
   const iconColor = theme === 'dark' ? '#0891b2' : '#03045E';
-  const labelColor = theme === 'dark' ? '#fff' : '#000';
+  const labelColor = theme === 'dark' ? 'white' : '#000';
   return (
     <DrawerContentScrollView
       {...props}

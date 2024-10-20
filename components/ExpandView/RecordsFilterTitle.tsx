@@ -91,7 +91,7 @@ export default function RecordsFilterTitle({
             <Icon
               name='left'
               size={24}
-              color={type !== FilterTypes.CLOSE ? '#03045e' : '#fff'}
+              color={type !== FilterTypes.CLOSE ? '#03045e' : 'white'}
             />
           </Pressable>
           {search !== '' ? (
@@ -121,7 +121,7 @@ export default function RecordsFilterTitle({
             <MaterialCommunityIcons
               name='refresh'
               size={24}
-              color={type !== FilterTypes.CLOSE ? '#03045e' : '#fff'}
+              color={type !== FilterTypes.CLOSE ? '#03045e' : 'white'}
             />
           </Pressable>
         )}
@@ -133,7 +133,7 @@ export default function RecordsFilterTitle({
           <FontAwesome
             name='search'
             size={22}
-            color={type === FilterTypes.FILTER ? '#03045e' : '#fff'}
+            color={type === FilterTypes.FILTER ? '#03045e' : 'white'}
           />
         </Pressable>
         <Pressable
@@ -157,7 +157,7 @@ export default function RecordsFilterTitle({
             <MaterialCommunityIcons
               name='filter-plus'
               size={24}
-              color={type === FilterTypes.SEARCH ? '#03045e' : '#fff'}
+              color={type === FilterTypes.SEARCH ? '#03045e' : 'white'}
             />
           )}
         </Pressable>

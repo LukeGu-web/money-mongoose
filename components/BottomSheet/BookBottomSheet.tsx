@@ -94,21 +94,21 @@ export default function BookBottomSheet({
               className='flex-row items-center justify-center w-full gap-4 py-3 bg-blue-500 rounded-lg'
               onPress={handleSelectCurrentBook}
             >
-              <Feather name='check-circle' size={16} color='#fff' />
+              <Feather name='check-circle' size={16} color='white' />
               <Text className='text-lg color-white'>Select</Text>
             </Pressable>
             <Pressable
               className='flex-row items-center justify-center w-full gap-4 py-3 bg-blue-500 rounded-lg'
               onPress={handleEditSelectedBook}
             >
-              <Icon name='edit' size={16} color='#fff' />
+              <Icon name='edit' size={16} color='white' />
               <Text className='text-lg color-white'>Edit</Text>
             </Pressable>
             <Pressable
               className='flex-row items-center justify-center w-full gap-4 py-3 bg-red-500 rounded-lg'
               onPress={handleDeleteBook}
             >
-              <Icon name='delete' size={16} color='#fff' />
+              <Icon name='delete' size={16} color='white' />
               <Text className='text-lg color-white'>Delete</Text>
             </Pressable>
           </View>

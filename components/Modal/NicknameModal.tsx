@@ -81,7 +81,7 @@ export default function NicknameModal({
               className='items-center justify-center px-6 py-2 rounded-lg bg-amber-400'
             >
               {isPending ? (
-                <ActivityIndicator size='small' color='#fff' />
+                <ActivityIndicator size='small' color='white' />
               ) : (
                 <Text className='text-xl color-white'>Confirm</Text>
               )}
