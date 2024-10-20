@@ -10,7 +10,7 @@ import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { APIProvider } from 'api/api-provider';
 import { useSettingStore } from 'core/stateHooks';
 import log from 'core/logger';
-// import { usePushNotifications } from 'core/features/usePushNotifications';
+import { usePushNotifications } from 'core/features/usePushNotifications';
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   const appState = useRef(AppState.currentState);
@@ -26,8 +26,8 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   const isEnabledAuthRef = useRef(isEnabledAuth);
   const lastAuthTimeRef = useRef(0);
 
-  // const { expoPushToken, notification } = usePushNotifications();
-  // const data = JSON.stringify(notification, undefined, 2);
+  // Enable Push Notifications
+  usePushNotifications();
 
   // Update the ref whenever isEnabledAuth changes
   useEffect(() => {
