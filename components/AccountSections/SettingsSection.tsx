@@ -63,6 +63,7 @@ export default function SettingsSection() {
       await cancelNotification();
     }
   };
+
   return (
     <View className='items-start justify-center flex-1 gap-2 mb-4'>
       <Text className='color-zinc-600 dark:color-zinc-300'>Settings</Text>
@@ -108,7 +109,7 @@ export default function SettingsSection() {
             <DateTimePicker
               key={theme}
               style={{ width: 90 }}
-              value={reminderTime}
+              value={new Date(reminderTime)}
               mode='time'
               display='compact'
               themeVariant={theme}

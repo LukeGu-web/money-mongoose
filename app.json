@@ -17,6 +17,7 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.lukeguexpo.moneymongoose",
       "infoPlist": {
+        "LSMinimumSystemVersion": "12.0",
         "NSFaceIDUsageDescription": "Enabling FaceID allows you to protect data"
       }
     },
@@ -35,9 +36,7 @@
       [
         "expo-font",
         {
-          "fonts": [
-            "./assets/fonts/PermanentMarker-Regular.ttf"
-          ]
+          "fonts": ["./assets/fonts/PermanentMarker-Regular.ttf"]
         }
       ],
       [
