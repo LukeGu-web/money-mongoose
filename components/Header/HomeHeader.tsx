@@ -10,7 +10,9 @@ export default function HomeHeader() {
   return (
     <View className='flex-row items-center justify-between h-12 px-1 pb-1 -mt-1 bg-primary'>
       <View className='flex-row items-center justify-center gap-2'>
-        <DrawerToggleButton tintColor='white' />
+        <View className='bg-white rounded-full'>
+          <DrawerToggleButton />
+        </View>
         <Text className='text-lg font-bold color-white'>
           {currentBook.name}
         </Text>
