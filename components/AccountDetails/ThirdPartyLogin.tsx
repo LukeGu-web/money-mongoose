@@ -34,6 +34,7 @@ export default function ThirdPartyLogin() {
       // setUserInfo(userInfo);
       // setError(null);
     } catch (e) {
+      console.error('GoogleSignin error: ', e);
       // setError(e);
     }
   };
