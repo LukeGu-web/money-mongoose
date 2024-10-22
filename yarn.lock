@@ -2164,6 +2164,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@react-native-google-signin/google-signin@npm:^13.1.0":
+  version: 13.1.0
+  resolution: "@react-native-google-signin/google-signin@npm:13.1.0"
+  peerDependencies:
+    expo: ">=50.0.0"
+    react: "*"
+    react-dom: "*"
+    react-native: "*"
+  peerDependenciesMeta:
+    expo:
+      optional: true
+    react-dom:
+      optional: true
+  checksum: 10c0/f3e4032e8c5ef36c180f17a5c01cd054c0ea732def808f06871a768204bfdc5a3cdcbc3fa6f1d57aa564b5adb71cf861a3420f5c48d10e2ed9a0e6556adc498b
+  languageName: node
+  linkType: hard
+
 "@react-native-picker/picker@npm:2.7.5":
   version: 2.7.5
   resolution: "@react-native-picker/picker@npm:2.7.5"
@@ -8100,6 +8117,7 @@ __metadata:
     "@gorhom/bottom-sheet": "npm:^4.6.4"
     "@react-native-async-storage/async-storage": "npm:1.23.1"
     "@react-native-community/datetimepicker": "npm:8.0.1"
+    "@react-native-google-signin/google-signin": "npm:^13.1.0"
     "@react-native-picker/picker": "npm:2.7.5"
     "@react-navigation/drawer": "npm:^6.7.2"
     "@react-navigation/native": "npm:^6.1.18"

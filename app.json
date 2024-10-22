@@ -18,7 +18,14 @@
       "bundleIdentifier": "com.lukeguexpo.moneymongoose",
       "infoPlist": {
         "LSMinimumSystemVersion": "12.0",
-        "NSFaceIDUsageDescription": "Enabling FaceID allows you to protect data"
+        "NSFaceIDUsageDescription": "Enabling FaceID allows you to protect data",
+        "CFBundleURLTypes": [
+          {
+            "CFBundleURLSchemes": [
+              "com.googleusercontent.apps.398690312031-t4mgj90qn7gb5k7lmpvotlr77bga0ntp"
+            ]
+          }
+        ]
       }
     },
     "android": {
