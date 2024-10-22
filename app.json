@@ -69,12 +69,6 @@
           "url": "https://sentry.io/"
         }
       ],
-      [
-        "@react-native-google-signin/google-signin",
-        {
-          "iosUrlScheme": "com.googleusercontent.apps.398690312031-t4mgj90qn7gb5k7lmpvotlr77bga0ntp"
-        }
-      ],
       "expo-localization"
     ],
     "extra": {

@@ -1,19 +1,15 @@
 import { useEffect, useState } from 'react';
 import { View, Text, Pressable } from 'react-native';
-import {
-  GoogleSignin,
-  GoogleSigninButton,
-  statusCodes,
-} from '@react-native-google-signin/google-signin';
+import { GoogleSignin, User } from '@react-native-google-signin/google-signin';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import { useSettingStore } from 'core/stateHooks';
+import GoogleSignInButton from '../Button/GoogleSigninButton';
 
 export default function ThirdPartyLogin() {
   const theme = useSettingStore((state) => state.theme);
   const configureGoogleSignIn = () => {
     GoogleSignin.configure({
-      iosClientId:
-        '398690312031-t4mgj90qn7gb5k7lmpvotlr77bga0ntp.apps.googleusercontent.com',
+      iosClientId: process.env.EXPO_PUBLIC_GOOGLE_SIGNIN_IOS_ID,
     });
   };
 
@@ -21,29 +17,15 @@ export default function ThirdPartyLogin() {
     configureGoogleSignIn();
   });
 
-  const [error, setError] = useState();
-  const [userInfo, setUserInfo] = useState();
-
-  const signIn = async () => {
-    console.log('Pressed sign in');
-
-    try {
-      await GoogleSignin.hasPlayServices();
-      const userInfo = await GoogleSignin.signIn();
-      console.log(userInfo);
-      // setUserInfo(userInfo);
-      // setError(null);
-    } catch (e) {
-      console.error('GoogleSignin error: ', e);
-      // setError(e);
-    }
+  const handleSignInComplete = (userInfo: User) => {
+    console.log('User signed in:', userInfo);
+    // Handle successful sign-in
   };
 
-  // const logout = () => {
-  //   setUserInfo(undefined);
-  //   GoogleSignin.revokeAccess();
-  //   GoogleSignin.signOut();
-  // };
+  const handleError = (error: Error) => {
+    console.error('Sign-in error:', error);
+    // Handle sign-in error
+  };
 
   return (
     <View>
@@ -51,22 +33,10 @@ export default function ThirdPartyLogin() {
         ----------- or -----------
       </Text>
       <View className='gap-3 mt-6'>
-        <View className='self-center w-3/4 overflow-hidden border-2 border-gray-400 rounded-lg'>
-          <GoogleSigninButton
-            size={GoogleSigninButton.Size.Standard}
-            color={
-              theme === 'dark'
-                ? GoogleSigninButton.Color.Dark
-                : GoogleSigninButton.Color.Light
-            }
-            style={{
-              width: '103%',
-              margin: -4,
-            }}
-            onPress={signIn}
-          />
-        </View>
-
+        <GoogleSignInButton
+          onSignInComplete={handleSignInComplete}
+          onError={handleError}
+        />
         <Pressable className='flex-row items-center self-center w-3/4 gap-4 px-4 py-2 border-2 border-gray-400 rounded-lg'>
           <View className='items-center w-1/6'>
             <FontAwesome6
