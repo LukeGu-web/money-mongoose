@@ -65,7 +65,7 @@ export default function FacebookSignInButton({
       onPress={handleLogin}
     >
       <View className='items-center w-1/6'>
-        <Image className='w-6 h-6' source={facebookLogo} />
+        <Image className='w-7 h-7' source={facebookLogo} />
       </View>
       <Text className='text-lg font-semibold color-primary dark:color-blue-100'>
         {buttonText}

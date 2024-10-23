@@ -1,5 +1,5 @@
-import React from 'react';
-import { Pressable, Text } from 'react-native';
+import { useState, useEffect } from 'react';
+import { Pressable, Text, View } from 'react-native';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import * as AppleAuthentication from 'expo-apple-authentication';
 import { useSettingStore } from 'core/stateHooks';
@@ -36,9 +36,9 @@ export default function AppleSignInButton({
 }: AppleSignInButtonProps) {
   const theme = useSettingStore((state) => state.theme);
   // Check if Apple Sign In is available
-  const [isAvailable, setIsAvailable] = React.useState<boolean>(false);
+  const [isAvailable, setIsAvailable] = useState<boolean>(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const checkAvailability = async () => {
       const available = await AppleAuthentication.isAvailableAsync();
       setIsAvailable(available);
@@ -88,11 +88,13 @@ export default function AppleSignInButton({
       className='flex-row items-center self-center w-3/4 gap-4 px-4 py-2 border-2 border-gray-400 rounded-lg'
       onPress={handleSignIn}
     >
-      <FontAwesome6
-        name='apple'
-        size={24}
-        color={theme === 'dark' ? 'white' : 'black'}
-      />
+      <View className='items-center w-1/6'>
+        <FontAwesome6
+          name='apple'
+          size={24}
+          color={theme === 'dark' ? 'white' : 'black'}
+        />
+      </View>
       <Text className='text-lg font-semibold color-primary dark:color-blue-100'>
         {buttonText}
       </Text>
