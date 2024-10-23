@@ -5138,6 +5138,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"expo-apple-authentication@npm:~6.4.2":
+  version: 6.4.2
+  resolution: "expo-apple-authentication@npm:6.4.2"
+  peerDependencies:
+    expo: "*"
+  checksum: 10c0/8ce90990d66c4853fbaa39643b97e0a3a44ba164d7ba878a8c9c2781afdefce055ed75622971447bd317e2a55675c18af9a6137a3ec1dd3b7d2b83bac0e81795
+  languageName: node
+  linkType: hard
+
 "expo-application@npm:~5.9.0, expo-application@npm:~5.9.1":
   version: 5.9.1
   resolution: "expo-application@npm:5.9.1"
@@ -8140,6 +8149,7 @@ __metadata:
     axios: "npm:^1.7.5"
     dayjs: "npm:^1.11.13"
     expo: "npm:~51.0.38"
+    expo-apple-authentication: "npm:~6.4.2"
     expo-application: "npm:~5.9.1"
     expo-blur: "npm:~13.0.2"
     expo-camera: "npm:~15.0.16"
