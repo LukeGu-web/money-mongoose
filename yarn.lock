@@ -5481,6 +5481,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"expo-tracking-transparency@npm:~4.0.2":
+  version: 4.0.2
+  resolution: "expo-tracking-transparency@npm:4.0.2"
+  peerDependencies:
+    expo: "*"
+  checksum: 10c0/86092b53f42000b956a6a8cdd5df0ca71e84dd918614ff71eae8b61ff233e170f1cc77738be59da5c0dd60d2937b3871b8870e9f3303aa56ff5a4c2a9c8cc898
+  languageName: node
+  linkType: hard
+
 "expo-updates-interface@npm:~0.16.2":
   version: 0.16.2
   resolution: "expo-updates-interface@npm:0.16.2"
@@ -8148,6 +8157,7 @@ __metadata:
     expo-notifications: "npm:~0.28.18"
     expo-router: "npm:~3.5.23"
     expo-status-bar: "npm:~1.12.1"
+    expo-tracking-transparency: "npm:~4.0.2"
     expo-updates: "npm:~0.25.27"
     immer: "npm:^10.1.1"
     nativewind: "npm:^4.1.4"
@@ -8157,6 +8167,7 @@ __metadata:
     react-native: "npm:0.74.5"
     react-native-calendars: "npm:^1.1307.0"
     react-native-country-flag: "npm:^2.0.2"
+    react-native-fbsdk-next: "npm:^13.1.3"
     react-native-gesture-handler: "npm:~2.16.1"
     react-native-get-random-values: "npm:~1.11.0"
     react-native-gifted-charts: "npm:^1.4.33"
@@ -9275,6 +9286,19 @@ __metadata:
     react-native-svg:
       optional: true
   checksum: 10c0/f91442b781544df083b85298c242719ddb452c8d98ee824ef3bbd1fd16e7e1db94540033f94e362412a4bd5375b8e05c3d757a1f91a9c1f62dc87bf11f279e40
+  languageName: node
+  linkType: hard
+
+"react-native-fbsdk-next@npm:^13.1.3":
+  version: 13.1.3
+  resolution: "react-native-fbsdk-next@npm:13.1.3"
+  peerDependencies:
+    expo: ">=47.0.0"
+    react-native: ">=0.63.3"
+  peerDependenciesMeta:
+    expo:
+      optional: true
+  checksum: 10c0/ec3c2d18f35b52bcb4ecffd5be30978b87abddec22863e7a1e7eb27eac0dda5e5d21c2675c172adb2a384b62f1b13a6ac690a09b0ca922b67f2ce170f3e55978
   languageName: node
   linkType: hard
 
