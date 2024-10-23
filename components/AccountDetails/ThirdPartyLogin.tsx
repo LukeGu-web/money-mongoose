@@ -1,14 +1,15 @@
-import { useEffect, useState } from 'react';
-import { View, Text, Pressable } from 'react-native';
+import { useEffect } from 'react';
+import { View, Text } from 'react-native';
 import { GoogleSignin, User } from '@react-native-google-signin/google-signin';
-import { Profile, AccessToken } from 'react-native-fbsdk-next';
-import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
-import { useSettingStore } from 'core/stateHooks';
-import { GoogleSignInButton, FacebookSignInButton } from '../Buttons';
+import {
+  AppleSignInButton,
+  GoogleSignInButton,
+  FacebookSignInButton,
+} from '../Buttons';
 import type { FacebookUserInfo } from '../Buttons/FacebookSignInButton';
+import type { AppleSignInResponse } from '../Buttons/AppleSignInButton';
 
 export default function ThirdPartyLogin() {
-  const theme = useSettingStore((state) => state.theme);
   const configureGoogleSignIn = () => {
     GoogleSignin.configure({
       iosClientId: process.env.EXPO_PUBLIC_GOOGLE_SIGNIN_IOS_ID,
@@ -19,12 +20,12 @@ export default function ThirdPartyLogin() {
     configureGoogleSignIn();
   });
 
-  const handleSignInComplete = (userInfo: User) => {
+  const handleSignInGoogle = (userInfo: User) => {
     console.log('User signed in:', userInfo);
     // Handle successful sign-in
   };
 
-  const handleLoginComplete = ({ profile, accessToken }: FacebookUserInfo) => {
+  const handleSignInFacebook = ({ profile, accessToken }: FacebookUserInfo) => {
     if (profile) {
       console.log('Logged in as:', profile.name);
       console.log('User ID:', profile.userID);
@@ -33,6 +34,26 @@ export default function ThirdPartyLogin() {
     }
     console.log('Access Token:', accessToken.accessToken);
     // Handle successful login
+  };
+
+  const handleSignInComplete = async (response: AppleSignInResponse) => {
+    console.log('Signed in with Apple ID:', response.user);
+
+    if (response.email) {
+      console.log('Email:', response.email);
+    }
+
+    if (response.fullName) {
+      const { familyName, givenName, middleName } = response.fullName;
+      console.log(
+        'Full name:',
+        [givenName, middleName, familyName].filter(Boolean).join(' ')
+      );
+    }
+
+    if (response.identityToken) {
+      console.log('Identity Token:', response.identityToken);
+    }
   };
 
   const handleError = (error: Error) => {
@@ -51,27 +72,26 @@ export default function ThirdPartyLogin() {
       </Text>
       <View className='gap-3 mt-6'>
         <GoogleSignInButton
-          onSignInComplete={handleSignInComplete}
+          onSignInComplete={handleSignInGoogle}
           onError={handleError}
         />
         <FacebookSignInButton
-          onLoginComplete={handleLoginComplete}
+          onLoginComplete={handleSignInFacebook}
           onError={handleError}
           onCancel={handleCancel}
         />
+        <AppleSignInButton
+          onSignInComplete={handleSignInComplete}
+          onError={handleError}
+          buttonType='white'
+          customStyles={{
+            button: {
+              width: '80%',
+              alignSelf: 'center',
+            },
+          }}
+        />
         {/* <Pressable className='flex-row items-center self-center w-3/4 gap-4 px-4 py-2 border-2 border-gray-400 rounded-lg'>
-          <View className='items-center w-1/6'>
-            <FontAwesome6
-              name='meta'
-              size={20}
-              color={theme === 'dark' ? '#dbeafe' : '#03045E'}
-            />
-          </View>
-          <Text className='w-3/4 text-lg font-semibold color-primary dark:color-blue-100'>
-            Continue with Meta
-          </Text>
-        </Pressable> */}
-        <Pressable className='flex-row items-center self-center w-3/4 gap-4 px-4 py-2 border-2 border-gray-400 rounded-lg'>
           <View className='items-center w-1/6'>
             <FontAwesome6
               name='apple'
@@ -82,7 +102,7 @@ export default function ThirdPartyLogin() {
           <Text className='text-lg font-semibold color-primary dark:color-blue-100'>
             Continue with Apple
           </Text>
-        </Pressable>
+        </Pressable> */}
       </View>
     </View>
   );
