@@ -1,42 +1,26 @@
-import React from 'react';
-import {
-  TouchableOpacity,
-  Text,
-  StyleSheet,
-  Image,
-  TouchableOpacityProps,
-} from 'react-native';
+import { View, Pressable, Text, Image } from 'react-native';
 import { LoginManager, AccessToken, Profile } from 'react-native-fbsdk-next';
+const facebookLogo = require('../../assets/icons/third-party/facebook.png');
 
-// Update the interface to allow null
 export interface FacebookUserInfo {
-  profile: Profile | null; // Changed from Profile | undefined to Profile | null
+  profile: Profile | null;
   accessToken: AccessToken;
 }
 
-interface CustomFacebookLoginButtonProps
-  extends Omit<TouchableOpacityProps, 'onPress'> {
+interface FacebookSignInButtonProps {
   onLoginComplete?: (userInfo: FacebookUserInfo) => void;
   onError?: (error: Error) => void;
   onCancel?: () => void;
   buttonText?: string;
-  permissions?: string[];
-  customStyles?: {
-    button?: object;
-    text?: object;
-    logo?: object;
-  };
 }
 
-const CustomFacebookLoginButton: React.FC<CustomFacebookLoginButtonProps> = ({
+export default function FacebookSignInButton({
   onLoginComplete,
   onError,
   onCancel,
-  buttonText = 'Continue with Facebook',
-  permissions = ['public_profile', 'email'],
-  customStyles,
-  ...touchableProps
-}) => {
+  buttonText = 'Sign in with Facebook',
+}: FacebookSignInButtonProps) {
+  const permissions = ['public_profile', 'email'];
   const handleLogin = async (): Promise<void> => {
     try {
       // Attempt login with permissions
@@ -76,50 +60,16 @@ const CustomFacebookLoginButton: React.FC<CustomFacebookLoginButtonProps> = ({
   };
 
   return (
-    <TouchableOpacity
-      style={[styles.button, customStyles?.button]}
+    <Pressable
+      className='flex-row items-center self-center w-3/4 gap-4 px-4 py-2 border-2 border-gray-400 rounded-lg'
       onPress={handleLogin}
-      activeOpacity={0.7}
-      {...touchableProps}
     >
-      <Image
-        source={{
-          uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/1024px-Facebook_Logo_%282019%29.png',
-        }}
-        style={[styles.logo, customStyles?.logo]}
-      />
-      <Text style={[styles.text, customStyles?.text]}>{buttonText}</Text>
-    </TouchableOpacity>
+      <View className='items-center w-1/6'>
+        <Image className='w-6 h-6' source={facebookLogo} />
+      </View>
+      <Text className='text-lg font-semibold color-primary dark:color-blue-100'>
+        {buttonText}
+      </Text>
+    </Pressable>
   );
-};
-
-const styles = StyleSheet.create({
-  button: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#1877F2', // Facebook blue
-    borderRadius: 4,
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  logo: {
-    width: 24,
-    height: 24,
-    marginRight: 12,
-  },
-  text: {
-    color: '#FFFFFF',
-    fontSize: 16,
-    fontWeight: '600',
-  },
-});
-
-export default CustomFacebookLoginButton;
+}

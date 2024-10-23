@@ -58,18 +58,6 @@ export default function ThirdPartyLogin() {
           onLoginComplete={handleLoginComplete}
           onError={handleError}
           onCancel={handleCancel}
-          permissions={['public_profile', 'email']}
-          customStyles={{
-            button: {
-              // Custom button styles
-              width: '80%',
-              alignSelf: 'center',
-            },
-            text: {
-              // Custom text styles
-              fontSize: 18,
-            },
-          }}
         />
         {/* <Pressable className='flex-row items-center self-center w-3/4 gap-4 px-4 py-2 border-2 border-gray-400 rounded-lg'>
           <View className='items-center w-1/6'>

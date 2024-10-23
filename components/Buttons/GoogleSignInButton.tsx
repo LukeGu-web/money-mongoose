@@ -4,6 +4,7 @@ import {
   User,
   statusCodes,
 } from '@react-native-google-signin/google-signin';
+const googleLogo = require('../../assets/icons/third-party/google.png');
 
 interface GoogleSignInButtonProps {
   onSignInComplete?: (userInfo: User) => void;
@@ -61,12 +62,7 @@ export default function GoogleSignInButton({
       onPress={signIn}
     >
       <View className='items-center w-1/6'>
-        <Image
-          className='w-6 h-6'
-          source={{
-            uri: 'https://developers.google.com/identity/images/g-logo.png',
-          }}
-        />
+        <Image className='w-6 h-6' source={googleLogo} />
       </View>
       <Text className='text-lg font-semibold color-primary dark:color-blue-100'>
         {buttonText}
