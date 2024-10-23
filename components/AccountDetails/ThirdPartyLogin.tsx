@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { GoogleSignin, User } from '@react-native-google-signin/google-signin';
+import { Profile, AccessToken } from 'react-native-fbsdk-next';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import { useSettingStore } from 'core/stateHooks';
-import GoogleSignInButton from '../Button/GoogleSigninButton';
+import { GoogleSignInButton, FacebookSignInButton } from '../Buttons';
+import type { FacebookUserInfo } from '../Buttons/FacebookSignInButton';
 
 export default function ThirdPartyLogin() {
   const theme = useSettingStore((state) => state.theme);
@@ -22,9 +24,24 @@ export default function ThirdPartyLogin() {
     // Handle successful sign-in
   };
 
+  const handleLoginComplete = ({ profile, accessToken }: FacebookUserInfo) => {
+    if (profile) {
+      console.log('Logged in as:', profile.name);
+      console.log('User ID:', profile.userID);
+    } else {
+      console.log('Profile not available');
+    }
+    console.log('Access Token:', accessToken.accessToken);
+    // Handle successful login
+  };
+
   const handleError = (error: Error) => {
     console.error('Sign-in error:', error);
     // Handle sign-in error
+  };
+
+  const handleCancel = () => {
+    console.log('Login cancelled');
   };
 
   return (
@@ -37,7 +54,24 @@ export default function ThirdPartyLogin() {
           onSignInComplete={handleSignInComplete}
           onError={handleError}
         />
-        <Pressable className='flex-row items-center self-center w-3/4 gap-4 px-4 py-2 border-2 border-gray-400 rounded-lg'>
+        <FacebookSignInButton
+          onLoginComplete={handleLoginComplete}
+          onError={handleError}
+          onCancel={handleCancel}
+          permissions={['public_profile', 'email']}
+          customStyles={{
+            button: {
+              // Custom button styles
+              width: '80%',
+              alignSelf: 'center',
+            },
+            text: {
+              // Custom text styles
+              fontSize: 18,
+            },
+          }}
+        />
+        {/* <Pressable className='flex-row items-center self-center w-3/4 gap-4 px-4 py-2 border-2 border-gray-400 rounded-lg'>
           <View className='items-center w-1/6'>
             <FontAwesome6
               name='meta'
@@ -48,7 +82,7 @@ export default function ThirdPartyLogin() {
           <Text className='w-3/4 text-lg font-semibold color-primary dark:color-blue-100'>
             Continue with Meta
           </Text>
-        </Pressable>
+        </Pressable> */}
         <Pressable className='flex-row items-center self-center w-3/4 gap-4 px-4 py-2 border-2 border-gray-400 rounded-lg'>
           <View className='items-center w-1/6'>
             <FontAwesome6
