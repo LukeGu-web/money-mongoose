@@ -4,6 +4,8 @@ import { Tabs, SplashScreen, Redirect, Link, router } from 'expo-router';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import dayjs from 'dayjs';
 import { colorScheme } from 'nativewind';
+import { requestTrackingPermissionsAsync } from 'expo-tracking-transparency';
+import { Settings } from 'react-native-fbsdk-next';
 
 import { Icon } from 'components';
 import { useLocalStore, useSettingStore, useCalendar } from 'core/stateHooks';
@@ -18,6 +20,17 @@ export default function TabLayout() {
       hideSplash();
     }, 1000);
   }, [hideSplash]);
+
+  useEffect(() => {
+    const requestTracking = async () => {
+      const { status } = await requestTrackingPermissionsAsync();
+      Settings.initializeSDK();
+      if (status === 'granted') {
+        await Settings.setAdvertiserTrackingEnabled(true);
+      }
+    };
+    requestTracking();
+  }, []);
 
   const isOnBoarding = useLocalStore((state) => state.isOnBoarding);
   if (!isOnBoarding) {
