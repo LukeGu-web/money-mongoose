@@ -3,6 +3,13 @@ import {
   GoogleSignin,
   statusCodes,
 } from '@react-native-google-signin/google-signin';
+import { router } from 'expo-router';
+import { useShallow } from 'zustand/react/shallow';
+
+import { useOAuthLogin } from 'api/account';
+import { OAuthProviderTypes } from 'api/types';
+import { useLocalStore, useUserStore } from 'core/stateHooks';
+import log from 'core/logger';
 const googleLogo = require('../../assets/icons/third-party/google.png');
 
 interface GoogleSignInButtonProps {
@@ -12,6 +19,15 @@ interface GoogleSignInButtonProps {
 export default function GoogleSignInButton({
   buttonText = 'Sign in with Google',
 }: GoogleSignInButtonProps) {
+  const { mutate: oauthLogin, isPending } = useOAuthLogin();
+  const { isOnBoarding, setIsOnBoarding } = useLocalStore(
+    useShallow((state) => ({
+      isOnBoarding: state.isOnBoarding,
+      setIsOnBoarding: state.setIsOnBoarding,
+    }))
+  );
+  const { user, setUser } = useUserStore();
+
   const signIn = async (): Promise<void> => {
     try {
       // Ensure Google Sign-In is configured
@@ -22,6 +38,29 @@ export default function GoogleSignInButton({
 
       // Call the callback with user info if provided
       console.log(userInfo as any);
+      if (userInfo.data)
+        oauthLogin(
+          {
+            provider: OAuthProviderTypes.GOOGLE,
+            accessToken: String(userInfo.data.idToken),
+            account_id: String(user.account_id),
+          },
+          {
+            onSuccess: (response) => {
+              log.success('Google sign in success:', response);
+              // Navigate to next page, etc.
+              if (isOnBoarding) {
+                router.navigate('/account');
+              } else {
+                setIsOnBoarding(true);
+                router.navigate('/');
+              }
+            },
+            onError: (error) => {
+              log.error('Error: ', error);
+            },
+          }
+        );
     } catch (error) {
       // Type guard to check if error is an Error object
       const errorObject = error as Error & { code?: string };

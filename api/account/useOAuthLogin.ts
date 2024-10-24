@@ -16,7 +16,7 @@ const useOAuthLogin = createMutation<Response, Variables, AxiosError>({
   mutationFn: async (variables) => {
     setHeaderToken(null);
     return client({
-      url: `user/auth/${variables.provider}`,
+      url: `user/auth/${variables.provider}/`,
       method: 'POST',
       data: {
         accessToken: variables.accessToken,
