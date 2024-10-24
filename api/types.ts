@@ -56,3 +56,9 @@ export type PieChartDataType = {
   color: string;
   text: string;
 }[];
+
+export enum OAuthProviderTypes {
+  APPLE = 'apple',
+  FACEBOOK = 'facebook',
+  GOOGLE = 'google',
+}
