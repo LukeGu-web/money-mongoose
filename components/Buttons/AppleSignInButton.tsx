@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Pressable, Text, View } from 'react-native';
-import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import * as AppleAuthentication from 'expo-apple-authentication';
+import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import { useSettingStore } from 'core/stateHooks';
 
 export interface AppleSignInResponse {
@@ -13,27 +13,16 @@ export interface AppleSignInResponse {
   authorizationCode: string | null;
 }
 interface AppleSignInButtonProps {
-  onSignInComplete?: (response: AppleSignInResponse) => void;
-  onError?: (error: Error) => void;
   buttonText?: string;
-  buttonType?: 'default' | 'white' | 'white-outline';
-  customStyles?: {
-    button?: object;
-    text?: object;
-    logo?: object;
-  };
-  requestedScopes?: AppleAuthentication.AppleAuthenticationScope[];
 }
 
 export default function AppleSignInButton({
-  onSignInComplete,
-  onError,
   buttonText = 'Sign in with Apple',
-  requestedScopes = [
+}: AppleSignInButtonProps) {
+  const requestedScopes = [
     AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
     AppleAuthentication.AppleAuthenticationScope.EMAIL,
-  ],
-}: AppleSignInButtonProps) {
+  ];
   const theme = useSettingStore((state) => state.theme);
   // Check if Apple Sign In is available
   const [isAvailable, setIsAvailable] = useState<boolean>(false);
@@ -51,36 +40,32 @@ export default function AppleSignInButton({
       const credential = await AppleAuthentication.signInAsync({
         requestedScopes,
       });
-
-      if (onSignInComplete) {
-        const response: AppleSignInResponse = {
-          user: credential.user,
-          email: credential.email,
-          fullName: credential.fullName,
-          realUserStatus: credential.realUserStatus,
-          identityToken: credential.identityToken,
-          authorizationCode: credential.authorizationCode,
-        };
-        onSignInComplete(response);
-      }
+      const response: AppleSignInResponse = {
+        user: credential.user,
+        email: credential.email,
+        fullName: credential.fullName,
+        realUserStatus: credential.realUserStatus,
+        identityToken: credential.identityToken,
+        authorizationCode: credential.authorizationCode,
+      };
+      console.log(response);
     } catch (error: any) {
       if (error.code === 'ERR_CANCELED') {
         // Handle user cancellation
         console.log('User canceled Apple Sign in');
       } else {
         console.error('Apple Sign In Error:', error);
-        if (onError) {
-          onError(
-            error instanceof Error ? error : new Error('Apple sign in failed')
-          );
-        }
       }
     }
   };
 
   // If Apple Sign In is not available, return null or alternative sign-in method
   if (!isAvailable) {
-    return null;
+    return (
+      <Text>
+        Apple Sign In is not available, please use other sign-in method.
+      </Text>
+    );
   }
 
   return (

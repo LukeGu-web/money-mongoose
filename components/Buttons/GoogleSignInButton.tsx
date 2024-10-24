@@ -1,20 +1,15 @@
 import { Pressable, Text, Image, View } from 'react-native';
 import {
   GoogleSignin,
-  User,
   statusCodes,
 } from '@react-native-google-signin/google-signin';
 const googleLogo = require('../../assets/icons/third-party/google.png');
 
 interface GoogleSignInButtonProps {
-  onSignInComplete?: (userInfo: User) => void;
-  onError?: (error: Error) => void;
   buttonText?: string;
 }
 
 export default function GoogleSignInButton({
-  onSignInComplete,
-  onError,
   buttonText = 'Sign in with Google',
 }: GoogleSignInButtonProps) {
   const signIn = async (): Promise<void> => {
@@ -26,18 +21,11 @@ export default function GoogleSignInButton({
       const userInfo = await GoogleSignin.signIn();
 
       // Call the callback with user info if provided
-      if (onSignInComplete) {
-        onSignInComplete(userInfo as any);
-      }
+      console.log(userInfo as any);
     } catch (error) {
       // Type guard to check if error is an Error object
       const errorObject = error as Error & { code?: string };
-
       console.error('Google Sign-In Error:', errorObject);
-
-      if (onError) {
-        onError(errorObject);
-      }
 
       switch (errorObject.code) {
         case statusCodes.SIGN_IN_CANCELLED:

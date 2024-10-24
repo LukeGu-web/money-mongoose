@@ -8,16 +8,10 @@ export interface FacebookUserInfo {
 }
 
 interface FacebookSignInButtonProps {
-  onLoginComplete?: (userInfo: FacebookUserInfo) => void;
-  onError?: (error: Error) => void;
-  onCancel?: () => void;
   buttonText?: string;
 }
 
 export default function FacebookSignInButton({
-  onLoginComplete,
-  onError,
-  onCancel,
   buttonText = 'Sign in with Facebook',
 }: FacebookSignInButtonProps) {
   const permissions = ['public_profile', 'email'];
@@ -28,7 +22,6 @@ export default function FacebookSignInButton({
 
       if (result.isCancelled) {
         console.log('User cancelled the login process');
-        onCancel?.();
         return;
       }
 
@@ -43,19 +36,12 @@ export default function FacebookSignInButton({
       const profile = await Profile.getCurrentProfile();
 
       // Call the success callback with user info
-      if (onLoginComplete) {
-        onLoginComplete({
-          profile, // profile can be null, which is now acceptable by our type
-          accessToken: data,
-        });
-      }
+      console.log({
+        profile, // profile can be null, which is now acceptable by our type
+        accessToken: data,
+      });
     } catch (error) {
       console.error('Facebook Login Error:', error);
-      if (onError) {
-        onError(
-          error instanceof Error ? error : new Error('Facebook login failed')
-        );
-      }
     }
   };
 
