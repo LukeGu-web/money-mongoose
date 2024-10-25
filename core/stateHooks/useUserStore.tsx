@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { devtools, persist, createJSONStorage } from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { OAuthProviderTypes } from 'api/types';
 
 export type LocalUserType = {
   id: number;
@@ -9,6 +10,7 @@ export type LocalUserType = {
   nickname: string;
   account_status: string;
   token: string;
+  auth_provider: OAuthProviderTypes | null; // Third-party auth
   // the following part is from user section
   email: string;
   date_joined: string;
@@ -21,6 +23,7 @@ const defaultUser: LocalUserType = {
   nickname: 'anonymous',
   account_status: 'unregistered',
   token: '',
+  auth_provider: null,
   email: '',
   date_joined: '',
 };

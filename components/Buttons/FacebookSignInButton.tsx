@@ -1,5 +1,12 @@
 import { View, Pressable, Text, Image } from 'react-native';
 import { LoginManager, AccessToken, Profile } from 'react-native-fbsdk-next';
+import { router } from 'expo-router';
+import { v4 as uuid } from 'uuid';
+import { useShallow } from 'zustand/react/shallow';
+import { useOAuthLogin } from 'api/account';
+import { OAuthProviderTypes } from 'api/types';
+import { useLocalStore, useUserStore } from 'core/stateHooks';
+import log from 'core/logger';
 const facebookLogo = require('../../assets/icons/third-party/facebook.png');
 
 export interface FacebookUserInfo {
@@ -15,6 +22,15 @@ export default function FacebookSignInButton({
   buttonText = 'Sign in with Facebook',
 }: FacebookSignInButtonProps) {
   const permissions = ['public_profile', 'email'];
+  const { mutate: oauthLogin, isPending } = useOAuthLogin();
+  const { isOnBoarding, setIsOnBoarding } = useLocalStore(
+    useShallow((state) => ({
+      isOnBoarding: state.isOnBoarding,
+      setIsOnBoarding: state.setIsOnBoarding,
+    }))
+  );
+  const user = useUserStore((state) => state.user);
+
   const handleLogin = async (): Promise<void> => {
     try {
       // Attempt login with permissions
@@ -27,19 +43,33 @@ export default function FacebookSignInButton({
 
       // Get access token
       const data = await AccessToken.getCurrentAccessToken();
-
       if (!data) {
         throw new Error('Failed to get access token');
+      } else {
+        const account_id = user.account_id ?? uuid();
+        oauthLogin(
+          {
+            provider: OAuthProviderTypes.GOOGLE,
+            accessToken: String(data.accessToken),
+            account_id: account_id,
+          },
+          {
+            onSuccess: (response) => {
+              log.success('Facebook sign in success');
+              // Navigate to next page, etc.
+              if (isOnBoarding) {
+                router.navigate('/account');
+              } else {
+                setIsOnBoarding(true);
+                router.navigate('/');
+              }
+            },
+            onError: (error) => {
+              log.error('Error: ', error);
+            },
+          }
+        );
       }
-
-      // Get user profile
-      const profile = await Profile.getCurrentProfile();
-
-      // Call the success callback with user info
-      console.log({
-        profile, // profile can be null, which is now acceptable by our type
-        accessToken: data,
-      });
     } catch (error) {
       console.error('Facebook Login Error:', error);
     }

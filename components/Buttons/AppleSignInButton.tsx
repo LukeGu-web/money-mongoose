@@ -2,7 +2,13 @@ import { useState, useEffect } from 'react';
 import { Pressable, Text, View } from 'react-native';
 import * as AppleAuthentication from 'expo-apple-authentication';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
-import { useSettingStore } from 'core/stateHooks';
+import { router } from 'expo-router';
+import { v4 as uuid } from 'uuid';
+import { useShallow } from 'zustand/react/shallow';
+import { useOAuthLogin } from 'api/account';
+import { OAuthProviderTypes } from 'api/types';
+import { useLocalStore, useUserStore, useSettingStore } from 'core/stateHooks';
+import log from 'core/logger';
 
 export interface AppleSignInResponse {
   user: string;
@@ -23,6 +29,14 @@ export default function AppleSignInButton({
     AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
     AppleAuthentication.AppleAuthenticationScope.EMAIL,
   ];
+  const { mutate: oauthLogin, isPending } = useOAuthLogin();
+  const { isOnBoarding, setIsOnBoarding } = useLocalStore(
+    useShallow((state) => ({
+      isOnBoarding: state.isOnBoarding,
+      setIsOnBoarding: state.setIsOnBoarding,
+    }))
+  );
+  const user = useUserStore((state) => state.user);
   const theme = useSettingStore((state) => state.theme);
   // Check if Apple Sign In is available
   const [isAvailable, setIsAvailable] = useState<boolean>(false);
@@ -40,15 +54,30 @@ export default function AppleSignInButton({
       const credential = await AppleAuthentication.signInAsync({
         requestedScopes,
       });
-      const response: AppleSignInResponse = {
-        user: credential.user,
-        email: credential.email,
-        fullName: credential.fullName,
-        realUserStatus: credential.realUserStatus,
-        identityToken: credential.identityToken,
-        authorizationCode: credential.authorizationCode,
-      };
-      console.log(response);
+      const account_id = user.account_id ?? uuid();
+      if (credential.identityToken)
+        oauthLogin(
+          {
+            provider: OAuthProviderTypes.GOOGLE,
+            accessToken: String(credential.identityToken),
+            account_id: account_id,
+          },
+          {
+            onSuccess: (response) => {
+              log.success('Apple sign in success');
+              // Navigate to next page, etc.
+              if (isOnBoarding) {
+                router.navigate('/account');
+              } else {
+                setIsOnBoarding(true);
+                router.navigate('/');
+              }
+            },
+            onError: (error) => {
+              log.error('Error: ', error);
+            },
+          }
+        );
     } catch (error: any) {
       if (error.code === 'ERR_CANCELED') {
         // Handle user cancellation

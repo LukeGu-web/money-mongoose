@@ -38,7 +38,6 @@ export default function GoogleSignInButton({
       const userInfo = await GoogleSignin.signIn();
 
       // Call the callback with user info if provided
-      console.log(userInfo as any);
       const account_id = user.account_id ?? uuid();
       if (userInfo.data)
         oauthLogin(

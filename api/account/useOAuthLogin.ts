@@ -29,7 +29,7 @@ const useOAuthLogin = () => {
         },
       }).then((response) => {
         setHeaderToken(response.data.token);
-        setUser(response.data);
+        setUser({ ...response.data, auth_provider: variables.provider });
         return response.data;
       });
     },
