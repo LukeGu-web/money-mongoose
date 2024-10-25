@@ -4,6 +4,7 @@ import {
   statusCodes,
 } from '@react-native-google-signin/google-signin';
 import { router } from 'expo-router';
+import { v4 as uuid } from 'uuid';
 import { useShallow } from 'zustand/react/shallow';
 
 import { useOAuthLogin } from 'api/account';
@@ -26,7 +27,7 @@ export default function GoogleSignInButton({
       setIsOnBoarding: state.setIsOnBoarding,
     }))
   );
-  const { user, setUser } = useUserStore();
+  const user = useUserStore((state) => state.user);
 
   const signIn = async (): Promise<void> => {
     try {
@@ -38,16 +39,17 @@ export default function GoogleSignInButton({
 
       // Call the callback with user info if provided
       console.log(userInfo as any);
+      const account_id = user.account_id ?? uuid();
       if (userInfo.data)
         oauthLogin(
           {
             provider: OAuthProviderTypes.GOOGLE,
             accessToken: String(userInfo.data.idToken),
-            account_id: String(user.account_id),
+            account_id: account_id,
           },
           {
             onSuccess: (response) => {
-              log.success('Google sign in success:', response);
+              log.success('Google sign in success');
               // Navigate to next page, etc.
               if (isOnBoarding) {
                 router.navigate('/account');
