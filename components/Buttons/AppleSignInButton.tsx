@@ -58,7 +58,7 @@ export default function AppleSignInButton({
       if (credential.identityToken)
         oauthLogin(
           {
-            provider: OAuthProviderTypes.GOOGLE,
+            provider: OAuthProviderTypes.APPLE,
             accessToken: String(credential.identityToken),
             account_id: account_id,
           },

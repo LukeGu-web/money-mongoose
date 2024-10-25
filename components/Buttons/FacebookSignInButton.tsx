@@ -49,7 +49,7 @@ export default function FacebookSignInButton({
         const account_id = user.account_id ?? uuid();
         oauthLogin(
           {
-            provider: OAuthProviderTypes.GOOGLE,
+            provider: OAuthProviderTypes.FACEBOOK,
             accessToken: String(data.accessToken),
             account_id: account_id,
           },

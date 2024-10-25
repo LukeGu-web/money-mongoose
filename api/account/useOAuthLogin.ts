@@ -43,6 +43,11 @@ const useOAuthLogin = () => {
         setCurrentBook(booksData[0]);
       }
     },
+    onError: (error) => {
+      // @ts-ignore: ignore type
+      const message = error.response?.data?.error;
+      console.error('useOAuthLogin: Error: ', message);
+    },
   })();
 };
 
