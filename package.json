@@ -42,7 +42,7 @@
     "expo-local-authentication": "~14.0.1",
     "expo-localization": "~15.0.3",
     "expo-media-library": "~16.0.5",
-    "expo-notifications": "~0.28.18",
+    "expo-notifications": "~0.28.19",
     "expo-router": "~3.5.23",
     "expo-status-bar": "~1.12.1",
     "expo-tracking-transparency": "~4.0.2",
