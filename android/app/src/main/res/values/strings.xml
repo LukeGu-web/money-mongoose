@@ -1,6 +1,9 @@
 <resources>
-  <string name="app_name">Money Mongoose</string>
+  <string name="app_name">Get Rich</string>
   <string name="expo_splash_screen_resize_mode" translatable="false">cover</string>
   <string name="expo_splash_screen_status_bar_translucent" translatable="false">false</string>
   <string name="expo_runtime_version">1.0.1</string>
+  <string name="facebook_app_id">8576261609077002</string>
+  <string name="facebook_client_token">053b1b39a83ba902a125032d979b7104</string>
+  <string name="fb_login_protocol_scheme">fb8576261609077002</string>
 </resources>
