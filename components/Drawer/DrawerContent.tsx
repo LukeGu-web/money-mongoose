@@ -1,6 +1,7 @@
 import { View, Image, Text } from 'react-native';
 import { router } from 'expo-router';
 import * as Updates from 'expo-updates';
+import * as Notifications from 'expo-notifications';
 import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import AntDesign from '@expo/vector-icons/AntDesign';
@@ -16,6 +17,38 @@ export default function DrawerContent(props: any) {
   const { name } = useBookStore((state) => state.currentBook);
   const iconColor = theme === 'dark' ? '#0891b2' : '#03045E';
   const labelColor = theme === 'dark' ? 'white' : '#000';
+  const cleanupNotifications = async () => {
+    try {
+      // First, let's see what's currently scheduled
+      const scheduledNotifications =
+        await Notifications.getAllScheduledNotificationsAsync();
+      console.log(
+        'Before cleanup:',
+        scheduledNotifications.length,
+        'notifications'
+      );
+      // Option 1: Clear All Notifications
+      await Notifications.cancelAllScheduledNotificationsAsync();
+
+      // Verify cleanup
+      const remainingNotifications =
+        await Notifications.getAllScheduledNotificationsAsync();
+      console.log(
+        'After cleanup:',
+        remainingNotifications.length,
+        'notifications'
+      );
+    } catch (error) {
+      console.error('Error cleaning up notifications:', error);
+    }
+  };
+
+  const handleLogout = async () => {
+    await cleanupNotifications();
+    clearAll();
+    Updates.reloadAsync();
+  };
+
   return (
     <DrawerContentScrollView
       {...props}
@@ -104,10 +137,7 @@ export default function DrawerContent(props: any) {
             label='Logout'
             labelStyle={{ color: labelColor }}
             icon={() => <AntDesign name='logout' size={24} color='gray' />}
-            onPress={() => {
-              clearAll();
-              Updates.reloadAsync();
-            }}
+            onPress={handleLogout}
           />
         )}
       </View>
