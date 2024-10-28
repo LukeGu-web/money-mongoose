@@ -20,6 +20,7 @@ import Icon from '../Icon/Icon';
 import EditAssetGroupBottomSheet from '../BottomSheet/EditAssetGroupBottomSheet';
 import AssetGroupModal from 'components/Modal/AssetGroupModal';
 import { GroupTitleProps } from './types';
+import { successToaster } from 'core/toaster';
 
 export default function EditableGroupTitle({
   id,
@@ -60,6 +61,7 @@ export default function EditableGroupTitle({
               { id: id as number },
               {
                 onSuccess: () => {
+                  successToaster('Delete group successfully');
                   log.success('Delete group successfully.');
                   bottomSheetModalRef.current?.dismiss();
                 },

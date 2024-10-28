@@ -17,6 +17,7 @@ import { useBookStore, useSettingStore } from 'core/stateHooks';
 import log from 'core/logger';
 import BottomSheet from './BottomSheet';
 import Icon from '../Icon/Icon';
+import { successToaster } from 'core/toaster';
 
 type SelectGroupBottomSheetProps = {
   bottomSheetModalRef: React.RefObject<BottomSheetModal>;
@@ -56,7 +57,8 @@ export default function SelectGroupBottomSheet({
       { ...data, book: currentBook.id },
       {
         onSuccess: (response) => {
-          log.success('Add asset success:', response);
+          successToaster('Add asset group successfully');
+          log.success('Add asset group success:', response);
           setValue('group', `${response.id}-${response.name}`);
           reset();
           setIsVisible(false);

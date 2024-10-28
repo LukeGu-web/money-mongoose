@@ -13,6 +13,7 @@ import ListItem from './ListItem';
 import EditableGroupTitle from '../ExpandView/EditableGroupTitle';
 import EditAssetGroupBottomSheet from '../BottomSheet/EditAssetGroupBottomSheet';
 import SelectGroupBottomSheet from '../BottomSheet/SelectGroupBottomSheet';
+import { successToaster } from 'core/toaster';
 
 export default function EditableAccountList() {
   const { asset, resetAsset } = useAsset();
@@ -60,6 +61,7 @@ export default function EditableAccountList() {
       { id: asset.id as number },
       {
         onSuccess: () => {
+          successToaster('Delete asset successfully!');
           log.success('Delete asset successfully!');
           resetAsset();
         },
@@ -72,12 +74,12 @@ export default function EditableAccountList() {
   };
 
   const handleChangeGroup = handleSubmit((data) => {
-    log.success('Asset change group data:', data);
     updateAssetApi(
       { id: asset.id as number, group: Number(data.group.split('-')[0]) },
       {
         onSuccess: (response) => {
-          log.success('update asset success:', response);
+          successToaster('Change group successfully!');
+          log.success('Update asset success:', response);
           resetAsset();
           reset();
         },

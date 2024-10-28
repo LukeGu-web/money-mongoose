@@ -107,7 +107,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
             />
           )}
           <BottomSheetModalProvider>{children}</BottomSheetModalProvider>
-          <Toast />
+          <Toast topOffset={60} />
         </APIProvider>
       </GestureHandlerRootView>
     </PostHogProvider>

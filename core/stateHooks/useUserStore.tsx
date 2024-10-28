@@ -10,7 +10,7 @@ export type LocalUserType = {
   nickname: string;
   account_status: string;
   token: string;
-  auth_provider: OAuthProviderTypes | null; // Third-party auth
+  auth_provider?: OAuthProviderTypes | null; // Third-party auth
   // the following part is from user section
   email: string;
   date_joined: string;

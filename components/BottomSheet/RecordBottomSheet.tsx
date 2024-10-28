@@ -11,6 +11,7 @@ import BottomSheet from './BottomSheet';
 import Entypo from '@expo/vector-icons/Entypo';
 import Icon from '../Icon/Icon';
 import CIcon from '../Icon/CIcon';
+import { successToaster } from 'core/toaster';
 
 type RecordBottomSheetProps = {
   bottomSheetModalRef: React.RefObject<BottomSheetModal>;
@@ -51,6 +52,7 @@ export default function RecordBottomSheet({
               { id: record.id as number },
               {
                 onSuccess: () => {
+                  successToaster('Delete asset successfully!');
                   log.success('Delete asset successfully!');
                   resetRecord();
                   bottomSheetModalRef.current?.dismiss();

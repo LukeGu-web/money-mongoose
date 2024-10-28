@@ -13,6 +13,7 @@ import { useCreateAssetGroup, useUpdateAssetGroup } from 'api/asset';
 import { formatApiError } from 'api/errorFormat';
 import { useBookStore } from 'core/stateHooks';
 import log from 'core/logger';
+import { successToaster } from 'core/toaster';
 
 type AssetGroupModalProps = {
   groupId?: number;
@@ -49,7 +50,8 @@ export default function AssetGroupModal({
         { ...data, book: currentBook.id },
         {
           onSuccess: (response) => {
-            log.success('create success:', response);
+            successToaster('Add asset group successfully');
+            log.success('create asset group success:', response);
             reset();
             onClose();
           },
@@ -63,6 +65,7 @@ export default function AssetGroupModal({
         { ...data, id: groupId as number },
         {
           onSuccess: (response) => {
+            successToaster('Update asset group successfully');
             log.success('update success:', response);
             reset();
             onClose();

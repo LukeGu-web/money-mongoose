@@ -15,6 +15,7 @@ import { formatApiError } from 'api/errorFormat';
 import { useUserStore } from 'core/stateHooks';
 import log from 'core/logger';
 import ThirdPartyLogin from './ThirdPartyLogin';
+import { successToaster } from 'core/toaster';
 
 const avatarImage = require('../../assets/icon.png');
 
@@ -50,6 +51,7 @@ export default function SignUpForm() {
       {
         onSuccess: (response) => {
           const { avatar, ...rest } = response;
+          successToaster('Successfully registered');
           log.success('Register user success:', rest);
           setUser({
             ...user,

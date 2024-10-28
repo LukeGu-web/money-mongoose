@@ -10,6 +10,7 @@ import { useBookStore, useBook } from 'core/stateHooks';
 import log from 'core/logger';
 import BottomSheet from './BottomSheet';
 import Icon from '../Icon/Icon';
+import { successToaster } from 'core/toaster';
 
 type BookBottomSheetProps = {
   bottomSheetModalRef: React.RefObject<BottomSheetModal>;
@@ -67,6 +68,7 @@ export default function BookBottomSheet({
       { id: book.id },
       {
         onSuccess: () => {
+          successToaster('Delete book successfully!');
           log.success('Delete book successfully!');
           router.navigate('/book/management');
         },

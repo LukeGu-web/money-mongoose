@@ -13,6 +13,7 @@ import { useUpdateUser } from 'api/account';
 import { useUserStore } from 'core/stateHooks';
 import { formatApiError } from 'api/errorFormat';
 import log from 'core/logger';
+import { successToaster } from 'core/toaster';
 
 type NicknameModalProps = {
   isVisible: boolean;
@@ -32,6 +33,7 @@ export default function NicknameModal({
       { id: user.id, nickname },
       {
         onSuccess: (response) => {
+          successToaster('Update nickname successfully');
           log.success('Update nickname success:', response.nickname);
           setUser({
             ...user,

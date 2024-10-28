@@ -10,6 +10,7 @@ import { formatApiError } from 'api/errorFormat';
 import { useUserStore } from 'core/stateHooks';
 import log from 'core/logger';
 import BottomSheet from './BottomSheet';
+import { successToaster } from 'core/toaster';
 
 type CameraBottomSheetProps = {
   bottomSheetModalRef: React.RefObject<BottomSheetModal>;
@@ -46,6 +47,7 @@ export default function CameraBottomSheet({
           { id: user.id, avatar: base64Image },
           {
             onSuccess: (response) => {
+              successToaster('Update user avatar successfully');
               log.success('Update user avatar success:', response);
               setUser({ ...user, avatar: response.avatar });
               bottomSheetModalRef.current?.dismiss();

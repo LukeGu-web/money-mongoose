@@ -16,6 +16,7 @@ import { useCreateBook, useUpdateBook } from 'api/book';
 import { formatApiError } from 'api/errorFormat';
 import { useBook, useBookStore, useSettingStore } from 'core/stateHooks';
 import log from 'core/logger';
+import { successToaster } from 'core/toaster';
 
 export default function BudgetDetails() {
   const inputAccessoryCreateBtnID = 'inputAccessoryCreateBtnID-book';
@@ -34,6 +35,7 @@ export default function BudgetDetails() {
         { id: data.id, name: data.name, note: data.note },
         {
           onSuccess: (response) => {
+            successToaster('Update book successfully');
             log.success('Update book success:', response);
             if (currentBook.id === data.id) {
               setCurrentBook(data);
@@ -50,7 +52,8 @@ export default function BudgetDetails() {
     } else {
       addBookApi(data, {
         onSuccess: (response) => {
-          log.success('Add book success:', response);
+          successToaster('Add budget successfully');
+          log.success('Add budget success:', response);
           resetBook();
           reset();
           router.navigate('/book/management');

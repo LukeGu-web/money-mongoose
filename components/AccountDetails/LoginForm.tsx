@@ -17,6 +17,7 @@ import { formatApiError } from 'api/errorFormat';
 import { useLocalStore } from 'core/stateHooks';
 import log from 'core/logger';
 import ThirdPartyLogin from './ThirdPartyLogin';
+import { successToaster } from 'core/toaster';
 
 const avatarImage = require('../../assets/icon.png');
 
@@ -53,7 +54,8 @@ export default function LoginForm() {
       },
       {
         onSuccess: (response) => {
-          log.success('Add asset success:', response);
+          successToaster('Login successfully');
+          log.success('Login success:', response);
           // Navigate to next page, etc.
           if (isOnBoarding) {
             router.navigate('/account');
