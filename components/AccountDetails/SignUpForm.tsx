@@ -113,12 +113,11 @@ export default function SignUpForm() {
             <View>
               <Text className='ml-1 color-primary dark:color-white'>Email</Text>
               <TextInput
-                className='w-full p-3 border-2 rounded-lg border-zinc-600 dark:color-white'
+                className='w-full p-3 bg-white border-2 rounded-lg border-zinc-600 dark:color-white dark:bg-black'
                 placeholder='Please enter your email'
                 placeholderTextColor='#a1a1aa'
                 inputMode='email'
                 autoCapitalize='none'
-                autoFocus={true}
                 onBlur={onBlur}
                 onChangeText={onChange}
                 value={value}
@@ -141,7 +140,7 @@ export default function SignUpForm() {
                 Password
               </Text>
               <TextInput
-                className='w-full p-3 border-2 rounded-lg border-zinc-600 dark:color-white'
+                className='w-full p-3 bg-white border-2 rounded-lg border-zinc-600 dark:color-white dark:bg-black'
                 placeholder='Please enter your password'
                 placeholderTextColor='#a1a1aa'
                 secureTextEntry={true}
@@ -172,7 +171,7 @@ export default function SignUpForm() {
                 Confirm Password
               </Text>
               <TextInput
-                className='w-full p-3 border-2 rounded-lg border-zinc-600 dark:color-white'
+                className='w-full p-3 bg-white border-2 rounded-lg border-zinc-600 dark:color-white dark:bg-black'
                 placeholder='Please repeat your password'
                 placeholderTextColor='#a1a1aa'
                 secureTextEntry={true}
