@@ -5,7 +5,7 @@ import * as Notifications from 'expo-notifications';
 import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import AntDesign from '@expo/vector-icons/AntDesign';
-import Icon from '../Icon/Icon';
+import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import { useBookStore, useUserStore, useSettingStore } from 'core/stateHooks';
 import { clearAll } from 'core/localStorage/storage';
 
@@ -81,14 +81,14 @@ export default function DrawerContent(props: any) {
           icon={() => <Ionicons name='library' size={24} color={iconColor} />}
           onPress={() => router.navigate('/book/management')}
         />
-        <DrawerItem
+        {/* <DrawerItem
           label='Budget'
           labelStyle={{ color: labelColor }}
           icon={() => (
-            <AntDesign name='calculator' size={24} color={iconColor} />
+            <FontAwesome6 name='calculator' size={28} color={iconColor} />
           )}
           onPress={() => router.navigate('budget')}
-        />
+        /> */}
         <DrawerItem
           label='Category Analysis'
           labelStyle={{ color: labelColor }}

@@ -22,6 +22,7 @@ import { RecordTypes, Record as RecordType } from 'api/record/types';
 
 import { useRecord, useBookStore, useSettingStore } from 'core/stateHooks';
 import log from 'core/logger';
+import { successToaster } from 'core/toaster';
 
 export default function Record() {
   const { mutate: addRecordApi } = useAddRecord();
@@ -59,7 +60,8 @@ export default function Record() {
         },
         {
           onSuccess: (response) => {
-            log.success('Add record success:', response);
+            successToaster('Update record successfully');
+            log.success('Update record success:', response);
             methods.reset();
             router.navigate('/');
             resetRecord();
@@ -74,6 +76,7 @@ export default function Record() {
         { ...data },
         {
           onSuccess: (response) => {
+            successToaster('Add record successfully');
             log.success('Add record success:', response);
             methods.reset();
             router.navigate('/');
@@ -102,7 +105,8 @@ export default function Record() {
         },
         {
           onSuccess: (response) => {
-            log.success('Add record success:', response);
+            successToaster('Update transfer successfully');
+            log.success('Update transfer success:', response);
             methods.reset();
             router.navigate('/');
           },
@@ -118,7 +122,8 @@ export default function Record() {
         },
         {
           onSuccess: (response) => {
-            log.success('Add record success:', response);
+            successToaster('Add transfer successfully');
+            log.success('Add transfer success:', response);
             methods.reset();
             router.navigate('/');
           },

@@ -3,6 +3,7 @@ import { createMutation } from 'react-query-kit';
 import { client, setHeaderToken } from '../client';
 import { OAuthProviderTypes } from '../types';
 import { queryClient } from '../api-provider';
+import { formatApiError } from '../errorFormat';
 import { useBookStore, useUserStore } from 'core/stateHooks';
 import { LocalUserType } from 'core/stateHooks/useUserStore';
 import log from 'core/logger';
@@ -44,9 +45,8 @@ const useOAuthLogin = () => {
       }
     },
     onError: (error) => {
-      // @ts-ignore: ignore type
-      const message = error.response?.data?.error;
-      console.error('useOAuthLogin: Error: ', message);
+      log.error('Error (useOAuthLogin): ', error.response?.data);
+      formatApiError(error);
     },
   })();
 };

@@ -25,6 +25,7 @@ import {
   Icon,
 } from 'components';
 import { inputAccessoryCreateBtnID } from 'components/Form/static';
+import { successToaster } from 'core/toaster';
 
 export default function AssetDetails() {
   const { mutate: addAssetApi, isPending: isCreating } = useCreateAsset();
@@ -59,6 +60,7 @@ export default function AssetDetails() {
         },
         {
           onSuccess: (response) => {
+            successToaster('Create asset successfully');
             log.success('Create asset success:', response);
             resetAsset();
             reset();
@@ -80,7 +82,8 @@ export default function AssetDetails() {
         },
         {
           onSuccess: (response) => {
-            log.success('update asset success:', response);
+            successToaster('Update asset successfully');
+            log.success('Update asset success:', response);
             resetAsset();
             reset();
             router.navigate('/asset/management');

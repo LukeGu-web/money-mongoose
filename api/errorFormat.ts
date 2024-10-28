@@ -4,10 +4,12 @@ import Toast from 'react-native-toast-message';
 export const formatApiError = (error: AxiosError) => {
   Toast.show({
     type: 'error',
-    text1: String(error.response?.data),
+    // @ts-ignore: ignore type
+    text1: String(error.response?.data.error),
   });
   return {
     status: error.response?.status,
-    message: error.response?.data,
+    // @ts-ignore: ignore type
+    message: error.response?.data.error,
   };
 };
