@@ -1,6 +1,6 @@
 import { View, Text, Pressable } from 'react-native';
-import { useUserStore, useSettingStore } from 'core/stateHooks';
 import { router } from 'expo-router';
+import { useUserStore, useSettingStore } from 'core/stateHooks';
 import Entypo from '@expo/vector-icons/Entypo';
 import Octicons from '@expo/vector-icons/Octicons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';

@@ -3,7 +3,7 @@ import { Alert, View, Text, Pressable } from 'react-native';
 import * as Updates from 'expo-updates';
 import * as Clipboard from 'expo-clipboard';
 import dayjs from 'dayjs';
-import { useUserDetails, useVerifyEmail } from 'api/account';
+import { useUserDetails, useDeleteUser, useVerifyEmail } from 'api/account';
 import { useUserStore, useSettingStore } from 'core/stateHooks';
 import { clearAll } from 'core/localStorage/storage';
 import { successToaster } from 'core/toaster';
@@ -13,6 +13,7 @@ import NicknameModal from 'components/Modal/NicknameModal';
 export default function Details() {
   const { data } = useUserDetails();
   const { mutate: verifyEmailApi, isPending } = useVerifyEmail();
+  const { mutate: deleteUserApi } = useDeleteUser();
   const { user, setUser } = useUserStore();
   const theme = useSettingStore((state) => state.theme);
   const [isVisible, setIsVisible] = useState<boolean>(false);
@@ -48,6 +49,19 @@ export default function Details() {
           ]
         ),
     });
+  };
+
+  const handleDeleteAccount = () => {
+    deleteUserApi(
+      { id: user.id },
+      {
+        onSuccess: () => {
+          successToaster('Delete account successfully');
+          clearAll();
+          Updates.reloadAsync();
+        },
+      }
+    );
   };
 
   const copyToClipboard = async () => {
@@ -150,7 +164,10 @@ export default function Details() {
         >
           <Text className='text-lg font-bold'>Logout</Text>
         </Pressable>
-        <Pressable className='flex-row items-center px-4 py-2'>
+        <Pressable
+          className='flex-row items-center px-4 py-2'
+          onPress={handleDeleteAccount}
+        >
           <Text className='text-lg font-bold underline color-red-700'>
             Delete Account
           </Text>
