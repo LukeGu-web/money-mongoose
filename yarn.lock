@@ -5189,6 +5189,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"expo-clipboard@npm:~6.0.3":
+  version: 6.0.3
+  resolution: "expo-clipboard@npm:6.0.3"
+  peerDependencies:
+    expo: "*"
+  checksum: 10c0/7ac2018c74bae620eca888ae973658405c44ffd17168a4c32b20c2a48c080782dd7dd4e81e7081f3f41b3b83e67e367af001fcd808ebc2f733f90b0268842bf1
+  languageName: node
+  linkType: hard
+
 "expo-constants@npm:~16.0.0, expo-constants@npm:~16.0.2":
   version: 16.0.2
   resolution: "expo-constants@npm:16.0.2"
@@ -8172,6 +8181,7 @@ __metadata:
     expo-application: "npm:~5.9.1"
     expo-blur: "npm:~13.0.2"
     expo-camera: "npm:~15.0.16"
+    expo-clipboard: "npm:~6.0.3"
     expo-constants: "npm:~16.0.2"
     expo-dev-client: "npm:~4.0.28"
     expo-device: "npm:~6.0.2"
