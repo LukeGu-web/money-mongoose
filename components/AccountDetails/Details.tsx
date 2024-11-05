@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Alert, View, Text, Pressable } from 'react-native';
 import * as Updates from 'expo-updates';
+import * as Clipboard from 'expo-clipboard';
 import dayjs from 'dayjs';
 import { useUserDetails, useVerifyEmail } from 'api/account';
 import { useUserStore, useSettingStore } from 'core/stateHooks';
@@ -46,6 +47,10 @@ export default function Details() {
           ]
         ),
     });
+  };
+
+  const copyToClipboard = async () => {
+    await Clipboard.setStringAsync(user.account_id as string);
   };
 
   return (
@@ -111,7 +116,10 @@ export default function Details() {
         <View className='gap-2 p-2 rounded-lg bg-zinc-100 dark:bg-zinc-500'>
           <View className='flex-row items-center justify-between'>
             <Text className='dark:color-white'>ID</Text>
-            <Pressable className='flex-row items-center justify-between w-1/2 gap-2'>
+            <Pressable
+              className='flex-row items-center justify-between w-1/2 gap-2'
+              onPress={copyToClipboard}
+            >
               <Text className='flex-1 text-sm dark:color-white'>
                 {user.account_id}
               </Text>

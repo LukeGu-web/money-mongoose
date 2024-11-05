@@ -14,21 +14,19 @@ export default function Email() {
   useEffect(() => {
     async function checkAvailability() {
       const isMailAvailable = await MailComposer.isAvailableAsync();
-      console.log('isMailAvailable: ', isMailAvailable);
       setIsAvailable(isMailAvailable);
     }
-
     checkAvailability();
   }, []);
 
-  //   const copyToClipboard = async () => {
-  //     await Clipboard.setStringAsync(email);
-  //   };
+  const copyToClipboard = async () => {
+    await Clipboard.setStringAsync(email);
+  };
 
   const handleClickEmail = () => {
     if (isAvailable) {
     } else {
-      //   copyToClipboard();
+      copyToClipboard();
     }
   };
 
