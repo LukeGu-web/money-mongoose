@@ -108,10 +108,18 @@ function RootLayout() {
             headerLeft: () => <GoBack />,
           }}
         />
+
         <Stack.Screen
           name='user/register'
           options={{
             headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name='user/about'
+          options={{
+            title: 'About',
+            headerLeft: () => <GoBack />,
           }}
         />
         <Stack.Screen

@@ -1,11 +1,6 @@
 import { View, Text, Pressable } from 'react-native';
 import { Link } from 'expo-router';
-import { DrawerToggleButton } from '@react-navigation/drawer';
-import {
-  DrawerActions,
-  ParamListBase,
-  useNavigation,
-} from '@react-navigation/native';
+import { DrawerActions, useNavigation } from '@react-navigation/native';
 import { useBookStore } from 'core/stateHooks';
 import { Entypo } from '@expo/vector-icons';
 import Icon from '../Icon/Icon';

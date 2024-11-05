@@ -1,4 +1,5 @@
 import { View, Text, Pressable } from 'react-native';
+import { router } from 'expo-router';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { useSettingStore } from 'core/stateHooks';
 
@@ -16,7 +17,10 @@ export default function InformationSection() {
           />
           <Text className='text-lg dark:color-white'>Contact Us</Text>
         </Pressable>
-        <Pressable className='flex-row items-center gap-2 px-4 py-2 '>
+        <Pressable
+          className='flex-row items-center gap-2 px-4 py-2'
+          onPress={() => router.navigate('/user/about/')}
+        >
           <AntDesign
             name='infocirlceo'
             size={20}
