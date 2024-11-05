@@ -51,18 +51,34 @@ export default function Details() {
     });
   };
 
-  const handleDeleteAccount = () => {
-    deleteUserApi(
-      { id: user.id },
-      {
-        onSuccess: () => {
-          successToaster('Delete account successfully');
-          clearAll();
-          Updates.reloadAsync();
+  const handleDeleteAccount = () =>
+    Alert.alert(
+      'Delete Account',
+      `Are you sure you want to delete this account? Once deleted, the data cannot be recovered.`,
+      [
+        {
+          text: 'Cancel',
+          onPress: () => {
+            console.log('Cancel erase data!');
+          },
+          style: 'cancel',
         },
-      }
+        {
+          text: 'Yes',
+          onPress: () =>
+            deleteUserApi(
+              { id: user.id },
+              {
+                onSuccess: () => {
+                  successToaster('Delete account successfully!');
+                  clearAll();
+                  Updates.reloadAsync();
+                },
+              }
+            ),
+        },
+      ]
     );
-  };
 
   const copyToClipboard = async () => {
     await Clipboard.setStringAsync(user.account_id as string);

@@ -1,9 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
 import { ScrollView } from 'react-native';
-import { useSettingStore } from 'core/stateHooks';
+import { useSettingStore, useUserStore } from 'core/stateHooks';
 import {
   AvatarSection,
   AccountPad,
+  DataSection,
   DetailsSection,
   SecuritySection,
   SettingsSection,
@@ -11,6 +12,7 @@ import {
 } from 'components/AccountSections';
 
 export default function Account() {
+  const user = useUserStore((state) => state.user);
   const theme = useSettingStore((state) => state.theme);
   return (
     <ScrollView
@@ -26,6 +28,7 @@ export default function Account() {
       <SettingsSection />
       <SecuritySection />
       <InformationSection />
+      {user.account_status === 'unregistered' && <DataSection />}
       <StatusBar style='light' />
     </ScrollView>
   );
