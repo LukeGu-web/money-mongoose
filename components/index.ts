@@ -9,6 +9,7 @@ export { default as Currencies } from 'components/Settings/Currencies';
 export { default as TimeframeHeader } from 'components/Header/TimeframeHeader';
 export { default as DigitalPad } from 'components/CustomDigitalPad/DigitalPad';
 export { default as Dropdown } from 'components/Dropdown/Dropdown';
+export { default as Email } from 'components/Email/Email';
 export { default as ExpenseCard } from 'components/Card/ExpenseCard';
 export { default as HomeHeader } from 'components/Header/HomeHeader';
 export { default as PieChart } from 'components/Chart/Pie';

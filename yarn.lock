@@ -5367,6 +5367,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"expo-mail-composer@npm:~13.0.1":
+  version: 13.0.1
+  resolution: "expo-mail-composer@npm:13.0.1"
+  peerDependencies:
+    expo: "*"
+  checksum: 10c0/78fd424a64f500c1ef5863593c6295b6ee9f14e7bcbec0e45813f8debfb8f4aa5d5ab67f308d7faa5789f51c4edce8add9ca1335b32be36b9a91241ba38f7049
+  languageName: node
+  linkType: hard
+
 "expo-manifests@npm:~0.14.0":
   version: 0.14.3
   resolution: "expo-manifests@npm:0.14.3"
@@ -8173,6 +8182,7 @@ __metadata:
     expo-linking: "npm:~6.3.1"
     expo-local-authentication: "npm:~14.0.1"
     expo-localization: "npm:~15.0.3"
+    expo-mail-composer: "npm:~13.0.1"
     expo-media-library: "npm:~16.0.5"
     expo-notifications: "npm:~0.28.19"
     expo-router: "npm:~3.5.23"

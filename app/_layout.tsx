@@ -130,6 +130,13 @@ function RootLayout() {
           }}
         />
         <Stack.Screen
+          name='user/contact-us'
+          options={{
+            title: 'Contact Us',
+            headerLeft: () => <GoBack />,
+          }}
+        />
+        <Stack.Screen
           name='user/settings'
           options={{
             title: 'Settings',

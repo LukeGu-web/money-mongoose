@@ -42,6 +42,7 @@
     "expo-linking": "~6.3.1",
     "expo-local-authentication": "~14.0.1",
     "expo-localization": "~15.0.3",
+    "expo-mail-composer": "~13.0.1",
     "expo-media-library": "~16.0.5",
     "expo-notifications": "~0.28.19",
     "expo-router": "~3.5.23",
@@ -83,5 +84,5 @@
     "typescript": "~5.3.3"
   },
   "private": true,
-  "packageManager": "yarn@4.5.0"
+  "packageManager": "yarn@4.5.1"
 }
