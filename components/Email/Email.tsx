@@ -4,6 +4,7 @@ import * as Clipboard from 'expo-clipboard';
 import * as MailComposer from 'expo-mail-composer';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { useSettingStore } from 'core/stateHooks';
+import { successToaster } from 'core/toaster';
 import Icon from '../Icon/Icon';
 
 const email = 'getrich.help.service@gmail.com';
@@ -21,6 +22,7 @@ export default function Email() {
 
   const copyToClipboard = async () => {
     await Clipboard.setStringAsync(email);
+    successToaster('Copied Email.');
   };
 
   const handleClickEmail = () => {

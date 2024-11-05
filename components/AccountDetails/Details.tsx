@@ -6,6 +6,7 @@ import dayjs from 'dayjs';
 import { useUserDetails, useVerifyEmail } from 'api/account';
 import { useUserStore, useSettingStore } from 'core/stateHooks';
 import { clearAll } from 'core/localStorage/storage';
+import { successToaster } from 'core/toaster';
 import Icon from '../Icon/Icon';
 import NicknameModal from 'components/Modal/NicknameModal';
 
@@ -51,6 +52,7 @@ export default function Details() {
 
   const copyToClipboard = async () => {
     await Clipboard.setStringAsync(user.account_id as string);
+    successToaster('Copied User ID.');
   };
 
   return (
