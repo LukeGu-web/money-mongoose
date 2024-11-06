@@ -1,4 +1,4 @@
-import { View, Pressable, Text, Image, Platform } from 'react-native';
+import { Alert, View, Pressable, Text, Image, Platform } from 'react-native';
 import {
   LoginManager,
   AccessToken,
@@ -39,7 +39,7 @@ export default function FacebookSignInButton({
       );
 
       if (result.isCancelled) {
-        console.log('User cancelled the login process');
+        log.info('User cancelled the login process');
         return;
       }
 
@@ -48,43 +48,50 @@ export default function FacebookSignInButton({
         Platform.OS === 'ios'
           ? await AuthenticationToken.getAuthenticationTokenIOS()
           : await AccessToken.getCurrentAccessToken();
+
       if (!data) {
         throw new Error('Failed to get access token');
-      } else {
-        const account_id = user.account_id ?? uuid();
-        const token =
-          Platform.OS === 'ios'
-            ? (data as AuthenticationToken).authenticationToken
-            : (data as AccessToken).accessToken;
-        console.log('facebook token', data);
-        oauthLogin(
-          {
-            provider: OAuthProviderTypes.FACEBOOK,
-            accessToken: token,
-            account_id: account_id,
-          },
-          {
-            onSuccess: (response) => {
-              log.success('Facebook sign in success');
-              // Navigate to next page, etc.
-              if (isOnBoarding) {
-                router.navigate('/account');
-              } else {
-                setIsOnBoarding(true);
-                router.navigate('/');
-              }
-            },
-            onError: (error) => {
-              log.error('Error: ', error);
-            },
-          }
-        );
       }
+
+      const account_id = user.account_id ?? uuid();
+      const token =
+        Platform.OS === 'ios'
+          ? (data as AuthenticationToken).authenticationToken
+          : (data as AccessToken).accessToken;
+
+      oauthLogin(
+        {
+          provider: OAuthProviderTypes.FACEBOOK,
+          accessToken: token,
+          account_id: account_id,
+        },
+        {
+          onSuccess: (response) => {
+            log.success('Facebook sign in success');
+            if (isOnBoarding) {
+              router.navigate('/account');
+            } else {
+              setIsOnBoarding(true);
+              router.navigate('/');
+            }
+          },
+          onError: (error) => {
+            log.error('OAuth login error:', error);
+            Alert.alert(
+              'Login Failed',
+              'Unable to sign in with Facebook. Please try again later.'
+            );
+          },
+        }
+      );
     } catch (error) {
-      console.error('Facebook Login Error:', error);
+      log.error('Facebook Login Error:', error);
+      Alert.alert(
+        'Login Error',
+        'An error occurred during Facebook login. Please try again.'
+      );
     }
   };
-
   return (
     <Pressable
       className='flex-row items-center self-center w-3/4 gap-4 px-4 py-2 border-2 border-gray-400 rounded-lg'
