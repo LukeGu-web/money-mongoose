@@ -1,5 +1,9 @@
-import { View, Pressable, Text, Image } from 'react-native';
-import { LoginManager, AccessToken, Profile } from 'react-native-fbsdk-next';
+import { View, Pressable, Text, Image, Platform } from 'react-native';
+import {
+  LoginManager,
+  AccessToken,
+  AuthenticationToken,
+} from 'react-native-fbsdk-next';
 import { router } from 'expo-router';
 import { v4 as uuid } from 'uuid';
 import { useShallow } from 'zustand/react/shallow';
@@ -8,11 +12,6 @@ import { OAuthProviderTypes } from 'api/types';
 import { useLocalStore, useUserStore } from 'core/stateHooks';
 import log from 'core/logger';
 const facebookLogo = require('../../assets/icons/third-party/facebook.png');
-
-export interface FacebookUserInfo {
-  profile: Profile | null;
-  accessToken: AccessToken;
-}
 
 interface FacebookSignInButtonProps {
   buttonText?: string;
@@ -34,7 +33,10 @@ export default function FacebookSignInButton({
   const handleLogin = async (): Promise<void> => {
     try {
       // Attempt login with permissions
-      const result = await LoginManager.logInWithPermissions(permissions);
+      const result = await LoginManager.logInWithPermissions(
+        permissions,
+        'limited' // Limited Login
+      );
 
       if (result.isCancelled) {
         console.log('User cancelled the login process');
@@ -42,15 +44,23 @@ export default function FacebookSignInButton({
       }
 
       // Get access token
-      const data = await AccessToken.getCurrentAccessToken();
+      const data =
+        Platform.OS === 'ios'
+          ? await AuthenticationToken.getAuthenticationTokenIOS()
+          : await AccessToken.getCurrentAccessToken();
       if (!data) {
         throw new Error('Failed to get access token');
       } else {
         const account_id = user.account_id ?? uuid();
+        const token =
+          Platform.OS === 'ios'
+            ? (data as AuthenticationToken).authenticationToken
+            : (data as AccessToken).accessToken;
+        console.log('facebook token', data);
         oauthLogin(
           {
             provider: OAuthProviderTypes.FACEBOOK,
-            accessToken: String(data.accessToken),
+            accessToken: token,
             account_id: account_id,
           },
           {
