@@ -25,8 +25,17 @@ export default function Email() {
     successToaster('Copied Email.');
   };
 
+  const sendMail = async () => {
+    MailComposer.composeAsync({
+      subject: 'Get Rich',
+      body: '',
+      recipients: [email],
+    });
+  };
+
   const handleClickEmail = () => {
     if (isAvailable) {
+      sendMail();
     } else {
       copyToClipboard();
     }
