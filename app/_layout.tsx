@@ -2,17 +2,23 @@ import { Pressable } from 'react-native';
 import * as Sentry from '@sentry/react-native';
 import { SplashScreen, Stack, router } from 'expo-router';
 import { useFonts } from 'expo-font';
-import { initSentry, useSentryNavigationConfig } from 'core/sentry';
 import { Icon, Providers } from 'components';
 import '../global.css';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
-initSentry();
+const reactNavigationIntegration = Sentry.reactNavigationIntegration();
+Sentry.init({
+  dsn: process.env.EXPO_PUBLIC_SENTRY_DSN,
+  enableNativeFramesTracking: true,
+  integrations: [reactNavigationIntegration],
+  // Set tracesSampleRate to 1.0 to capture 100% of transactions for tracing.
+  // We recommend adjusting this value in production.
+  tracesSampleRate: 1.0,
+});
 
 function RootLayout() {
-  useSentryNavigationConfig();
   const [fontsLoaded] = useFonts({
     IcoMoon: require('../assets/icomoon.ttf'),
     icon: require('../assets/icons/category/icon.ttf'),
