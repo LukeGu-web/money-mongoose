@@ -14,7 +14,7 @@
       "backgroundColor": "#000"
     },
     "ios": {
-      "supportsTablet": true,
+      "supportsTablet": false,
       "usesAppleSignIn": true,
       "bundleIdentifier": "com.lukeguexpo.moneymongoose",
       "infoPlist": {
