@@ -9,6 +9,7 @@
     "web": "expo start --web",
     "prebuild": "expo prebuild",
     "build:ios": "eas build --platform ios",
+    "submit:ios": "eas build -p ios --auto-submit",
     "eas-build-pre-install": "corepack enable"
   },
   "dependencies": {

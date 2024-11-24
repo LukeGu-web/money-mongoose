@@ -86,7 +86,7 @@ export default function TabLayout() {
             </View>
           ),
           tabBarIcon: ({ color }) => (
-            <Icon name='calendar' size={28} color={color} />
+            <Icon name='calendar' size={24} color={color} />
           ),
         }}
       />
@@ -94,7 +94,7 @@ export default function TabLayout() {
         name='record'
         options={{
           headerShown: false,
-          tabBarIcon: () => <Icon name='record' size={32} color='#f7b05b' />,
+          tabBarIcon: () => <Icon name='record' size={30} color='#f7b05b' />,
         }}
       />
       <Tabs.Screen
@@ -107,7 +107,7 @@ export default function TabLayout() {
             </Link>
           ),
           tabBarIcon: ({ color }) => (
-            <Icon name='asset' size={28} color={color} />
+            <Icon name='asset' size={24} color={color} />
           ),
         }}
       />

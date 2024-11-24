@@ -66,80 +66,76 @@ export default function DrawerContent(props: any) {
         />
         <Text className='text-lg font-bold color-white'>{user.nickname}</Text>
       </View>
-      <View className='flex-1 py-8 bg-white dark:bg-zinc-700'>
-        <View className='pl-4 mb-2 border-b-2 border-gray-400'>
-          <Text className='p-2 text-lg dark:color-white'>Current book:</Text>
-          <DrawerItem
-            label={name ?? 'No book'}
-            labelStyle={{ color: labelColor }}
-            onPress={() => router.navigate('/book/management')}
-          />
-        </View>
-        <DrawerItem
-          label='Books'
-          labelStyle={{ color: labelColor }}
-          icon={() => <Ionicons name='library' size={24} color={iconColor} />}
-          onPress={() => router.navigate('/book/management')}
-        />
-        {/* <DrawerItem
-          label='Budget'
-          labelStyle={{ color: labelColor }}
-          icon={() => (
-            <FontAwesome6 name='calculator' size={28} color={iconColor} />
-          )}
-          onPress={() => router.navigate('budget')}
-        /> */}
-        <DrawerItem
-          label='Category Analysis'
-          labelStyle={{ color: labelColor }}
-          icon={() => <AntDesign name='piechart' size={24} color={iconColor} />}
-          onPress={() => router.navigate('/statistics/category')}
-        />
-        <DrawerItem
-          label='Overview Analysis'
-          labelStyle={{ color: labelColor }}
-          icon={() => (
-            <AntDesign name='areachart' size={24} color={iconColor} />
-          )}
-          onPress={() => router.navigate('/statistics/trending')}
-        />
-      </View>
-      <View className='pb-8 bg-white border-t-2 border-gray-400 dark:bg-zinc-700'>
-        {user.account_status === 'unregistered' ? (
-          <View>
+      <View className='flex-1 bg-white rounded-xl dark:bg-zinc-700'>
+        <View className='flex-1 pt-4'>
+          <View className='pl-4 mb-2 border-b-2 border-gray-400'>
+            <Text className='p-2 text-lg dark:color-white'>Current book:</Text>
             <DrawerItem
-              label='Login'
+              label={name ?? 'No book'}
               labelStyle={{ color: labelColor }}
-              icon={() => <AntDesign name='login' size={24} color='gray' />}
-              onPress={() =>
-                router.navigate({
-                  pathname: '/user/register',
-                  params: { reason: 'login' },
-                })
-              }
-            />
-            <DrawerItem
-              label='Sign up'
-              labelStyle={{ color: labelColor }}
-              icon={() => (
-                <Ionicons name='person-add-outline' size={24} color='gray' />
-              )}
-              onPress={() =>
-                router.navigate({
-                  pathname: '/user/register',
-                  params: { reason: 'sign-up' },
-                })
-              }
+              onPress={() => router.navigate('/book/management')}
             />
           </View>
-        ) : (
           <DrawerItem
-            label='Logout'
+            label='Books'
             labelStyle={{ color: labelColor }}
-            icon={() => <AntDesign name='logout' size={24} color='gray' />}
-            onPress={handleLogout}
+            icon={() => <Ionicons name='library' size={24} color={iconColor} />}
+            onPress={() => router.navigate('/book/management')}
           />
-        )}
+          <DrawerItem
+            label='Category Analysis'
+            labelStyle={{ color: labelColor }}
+            icon={() => (
+              <AntDesign name='piechart' size={24} color={iconColor} />
+            )}
+            onPress={() => router.navigate('/statistics/category')}
+          />
+          <DrawerItem
+            label='Overview Analysis'
+            labelStyle={{ color: labelColor }}
+            icon={() => (
+              <AntDesign name='areachart' size={24} color={iconColor} />
+            )}
+            onPress={() => router.navigate('/statistics/trending')}
+          />
+        </View>
+        <View className='border-t-2 border-gray-400'>
+          {user.account_status === 'unregistered' ? (
+            <View>
+              <DrawerItem
+                label='Login'
+                labelStyle={{ color: labelColor }}
+                icon={() => <AntDesign name='login' size={24} color='gray' />}
+                onPress={() =>
+                  router.navigate({
+                    pathname: '/user/register',
+                    params: { reason: 'login' },
+                  })
+                }
+              />
+              <DrawerItem
+                label='Sign up'
+                labelStyle={{ color: labelColor }}
+                icon={() => (
+                  <Ionicons name='person-add-outline' size={24} color='gray' />
+                )}
+                onPress={() =>
+                  router.navigate({
+                    pathname: '/user/register',
+                    params: { reason: 'sign-up' },
+                  })
+                }
+              />
+            </View>
+          ) : (
+            <DrawerItem
+              label='Logout'
+              labelStyle={{ color: labelColor }}
+              icon={() => <AntDesign name='logout' size={24} color='gray' />}
+              onPress={handleLogout}
+            />
+          )}
+        </View>
       </View>
     </DrawerContentScrollView>
   );
