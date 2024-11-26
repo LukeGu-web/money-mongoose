@@ -19,7 +19,12 @@
       "bundleIdentifier": "com.lukeguexpo.moneymongoose",
       "infoPlist": {
         "LSMinimumSystemVersion": "12.0",
-        "NSFaceIDUsageDescription": "Enabling FaceID allows you to protect data"
+        "NSCameraUsageDescription": "Get Rich needs access to your camera to set your profile picture or capture photos of receipts.",
+        "NSFaceIDUsageDescription": "Get Rich uses Face ID to securely unlock the app and protect your data.",
+        "NSMicrophoneUsageDescription": "Get Rich needs access to your microphone for audio recording when required in supported features.",
+        "NSPhotoLibraryAddUsageDescription": "Get Rich needs permission to save receipts for your records.",
+        "NSPhotoLibraryUsageDescription": "Get Rich needs access to your photos to let you select images for your profile or review saved receipts.",
+        "NSUserTrackingUsageDescription": "This helps us understand how you use our app and improve your experience."
       }
     },
     "android": {
@@ -65,7 +70,7 @@
       [
         "expo-tracking-transparency",
         {
-          "userTrackingPermission": "This identifier will be used to deliver personalized ads to you."
+          "userTrackingPermission": "This helps us understand how you use our app and improve your experience."
         }
       ],
       [
