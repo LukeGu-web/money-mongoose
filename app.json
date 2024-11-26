@@ -43,23 +43,23 @@
       [
         "expo-camera",
         {
-          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera",
-          "microphonePermission": "Allow $(PRODUCT_NAME) to access your microphone",
+          "cameraPermission": "$(PRODUCT_NAME) needs access to your camera to set your profile picture or capture photos of receipts.",
+          "microphonePermission": "$(PRODUCT_NAME) needs access to your microphone for audio recording when required in supported features.",
           "recordAudioAndroid": true
         }
       ],
       [
         "expo-media-library",
         {
-          "photosPermission": "Allow $(PRODUCT_NAME) to access your photos.",
-          "savePhotosPermission": "Allow $(PRODUCT_NAME) to save photos.",
+          "photosPermission": "$(PRODUCT_NAME) needs access to your photos to let you select images for your profile or review saved receipts.",
+          "savePhotosPermission": "$(PRODUCT_NAME) needs permission to save receipts for your records",
           "isAccessMediaLocationEnabled": true
         }
       ],
       [
         "expo-local-authentication",
         {
-          "faceIDPermission": "Allow $(PRODUCT_NAME) to use Face ID."
+          "faceIDPermission": "$(PRODUCT_NAME) uses Face ID to securely unlock the app and protect your data."
         }
       ],
       [
