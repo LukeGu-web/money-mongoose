@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import { View, Text, Image, ActivityIndicator } from 'react-native';
+import { View, Text, Image, ActivityIndicator, ScrollView } from 'react-native';
 import { Calendar as ClendarPicker, DateData } from 'react-native-calendars';
 import { usePathname } from 'expo-router';
 import dayjs from 'dayjs';
@@ -121,12 +121,14 @@ export default function Calendar() {
             estimatedItemSize={20}
           />
         ) : (
-          <View className='self-center justify-center flex-1 gap-4'>
-            <Image className='w-32 h-32' source={noDataImage} />
-            <Text className='text-lg font-medium text-center dark:color-white'>
-              No record
-            </Text>
-          </View>
+          <ScrollView className='flex-1'>
+            <View className='self-center justify-center flex-1 gap-4'>
+              <Image className='w-32 h-32' source={noDataImage} />
+              <Text className='text-lg font-medium text-center dark:color-white'>
+                No record
+              </Text>
+            </View>
+          </ScrollView>
         )}
       </View>
       <RecordBottomSheet

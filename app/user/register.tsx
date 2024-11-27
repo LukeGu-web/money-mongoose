@@ -5,6 +5,7 @@ import {
   Text,
   Pressable,
   Keyboard,
+  ScrollView,
   ImageBackground,
   TouchableWithoutFeedback,
 } from 'react-native';
@@ -38,27 +39,30 @@ export default function Register() {
             }}
             edges={['right', 'top', 'left']}
           >
-            <View className='px-4'>
-              <Pressable
-                className='flex-row items-center gap-2 py-2'
-                onPress={() => router.back()}
-              >
-                <Icon
-                  name='left'
-                  size={20}
-                  color={theme === 'dark' ? '#dbeafe' : '#03045E'}
-                />
-                <Text className='color-primary dark:color-blue-100'>Back</Text>
-              </Pressable>
-            </View>
-            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-              <View className='items-center justify-center flex-1'>
-                {params.reason === 'login' && <LoginForm />}
-                {params.reason === 'sign-up' && <SignUpForm />}
-                {params.reason === 'details' && <Details />}
+            <ScrollView className='flex-1'>
+              <View className='px-4'>
+                <Pressable
+                  className='flex-row items-center gap-2 py-2'
+                  onPress={() => router.back()}
+                >
+                  <Icon
+                    name='left'
+                    size={20}
+                    color={theme === 'dark' ? '#dbeafe' : '#03045E'}
+                  />
+                  <Text className='color-primary dark:color-blue-100'>
+                    Back
+                  </Text>
+                </Pressable>
               </View>
-            </TouchableWithoutFeedback>
-
+              <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                <View className='items-center justify-center flex-1'>
+                  {params.reason === 'login' && <LoginForm />}
+                  {params.reason === 'sign-up' && <SignUpForm />}
+                  {params.reason === 'details' && <Details />}
+                </View>
+              </TouchableWithoutFeedback>
+            </ScrollView>
             <StatusBar style={theme === 'dark' ? 'light' : 'dark'} />
           </SafeAreaView>
         </BlurView>
