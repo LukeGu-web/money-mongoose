@@ -1,5 +1,6 @@
-import { router, Link } from 'expo-router';
-import { View, Text, Image, Pressable, ScrollView } from 'react-native';
+import { router } from 'expo-router';
+import { openBrowserAsync } from 'expo-web-browser';
+import { View, Text, Image, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalStore } from 'core/stateHooks';
 const avatarImage = require('../../assets/icon.png');
@@ -14,14 +15,14 @@ export default function Onboarding() {
   };
   return (
     <SafeAreaView
-      style={{ flex: 1, backgroundColor: 'white' }}
-      edges={['right', 'bottom', 'left']}
+      style={{ flex: 1, backgroundColor: 'white', height: '100%' }}
+      edges={['bottom']}
     >
-      <ScrollView className='flex-1'>
-        <View className='flex-1'>
+      <View className='flex-1 pb-4'>
+        <View className='items-center justify-end flex-1'>
           <View className='items-center justify-center flex-1 gap-4'>
             <Image className='w-32 h-32' source={avatarImage} />
-            <Text className='text-3xl text-red-500 font-permanentmarker'>
+            <Text className='font-mono text-4xl font-medium text-red-500'>
               Get Rich
             </Text>
           </View>
@@ -40,19 +41,27 @@ export default function Onboarding() {
             </Text>
             <View className='flex-row flex-wrap'>
               <Text>Please read carefully </Text>
-              <Link
-                className='text-yellow-400 underline'
-                href='/user/user-agreement'
+              <Pressable
+                onPress={() =>
+                  openBrowserAsync(
+                    'https://getrich.lukegu.com/terms-and-conditions/'
+                  )
+                }
               >
-                User Agreement
-              </Link>
+                <Text className='text-yellow-400 underline'>
+                  User Agreement
+                </Text>
+              </Pressable>
               <Text> and </Text>
-              <Link
-                className='text-yellow-400 underline'
-                href='/user/privacy-policy'
+              <Pressable
+                onPress={() =>
+                  openBrowserAsync('https://getrich.lukegu.com/privacy-policy/')
+                }
               >
-                Privacy Policy
-              </Link>
+                <Text className='text-yellow-400 underline'>
+                  Privacy Policy
+                </Text>
+              </Pressable>
             </View>
             <View className='flex-row justify-between gap-6 mt-4'>
               <Pressable
@@ -70,7 +79,7 @@ export default function Onboarding() {
             </View>
           </View>
         </View>
-      </ScrollView>
+      </View>
     </SafeAreaView>
   );
 }
