@@ -230,7 +230,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - ExpoAdapterFBSDKNext (13.1.4):
+  - ExpoAdapterFBSDKNext (13.3.0):
     - ExpoModulesCore
     - FBSDKCoreKit
     - React-Core
@@ -1596,18 +1596,18 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - react-native-fbsdk-next (13.1.4):
+  - react-native-fbsdk-next (13.3.0):
     - React-Core
-    - react-native-fbsdk-next/Core (= 13.1.4)
-    - react-native-fbsdk-next/Login (= 13.1.4)
-    - react-native-fbsdk-next/Share (= 13.1.4)
-  - react-native-fbsdk-next/Core (13.1.4):
+    - react-native-fbsdk-next/Core (= 13.3.0)
+    - react-native-fbsdk-next/Login (= 13.3.0)
+    - react-native-fbsdk-next/Share (= 13.3.0)
+  - react-native-fbsdk-next/Core (13.3.0):
     - FBSDKCoreKit (~> 17.4)
     - React-Core
-  - react-native-fbsdk-next/Login (13.1.4):
+  - react-native-fbsdk-next/Login (13.3.0):
     - FBSDKLoginKit (~> 17.4)
     - React-Core
-  - react-native-fbsdk-next/Share (13.1.4):
+  - react-native-fbsdk-next/Share (13.3.0):
     - FBSDKGamingServicesKit (~> 17.4)
     - FBSDKShareKit (~> 17.4)
     - React-Core
@@ -2043,7 +2043,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - RNScreens (4.3.0):
+  - RNScreens (4.1.0):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -2481,7 +2481,7 @@ SPEC CHECKSUMS:
   expo-dev-launcher: 6a9b0c2e95bcf9cff57a59f7b39bcd7d4b9fb0d1
   expo-dev-menu: cba09bf0b6a97b8297434eb2cdc44106aaf51c11
   expo-dev-menu-interface: 4baf2f8b3b79ce37cf4b900e4b3ba6df3384f0a1
-  ExpoAdapterFBSDKNext: aee105dbf4a586a26b24103b2077c07c640cbc2a
+  ExpoAdapterFBSDKNext: 45c8088ec14e6fdd5d6cb2a9e7023ce662788af4
   ExpoAdapterGoogleSignIn: da10ae7e7c1d73a10c2facebcdfe5ebea8e073ce
   ExpoAppleAuthentication: 218e275c9bf19963247a198c450ce3852e6a9342
   ExpoAsset: 8138f2a9ec55ae1ad7c3871448379f7d97692d15
@@ -2549,7 +2549,7 @@ SPEC CHECKSUMS:
   React-logger: 26155dc23db5c9038794db915f80bd2044512c2e
   React-Mapbuffer: ad1ba0205205a16dbff11b8ade6d1b3959451658
   React-microtasksnativemodule: 36e3a415c6a3a5c4784b5c6bad38013b8ca35be4
-  react-native-fbsdk-next: de7d8792163c648b27ed853d0dab181cf928aa32
+  react-native-fbsdk-next: b430fc002cf9b8675b8688d43fe6eddd5ff4e029
   react-native-get-random-values: 21325b2244dfa6b58878f51f9aa42821e7ba3d06
   react-native-safe-area-context: 142fade490cbebbe428640b8cbdb09daf17e8191
   react-native-skia: 8f41b3bbde6d3b4eff1983cb82038f3af7de7eca
@@ -2587,7 +2587,7 @@ SPEC CHECKSUMS:
   RNGestureHandler: 511250b190a284388f9dd0d2e56c1df76f14cfb8
   RNGoogleSignin: 9e68b9bcc3888219357924e32ee563624745647d
   RNReanimated: 5b6e322c4b257d0e755d8b45c02c1a2cf478d5a4
-  RNScreens: b03d696c70cc5235ce4587fcc27ae1a93a48f98c
+  RNScreens: e6f9bc3a41be76af2ba0a815ea299a0000b1c838
   RNSentry: 4580b02d92932a15deb7adfd582feff799c7d289
   RNSVG: 8b1a777d54096b8c2a0fd38fc9d5a454332bbb4d
   Sentry: 205813e7e758b53df157cedb8c55b31a14300645

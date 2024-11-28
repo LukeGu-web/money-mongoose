@@ -11,7 +11,7 @@ export default function About() {
       <View className='items-center justify-center gap-4'>
         <Image className='w-32 h-32' source={avatarImage} />
         <Text className='text-2xl font-semibold color-primary dark:color-blue-100'>
-          Version: 1.0.1
+          Version: 1.0.2
         </Text>
       </View>
       <View className='w-full rounded-lg bg-zinc-200 dark:bg-zinc-800'>

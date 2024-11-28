@@ -8016,7 +8016,7 @@ __metadata:
     react-native: "npm:0.76.3"
     react-native-calendars: "npm:^1.1307.0"
     react-native-country-flag: "npm:^2.0.2"
-    react-native-fbsdk-next: "npm:^13.1.4"
+    react-native-fbsdk-next: "npm:^13.3.0"
     react-native-gesture-handler: "npm:~2.20.2"
     react-native-get-random-values: "npm:~1.11.0"
     react-native-gifted-charts: "npm:^1.4.47"
@@ -9111,16 +9111,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-fbsdk-next@npm:^13.1.4":
-  version: 13.1.4
-  resolution: "react-native-fbsdk-next@npm:13.1.4"
+"react-native-fbsdk-next@npm:^13.3.0":
+  version: 13.3.0
+  resolution: "react-native-fbsdk-next@npm:13.3.0"
   peerDependencies:
     expo: ">=47.0.0"
     react-native: ">=0.63.3"
   peerDependenciesMeta:
     expo:
       optional: true
-  checksum: 10c0/439b45ff651e294a79897d9e1827c75139ddfb8cba43e6e44e5d8f805f83030ee7e0450cfde9908683daf8532b52ec181452c5469f2bb67ccbb2ea687d796a6b
+  checksum: 10c0/b997e1c4a455c60333b6b257cdbcd29daa5e66c8c3f67dc564c5397db50a60c32e5445643aea5ddfb826930a27b9a1969143c8b1ab6c16515f198c888f4546a7
   languageName: node
   linkType: hard
 
