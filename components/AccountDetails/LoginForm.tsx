@@ -109,6 +109,11 @@ export default function LoginForm() {
                 onChangeText={onChange}
                 value={value}
               />
+              {errors.email && (
+                <Text className='w-full pt-1 pl-2 color-red-500'>
+                  *{errors.email.message}
+                </Text>
+              )}
             </View>
           )}
           name='email'
