@@ -79,7 +79,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
-    "@dev-plugins/react-query": "^0.0.7",
+    "@dev-plugins/react-query": "^0.1.0",
     "@tanstack/eslint-plugin-query": "^5.52.3",
     "@types/react": "~18.3.12",
     "@types/uuid": "^10.0.0",
