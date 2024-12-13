@@ -12,3 +12,12 @@ export const setHeaderToken = (token: string | null) => {
     delete client.defaults.headers.common['Authorization'];
   }
 };
+
+// Helper function to set timezone header
+export const setHeaderTimezone = (timezone?: string) => {
+  if (timezone) {
+    client.defaults.headers.common['X-Timezone'] = timezone;
+  } else {
+    delete client.defaults.headers.common['X-Timezone'];
+  }
+};

@@ -3,8 +3,9 @@ import { View, Text, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { router } from 'expo-router';
+import { getCalendars } from 'expo-localization';
 import dayjs from 'dayjs';
-import { client, setHeaderToken } from 'api/client';
+import { client, setHeaderToken, setHeaderTimezone } from 'api/client';
 import { useGetMonthlyData } from 'api/record';
 import {
   BudgetCard,
@@ -26,6 +27,10 @@ export default function Home() {
   useEffect(() => {
     if (!client.defaults.headers.common['Authorization'])
       setHeaderToken(user.token);
+    if (!client.defaults.headers.common['X-Timezone']) {
+      const tz = getCalendars()[0].timeZone;
+      if (tz) setHeaderTimezone(tz);
+    }
   }, []);
 
   const monthIncome =
