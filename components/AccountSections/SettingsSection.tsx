@@ -4,6 +4,7 @@ import { router } from 'expo-router';
 import * as Notifications from 'expo-notifications';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useSettingStore, useUserStore } from 'core/stateHooks';
+import log from 'core/logger';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import Icon from '../Icon/Icon';
 
@@ -76,16 +77,16 @@ export default function SettingsSection() {
           data: { userId: user.id }, // Add user.id to identify notifications per user
         },
         trigger: {
+          type: Notifications.SchedulableTriggerInputTypes.DAILY,
           hour: trigger.getHours(),
           minute: trigger.getMinutes(),
-          repeats: true,
         },
       });
 
       setReminderId(id);
       return id;
     } catch (error) {
-      console.error('Error scheduling notification:', error);
+      log.error('Error scheduling notification:', error);
       setIsEnabledReminder(false);
       return null;
     }
@@ -112,7 +113,7 @@ export default function SettingsSection() {
         }
       }
     } catch (error) {
-      console.error('Error canceling notification:', error);
+      log.error('Error canceling notification:', error);
     }
   };
 
@@ -133,7 +134,7 @@ export default function SettingsSection() {
         setIsEnabledReminder(false);
       }
     } catch (error) {
-      console.error('Error toggling reminder:', error);
+      log.error('Error toggling reminder:', error);
       setIsEnabledReminder(false);
     }
   };
@@ -145,7 +146,7 @@ export default function SettingsSection() {
         await scheduleDailyReminder(selectedDate);
       }
     } catch (error) {
-      console.error('Error changing reminder time:', error);
+      log.error('Error changing reminder time:', error);
     }
   };
 
@@ -154,7 +155,7 @@ export default function SettingsSection() {
       // First, let's see what's currently scheduled
       const scheduledNotifications =
         await Notifications.getAllScheduledNotificationsAsync();
-      console.log(
+      log.info(
         'Before cleanup:',
         scheduledNotifications.length,
         'notifications'
@@ -172,13 +173,13 @@ export default function SettingsSection() {
       // Verify cleanup
       const remainingNotifications =
         await Notifications.getAllScheduledNotificationsAsync();
-      console.log(
+      log.info(
         'After cleanup:',
         remainingNotifications.length,
         'notifications'
       );
     } catch (error) {
-      console.error('Error cleaning up notifications:', error);
+      log.error('Error cleaning up notifications:', error);
     }
   };
 

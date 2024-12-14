@@ -8,6 +8,7 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import { useBookStore, useUserStore, useSettingStore } from 'core/stateHooks';
 import { clearAll } from 'core/localStorage/storage';
+import log from 'core/logger';
 
 const avatarImage = require('../../assets/icon.png');
 
@@ -22,7 +23,7 @@ export default function DrawerContent(props: any) {
       // First, let's see what's currently scheduled
       const scheduledNotifications =
         await Notifications.getAllScheduledNotificationsAsync();
-      console.log(
+      log.info(
         'Before cleanup:',
         scheduledNotifications.length,
         'notifications'
@@ -33,13 +34,13 @@ export default function DrawerContent(props: any) {
       // Verify cleanup
       const remainingNotifications =
         await Notifications.getAllScheduledNotificationsAsync();
-      console.log(
+      log.info(
         'After cleanup:',
         remainingNotifications.length,
         'notifications'
       );
     } catch (error) {
-      console.error('Error cleaning up notifications:', error);
+      log.error('Error cleaning up notifications:', error);
     }
   };
 

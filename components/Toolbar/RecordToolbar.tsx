@@ -22,15 +22,11 @@ export default function RecordToolbar() {
   const handlePressSelect = useCallback(() => {
     bottomSheetModalRef.current?.present();
     Keyboard.dismiss();
-    console.log('handlePressSelect: ', data);
     if (!getValues('asset') && data && data.length > 0) {
-      console.log('inside', data);
       const defaultAsset = data[0];
       setValue('asset', `${defaultAsset.id}-${defaultAsset.name}`);
     }
   }, [data]);
-
-  console.log("getValues('asset') ", getValues('asset'));
 
   return (
     <View className='flex-row justify-start gap-2 px-5 py-2 mb-2 border-b-2 h-14 border-gray-50'>

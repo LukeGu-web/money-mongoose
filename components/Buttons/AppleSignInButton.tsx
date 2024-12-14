@@ -81,9 +81,9 @@ export default function AppleSignInButton({
     } catch (error: any) {
       if (error.code === 'ERR_CANCELED') {
         // Handle user cancellation
-        console.log('User canceled Apple Sign in');
+        log.info('User canceled Apple Sign in');
       } else {
-        console.error('Apple Sign In Error:', error);
+        log.error('Apple Sign In Error:', error);
       }
     }
   };

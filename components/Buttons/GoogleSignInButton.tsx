@@ -65,20 +65,20 @@ export default function GoogleSignInButton({
     } catch (error) {
       // Type guard to check if error is an Error object
       const errorObject = error as Error & { code?: string };
-      console.error('Google Sign-In Error:', errorObject);
+      log.error('Google Sign-In Error:', errorObject);
 
       switch (errorObject.code) {
         case statusCodes.SIGN_IN_CANCELLED:
-          console.log('User cancelled the sign-in flow');
+          log.info('User cancelled the sign-in flow');
           break;
         case statusCodes.IN_PROGRESS:
-          console.log('Sign-in is already in progress');
+          log.info('Sign-in is already in progress');
           break;
         case statusCodes.PLAY_SERVICES_NOT_AVAILABLE:
-          console.log('Play services not available');
+          log.info('Play services not available');
           break;
         default:
-          console.log('Other error:', errorObject);
+          log.info('Other error:', errorObject);
           break;
       }
     }
