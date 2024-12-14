@@ -30,6 +30,11 @@ export const formatAsset = (
   return curentAsset;
 };
 
+export function removeIdAndDash(input: string) {
+  const index = input.indexOf('-');
+  return index !== -1 ? input.slice(index + 1) : input;
+}
+
 export const currencySymbol = (country: CountryType) =>
   /* @ts-ignore: ignore json type */
   symbol[country.currency_code] ?? country.currency_code;

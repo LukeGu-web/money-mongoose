@@ -11,6 +11,7 @@ import { useFormContext, Controller } from 'react-hook-form';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 
 import Icon from '../Icon/Icon';
+import { removeIdAndDash } from 'core/utils';
 import { useBookStore } from 'core/stateHooks';
 import SelectGroupBottomSheet from '../BottomSheet/SelectGroupBottomSheet';
 import { inputAccessoryCreateBtnID } from './static';
@@ -34,7 +35,7 @@ export default function AssetAccountBasicForm() {
       const defaultGroup = data.groups[0];
       setValue('group', `${defaultGroup.id}-${defaultGroup.name}`);
     }
-  }, []);
+  }, [data]);
 
   return (
     <View className='items-center justify-between flex-1 w-full p-4'>
@@ -69,7 +70,7 @@ export default function AssetAccountBasicForm() {
             <Text>Group</Text>
             <View>
               {value ? (
-                <Text>{value.split('-')[1]}</Text>
+                <Text>{removeIdAndDash(value)}</Text>
               ) : (
                 <View className='flex-row items-center gap-1'>
                   <Text className='color-zinc-400'>Select group</Text>

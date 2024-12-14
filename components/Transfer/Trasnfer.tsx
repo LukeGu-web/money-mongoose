@@ -5,6 +5,7 @@ import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 
 import { useGetFlatAssets } from 'api/asset';
+import { removeIdAndDash } from 'core/utils';
 import { useBookStore } from 'core/stateHooks';
 import SelectAssetBottomSheet from 'components/BottomSheet/SelectAssetBottomSheet';
 
@@ -43,9 +44,10 @@ export default function Transfer() {
             onPress={() => handlePressSelect('from_asset')}
           >
             <Text className='text-lg '>
-              {value ? value.split('-')[1] : 'no account'}
+              {value ? removeIdAndDash(value) : 'no account'}
             </Text>
             <SelectAssetBottomSheet
+              data={data}
               value={value}
               bottomSheetModalRef={fromAssetModalRef}
               onChange={onChange}
@@ -65,7 +67,7 @@ export default function Transfer() {
             onPress={() => handlePressSelect('to_asset')}
           >
             <Text className='text-lg '>
-              {value ? value.split('-')[1] : 'no account'}
+              {value ? removeIdAndDash(value) : 'no account'}
             </Text>
             <SelectAssetBottomSheet
               value={value}
