@@ -1,5 +1,6 @@
 import { Alert, View, Text, Pressable } from 'react-native';
 import { router } from 'expo-router';
+import dayjs from 'dayjs';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { RecordTypes } from 'api/record/types';
 import { useDeleteRecord } from 'api/record';
@@ -28,6 +29,14 @@ export default function RecordBottomSheet({
   const handleGoRecord = () => {
     router.push('/record');
     bottomSheetModalRef.current?.dismiss();
+  };
+
+  const handleEdit = () => {
+    const timezoneOffset = new Date().getTimezoneOffset();
+    const offsetHours = Math.floor(timezoneOffset / 60);
+    const tzDate = dayjs(record.date).add(offsetHours, 'hour').toDate();
+    setRecord({ date: tzDate });
+    handleGoRecord();
   };
 
   const handleCopy = () => {
@@ -67,7 +76,7 @@ export default function RecordBottomSheet({
     );
 
   const functions: { [functionName: string]: () => void } = {
-    Edit: handleGoRecord,
+    Edit: handleEdit,
     Copy: handleCopy,
     Delete: handleDelete,
   };

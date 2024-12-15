@@ -1,11 +1,8 @@
-import { useEffect } from 'react';
-import { View, Text, Pressable } from 'react-native';
+import { View, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
-import { router } from 'expo-router';
-import { getCalendars } from 'expo-localization';
+import { Link } from 'expo-router';
 import dayjs from 'dayjs';
-import { client, setHeaderToken, setHeaderTimezone } from 'api/client';
 import { useGetMonthlyData } from 'api/record';
 import {
   BudgetCard,
@@ -14,24 +11,14 @@ import {
   HomeHeader,
   Icon,
 } from 'components';
-import { useUserStore, useBookStore, useSettingStore } from 'core/stateHooks';
+import { useBookStore, useSettingStore } from 'core/stateHooks';
 
 export default function Home() {
-  const user = useUserStore((state) => state.user);
   const currentBook = useBookStore((state) => state.currentBook);
   const theme = useSettingStore((state) => state).theme;
   const { data } = useGetMonthlyData({
     variables: { book_id: currentBook.id },
   });
-
-  useEffect(() => {
-    if (!client.defaults.headers.common['Authorization'])
-      setHeaderToken(user.token);
-    if (!client.defaults.headers.common['X-Timezone']) {
-      const tz = getCalendars()[0].timeZone;
-      if (tz) setHeaderTimezone(tz);
-    }
-  }, []);
 
   const monthIncome =
     data && data.length > 0 ? Number(data[0].monthly_income) : 0;
@@ -56,9 +43,9 @@ export default function Home() {
             <Text className='text-2xl font-semibold dark:color-white'>
               Last 7 days
             </Text>
-            <Pressable
+            <Link
               className='flex-row items-center justify-between gap-1'
-              onPress={() => router.navigate('/records')}
+              href={'/records'}
             >
               <Text className='dark:color-white'>All records</Text>
               <Icon
@@ -66,7 +53,7 @@ export default function Home() {
                 size={14}
                 color={theme === 'dark' ? 'white' : 'black'}
               />
-            </Pressable>
+            </Link>
           </View>
           <RecordList
             extra={`&date_after=${dayjs()

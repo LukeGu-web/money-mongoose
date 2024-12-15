@@ -35,8 +35,9 @@ export default function RecordToolbar() {
         render={({ field: { onChange, onBlur, value } }) => (
           <DateTimePicker
             key={theme}
-            style={{ width: 90 }}
+            style={{ width: 200 }}
             value={value}
+            mode='datetime'
             display='compact'
             themeVariant={theme}
             onChange={(e: any, selectedDate: any) => {

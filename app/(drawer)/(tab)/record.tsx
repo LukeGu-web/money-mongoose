@@ -136,7 +136,7 @@ export default function Record() {
   };
 
   const handleSubmit = methods.handleSubmit((data) => {
-    log.info('Submit create record data: ', {
+    log.info('Submit create/update record data: ', {
       ...data,
       book: currentBook.id,
     });
