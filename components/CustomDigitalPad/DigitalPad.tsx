@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import { useFormContext, Controller } from 'react-hook-form';
 import { useFocusEffect } from 'expo-router';
+import * as Haptics from 'expo-haptics';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 
 import { useCurrency } from 'api/extra';
@@ -70,6 +71,7 @@ export default function DigitalPad({ onSubmit }: DigitalPadProps) {
   );
 
   const handlePriceInput = (item: string) => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     const num: number = Math.abs(getValues('amount'));
     let amount: number = num;
     switch (item) {
