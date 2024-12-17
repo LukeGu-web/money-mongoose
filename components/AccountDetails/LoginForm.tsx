@@ -5,8 +5,6 @@ import {
   Pressable,
   TextInput,
   ActivityIndicator,
-  Platform,
-  KeyboardAvoidingView,
 } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import { Link, router } from 'expo-router';
@@ -22,7 +20,6 @@ import { successToaster } from 'core/toaster';
 const avatarImage = require('../../assets/icon.png');
 
 export default function LoginForm() {
-  const keyboardVerticalOffset = Platform.OS === 'ios' ? -100 : 0;
   const { isOnBoarding, setIsOnBoarding } = useLocalStore(
     useShallow((state) => ({
       isOnBoarding: state.isOnBoarding,
@@ -79,11 +76,7 @@ export default function LoginForm() {
           LOGIN
         </Text>
       </View>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        keyboardVerticalOffset={keyboardVerticalOffset}
-        style={{ gap: 16, width: '100%' }}
-      >
+      <View className='w-full gap-4'>
         <Controller
           control={control}
           rules={{
@@ -111,7 +104,7 @@ export default function LoginForm() {
               />
               {errors.email && (
                 <Text className='w-full pt-1 pl-2 color-red-500'>
-                  *{errors.email.message}
+                  {errors.email.message}
                 </Text>
               )}
             </View>
@@ -120,6 +113,12 @@ export default function LoginForm() {
         />
         <Controller
           control={control}
+          rules={{
+            required: {
+              value: true,
+              message: 'Please enter password.',
+            },
+          }}
           render={({ field: { onChange, onBlur, value } }) => (
             <View>
               <Text className='ml-1 color-primary dark:color-white'>
@@ -134,6 +133,11 @@ export default function LoginForm() {
                 onChangeText={onChange}
                 value={value}
               />
+              {errors.password && (
+                <Text className='w-full pt-1 pl-2 color-red-500'>
+                  {errors.password.message}
+                </Text>
+              )}
             </View>
           )}
           name='password'
@@ -156,7 +160,7 @@ export default function LoginForm() {
             </Text>
           )}
         </Pressable>
-      </KeyboardAvoidingView>
+      </View>
       <ThirdPartyLogin />
     </View>
   );

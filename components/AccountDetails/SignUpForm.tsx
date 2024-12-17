@@ -5,8 +5,6 @@ import {
   Pressable,
   TextInput,
   ActivityIndicator,
-  Platform,
-  KeyboardAvoidingView,
 } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import { router } from 'expo-router';
@@ -20,7 +18,6 @@ import { successToaster } from 'core/toaster';
 const avatarImage = require('../../assets/icon.png');
 
 export default function SignUpForm() {
-  const keyboardVerticalOffset = Platform.OS === 'ios' ? -100 : 0;
   const { mutate: updateUserApi, isPending } = useUpdateUser();
   const { user, setUser } = useUserStore();
   const {
@@ -94,11 +91,7 @@ export default function SignUpForm() {
           </Text>
         )}
       </View>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        keyboardVerticalOffset={keyboardVerticalOffset}
-        style={{ gap: 16, width: '100%' }}
-      >
+      <View className='w-full gap-4'>
         <Controller
           control={control}
           rules={{
@@ -198,7 +191,7 @@ export default function SignUpForm() {
             </Text>
           )}
         </Pressable>
-      </KeyboardAvoidingView>
+      </View>
       <ThirdPartyLogin />
     </View>
   );
