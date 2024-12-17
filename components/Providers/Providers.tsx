@@ -1,6 +1,7 @@
 import { BlurView } from 'expo-blur';
 import { useEffect, useRef, useState } from 'react';
 import { AppState, Alert } from 'react-native';
+import { KeyboardProvider } from 'react-native-keyboard-controller';
 import Toast from 'react-native-toast-message';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import * as LocalAuthentication from 'expo-local-authentication';
@@ -106,7 +107,9 @@ export default function Providers({ children }: { children: React.ReactNode }) {
               className='absolute top-0 left-0 z-10 flex-1 w-full h-full'
             />
           )}
-          <BottomSheetModalProvider>{children}</BottomSheetModalProvider>
+          <BottomSheetModalProvider>
+            <KeyboardProvider>{children}</KeyboardProvider>
+          </BottomSheetModalProvider>
           <Toast topOffset={60} />
         </APIProvider>
       </GestureHandlerRootView>

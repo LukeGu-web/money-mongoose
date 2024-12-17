@@ -9,7 +9,7 @@ import {
   InputAccessoryView,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 import { useForm, Controller } from 'react-hook-form';
 
 import { useCreateBook, useUpdateBook } from 'api/book';
@@ -73,7 +73,7 @@ export default function AddNewBook() {
       }}
       edges={['bottom']}
     >
-      <KeyboardAwareScrollView extraScrollHeight={50}>
+      <KeyboardAwareScrollView>
         <Controller
           control={control}
           render={({ field: { onChange, onBlur, value } }) => (

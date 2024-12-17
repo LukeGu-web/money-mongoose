@@ -11,7 +11,7 @@ import {
   InputAccessoryView,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 import { useForm, FormProvider } from 'react-hook-form';
 
 import { useCreateAsset, useUpdateAsset } from 'api/asset';
@@ -106,7 +106,7 @@ export default function AssetDetails() {
       }}
       edges={['bottom']}
     >
-      <KeyboardAwareScrollView extraScrollHeight={50}>
+      <KeyboardAwareScrollView>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <FormProvider {...methods}>
             <View className='h-32 mb-4 bg-blue-200 rounded-lg'></View>
