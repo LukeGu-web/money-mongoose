@@ -14,7 +14,7 @@ import { BottomSheetModal } from '@gorhom/bottom-sheet';
 
 import { useCurrency } from 'api/extra';
 import { formatter, currencySymbol } from 'core/utils';
-import { useCurrencyStore } from 'core/stateHooks';
+import { useCurrencyStore, useSettingStore } from 'core/stateHooks';
 import symbol from 'static/currency-symbol.json';
 import { CountryType } from '../Dropdown/types';
 import CurrencyModal from '../Modal/CurrencyModal';
@@ -35,6 +35,7 @@ export default function DigitalPad({ onSubmit }: DigitalPadProps) {
   } = useFormContext();
   watch(['amount']);
   const baseCurrency = useCurrencyStore((state) => state.baseCurrency);
+  const { isEnableHaptic } = useSettingStore();
   const keyboardVerticalOffset = Platform.OS === 'ios' ? -150 : 0;
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
@@ -71,7 +72,7 @@ export default function DigitalPad({ onSubmit }: DigitalPadProps) {
   );
 
   const handlePriceInput = (item: string) => {
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    if (isEnableHaptic) Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft);
     const num: number = Math.abs(getValues('amount'));
     let amount: number = num;
     switch (item) {

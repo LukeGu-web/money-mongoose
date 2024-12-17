@@ -5,6 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 type SettingStoreState = {
   isEnabledAuth: boolean;
   isEnabledBlur: boolean;
+  isEnableHaptic: boolean;
   isEnabledReminder: boolean;
   lockTime: number;
   reminderId: null | string;
@@ -12,6 +13,7 @@ type SettingStoreState = {
   theme: 'light' | 'dark';
   setIsEnabledAuth: (isEnabledAuth: boolean) => void;
   setIsEnabledBlur: (isEnabledBlur: boolean) => void;
+  setIsEnabledHaptic: (isEnableHaptic: boolean) => void;
   setIsEnabledReminder: (isEnabledReminder: boolean) => void;
   setLockTime: (lockTime: number) => void;
   setReminderId: (reminderId: null | string) => void;
@@ -24,6 +26,7 @@ const useSettingStore = create<SettingStoreState>()(
     devtools((set) => ({
       isEnabledAuth: false,
       isEnabledBlur: false,
+      isEnableHaptic: false,
       isEnabledReminder: false,
       lockTime: 1,
       reminderId: null,
@@ -34,6 +37,9 @@ const useSettingStore = create<SettingStoreState>()(
       },
       setIsEnabledBlur: (isEnabledBlur) => {
         set(() => ({ isEnabledBlur }));
+      },
+      setIsEnabledHaptic: (isEnableHaptic) => {
+        set(() => ({ isEnableHaptic }));
       },
       setIsEnabledReminder: (isEnabledReminder) => {
         set(() => ({ isEnabledReminder }));

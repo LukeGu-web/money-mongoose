@@ -12,6 +12,7 @@ import {
   KeyboardAwareScrollView,
   KeyboardToolbar,
 } from 'react-native-keyboard-controller';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { BlurView } from 'expo-blur';
 import { useSettingStore } from 'core/stateHooks';
 import { LoginForm, SignUpForm, Details } from 'components/AccountDetails';
@@ -21,6 +22,7 @@ const bgImageDark = require('../../assets/bg-image-dark.jpg');
 
 export default function Register() {
   const params = useLocalSearchParams();
+  const insets = useSafeAreaInsets();
   const theme = useSettingStore((state) => state.theme);
   return (
     <ImageBackground
@@ -28,7 +30,7 @@ export default function Register() {
       source={theme === 'dark' ? bgImageDark : bgImage}
     >
       <BlurView className='flex-1' intensity={30} tint={theme}>
-        <View className='px-4 mt-6'>
+        <View className='px-4' style={{ marginTop: insets.top }}>
           <Pressable
             className='flex-row items-center gap-2 py-2'
             onPress={() => router.back()}

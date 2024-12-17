@@ -15,7 +15,7 @@ export default function Currencies() {
     setBaseCurrency(country);
   };
   return (
-    <View className='flex-1 gap-2'>
+    <View className='gap-2'>
       <Text className='color-zinc-600 dark:color-zinc-300'>
         Currency Exchange
       </Text>
@@ -30,20 +30,6 @@ export default function Currencies() {
             onChange={handleChange}
           />
         </View>
-        {/* <View className='gap-1'>
-          <Text className='color-zinc-600 dark:color-zinc-300'>
-            Current Currency
-          </Text>
-          <CurrencyDropdown
-            base={{
-              country: 'Australia',
-              currency_code: 'AUD',
-              iso2: 'AU',
-            }}
-            countryOnly
-            onChange={handleChange}
-          />
-        </View> */}
       </View>
     </View>
   );
