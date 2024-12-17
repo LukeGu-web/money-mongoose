@@ -56,7 +56,7 @@ export default function SignUpForm() {
             account_status: 'registered',
           });
           reset();
-          router.navigate({
+          router.push({
             pathname: '/user/register',
             params: { reason: 'login' },
           });

@@ -68,7 +68,7 @@ export default function SelectAssetBottomSheet({
               onPress={() => {
                 resetAsset();
                 bottomSheetModalRef.current?.dismiss();
-                router.navigate('/asset/details');
+                router.push('/asset/details');
               }}
             >
               <Text className='color-blue-500'>Add account</Text>

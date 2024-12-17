@@ -74,12 +74,9 @@ export default function TabLayout() {
           title: 'Calendar',
           headerRight: () => (
             <View className='flex-row gap-2'>
-              <Pressable
-                className='pt-0.5 pr-3'
-                onPress={() => router.navigate('/statistics/category/')}
-              >
+              <Link className='pt-0.5 pr-3' href='/statistics/category/'>
                 <AntDesign name='piechart' size={20} color='white' />
-              </Pressable>
+              </Link>
               <Pressable className='pr-3' onPress={handleBackToday}>
                 <Icon name='center_focus' size={24} color='white' />
               </Pressable>

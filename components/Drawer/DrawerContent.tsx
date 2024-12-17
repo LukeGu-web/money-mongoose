@@ -74,14 +74,14 @@ export default function DrawerContent(props: any) {
             <DrawerItem
               label={name ?? 'No book'}
               labelStyle={{ color: labelColor }}
-              onPress={() => router.navigate('/book/management')}
+              onPress={() => router.push('/book/management')}
             />
           </View>
           <DrawerItem
             label='Books'
             labelStyle={{ color: labelColor }}
             icon={() => <Ionicons name='library' size={24} color={iconColor} />}
-            onPress={() => router.navigate('/book/management')}
+            onPress={() => router.push('/book/management')}
           />
           <DrawerItem
             label='Category Analysis'
@@ -89,7 +89,7 @@ export default function DrawerContent(props: any) {
             icon={() => (
               <AntDesign name='piechart' size={24} color={iconColor} />
             )}
-            onPress={() => router.navigate('/statistics/category')}
+            onPress={() => router.push('/statistics/category')}
           />
           <DrawerItem
             label='Overview Analysis'
@@ -97,7 +97,7 @@ export default function DrawerContent(props: any) {
             icon={() => (
               <AntDesign name='areachart' size={24} color={iconColor} />
             )}
-            onPress={() => router.navigate('/statistics/trending')}
+            onPress={() => router.push('/statistics/trending')}
           />
         </View>
         <View className='border-t-2 border-gray-400'>
@@ -108,7 +108,7 @@ export default function DrawerContent(props: any) {
                 labelStyle={{ color: labelColor }}
                 icon={() => <AntDesign name='login' size={24} color='gray' />}
                 onPress={() =>
-                  router.navigate({
+                  router.push({
                     pathname: '/user/register',
                     params: { reason: 'login' },
                   })
@@ -121,7 +121,7 @@ export default function DrawerContent(props: any) {
                   <Ionicons name='person-add-outline' size={24} color='gray' />
                 )}
                 onPress={() =>
-                  router.navigate({
+                  router.push({
                     pathname: '/user/register',
                     params: { reason: 'sign-up' },
                   })

@@ -10,7 +10,7 @@ export default function BookManagement() {
   const theme = useSettingStore((state) => state.theme);
   const handleCreate = () => {
     resetBook();
-    router.navigate('/book/details');
+    router.push('/book/details');
   };
   return (
     <SafeAreaView

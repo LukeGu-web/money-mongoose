@@ -93,11 +93,11 @@ export default function EditableAccountList() {
   const functions = {
     'View Details': () => {
       bottomSheetModalRef.current?.dismiss();
-      router.navigate('/asset/records');
+      router.push('/asset/records');
     },
     Edit: () => {
       bottomSheetModalRef.current?.dismiss();
-      router.navigate('/asset/details');
+      router.push('/asset/details');
     },
     'Move to another group': () => {
       bottomSheetModalRef.current?.dismiss();

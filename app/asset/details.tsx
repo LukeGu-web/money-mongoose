@@ -83,7 +83,7 @@ export default function AssetDetails() {
             log.success('Update asset success:', response);
             resetAsset();
             reset();
-            // router.navigate('/asset/management');
+            // router.push('/asset/management');
             router.back();
           },
           onError: (error) => {

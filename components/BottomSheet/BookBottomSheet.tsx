@@ -33,7 +33,7 @@ export default function BookBottomSheet({
 
   const handleEditSelectedBook = async () => {
     bottomSheetModalRef.current?.dismiss();
-    router.navigate('/book/details');
+    router.push('/book/details');
   };
 
   const handleDeleteBook = () => {
@@ -70,7 +70,7 @@ export default function BookBottomSheet({
         onSuccess: () => {
           successToaster('Delete book successfully!');
           log.success('Delete book successfully!');
-          router.navigate('/book/management');
+          router.push('/book/management');
         },
         onError: (error) => {
           log.error('Error: ', formatApiError(error));

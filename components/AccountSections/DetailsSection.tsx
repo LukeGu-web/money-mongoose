@@ -16,7 +16,7 @@ export default function DetailsSection() {
           <Pressable
             className='flex-row items-center gap-2 px-4 py-2 border-b-2 border-white'
             onPress={() =>
-              router.navigate({
+              router.push({
                 pathname: '/user/register',
                 params: { reason: 'login' },
               })
@@ -32,7 +32,7 @@ export default function DetailsSection() {
           <Pressable
             className='flex-row items-center gap-2 px-4 py-2'
             onPress={() =>
-              router.navigate({
+              router.push({
                 pathname: '/user/register',
                 params: { reason: 'sign-up' },
               })
@@ -49,7 +49,7 @@ export default function DetailsSection() {
       ) : (
         <Pressable
           className='flex-row items-center w-full gap-2 px-4 py-2 rounded-lg bg-zinc-200 dark:bg-zinc-800'
-          onPress={() => router.navigate('/user/account-details')}
+          onPress={() => router.push('/user/account-details')}
         >
           <MaterialCommunityIcons
             name='card-account-details-outline'

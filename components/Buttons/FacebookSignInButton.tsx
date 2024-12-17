@@ -69,10 +69,10 @@ export default function FacebookSignInButton({
           onSuccess: (response) => {
             log.success('Facebook sign in success');
             if (isOnBoarding) {
-              router.navigate('/account');
+              router.push('/account');
             } else {
               setIsOnBoarding(true);
-              router.navigate('/');
+              router.push('/');
             }
           },
           onError: (error) => {

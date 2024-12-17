@@ -1,6 +1,6 @@
 import { Pressable } from 'react-native';
 import * as Sentry from '@sentry/react-native';
-import { SplashScreen, Stack, router } from 'expo-router';
+import { SplashScreen, Stack, Link, router } from 'expo-router';
 import { useFonts } from 'expo-font';
 import { Icon, Providers } from 'components';
 import '../global.css';
@@ -91,12 +91,9 @@ function RootLayout() {
           options={{
             title: 'Book Management',
             headerLeft: () => (
-              <Pressable
-                className='py-2 pr-8'
-                onPress={() => router.replace('/')}
-              >
+              <Link className='py-2 pr-8' href='/' replace>
                 <Icon name='left' size={24} color='white' />
-              </Pressable>
+              </Link>
             ),
           }}
         />

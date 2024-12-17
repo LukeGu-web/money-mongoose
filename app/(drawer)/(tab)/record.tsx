@@ -63,7 +63,7 @@ export default function Record() {
             successToaster('Update record successfully');
             log.success('Update record success:', response);
             methods.reset();
-            router.navigate('/');
+            router.push('/');
             resetRecord();
           },
           onError: (error) => {
@@ -79,7 +79,7 @@ export default function Record() {
             successToaster('Add record successfully');
             log.success('Add record success:', response);
             methods.reset();
-            router.navigate('/');
+            router.push('/');
           },
           onError: (error) => {
             log.error('Error: ', formatApiError(error));
@@ -108,7 +108,7 @@ export default function Record() {
             successToaster('Update transfer successfully');
             log.success('Update transfer success:', response);
             methods.reset();
-            router.navigate('/');
+            router.push('/');
           },
           onError: (error) => {
             log.error('Error: ', formatApiError(error));
@@ -125,7 +125,7 @@ export default function Record() {
             successToaster('Add transfer successfully');
             log.success('Add transfer success:', response);
             methods.reset();
-            router.navigate('/');
+            router.push('/');
           },
           onError: (error) => {
             log.error('Error: ', formatApiError(error));

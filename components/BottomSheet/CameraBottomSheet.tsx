@@ -28,7 +28,7 @@ export default function CameraBottomSheet({
   const handleOpenCamera = () => {
     bottomSheetModalRef.current?.dismiss();
     if (!permission?.granted) requestPermission();
-    router.navigate({ pathname: '/media/camera', params: { type } });
+    router.push({ pathname: '/media/camera', params: { type } });
   };
 
   const handleOpenCameraRoll = async () => {

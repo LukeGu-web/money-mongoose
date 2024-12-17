@@ -13,7 +13,7 @@ export default function RecordHeader() {
     resetRecord();
     resetAsset();
     reset();
-    router.navigate('/');
+    router.push('/');
   };
   return (
     <View className='flex-row items-center justify-between h-12 px-4 pb-1 -mt-1 bg-primary'>
@@ -59,7 +59,7 @@ export default function RecordHeader() {
         )}
         name='type'
       />
-      <Pressable onPress={() => router.navigate('/user/settings')}>
+      <Pressable onPress={() => router.push('/user/settings')}>
         <Icon name='setting' size={24} color='white' />
       </Pressable>
     </View>

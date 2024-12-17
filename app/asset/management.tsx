@@ -34,7 +34,7 @@ export default function Account() {
           className='items-center flex-1 p-3 bg-yellow-300 rounded-lg'
           onPress={() => {
             resetAsset();
-            router.navigate('/asset/details');
+            router.push('/asset/details');
           }}
         >
           <Text className='font-semibold '>Create Account</Text>

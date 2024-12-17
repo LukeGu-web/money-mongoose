@@ -77,7 +77,7 @@ export default function EditableGroupTitle({
   const functions = {
     'Add Account': () => {
       resetAsset();
-      router.navigate('/asset/details');
+      router.push('/asset/details');
     },
     Edit: () => setShowModal(true),
     Delete: onDelete,

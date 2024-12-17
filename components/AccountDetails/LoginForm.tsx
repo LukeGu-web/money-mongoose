@@ -55,10 +55,10 @@ export default function LoginForm() {
           log.success('Login success:', response);
           // Navigate to next page, etc.
           if (isOnBoarding) {
-            router.navigate('/account');
+            router.push('/account');
           } else {
             setIsOnBoarding(true);
-            router.navigate('/');
+            router.push('/');
           }
           reset();
         },

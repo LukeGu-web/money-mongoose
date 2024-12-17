@@ -50,7 +50,7 @@ export default function AddNewBook() {
           log.success('Add book success:', response);
           resetBook();
           reset();
-          router.navigate('/book/management');
+          router.push('/book/management');
         },
         onError: (error) => {
           log.error('Error: ', formatApiError(error));

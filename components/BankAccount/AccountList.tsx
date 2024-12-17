@@ -37,7 +37,7 @@ export default function AccountList({ groups }: AccountListProps) {
                   renderItem={({ item }) => (
                     <ListItem
                       item={item}
-                      onPress={() => router.navigate('/asset/records')}
+                      onPress={() => router.push('/asset/records')}
                     />
                   )}
                   estimatedItemSize={10}
@@ -56,7 +56,7 @@ export default function AccountList({ groups }: AccountListProps) {
         className='flex-row items-center justify-center w-full gap-2 p-2'
         onPress={() => {
           resetAsset();
-          router.navigate('/asset/details');
+          router.push('/asset/details');
         }}
       >
         <Text className='color-blue-500'>Add account</Text>
