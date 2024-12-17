@@ -1,14 +1,7 @@
+import React, { useRef } from 'react';
 import { router } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import {
-  View,
-  Text,
-  TextInput,
-  Pressable,
-  ActivityIndicator,
-  InputAccessoryView,
-} from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { View, Pressable, Text, TextInput } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 import { useForm, Controller } from 'react-hook-form';
 
@@ -17,9 +10,10 @@ import { formatApiError } from 'api/errorFormat';
 import { useBook, useBookStore, useSettingStore } from 'core/stateHooks';
 import log from 'core/logger';
 import { successToaster } from 'core/toaster';
+import { CreateButton } from 'components';
 
 export default function AddNewBook() {
-  const inputAccessoryCreateBtnID = 'inputAccessoryCreateBtnID-book';
+  const nameRef = useRef<TextInput>(null);
   const { mutate: addBookApi, isPending: isCreating } = useCreateBook();
   const { mutate: updateBookApi, isPending: isUpdating } = useUpdateBook();
   const { book, resetBook } = useBook();
@@ -65,30 +59,26 @@ export default function AddNewBook() {
     }
   });
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        padding: 8,
-        backgroundColor: theme === 'dark' ? 'black' : 'white',
-      }}
-      edges={['bottom']}
-    >
-      <KeyboardAwareScrollView>
+    <>
+      <KeyboardAwareScrollView className='p-2'>
         <Controller
           control={control}
           render={({ field: { onChange, onBlur, value } }) => (
-            <View className='flex-row items-center justify-between w-full h-12'>
+            <Pressable
+              className='flex-row items-center justify-between w-full h-12'
+              onPress={() => nameRef.current?.focus()}
+            >
               <Text className='dark:color-white'>Book Name</Text>
               <TextInput
                 className='dark:color-white'
-                inputAccessoryViewID={inputAccessoryCreateBtnID}
+                ref={nameRef}
                 placeholder='Enter the book name'
                 placeholderTextColor='#a1a1aa'
                 onBlur={onBlur}
                 onChangeText={onChange}
                 value={value}
               />
-            </View>
+            </Pressable>
           )}
           name='name'
         />
@@ -98,7 +88,6 @@ export default function AddNewBook() {
             <View className='flex-1 w-full gap-2'>
               <Text className='dark:color-white'>Note</Text>
               <TextInput
-                inputAccessoryViewID={inputAccessoryCreateBtnID}
                 className='items-start p-2 border-2 border-gray-400 rounded-lg dark:color-white'
                 style={{ minHeight: 240 }}
                 multiline={true}
@@ -114,33 +103,12 @@ export default function AddNewBook() {
           name='note'
         />
       </KeyboardAwareScrollView>
-      <InputAccessoryView nativeID={inputAccessoryCreateBtnID}>
-        <Pressable
-          className='items-center w-full p-2 my-2 bg-yellow-300 rounded-lg'
-          onPress={handleSubmitData}
-        >
-          {isCreating || isUpdating ? (
-            <ActivityIndicator size='small' />
-          ) : (
-            <Text className='font-semibold'>
-              {book.id > 0 ? 'Update' : 'Create'}
-            </Text>
-          )}
-        </Pressable>
-      </InputAccessoryView>
-      <Pressable
-        className='items-center w-full p-2 bg-yellow-300 rounded-lg'
+      <CreateButton
+        targetId={Number(book.id)}
+        isPending={isCreating || isUpdating}
         onPress={handleSubmitData}
-      >
-        {isCreating || isUpdating ? (
-          <ActivityIndicator size='small' />
-        ) : (
-          <Text className='font-semibold'>
-            {book.id > 0 ? 'Update' : 'Create'}
-          </Text>
-        )}
-      </Pressable>
+      />
       <StatusBar style='light' />
-    </SafeAreaView>
+    </>
   );
 }

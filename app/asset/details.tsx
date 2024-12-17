@@ -7,10 +7,7 @@ import {
   Pressable,
   TouchableWithoutFeedback,
   Keyboard,
-  ActivityIndicator,
-  InputAccessoryView,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 import { useForm, FormProvider } from 'react-hook-form';
 
@@ -22,9 +19,9 @@ import {
   AssetAccountBasicForm,
   AssetAccountOtherForm,
   AssetCreditForm,
+  CreateButton,
   Icon,
 } from 'components';
-import { inputAccessoryCreateBtnID } from 'components/Form/static';
 import { successToaster } from 'core/toaster';
 
 export default function AssetDetails() {
@@ -98,15 +95,8 @@ export default function AssetDetails() {
   });
 
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        padding: 8,
-        backgroundColor: theme === 'dark' ? 'black' : 'white',
-      }}
-      edges={['bottom']}
-    >
-      <KeyboardAwareScrollView>
+    <>
+      <KeyboardAwareScrollView className='p-2'>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <FormProvider {...methods}>
             <View className='h-32 mb-4 bg-blue-200 rounded-lg'></View>
@@ -147,33 +137,12 @@ export default function AssetDetails() {
           </FormProvider>
         </TouchableWithoutFeedback>
       </KeyboardAwareScrollView>
-      <InputAccessoryView nativeID={inputAccessoryCreateBtnID}>
-        <Pressable
-          className='items-center w-full p-2 my-2 bg-yellow-300 rounded-lg'
-          onPress={handleCreate}
-        >
-          {isCreating || isUpdating ? (
-            <ActivityIndicator size='small' />
-          ) : (
-            <Text className='font-semibold'>
-              {Number(asset.id) > 0 ? 'Update' : 'Create'}
-            </Text>
-          )}
-        </Pressable>
-      </InputAccessoryView>
-      <Pressable
-        className='items-center w-full p-2 bg-yellow-300 rounded-lg'
+      <CreateButton
+        targetId={Number(asset.id)}
+        isPending={isCreating || isUpdating}
         onPress={handleCreate}
-      >
-        {isCreating || isUpdating ? (
-          <ActivityIndicator size='small' />
-        ) : (
-          <Text className='font-semibold'>
-            {Number(asset.id) > 0 ? 'Update' : 'Create'}
-          </Text>
-        )}
-      </Pressable>
+      />
       <StatusBar style='light' />
-    </SafeAreaView>
+    </>
   );
 }

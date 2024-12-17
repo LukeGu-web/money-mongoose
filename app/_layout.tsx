@@ -108,14 +108,6 @@ function RootLayout() {
           }}
         />
         <Stack.Screen
-          name='budget/index'
-          options={{
-            title: 'Budget',
-            headerLeft: () => <GoBack />,
-          }}
-        />
-
-        <Stack.Screen
           name='user/register'
           options={{
             headerShown: false,
