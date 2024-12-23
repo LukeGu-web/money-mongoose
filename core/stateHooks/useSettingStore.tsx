@@ -25,8 +25,8 @@ const useSettingStore = create<SettingStoreState>()(
   persist(
     devtools((set) => ({
       isEnabledAuth: false,
-      isEnabledBlur: false,
-      isEnableHaptic: false,
+      isEnabledBlur: true,
+      isEnableHaptic: true,
       isEnabledReminder: false,
       lockTime: 1,
       reminderId: null,
