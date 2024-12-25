@@ -54,6 +54,20 @@ function RootLayout() {
           }}
         />
         <Stack.Screen
+          name='records/periods-list'
+          options={{
+            title: 'Period Records',
+            headerLeft: () => <GoBack />,
+          }}
+        />
+        <Stack.Screen
+          name='records/period-builder'
+          options={{
+            title: 'Period Record',
+            headerLeft: () => <GoBack />,
+          }}
+        />
+        <Stack.Screen
           name='statistics/category'
           options={{
             headerShown: false,

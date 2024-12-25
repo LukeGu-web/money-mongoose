@@ -3,8 +3,8 @@ import { Link } from 'expo-router';
 import { useColorScheme } from 'nativewind';
 import { useShallow } from 'zustand/react/shallow';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { useSettingStore } from 'core/stateHooks';
 
 export default function AccountPad() {
@@ -42,13 +42,17 @@ export default function AccountPad() {
             </Text>
           </View>
         </Link>
-        <Link href='/book/management'>
+        <Link href='/records/period-builder'>
           <View className='gap-2'>
             <View className='items-center justify-center w-20 h-20 border-2 rounded-lg border-primary dark:border-primarydark'>
-              <FontAwesome5 name='book' size={26} color={color} />
+              <MaterialCommunityIcons
+                name='calendar-range'
+                size={32}
+                color={color}
+              />
             </View>
             <Text className='text-sm font-semibold text-center color-primary dark:color-primarydark'>
-              Books
+              Periods
             </Text>
           </View>
         </Link>

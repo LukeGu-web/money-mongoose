@@ -14,6 +14,7 @@ export { default as Email } from 'components/Email/Email';
 export { default as ExpenseCard } from 'components/Card/ExpenseCard';
 export { default as Haptics } from 'components/Settings/Haptics';
 export { default as HomeHeader } from 'components/Header/HomeHeader';
+export { default as PeriodBuilderForm } from 'components/Form/PeriodBuilderForm';
 export { default as PieChart } from 'components/Chart/Pie';
 export { default as Providers } from 'components/Providers/Providers';
 export { default as RecordHeader } from 'components/Header/RecordHeader';
@@ -22,6 +23,7 @@ export { default as RecordsFilter } from 'components/ExpandView/RecordsFilterTit
 export { default as RecordList } from 'components/RecordList/RecordList';
 export { default as RecordToolbar } from 'components/Toolbar/RecordToolbar';
 export { default as RecordBottomSheet } from 'components/BottomSheet/RecordBottomSheet';
+export { default as RecordFrequencyBottomSheet } from 'components/BottomSheet/RecordFrequencyBottomSheet';
 export { default as SelectGroupBottomSheet } from 'components/BottomSheet/SelectGroupBottomSheet';
 export { default as Transfer } from 'components/Transfer/Trasnfer';
 export { default as ListDayItem } from 'components/RecordList/ListDayItem';
