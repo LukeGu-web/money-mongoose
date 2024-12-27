@@ -1,12 +1,14 @@
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { PeriodBuilderForm, RecordsFilter } from 'components';
+import { useSettingStore } from 'core/stateHooks';
+import { PeriodBuilderForm } from 'components';
 
 export default function PeriodBuilder() {
+  const theme = useSettingStore((state) => state.theme);
   return (
     <SafeAreaView
-      style={{ flex: 1, backgroundColor: '#03045E' }}
-      edges={['right', 'top', 'left']}
+      style={{ flex: 1, backgroundColor: theme === 'dark' ? 'black' : 'white' }}
+      edges={['bottom']}
     >
       <PeriodBuilderForm />
       <StatusBar style='light' />
