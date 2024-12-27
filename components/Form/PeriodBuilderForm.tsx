@@ -12,9 +12,15 @@ import { FormProvider, useForm, Controller } from 'react-hook-form';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 
+import { useGetFlatAssets } from 'api/asset';
+import { removeIdAndDash } from 'core/utils';
+import { useBookStore, useSettingStore } from 'core/stateHooks';
 import RecordFrequencyBottomSheet from '../BottomSheet/RecordFrequencyBottomSheet';
-import CreateButton from 'components/Buttons/CreateButton';
+import SelectAssetBottomSheet from 'components/BottomSheet/SelectAssetBottomSheet';
+import CreateButton from '../Buttons/CreateButton';
 import Icon from '../Icon/Icon';
+import monthdays from 'static/monthdays.json';
+import weekdays from 'static/weekdays.json';
 
 export type PeriodFormType = {
   frequency: string;
@@ -24,18 +30,25 @@ export type PeriodFormType = {
   end_date?: Date;
   type: string;
   category: string;
-  amount: number;
-  asset?: number;
+  amount: string;
+  asset?: string;
 };
 
 export default function PeriodBuilderForm() {
+  const currentBook = useBookStore((state) => state.currentBook);
+  const { data, isPending, isError } = useGetFlatAssets({
+    variables: { book_id: currentBook.id },
+  });
+  const amountRef = useRef<TextInput>(null);
+  const frequencyBottomSheetRef = useRef<BottomSheetModal>(null);
+  const assetBottomSheetRef = useRef<BottomSheetModal>(null);
   const defaultValues = {
     frequency: '',
     start_date: new Date(),
     end_date: undefined,
-    type: '',
+    type: 'expense',
     category: '',
-    amount: 0,
+    amount: '',
     asset: undefined,
   };
   const methods = useForm<PeriodFormType>({
@@ -43,18 +56,26 @@ export default function PeriodBuilderForm() {
     criteriaMode: 'all',
   });
   const { control, handleSubmit, setValue, getValues, watch } = methods;
-  //   watch(['frequency']);
-  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+  watch(['month_day', 'week_days']);
+
   const handleSelectFrequency = useCallback(() => {
-    bottomSheetModalRef.current?.present();
+    frequencyBottomSheetRef.current?.present();
     setValue('frequency', 'daily');
   }, []);
+  const handleSelectAsset = useCallback(() => {
+    assetBottomSheetRef.current?.present();
+    Keyboard.dismiss();
+    if (!getValues('asset') && data && data.length > 0) {
+      const defaultAsset = data[0];
+      setValue('asset', `${defaultAsset.id}-${defaultAsset.name}`);
+    }
+  }, [data]);
   const handleFormSubmit = handleSubmit((data: any) =>
     console.log('Period build form: ', data)
   );
   return (
     <>
-      <KeyboardAwareScrollView className='p-2 '>
+      <KeyboardAwareScrollView className='p-2' bottomOffset={70}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View className='gap-3'>
             <FormProvider {...methods}>
@@ -68,9 +89,21 @@ export default function PeriodBuilderForm() {
                     {getValues('frequency') ? (
                       <Text>
                         {getValues('frequency') === 'weekly'
-                          ? `${getValues('week_days') ?? ''} of each week`
+                          ? `Every ${
+                              getValues('week_days')
+                                ? weekdays[
+                                    getValues('week_days')?.[0] as number
+                                  ]
+                                : ''
+                            }`
                           : getValues('frequency') === 'monthly'
-                          ? `${getValues('month_day') ?? ''} of each month`
+                          ? `${
+                              getValues('month_day')
+                                ? monthdays[
+                                    (getValues('month_day')! - 1) as number
+                                  ]
+                                : ''
+                            } of each month`
                           : getValues('frequency')}
                       </Text>
                     ) : (
@@ -80,9 +113,7 @@ export default function PeriodBuilderForm() {
                       </View>
                     )}
                     <RecordFrequencyBottomSheet
-                      bottomSheetModalRef={bottomSheetModalRef}
-                      // value={value}
-                      // onChange={onChange}
+                      bottomSheetModalRef={frequencyBottomSheetRef}
                     />
                   </View>
                 </Pressable>
@@ -163,33 +194,41 @@ export default function PeriodBuilderForm() {
                 <Controller
                   control={control}
                   render={({ field: { onChange, onBlur, value } }) => (
-                    <Pressable
-                      className='flex-row items-center justify-between w-full h-12'
-                      // onPress={() => nameRef.current?.focus()}
-                    >
+                    <View className='flex-row items-center justify-between w-full h-12'>
                       <Text>Type</Text>
-                      <TextInput
-                        //   ref={nameRef}
-                        placeholder='Enter the amount name'
-                        placeholderTextColor='#a1a1aa'
-                        onBlur={onBlur}
-                        onChangeText={onChange}
-                        value={value}
-                      />
-                    </Pressable>
+                      <View className='flex-row items-center border-2 border-white rounded-lg'>
+                        {['expense', 'income'].map((item, index) => (
+                          <Pressable
+                            key={item}
+                            className={`items-center justify-center py-1 px-2 border-white ${
+                              index < 1 && 'border-r-2'
+                            } ${getValues('type') === item && 'bg-white'}`}
+                            onPress={() => {
+                              setValue('type', item);
+                            }}
+                          >
+                            <Text
+                              className={`text-center font-medium ${
+                                getValues('type') === item
+                                  ? 'color-black'
+                                  : 'color-zinc-400'
+                              }`}
+                            >
+                              {item}
+                            </Text>
+                          </Pressable>
+                        ))}
+                      </View>
+                    </View>
                   )}
                   name='type'
                 />
                 <Controller
                   control={control}
                   render={({ field: { onChange, onBlur, value } }) => (
-                    <Pressable
-                      className='flex-row items-center justify-between w-full h-12'
-                      // onPress={() => nameRef.current?.focus()}
-                    >
+                    <Pressable className='flex-row items-center justify-between w-full h-12'>
                       <Text>Category</Text>
                       <TextInput
-                        //   ref={nameRef}
                         placeholder='Enter the amount name'
                         placeholderTextColor='#a1a1aa'
                         onBlur={onBlur}
@@ -205,13 +244,13 @@ export default function PeriodBuilderForm() {
                   render={({ field: { onChange, onBlur, value } }) => (
                     <Pressable
                       className='flex-row items-center justify-between w-full h-12'
-                      // onPress={() => nameRef.current?.focus()}
+                      onPress={() => amountRef.current?.focus()}
                     >
                       <Text>Amount</Text>
                       <TextInput
-                        //   ref={nameRef}
+                        ref={amountRef}
                         keyboardType='numeric'
-                        placeholder='Enter the amount name'
+                        placeholder='Enter the amount'
                         placeholderTextColor='#a1a1aa'
                         onBlur={onBlur}
                         onChangeText={onChange}
@@ -226,16 +265,17 @@ export default function PeriodBuilderForm() {
                   render={({ field: { onChange, onBlur, value } }) => (
                     <Pressable
                       className='flex-row items-center justify-between w-full h-12'
-                      // onPress={() => nameRef.current?.focus()}
+                      onPress={handleSelectAsset}
                     >
                       <Text>Account</Text>
-                      <TextInput
-                        //   ref={nameRef}
-                        placeholder='Enter the amount name'
-                        placeholderTextColor='#a1a1aa'
-                        onBlur={onBlur}
-                        onChangeText={onChange}
+                      <Text className='text-lg dark:color-white'>
+                        {value ? removeIdAndDash(value) : 'no account'}
+                      </Text>
+                      <SelectAssetBottomSheet
+                        data={data}
                         value={value}
+                        bottomSheetModalRef={assetBottomSheetRef}
+                        onChange={onChange}
                       />
                     </Pressable>
                   )}
