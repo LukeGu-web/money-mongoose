@@ -15,8 +15,9 @@ import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { useGetFlatAssets } from 'api/asset';
 import { removeIdAndDash } from 'core/utils';
 import { useBookStore, useSettingStore } from 'core/stateHooks';
+import RecordCategoryBottomSheet from '../BottomSheet/RecordCategoryBottomSheet';
 import RecordFrequencyBottomSheet from '../BottomSheet/RecordFrequencyBottomSheet';
-import SelectAssetBottomSheet from 'components/BottomSheet/SelectAssetBottomSheet';
+import SelectAssetBottomSheet from '../BottomSheet/SelectAssetBottomSheet';
 import CreateButton from '../Buttons/CreateButton';
 import Icon from '../Icon/Icon';
 import monthdays from 'static/monthdays.json';
@@ -30,8 +31,10 @@ export type PeriodFormType = {
   end_date?: Date;
   type: string;
   category: string;
+  subcategory?: string;
   amount: string;
   asset?: string;
+  note?: string;
 };
 
 export default function PeriodBuilderForm() {
@@ -40,16 +43,18 @@ export default function PeriodBuilderForm() {
     variables: { book_id: currentBook.id },
   });
   const amountRef = useRef<TextInput>(null);
-  const frequencyBottomSheetRef = useRef<BottomSheetModal>(null);
   const assetBottomSheetRef = useRef<BottomSheetModal>(null);
+  const categoryBottomSheetRef = useRef<BottomSheetModal>(null);
+  const frequencyBottomSheetRef = useRef<BottomSheetModal>(null);
+
   const defaultValues = {
     frequency: '',
     start_date: new Date(),
     end_date: undefined,
     type: 'expense',
     category: '',
+    subcategory: '',
     amount: '',
-    asset: undefined,
   };
   const methods = useForm<PeriodFormType>({
     defaultValues: defaultValues,
@@ -58,6 +63,9 @@ export default function PeriodBuilderForm() {
   const { control, handleSubmit, setValue, getValues, watch } = methods;
   watch(['month_day', 'week_days']);
 
+  const handleSelectCategory = useCallback(() => {
+    categoryBottomSheetRef.current?.present();
+  }, []);
   const handleSelectFrequency = useCallback(() => {
     frequencyBottomSheetRef.current?.present();
     setValue('frequency', 'daily');
@@ -75,7 +83,7 @@ export default function PeriodBuilderForm() {
   );
   return (
     <>
-      <KeyboardAwareScrollView className='p-2' bottomOffset={70}>
+      <KeyboardAwareScrollView className='p-2'>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View className='gap-3'>
             <FormProvider {...methods}>
@@ -190,7 +198,7 @@ export default function PeriodBuilderForm() {
                   name='end_date'
                 />
               </View>
-              <View className='p-2 bg-gray-200 rounded-lg'>
+              <View className='p-2 mb-12 bg-gray-200 rounded-lg'>
                 <Controller
                   control={control}
                   render={({ field: { onChange, onBlur, value } }) => (
@@ -223,22 +231,28 @@ export default function PeriodBuilderForm() {
                   )}
                   name='type'
                 />
-                <Controller
-                  control={control}
-                  render={({ field: { onChange, onBlur, value } }) => (
-                    <Pressable className='flex-row items-center justify-between w-full h-12'>
-                      <Text>Category</Text>
-                      <TextInput
-                        placeholder='Enter the amount name'
-                        placeholderTextColor='#a1a1aa'
-                        onBlur={onBlur}
-                        onChangeText={onChange}
-                        value={value}
-                      />
-                    </Pressable>
+                <Pressable
+                  className='flex-row items-center justify-between w-full h-12'
+                  onPress={handleSelectCategory}
+                >
+                  <Text>Category</Text>
+                  {getValues('category') ? (
+                    <Text>
+                      {getValues('category')}
+                      {getValues('subcategory') &&
+                        ` - ${getValues('subcategory')}`}
+                    </Text>
+                  ) : (
+                    <View className='flex-row items-center gap-1'>
+                      <Text className='color-zinc-400'>Select category</Text>
+                      <Icon name='arrow-right' size={14} color='#bfc0c0' />
+                    </View>
                   )}
-                  name='category'
-                />
+                  <RecordCategoryBottomSheet
+                    bottomSheetModalRef={categoryBottomSheetRef}
+                  />
+                </Pressable>
+
                 <Controller
                   control={control}
                   render={({ field: { onChange, onBlur, value } }) => (
@@ -280,6 +294,26 @@ export default function PeriodBuilderForm() {
                     </Pressable>
                   )}
                   name='asset'
+                />
+                <Controller
+                  control={control}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <View className='gap-2'>
+                      <Text>Note</Text>
+                      <TextInput
+                        className='items-start p-2 border-2 border-gray-400 rounded-lg'
+                        style={{ minHeight: 120 }}
+                        multiline={true}
+                        numberOfLines={4}
+                        placeholder='Enter a note'
+                        placeholderTextColor='#a1a1aa'
+                        onBlur={onBlur}
+                        onChangeText={onChange}
+                        value={value}
+                      />
+                    </View>
+                  )}
+                  name='note'
                 />
               </View>
             </FormProvider>
