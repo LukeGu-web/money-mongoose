@@ -160,6 +160,7 @@ export default function RecordFrequencyBottomSheet({
                           'bg-amber-300'
                         }`}
                         onPress={() => {
+                          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft);
                           setValue('week_days', [index]);
                         }}
                       >
@@ -183,6 +184,7 @@ export default function RecordFrequencyBottomSheet({
                           day === getValues('month_day') && 'bg-amber-300'
                         }`}
                         onPress={() => {
+                          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft);
                           setValue('month_day', day);
                         }}
                       >
