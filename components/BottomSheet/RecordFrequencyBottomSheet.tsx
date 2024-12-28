@@ -1,9 +1,12 @@
-import React, { useState, useRef } from 'react';
+import React, { useRef } from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { useFormContext, Controller } from 'react-hook-form';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { PickerIOS } from '@react-native-picker/picker';
 import { useShallow } from 'zustand/react/shallow';
+import * as Haptics from 'expo-haptics';
+import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
+
 import BottomSheet from './BottomSheet';
 import { useSettingStore } from 'core/stateHooks';
 import {
@@ -27,6 +30,23 @@ export default function RecordFrequencyBottomSheet({
   );
   const { control, getValues, setValue, watch, resetField } = useFormContext();
   watch(['frequency']);
+
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+
+  const startContinuousCounter = (value: number, operator: string) => {
+    intervalRef.current = setInterval(() => {
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft);
+      setValue('num_of_days', operator === 'plus' ? value++ : value--);
+      if (value < 1 || value > 365) stopContinuousCounter();
+    }, 100);
+  };
+
+  const stopContinuousCounter = () => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
+  };
   return (
     <BottomSheet bottomSheetModalRef={bottomSheetModalRef} height={300}>
       <View className='items-center flex-1 w-full gap-2 p-2'>
@@ -70,6 +90,62 @@ export default function RecordFrequencyBottomSheet({
                 }
               </Text>
             </View>
+            {getValues('frequency') === 'daily' && (
+              <Controller
+                control={control}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <View className='items-center justify-center h-40 gap-2'>
+                    <View className='flex-row '>
+                      <Pressable
+                        className='items-center justify-center w-8 h-8 bg-gray-300 rounded-l-lg disabled:bg-gray-200'
+                        disabled={value === 1}
+                        onPress={() => {
+                          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft);
+                          setValue('num_of_days', --value);
+                        }}
+                        onLongPress={() =>
+                          startContinuousCounter(value, 'minus')
+                        }
+                        onPressOut={stopContinuousCounter}
+                        delayLongPress={500}
+                      >
+                        <FontAwesome5
+                          name='minus'
+                          size={12}
+                          color={value === 1 ? 'white' : 'black'}
+                        />
+                      </Pressable>
+                      <View className='items-center justify-center w-20 bg-white border-gray-300 border-y-2'>
+                        <Text>{getValues('num_of_days')}</Text>
+                      </View>
+                      <Pressable
+                        className='items-center justify-center w-8 h-8 bg-gray-300 rounded-r-lg disabled:bg-gray-200'
+                        disabled={value === 365}
+                        onPress={() => {
+                          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft);
+                          setValue('num_of_days', ++value);
+                        }}
+                        onLongPress={() =>
+                          startContinuousCounter(value, 'plus')
+                        }
+                        onPressOut={stopContinuousCounter}
+                        delayLongPress={500}
+                      >
+                        <FontAwesome5
+                          name='plus'
+                          size={12}
+                          color={value === 365 ? 'white' : 'black'}
+                        />
+                      </Pressable>
+                    </View>
+                    <Text className='text-sm color-red-500'>
+                      * Select from 1 to 365
+                    </Text>
+                  </View>
+                )}
+                name='num_of_days'
+              />
+            )}
             {getValues('frequency') === 'weekly' && (
               <Controller
                 control={control}

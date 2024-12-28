@@ -27,6 +27,7 @@ export type PeriodFormType = {
   frequency: string;
   month_day?: number;
   week_days?: number[];
+  num_of_days?: number;
   start_date: Date;
   end_date?: Date;
   type: string;
@@ -55,6 +56,7 @@ export default function PeriodBuilderForm() {
     category: '',
     subcategory: '',
     amount: '',
+    num_of_days: 1,
   };
   const methods = useForm<PeriodFormType>({
     defaultValues: defaultValues,
