@@ -1,5 +1,3 @@
-export const frequencyOptions = ['daily', 'weekly', 'monthly', 'annually'];
-
 export const frequencyContent = {
   daily: 'Create a record everyday from the start date.',
   weekly: 'Create a record every week on the selected date.',

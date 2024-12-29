@@ -22,13 +22,13 @@ export default function PeriodFrequencyForm() {
   const frequencyText = () => {
     switch (getValues('frequency')) {
       case 'daily':
-        return `Every ${
+        return `every ${
           Number(getValues('num_of_days')) > 1
             ? getValues('num_of_days') + ' days'
             : 'day'
         }`;
       case 'weekly':
-        return `Every ${
+        return `every ${
           getValues('week_days')
             ? weekdays[getValues('week_days')?.[0] as number]
             : ''

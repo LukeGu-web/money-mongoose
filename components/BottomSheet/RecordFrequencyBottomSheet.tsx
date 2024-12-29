@@ -3,18 +3,17 @@ import { View, Text, Pressable } from 'react-native';
 import { useFormContext, Controller } from 'react-hook-form';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { PickerIOS } from '@react-native-picker/picker';
-import { useShallow } from 'zustand/react/shallow';
 import * as Haptics from 'expo-haptics';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 
-import BottomSheet from './BottomSheet';
+import { FrequencyTypes } from 'api/period/types';
 import { useSettingStore } from 'core/stateHooks';
 import {
-  frequencyOptions,
   frequencyContent,
   weekdays,
   monthdays,
 } from 'static/period-record-content';
+import BottomSheet from './BottomSheet';
 
 type RecordFrequencyBottomSheetProps = {
   bottomSheetModalRef: React.RefObject<BottomSheetModal>;
@@ -23,14 +22,9 @@ type RecordFrequencyBottomSheetProps = {
 export default function RecordFrequencyBottomSheet({
   bottomSheetModalRef,
 }: RecordFrequencyBottomSheetProps) {
-  const { theme } = useSettingStore(
-    useShallow((state) => ({
-      theme: state.theme,
-    }))
-  );
+  const theme = useSettingStore((state) => state.theme);
   const { control, getValues, setValue, watch, resetField } = useFormContext();
   watch(['frequency']);
-
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const startContinuousCounter = (value: number, operator: string) => {
@@ -61,9 +55,9 @@ export default function RecordFrequencyBottomSheet({
                 selectedValue={getValues('frequency')}
                 onValueChange={(itemValue: string | number) => {
                   setValue('frequency', itemValue);
-                  if (getValues('frequency') !== 'weekly')
+                  if (getValues('frequency') !== FrequencyTypes.WEEKLY)
                     resetField('week_days');
-                  if (getValues('frequency') !== 'monthly')
+                  if (getValues('frequency') !== FrequencyTypes.MONTHLY)
                     resetField('month_day');
                 }}
                 style={{ width: '30%' }}
@@ -72,7 +66,7 @@ export default function RecordFrequencyBottomSheet({
                   fontSize: 12,
                 }}
               >
-                {frequencyOptions.map((item, index) => (
+                {Object.values(FrequencyTypes).map((item) => (
                   <PickerIOS.Item key={item} label={item} value={item} />
                 ))}
               </PickerIOS>
@@ -90,7 +84,7 @@ export default function RecordFrequencyBottomSheet({
                 }
               </Text>
             </View>
-            {getValues('frequency') === 'daily' && (
+            {getValues('frequency') === FrequencyTypes.DAILY && (
               <Controller
                 control={control}
                 render={({ field: { onChange, onBlur, value } }) => (
@@ -146,7 +140,7 @@ export default function RecordFrequencyBottomSheet({
                 name='num_of_days'
               />
             )}
-            {getValues('frequency') === 'weekly' && (
+            {getValues('frequency') === FrequencyTypes.WEEKLY && (
               <Controller
                 control={control}
                 render={({ field: { onChange, onBlur, value } }) => (
@@ -172,7 +166,7 @@ export default function RecordFrequencyBottomSheet({
                 name='week_days'
               />
             )}
-            {getValues('frequency') === 'monthly' && (
+            {getValues('frequency') === FrequencyTypes.MONTHLY && (
               <Controller
                 control={control}
                 render={({ field: { onChange, onBlur, value } }) => (
