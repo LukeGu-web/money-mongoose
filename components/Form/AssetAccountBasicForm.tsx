@@ -1,22 +1,15 @@
 import { useCallback, useRef } from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  Switch,
-  Pressable,
-  Keyboard,
-} from 'react-native';
+import { View, Text, TextInput, Pressable, Keyboard } from 'react-native';
 import { useFormContext, Controller } from 'react-hook-form';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 
-import Icon from '../Icon/Icon';
+import { useGetGroupedAssets } from 'api/asset';
 import { removeIdAndDash } from 'core/utils';
 import { useBookStore } from 'core/stateHooks';
-import SelectGroupBottomSheet from '../BottomSheet/SelectGroupBottomSheet';
 import { inputAccessoryCreateBtnID } from './static';
-import { BookType } from 'api/types';
-import { useGetGroupedAssets } from 'api/asset';
+import SelectGroupBottomSheet from '../BottomSheet/SelectGroupBottomSheet';
+import Icon from '../Icon/Icon';
+import Switch from '../Switch/Switch';
 
 export default function AssetAccountBasicForm() {
   const { control, setValue, getValues } = useFormContext();
@@ -114,8 +107,6 @@ export default function AssetAccountBasicForm() {
           <View className='flex-row items-center justify-between w-full h-12'>
             <Text>Credit</Text>
             <Switch
-              trackColor={{ false: '#767577', true: '#81b0ff' }}
-              ios_backgroundColor='#f8f9fa'
               onValueChange={(e) => {
                 onChange(e);
                 Keyboard.dismiss();

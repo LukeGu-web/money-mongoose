@@ -1,7 +1,8 @@
-import { View, Text, Switch, Keyboard } from 'react-native';
+import { View, Text, Keyboard } from 'react-native';
 import { useFormContext, Controller } from 'react-hook-form';
 import { TextInput } from 'react-native-gesture-handler';
 import { inputAccessoryCreateBtnID } from './static';
+import Switch from '../Switch/Switch';
 
 export default function AssetAccountOtherForm() {
   const { control } = useFormContext();
@@ -13,8 +14,6 @@ export default function AssetAccountOtherForm() {
           <View className='flex-row items-center justify-between w-full h-12'>
             <Text>Include in total assets</Text>
             <Switch
-              trackColor={{ false: '#767577', true: '#81b0ff' }}
-              ios_backgroundColor='#f8f9fa'
               onValueChange={(e) => {
                 onChange(e);
                 Keyboard.dismiss();
@@ -31,8 +30,6 @@ export default function AssetAccountOtherForm() {
           <View className='flex-row items-center justify-between w-full h-12'>
             <Text>No budget</Text>
             <Switch
-              trackColor={{ false: '#767577', true: '#81b0ff' }}
-              ios_backgroundColor='#f8f9fa'
               onValueChange={(e) => {
                 onChange(e);
                 Keyboard.dismiss();

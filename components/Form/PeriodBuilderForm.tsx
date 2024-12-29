@@ -13,6 +13,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 
 import { useGetFlatAssets } from 'api/asset';
+import type { ScheduledRecordType } from 'api/period/types';
 import { removeIdAndDash } from 'core/utils';
 import { useBookStore, useSettingStore } from 'core/stateHooks';
 import RecordCategoryBottomSheet from '../BottomSheet/RecordCategoryBottomSheet';
@@ -20,6 +21,7 @@ import RecordFrequencyBottomSheet from '../BottomSheet/RecordFrequencyBottomShee
 import SelectAssetBottomSheet from '../BottomSheet/SelectAssetBottomSheet';
 import CreateButton from '../Buttons/CreateButton';
 import Icon from '../Icon/Icon';
+import Switch from '../Switch/Switch';
 import monthdays from 'static/monthdays.json';
 import weekdays from 'static/weekdays.json';
 
@@ -36,6 +38,7 @@ export type PeriodFormType = {
   amount: string;
   asset?: string;
   note?: string;
+  is_marked_tax_return: boolean;
 };
 
 export default function PeriodBuilderForm() {
@@ -57,13 +60,14 @@ export default function PeriodBuilderForm() {
     subcategory: '',
     amount: '',
     num_of_days: 1,
+    is_marked_tax_return: false,
   };
   const methods = useForm<PeriodFormType>({
     defaultValues: defaultValues,
     criteriaMode: 'all',
   });
   const { control, handleSubmit, setValue, getValues, watch } = methods;
-  watch(['month_day', 'week_days']);
+  watch(['month_day', 'week_days', 'num_of_days']);
 
   const handleSelectCategory = useCallback(() => {
     categoryBottomSheetRef.current?.present();
@@ -83,6 +87,30 @@ export default function PeriodBuilderForm() {
   const handleFormSubmit = handleSubmit((data: any) =>
     console.log('Period build form: ', data)
   );
+  const frequencyText = () => {
+    switch (getValues('frequency')) {
+      case 'daily':
+        return `Every ${
+          Number(getValues('num_of_days')) > 1
+            ? getValues('num_of_days') + ' days'
+            : 'day'
+        }`;
+      case 'weekly':
+        return `Every ${
+          getValues('week_days')
+            ? weekdays[getValues('week_days')?.[0] as number]
+            : ''
+        }`;
+      case 'monthly':
+        return `${
+          getValues('month_day')
+            ? monthdays[(getValues('month_day')! - 1) as number]
+            : ''
+        } of each month`;
+      default:
+        return getValues('frequency');
+    }
+  };
   return (
     <>
       <KeyboardAwareScrollView className='p-2'>
@@ -97,25 +125,7 @@ export default function PeriodBuilderForm() {
                   <Text>Frequency</Text>
                   <View>
                     {getValues('frequency') ? (
-                      <Text>
-                        {getValues('frequency') === 'weekly'
-                          ? `Every ${
-                              getValues('week_days')
-                                ? weekdays[
-                                    getValues('week_days')?.[0] as number
-                                  ]
-                                : ''
-                            }`
-                          : getValues('frequency') === 'monthly'
-                          ? `${
-                              getValues('month_day')
-                                ? monthdays[
-                                    (getValues('month_day')! - 1) as number
-                                  ]
-                                : ''
-                            } of each month`
-                          : getValues('frequency')}
-                      </Text>
+                      <Text>{frequencyText()}</Text>
                     ) : (
                       <View className='flex-row items-center gap-1'>
                         <Text className='color-zinc-400'>Select frequency</Text>
@@ -296,6 +306,22 @@ export default function PeriodBuilderForm() {
                     </Pressable>
                   )}
                   name='asset'
+                />
+                <Controller
+                  control={control}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <Pressable
+                      className='flex-row items-center justify-between w-full h-12'
+                      onPress={handleSelectAsset}
+                    >
+                      <Text>Tax Return</Text>
+                      <Switch
+                        onValueChange={(e) => onChange(e)}
+                        value={value}
+                      />
+                    </Pressable>
+                  )}
+                  name='is_marked_tax_return'
                 />
                 <Controller
                   control={control}

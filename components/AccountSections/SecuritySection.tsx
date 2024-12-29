@@ -1,11 +1,12 @@
 import { useRef } from 'react';
-import { View, Text, Switch, Pressable } from 'react-native';
+import { View, Text, Pressable } from 'react-native';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useSettingStore } from 'core/stateHooks';
 import Icon from '../Icon/Icon';
-import LockTimeBottomSheet from 'components/BottomSheet/LockTimeBottomSheet';
+import LockTimeBottomSheet from '../BottomSheet/LockTimeBottomSheet';
+import Switch from '../Switch/Switch';
 
 export default function SecuritySection() {
   const {
@@ -18,17 +19,6 @@ export default function SecuritySection() {
   } = useSettingStore();
 
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-  const switchColors =
-    theme === 'dark'
-      ? {
-          trackColor: { false: '#334155', true: '#075985' },
-          thumbColor: '#27272a',
-        }
-      : {
-          trackColor: { false: '#cbd5e1', true: '#60a5fa' },
-          thumbColor: '#f4f4f5',
-        };
-
   const handleLockTime = () => {
     bottomSheetModalRef.current?.present();
   };
@@ -50,10 +40,7 @@ export default function SecuritySection() {
             <Text className='text-lg dark:color-white'>FaceID/Fingerpint</Text>
           </View>
           <Switch
-            trackColor={switchColors.trackColor}
-            thumbColor={switchColors.thumbColor}
-            ios_backgroundColor={switchColors.trackColor.false}
-            onValueChange={(e) => setIsEnabledAuth(!isEnabledAuth)}
+            onValueChange={() => setIsEnabledAuth(!isEnabledAuth)}
             value={isEnabledAuth}
           />
         </View>
@@ -92,9 +79,6 @@ export default function SecuritySection() {
             <Text className='text-lg dark:color-white'>Background Blur</Text>
           </View>
           <Switch
-            trackColor={switchColors.trackColor}
-            thumbColor={switchColors.thumbColor}
-            ios_backgroundColor={switchColors.trackColor.false}
             onValueChange={() => setIsEnabledBlur(!isEnabledBlur)}
             value={isEnabledBlur}
           />

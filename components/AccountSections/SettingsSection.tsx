@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { View, Text, Pressable, Switch } from 'react-native';
+import { View, Text, Pressable } from 'react-native';
 import { router } from 'expo-router';
 import * as Notifications from 'expo-notifications';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -7,6 +7,7 @@ import { useSettingStore, useUserStore } from 'core/stateHooks';
 import log from 'core/logger';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import Icon from '../Icon/Icon';
+import Switch from '../Switch/Switch';
 
 export default function SettingsSection() {
   const {
@@ -18,16 +19,6 @@ export default function SettingsSection() {
     setReminderTime,
     theme,
   } = useSettingStore();
-  const switchColors =
-    theme === 'dark'
-      ? {
-          trackColor: { false: '#334155', true: '#075985' },
-          thumbColor: '#27272a',
-        }
-      : {
-          trackColor: { false: '#cbd5e1', true: '#60a5fa' },
-          thumbColor: '#f4f4f5',
-        };
   const user = useUserStore((state) => state.user);
 
   // Cleanup notifications when component unmounts or user changes
@@ -208,9 +199,6 @@ export default function SettingsSection() {
             <Text className='text-lg dark:color-white'>Daily reminder</Text>
           </View>
           <Switch
-            trackColor={switchColors.trackColor}
-            thumbColor={switchColors.thumbColor}
-            ios_backgroundColor={switchColors.trackColor.false}
             onValueChange={handleReminderToggle}
             value={isEnabledReminder}
           />
