@@ -10,7 +10,7 @@ SplashScreen.preventAutoHideAsync();
 
 const reactNavigationIntegration = Sentry.reactNavigationIntegration();
 Sentry.init({
-  dsn: process.env.EXPO_PUBLIC_SENTRY_DSN,
+  dsn: __DEV__ ? undefined : process.env.EXPO_PUBLIC_SENTRY_DSN,
   enableNativeFramesTracking: true,
   integrations: [reactNavigationIntegration],
   // Set tracesSampleRate to 1.0 to capture 100% of transactions for tracing.
