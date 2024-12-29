@@ -8,12 +8,12 @@ import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 
 import { FrequencyTypes } from 'api/period/types';
 import { useSettingStore } from 'core/stateHooks';
-import {
-  frequencyContent,
-  weekdays,
-  monthdays,
-} from 'static/period-record-content';
 import BottomSheet from './BottomSheet';
+import fullweek from 'static/weekdays.json';
+
+const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
+const monthdays = Array.from({ length: 31 }, (_, i) => i + 1);
 
 type RecordFrequencyBottomSheetProps = {
   bottomSheetModalRef: React.RefObject<BottomSheetModal>;
@@ -41,6 +41,35 @@ export default function RecordFrequencyBottomSheet({
       intervalRef.current = null;
     }
   };
+
+  const frequencyContent = {
+    daily: 'Create a record everyday from the start date.',
+    weekly: 'Create a record every week on the selected date.',
+    monthly: 'Create a record every month on the selected date.',
+    annually: 'Create a record every year from the start date.',
+  };
+
+  const frequencyHintText = () => {
+    switch (getValues('frequency')) {
+      case FrequencyTypes.DAILY:
+        return `Create a record every ${
+          Number(getValues('num_of_days')) > 1
+            ? getValues('num_of_days') + ' days'
+            : 'day'
+        }`;
+      case FrequencyTypes.WEEKLY:
+        return `Create a record every ${
+          getValues('week_days')
+            ? fullweek[getValues('week_days')?.[0] as number]
+            : 'week'
+        }`;
+      case FrequencyTypes.MONTHLY:
+        return 'Create a record every month on the selected date';
+      case FrequencyTypes.ANNUALLY:
+        return 'Create a record every year';
+    }
+  };
+
   return (
     <BottomSheet bottomSheetModalRef={bottomSheetModalRef} height={300}>
       <View className='items-center flex-1 w-full gap-2 p-2'>
@@ -77,11 +106,7 @@ export default function RecordFrequencyBottomSheet({
           <View className='w-2/3 gap-2 rounded-lg bg-zinc-100'>
             <View className='p-2 bg-yellow-200 rounded-t-lg'>
               <Text className='text-sm'>
-                {
-                  frequencyContent[
-                    getValues('frequency') as keyof typeof frequencyContent
-                  ]
-                }
+                {frequencyHintText() + ' from the start date.'}
               </Text>
             </View>
             {getValues('frequency') === FrequencyTypes.DAILY && (
