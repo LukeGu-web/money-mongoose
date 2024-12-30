@@ -57,14 +57,14 @@ function RootLayout() {
         <Stack.Screen
           name='records/period-builder'
           options={{
-            title: 'Period Record',
+            title: 'Periodic Record',
             headerLeft: () => <GoBack />,
           }}
         />
         <Stack.Screen
           name='records/period-list'
           options={{
-            title: 'Period Records',
+            title: 'Periodic Records',
             headerLeft: () => <GoBack />,
             headerRight: () => (
               <Link className='p-1' href='/records/period-builder'>

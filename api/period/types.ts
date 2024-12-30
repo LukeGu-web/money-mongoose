@@ -15,3 +15,7 @@ export type ScheduledRecordType = RecordType & {
   week_days?: number[];
   num_of_days?: number;
 };
+
+export type ScheduledRecordResponseType = ScheduledRecordType & {
+  execution_count: number;
+};

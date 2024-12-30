@@ -106,8 +106,7 @@ export default function ListItem({ item, flatAssets, onPress }: ListItemProps) {
               </Text>
               {item.subcategory && (
                 <Text className='pb-1 text-lg dark:color-white'>
-                  {' '}
-                  - {item.subcategory}
+                  {' - ' + item.subcategory}
                 </Text>
               )}
             </View>

@@ -1,10 +1,10 @@
 import type { AxiosError } from 'axios';
 import { createQuery } from 'react-query-kit';
 import { client } from '../client';
-import type { ScheduledRecordType } from './types';
+import type { ScheduledRecordResponseType } from './types';
 
 type Variables = void;
-type Response = ScheduledRecordType[];
+type Response = ScheduledRecordResponseType[];
 
 const useGetScheduledRecordList = createQuery<Response, Variables, AxiosError>({
   queryKey: ['scheduled-record'],
