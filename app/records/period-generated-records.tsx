@@ -1,8 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { PeriodBuilderForm, RecordsFilter } from 'components';
+// import {} from 'components';
 
-export default function PeriodList() {
+export default function PeriodGeneratedRecords() {
   return (
     <SafeAreaView
       style={{ flex: 1, backgroundColor: '#03045E' }}

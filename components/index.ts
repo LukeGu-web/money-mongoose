@@ -25,6 +25,7 @@ export { default as RecordList } from 'components/RecordList/RecordList';
 export { default as RecordToolbar } from 'components/Toolbar/RecordToolbar';
 export { default as RecordBottomSheet } from 'components/BottomSheet/RecordBottomSheet';
 export { default as RecordFrequencyBottomSheet } from 'components/BottomSheet/RecordFrequencyBottomSheet';
+export { default as ScheduledRecordList } from 'components/ScheduledRecordList/ScheduledRecordList';
 export { default as SelectGroupBottomSheet } from 'components/BottomSheet/SelectGroupBottomSheet';
 export { default as Switch } from 'components/Switch/Switch';
 export { default as Transfer } from 'components/Transfer/Trasnfer';

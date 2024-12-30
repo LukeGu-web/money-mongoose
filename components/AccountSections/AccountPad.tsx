@@ -42,7 +42,7 @@ export default function AccountPad() {
             </Text>
           </View>
         </Link>
-        <Link href='/records/period-builder'>
+        <Link href='/records/period-list'>
           <View className='gap-2'>
             <View className='items-center justify-center w-20 h-20 border-2 rounded-lg border-primary dark:border-primarydark'>
               <MaterialCommunityIcons

@@ -2,6 +2,7 @@ import { Pressable } from 'react-native';
 import * as Sentry from '@sentry/react-native';
 import { SplashScreen, Stack, Link, router } from 'expo-router';
 import { useFonts } from 'expo-font';
+import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import { Icon, Providers } from 'components';
 import '../global.css';
 
@@ -54,16 +55,28 @@ function RootLayout() {
           }}
         />
         <Stack.Screen
-          name='records/periods-list'
+          name='records/period-builder'
           options={{
-            title: 'Period Records',
+            title: 'Period Record',
             headerLeft: () => <GoBack />,
           }}
         />
         <Stack.Screen
-          name='records/period-builder'
+          name='records/period-list'
           options={{
-            title: 'Period Record',
+            title: 'Period Records',
+            headerLeft: () => <GoBack />,
+            headerRight: () => (
+              <Link className='p-1' href='/records/period-builder'>
+                <FontAwesome5 name='plus' size={24} color='white' />
+              </Link>
+            ),
+          }}
+        />
+        <Stack.Screen
+          name='records/period-generated-records'
+          options={{
+            title: 'Generated Records',
             headerLeft: () => <GoBack />,
           }}
         />
