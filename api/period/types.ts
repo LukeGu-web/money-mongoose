@@ -7,6 +7,12 @@ export enum FrequencyTypes {
   ANNUALLY = 'annually',
 }
 
+export enum TaskStatusTypes {
+  ACTIVE = 'active',
+  PAUSED = 'paused',
+  COMPLETED = 'completed',
+}
+
 export type ScheduledRecordType = RecordType & {
   frequency?: FrequencyTypes;
   start_date: Date;
@@ -18,4 +24,6 @@ export type ScheduledRecordType = RecordType & {
 
 export type ScheduledRecordResponseType = ScheduledRecordType & {
   execution_count: number;
+  next_occurrence: Date;
+  status: TaskStatusTypes;
 };

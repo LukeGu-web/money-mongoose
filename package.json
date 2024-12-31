@@ -12,7 +12,7 @@
     "build:device": "eas build --profile development --platform ios",
     "build:simulator": "eas build -p ios --profile development-simulator",
     "submit:ios": "eas build -p ios --auto-submit",
-    "deps:fix": "expo install --fix",
+    "deps:check": "expo install --check",
     "eas-build-pre-install": "corepack enable"
   },
   "dependencies": {
@@ -39,7 +39,7 @@
     "expo-camera": "~16.0.10",
     "expo-clipboard": "~7.0.0",
     "expo-constants": "~17.0.3",
-    "expo-dev-client": "~5.0.7",
+    "expo-dev-client": "~5.0.8",
     "expo-device": "~7.0.1",
     "expo-file-system": "~18.0.6",
     "expo-font": "~13.0.2",
