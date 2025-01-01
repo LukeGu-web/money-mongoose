@@ -1,23 +1,46 @@
-import { useState, useRef } from 'react';
-import { View, Text, Image, ActivityIndicator, ScrollView } from 'react-native';
+import { useRef, useCallback } from 'react';
+import { Alert, View, Text, Image, ActivityIndicator } from 'react-native';
+import { useRouter } from 'expo-router';
 import { FlashList } from '@shopify/flash-list';
+import { BottomSheetModal } from '@gorhom/bottom-sheet';
 
 import { useGetFlatAssets } from 'api/asset';
 import { useGetScheduledRecordList } from 'api/period';
 import { ScheduledRecordResponseType } from 'api/period/types';
-import { useRecord, useBookStore } from 'core/stateHooks';
+import { useBookStore } from 'core/stateHooks';
+import EditOptionsBottomSheet from '../BottomSheet/EditOptionsBottomSheet';
 import ListItem from './ListItem';
 
 const noDataImage = require('../../assets/illustrations/nodata/no-data-board.png');
 
 export default function ScheduledRecordList() {
+  const router = useRouter();
   const currentBook = useBookStore((state) => state.currentBook);
   const { isPending, isError, error, data, isFetching, isPlaceholderData } =
     useGetScheduledRecordList();
-
   const { data: flatAssets } = useGetFlatAssets({
     variables: { book_id: currentBook.id },
   });
+
+  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+
+  const handleDeleteAccount = () =>
+    Alert.alert(
+      'Delete Account',
+      `Are you sure you want to delete this period record?`,
+      [
+        {
+          text: 'Cancel',
+          onPress: () => bottomSheetModalRef.current?.dismiss(),
+          style: 'cancel',
+        },
+        { text: 'Yes', onPress: () => {} },
+      ]
+    );
+
+  const handleCloseSheet = useCallback(() => {
+    bottomSheetModalRef.current?.dismiss();
+  }, []);
 
   if (isPending || isFetching || !flatAssets)
     return (
@@ -27,6 +50,25 @@ export default function ScheduledRecordList() {
       </View>
     );
 
+  const functions = {
+    'View Details': () => {
+      bottomSheetModalRef.current?.dismiss();
+      //   router.push('/records/');
+    },
+    Edit: () => {
+      bottomSheetModalRef.current?.dismiss();
+      router.push('/records/period-builder');
+    },
+    'Generated Records': () => {
+      bottomSheetModalRef.current?.dismiss();
+      router.push('/records/period-generated-records');
+    },
+    Pause: () => {
+      bottomSheetModalRef.current?.dismiss();
+    },
+    Delete: handleDeleteAccount,
+  };
+
   return (
     <View className='flex-1 px-2'>
       <FlashList
@@ -35,7 +77,7 @@ export default function ScheduledRecordList() {
           <ListItem
             item={item}
             flatAssets={flatAssets}
-            onPress={() => console.log(item)}
+            onPress={() => bottomSheetModalRef.current?.present()}
           />
         )}
         estimatedItemSize={10}
@@ -47,6 +89,13 @@ export default function ScheduledRecordList() {
             </Text>
           </View>
         )}
+      />
+      <EditOptionsBottomSheet
+        bottomSheetModalRef={bottomSheetModalRef}
+        functions={functions}
+        height={400}
+        title='Scheduled record'
+        onCancel={handleCloseSheet}
       />
     </View>
   );

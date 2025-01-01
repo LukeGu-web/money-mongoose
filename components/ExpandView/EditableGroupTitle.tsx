@@ -17,7 +17,7 @@ import { useAsset } from 'core/stateHooks';
 import { formatter } from 'core/utils';
 import log from 'core/logger';
 import Icon from '../Icon/Icon';
-import EditAssetGroupBottomSheet from '../BottomSheet/EditAssetGroupBottomSheet';
+import EditOptionsBottomSheet from '../BottomSheet/EditOptionsBottomSheet';
 import AssetGroupModal from 'components/Modal/AssetGroupModal';
 import { GroupTitleProps } from './types';
 import { successToaster } from 'core/toaster';
@@ -148,7 +148,7 @@ export default function EditableGroupTitle({
         </Pressable>
       </View>
       {expanded && <View className='flex-1 py-2'>{children}</View>}
-      <EditAssetGroupBottomSheet
+      <EditOptionsBottomSheet
         bottomSheetModalRef={bottomSheetModalRef}
         functions={functions}
         title={title.text}
