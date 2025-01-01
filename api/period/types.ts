@@ -27,3 +27,7 @@ export type ScheduledRecordResponseType = ScheduledRecordType & {
   next_occurrence: Date;
   status: TaskStatusTypes;
 };
+
+export type ScheduledRecordDetailsType = ScheduledRecordResponseType & {
+  generated_records: RecordType[];
+};

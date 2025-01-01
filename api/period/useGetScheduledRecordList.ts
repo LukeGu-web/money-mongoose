@@ -7,7 +7,7 @@ type Variables = void;
 type Response = ScheduledRecordResponseType[];
 
 const useGetScheduledRecordList = createQuery<Response, Variables, AxiosError>({
-  queryKey: ['scheduled-record'],
+  queryKey: ['scheduled-record', 'list'],
   fetcher: () =>
     client.get(`/record/scheduled/`).then((response) => response.data),
 });
