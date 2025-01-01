@@ -1,4 +1,4 @@
-import type { RecordAPI as RecordType } from '../record/types';
+import type { RecordAPI as RecordType, Record } from '../record/types';
 
 export enum FrequencyTypes {
   DAILY = 'daily',
@@ -30,4 +30,14 @@ export type ScheduledRecordResponseType = ScheduledRecordType & {
 
 export type ScheduledRecordDetailsType = ScheduledRecordResponseType & {
   generated_records: RecordType[];
+};
+
+// for record state use
+export type ScheduledRecordStateType = Record & {
+  frequency?: FrequencyTypes;
+  start_date: Date;
+  end_date?: Date;
+  month_day?: number;
+  week_days?: number[];
+  num_of_days?: number;
 };

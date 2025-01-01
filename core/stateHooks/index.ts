@@ -2,6 +2,7 @@ export { default as useAsset } from './states/useAsset';
 export { default as useBook } from './states/useBook';
 export { default as useCalendar } from './states/useCalendar';
 export { default as useRecord } from './states/useRecord';
+export { default as useScheduledRecord } from './states/useScheduledRecord';
 export { default as useBookStore } from './useBookStore';
 export { default as useCurrencyStore } from './useCurrencyStore';
 export { default as useLocalStore } from './useLocalStore';

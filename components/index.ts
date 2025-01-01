@@ -12,6 +12,7 @@ export { default as DigitalPad } from 'components/CustomDigitalPad/DigitalPad';
 export { default as Dropdown } from 'components/Dropdown/Dropdown';
 export { default as Email } from 'components/Email/Email';
 export { default as ExpenseCard } from 'components/Card/ExpenseCard';
+export { default as GeneratedRecordList } from 'components/ScheduledRecordList/GeneratedRecordList';
 export { default as Haptics } from 'components/Settings/Haptics';
 export { default as HomeHeader } from 'components/Header/HomeHeader';
 export { default as PeriodFrequencyForm } from 'components/Form/PeriodFrequencyForm';
