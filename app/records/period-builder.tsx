@@ -6,7 +6,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 
 import { useCreateScheduledRecord } from 'api/period';
 import { ScheduledRecordType } from 'api/period/types';
-import { RecordTypes, Record as RecordType } from 'api/record/types';
+import { RecordTypes } from 'api/record/types';
 import { formatApiError } from 'api/errorFormat';
 import { useBookStore, useSettingStore } from 'core/stateHooks';
 import log from 'core/logger';

@@ -76,35 +76,34 @@ export default function RecordList({
 
   return (
     <View className={`flex-1 p-2 ${bgColor} dark:${darkBgColor}`}>
-      {data.results.length > 0 ? (
-        <FlashList
-          data={data.results}
-          renderItem={({ item }: { item: RecordsByDay }) => (
-            <ListDayItem
-              item={item}
-              flatAssets={flatAssets}
-              onPress={handlePressItem}
-            />
-          )}
-          estimatedItemSize={50}
-          onEndReachedThreshold={5}
-          onEndReached={() => {
-            if (!isPlaceholderData && data.next && loadMore) {
-              setPage((old) => old + 1);
-            }
-          }}
-          ListFooterComponent={() => (
-            <Text className='w-full mt-4 text-center dark:color-white'>
-              - The End -
-            </Text>
-          )}
-        />
-      ) : (
-        <View className='items-center justify-center flex-1 gap-4'>
-          <Image className='w-32 h-32' source={noDataImage} />
-          <Text className='dark:color-white'>{noItemMsg}</Text>
-        </View>
-      )}
+      <FlashList
+        data={data.results}
+        renderItem={({ item }: { item: RecordsByDay }) => (
+          <ListDayItem
+            item={item}
+            flatAssets={flatAssets}
+            onPress={handlePressItem}
+          />
+        )}
+        estimatedItemSize={50}
+        onEndReachedThreshold={5}
+        onEndReached={() => {
+          if (!isPlaceholderData && data.next && loadMore) {
+            setPage((old) => old + 1);
+          }
+        }}
+        ListFooterComponent={() => (
+          <Text className='w-full mt-4 text-center dark:color-white'>
+            - The End -
+          </Text>
+        )}
+        ListEmptyComponent={() => (
+          <View className='items-center justify-center flex-1 gap-4'>
+            <Image className='w-32 h-32' source={noDataImage} />
+            <Text className='dark:color-white'>{noItemMsg}</Text>
+          </View>
+        )}
+      />
       <RecordBottomSheet
         bottomSheetModalRef={bottomSheetModalRef}
         onDismiss={handleDismissItem}

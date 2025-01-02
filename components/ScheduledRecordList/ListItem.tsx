@@ -9,7 +9,7 @@ import Icon from '../Icon/CIcon';
 import { AssetType } from 'api/types';
 import { RecordTypes } from 'api/record/types';
 import { ScheduledRecordResponseType, FrequencyTypes } from 'api/period/types';
-import { useSettingStore } from 'core/stateHooks';
+import { useScheduledRecord, useSettingStore } from 'core/stateHooks';
 import { formatAsset } from 'core/utils';
 
 import monthdays from 'static/monthdays.json';
@@ -61,13 +61,20 @@ const frequencyText = ({
 };
 
 export default function ListItem({ item, flatAssets, onPress }: ListItemProps) {
-  //   const setRecord = useRecord((state) => state.setRecord);
+  const setScheduledRecord = useScheduledRecord(
+    (state) => state.setScheduledRecord
+  );
   const theme = useSettingStore((state) => state.theme);
+
+  const handlePress = () => {
+    setScheduledRecord(item as any);
+    onPress();
+  };
 
   return (
     <Pressable
       className={`p-4 mt-4 gap-4 rounded-lg ${bgColorMap[item.type]}`}
-      onPress={onPress}
+      onPress={handlePress}
     >
       <View className='flex-row items-center justify-between'>
         <View className='flex-row flex-1 gap-2'>

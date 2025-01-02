@@ -6,7 +6,7 @@ import type { ScheduledRecordDetailsType } from './types';
 type Variables = {
   id: number;
 };
-type Response = ScheduledRecordDetailsType[];
+type Response = ScheduledRecordDetailsType;
 
 const useGetScheduledRecordDetails = createQuery<
   Response,

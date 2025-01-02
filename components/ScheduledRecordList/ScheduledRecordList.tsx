@@ -1,4 +1,4 @@
-import { useRef, useCallback } from 'react';
+import { useRef, useCallback, useState } from 'react';
 import { Alert, View, Text, Image, ActivityIndicator } from 'react-native';
 import { useRouter } from 'expo-router';
 import { FlashList } from '@shopify/flash-list';
@@ -16,7 +16,8 @@ const noDataImage = require('../../assets/illustrations/nodata/no-data-board.png
 export default function ScheduledRecordList() {
   const router = useRouter();
   const currentBook = useBookStore((state) => state.currentBook);
-  const { isPending, isError, error, data, isFetching, isPlaceholderData } =
+  const [numOfRecords, setNumOfRecords] = useState(0);
+  const { isPending, isError, error, data, isFetching } =
     useGetScheduledRecordList();
   const { data: flatAssets } = useGetFlatAssets({
     variables: { book_id: currentBook.id },
@@ -51,17 +52,15 @@ export default function ScheduledRecordList() {
     );
 
   const functions = {
-    'View Details': () => {
-      bottomSheetModalRef.current?.dismiss();
-      //   router.push('/records/');
-    },
+    ...(numOfRecords > 0 && {
+      Records: () => {
+        bottomSheetModalRef.current?.dismiss();
+        router.push('/records/period-generated-records');
+      },
+    }),
     Edit: () => {
       bottomSheetModalRef.current?.dismiss();
       router.push('/records/period-builder');
-    },
-    'Generated Records': () => {
-      bottomSheetModalRef.current?.dismiss();
-      router.push('/records/period-generated-records');
     },
     Pause: () => {
       bottomSheetModalRef.current?.dismiss();
@@ -77,7 +76,10 @@ export default function ScheduledRecordList() {
           <ListItem
             item={item}
             flatAssets={flatAssets}
-            onPress={() => bottomSheetModalRef.current?.present()}
+            onPress={() => {
+              bottomSheetModalRef.current?.present();
+              setNumOfRecords(item.execution_count);
+            }}
           />
         )}
         estimatedItemSize={10}
@@ -93,7 +95,7 @@ export default function ScheduledRecordList() {
       <EditOptionsBottomSheet
         bottomSheetModalRef={bottomSheetModalRef}
         functions={functions}
-        height={400}
+        height={360}
         title='Scheduled record'
         onCancel={handleCloseSheet}
       />
