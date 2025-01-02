@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { ScheduledRecordStateType } from 'api/period/types';
+import { ScheduledRecordStateType, TaskStatusTypes } from 'api/period/types';
 import { RecordTypes } from 'api/record/types';
 
 type ScheduledRecordState = {
@@ -19,6 +19,9 @@ export const defaultScheduledRecord = {
   book: -1,
   is_marked_tax_return: false,
   start_date: new Date(),
+  execution_count: 0,
+  next_occurrence: new Date(),
+  status: TaskStatusTypes.ACTIVE,
 };
 
 const useScheduledRecord = create<ScheduledRecordState>((set) => ({

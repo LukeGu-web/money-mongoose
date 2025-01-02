@@ -40,4 +40,7 @@ export type ScheduledRecordStateType = Record & {
   month_day?: number;
   week_days?: number[];
   num_of_days?: number;
+  execution_count: number;
+  next_occurrence: Date;
+  status: TaskStatusTypes;
 };

@@ -1,41 +1,87 @@
-import { useRef, useCallback, useState } from 'react';
+import { useRef, useCallback } from 'react';
 import { Alert, View, Text, Image, ActivityIndicator } from 'react-native';
 import { useRouter } from 'expo-router';
 import { FlashList } from '@shopify/flash-list';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
+import { useShallow } from 'zustand/react/shallow';
 
 import { useGetFlatAssets } from 'api/asset';
-import { useGetScheduledRecordList } from 'api/period';
-import { ScheduledRecordResponseType } from 'api/period/types';
-import { useBookStore } from 'core/stateHooks';
+import {
+  useGetScheduledRecordList,
+  useDeleteScheduledRecord,
+  usePauseScheduledRecord,
+  useResumeScheduledRecord,
+} from 'api/period';
+import { ScheduledRecordResponseType, TaskStatusTypes } from 'api/period/types';
+import { formatApiError } from 'api/errorFormat';
+import { useBookStore, useScheduledRecord } from 'core/stateHooks';
+import log from 'core/logger';
+import { successToaster } from 'core/toaster';
 import EditOptionsBottomSheet from '../BottomSheet/EditOptionsBottomSheet';
 import ListItem from './ListItem';
-
 const noDataImage = require('../../assets/illustrations/nodata/no-data-board.png');
+
+enum actionTypes {
+  DELETE = 'delete',
+  PAUSE = 'pause',
+  RESUME = 'resume',
+}
 
 export default function ScheduledRecordList() {
   const router = useRouter();
   const currentBook = useBookStore((state) => state.currentBook);
-  const [numOfRecords, setNumOfRecords] = useState(0);
+  const { scheduledRecord, resetScheduledRecord } = useScheduledRecord(
+    useShallow((state) => ({
+      scheduledRecord: state.scheduledRecord,
+      resetScheduledRecord: state.resetScheduledRecord,
+    }))
+  );
   const { isPending, isError, error, data, isFetching } =
     useGetScheduledRecordList();
   const { data: flatAssets } = useGetFlatAssets({
     variables: { book_id: currentBook.id },
   });
 
+  const { mutate: deleteApi } = useDeleteScheduledRecord();
+  const { mutate: pauseApi } = usePauseScheduledRecord();
+  const { mutate: resumeApi } = useResumeScheduledRecord();
+  const apis = {
+    delete: deleteApi,
+    pause: pauseApi,
+    resume: resumeApi,
+  };
+
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
-  const handleDeleteAccount = () =>
+  const handleAction = (action: actionTypes) =>
     Alert.alert(
-      'Delete Account',
-      `Are you sure you want to delete this period record?`,
+      `${action.toUpperCase()} Period Record`,
+      `Are you sure you want to ${action} this period record?`,
       [
         {
           text: 'Cancel',
-          onPress: () => bottomSheetModalRef.current?.dismiss(),
+          onPress: handleCloseSheet,
           style: 'cancel',
         },
-        { text: 'Yes', onPress: () => {} },
+        {
+          text: 'Yes',
+          onPress: () => {
+            apis[action](
+              { id: scheduledRecord.id as number },
+              {
+                onSuccess: () => {
+                  successToaster(`${action} period schedule successfully!`);
+                  log.success(`${action} period schedule successfully!`);
+                  resetScheduledRecord();
+                  handleCloseSheet();
+                },
+                onError: (error) => {
+                  log.error('Error: ', formatApiError(error));
+                },
+              }
+            );
+          },
+        },
       ]
     );
 
@@ -52,20 +98,25 @@ export default function ScheduledRecordList() {
     );
 
   const functions = {
-    ...(numOfRecords > 0 && {
+    ...(scheduledRecord.execution_count > 0 && {
       Records: () => {
-        bottomSheetModalRef.current?.dismiss();
+        handleCloseSheet();
         router.push('/records/period-generated-records');
       },
     }),
     Edit: () => {
-      bottomSheetModalRef.current?.dismiss();
+      handleCloseSheet();
       router.push('/records/period-builder');
     },
-    Pause: () => {
-      bottomSheetModalRef.current?.dismiss();
-    },
-    Delete: handleDeleteAccount,
+    ...(scheduledRecord.status !== TaskStatusTypes.COMPLETED &&
+      (scheduledRecord.status === TaskStatusTypes.PAUSED
+        ? {
+            Resume: () => handleAction(actionTypes.RESUME),
+          }
+        : {
+            Pause: () => handleAction(actionTypes.PAUSE),
+          })),
+    Delete: () => handleAction(actionTypes.DELETE),
   };
 
   return (
@@ -76,10 +127,7 @@ export default function ScheduledRecordList() {
           <ListItem
             item={item}
             flatAssets={flatAssets}
-            onPress={() => {
-              bottomSheetModalRef.current?.present();
-              setNumOfRecords(item.execution_count);
-            }}
+            onPress={() => bottomSheetModalRef.current?.present()}
           />
         )}
         estimatedItemSize={10}
