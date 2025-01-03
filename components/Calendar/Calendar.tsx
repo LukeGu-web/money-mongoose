@@ -22,6 +22,12 @@ import RecordBottomSheet from '../BottomSheet/RecordBottomSheet';
 
 const noDataImage = require('../../assets/illustrations/nodata/no-data-board.png');
 
+const getStartDate = (date: string) =>
+  dayjs(date).startOf('M').startOf('w').subtract(1, 'day').format('YYYY-MM-DD');
+
+const getEndDate = (date: string) =>
+  dayjs(date).endOf('M').endOf('w').add(1, 'day').format('YYYY-MM-DD');
+
 export default function Calendar() {
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const path = usePathname();
@@ -32,11 +38,17 @@ export default function Calendar() {
   const now = dayjs();
   const today = now.format('YYYY-MM-DD');
   const [selectedDay, setSelectedDay] = useState(today);
-  const [page, setPage] = useState(1);
+  const [extra, setExtra] = useState(
+    `&date_after=${getStartDate(today)}&date_before=${getEndDate(today)}`
+  );
 
   const { isPending, isError, error, data, isFetching, isPlaceholderData } =
     useGetAllRecords({
-      variables: { book_id: currentBook.id, page, extra: '' },
+      variables: {
+        book_id: currentBook.id,
+        page: 1,
+        extra,
+      },
     });
   const { data: flatAssets } = useGetFlatAssets({
     variables: { book_id: currentBook.id },
@@ -58,16 +70,11 @@ export default function Calendar() {
   }
 
   const handleMonthChange = (dateData: DateData) => {
-    const diffMonth = dayjs(visiableMonth).diff(dateData.dateString, 'month');
-    // previous month
-    if (diffMonth === 1 && !isPlaceholderData && data.next) {
-      setPage((old) => old + 1);
-    }
-    // next month
-    if (diffMonth === -1) {
-      setPage((old) => Math.max(old - 1, 1));
-    }
-    setVisiableMonth(dateData.dateString);
+    const newDate = dateData.dateString;
+    const startDate = getStartDate(newDate),
+      endDate = getEndDate(newDate);
+    setExtra(`&date_after=${startDate}&date_before=${endDate}`);
+    setVisiableMonth(newDate);
   };
 
   const handlePressItem = () => {
