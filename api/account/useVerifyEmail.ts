@@ -3,7 +3,7 @@ import { createMutation } from 'react-query-kit';
 import { client } from '../client';
 import log from 'core/logger';
 
-type Variables = null;
+type Variables = void;
 type Response = {
   details: string;
 };

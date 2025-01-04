@@ -1,10 +1,11 @@
 import { useState, useRef } from 'react';
-import { View, Text, TextInput, Switch, Pressable } from 'react-native';
+import { View, Text, TextInput, Pressable } from 'react-native';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import taxBrackets from './tax-brackets.json';
 import Table from './Table';
 import SelectFinancialYearBottomSheet from '../BottomSheet/SelectFinancialYearBottomSheet';
 import Icon from '../Icon/Icon';
+import Switch from '../Switch/Switch';
 
 const calculateTax = (salary: number, year: string) => {
   // @ts-ignore: ignore json type
@@ -68,7 +69,10 @@ export default function TaxCalculator() {
 
         <View className='flex-row items-center justify-between gap-2'>
           <Text className='font-semibold'>Include Superannuation:</Text>
-          <Switch value={includeSuper} onValueChange={setIncludeSuper} />
+          <Switch
+            value={includeSuper}
+            onValueChange={() => setIncludeSuper(!includeSuper)}
+          />
         </View>
         <View className='flex-row items-center justify-between gap-2 '>
           <Text className='font-semibold'>Superannuation:</Text>

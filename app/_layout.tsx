@@ -2,6 +2,7 @@ import { Pressable } from 'react-native';
 import * as Sentry from '@sentry/react-native';
 import { SplashScreen, Stack, Link, router } from 'expo-router';
 import { useFonts } from 'expo-font';
+import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import { Icon, Providers } from 'components';
 import '../global.css';
 
@@ -10,7 +11,7 @@ SplashScreen.preventAutoHideAsync();
 
 const reactNavigationIntegration = Sentry.reactNavigationIntegration();
 Sentry.init({
-  dsn: process.env.EXPO_PUBLIC_SENTRY_DSN,
+  dsn: __DEV__ ? undefined : process.env.EXPO_PUBLIC_SENTRY_DSN,
   enableNativeFramesTracking: true,
   integrations: [reactNavigationIntegration],
   // Set tracesSampleRate to 1.0 to capture 100% of transactions for tracing.
@@ -51,6 +52,32 @@ function RootLayout() {
           name='records/index'
           options={{
             headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name='records/period-builder'
+          options={{
+            title: 'Periodic Record',
+            headerLeft: () => <GoBack />,
+          }}
+        />
+        <Stack.Screen
+          name='records/period-list'
+          options={{
+            title: 'Periodic Records',
+            headerLeft: () => <GoBack />,
+            headerRight: () => (
+              <Link className='p-1' href='/records/period-builder'>
+                <FontAwesome5 name='plus' size={24} color='white' />
+              </Link>
+            ),
+          }}
+        />
+        <Stack.Screen
+          name='records/period-generated-records'
+          options={{
+            title: 'Generated Records',
+            headerLeft: () => <GoBack />,
           }}
         />
         <Stack.Screen

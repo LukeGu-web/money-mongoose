@@ -1,10 +1,11 @@
-import { View, Text, Switch, Pressable } from 'react-native';
+import { View, Text, Pressable } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import dayjs from 'dayjs';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useGetFlatAssets } from 'api/asset';
 import { RecordTypes } from 'api/record/types';
 import { useBookStore } from 'core/stateHooks';
+import Switch from '../Switch/Switch';
 
 export type FilterType = {
   date_after?: Date;
@@ -193,14 +194,7 @@ export default function RecordsFilter({
             <Text className='text-lg font-semibold color-white'>
               Only show tax return items
             </Text>
-            <Switch
-              trackColor={{ false: '#cbd5e1', true: '#fbbf24' }}
-              ios_backgroundColor='#cbd5e1'
-              onValueChange={(e) => {
-                onChange(e);
-              }}
-              value={value}
-            />
+            <Switch onValueChange={(e) => onChange(e)} value={value} />
           </View>
         )}
         name='is_marked_tax_return'

@@ -11,7 +11,7 @@ import { useAsset, useBookStore } from 'core/stateHooks';
 import log from 'core/logger';
 import ListItem from './ListItem';
 import EditableGroupTitle from '../ExpandView/EditableGroupTitle';
-import EditAssetGroupBottomSheet from '../BottomSheet/EditAssetGroupBottomSheet';
+import EditOptionsBottomSheet from '../BottomSheet/EditOptionsBottomSheet';
 import SelectGroupBottomSheet from '../BottomSheet/SelectGroupBottomSheet';
 import { successToaster } from 'core/toaster';
 
@@ -137,7 +137,7 @@ export default function EditableAccountList() {
           </EditableGroupTitle>
         );
       })}
-      <EditAssetGroupBottomSheet
+      <EditOptionsBottomSheet
         bottomSheetModalRef={bottomSheetModalRef}
         functions={functions}
         title={asset.name}

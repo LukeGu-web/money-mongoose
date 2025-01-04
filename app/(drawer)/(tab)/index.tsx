@@ -58,6 +58,8 @@ export default function Home() {
           <RecordList
             extra={`&date_after=${dayjs()
               .subtract(7, 'day')
+              .format('YYYY-MM-DD')}&date_before=${dayjs()
+              .add(1, 'day')
               .format('YYYY-MM-DD')}`}
             noItemMsg='No record in last 7 days'
             loadMore={false}

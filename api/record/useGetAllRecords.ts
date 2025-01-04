@@ -31,5 +31,5 @@ const useGetAllRecords = createQuery<Response, Variables, AxiosError>({
 export default useGetAllRecords;
 
 // extra
-// &start_date=${variables.start_date}&end_date=${variables.end_date}&group_by_date=${variables.group_by_date}&is_decreasing=${variables.is_decreasing
+// &date_after=${variables.start_date}&date_before=${variables.end_date}&group_by_date=${variables.group_by_date}&is_decreasing=${variables.is_decreasing
 // date formate '2024-06-29'

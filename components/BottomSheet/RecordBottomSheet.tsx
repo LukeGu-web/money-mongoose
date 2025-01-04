@@ -83,7 +83,7 @@ export default function RecordBottomSheet({
   return (
     <BottomSheet
       bottomSheetModalRef={bottomSheetModalRef}
-      height={180}
+      height={200}
       onDismiss={onDismiss}
     >
       <View className='items-center flex-1'>

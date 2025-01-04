@@ -2,7 +2,7 @@ import { View, Text, Pressable } from 'react-native';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import BottomSheet from './BottomSheet';
 
-type EditAssetGroupBottomSheetProps = {
+type EditOptionsBottomSheetProps = {
   bottomSheetModalRef: React.RefObject<BottomSheetModal>;
   functions: { [functionName: string]: () => void };
   title: string;
@@ -10,13 +10,26 @@ type EditAssetGroupBottomSheetProps = {
   onCancel: () => void;
 };
 
-export default function EditAssetGroupBottomSheet({
+const bgColorPicker = (item: string) => {
+  switch (item) {
+    case 'Delete':
+      return 'bg-red-500';
+    case 'Pause':
+      return 'bg-amber-500';
+    case 'Resume':
+      return 'bg-green-500';
+    default:
+      return 'bg-blue-400';
+  }
+};
+
+export default function EditOptionsBottomSheet({
   bottomSheetModalRef,
   functions,
   title,
   height,
   onCancel,
-}: EditAssetGroupBottomSheetProps) {
+}: EditOptionsBottomSheetProps) {
   return (
     <BottomSheet
       bottomSheetModalRef={bottomSheetModalRef}
@@ -28,9 +41,8 @@ export default function EditAssetGroupBottomSheet({
           {Object.keys(functions).map((item, index) => (
             <Pressable
               key={item}
-              className={`py-3 border-white border-2 rounded-lg ${
-                item === 'Delete' ? 'bg-red-500' : 'bg-blue-400'
-              } border-white dark:border-zinc-600`}
+              className={`py-3 border-white border-2 rounded-lg dark:border-zinc-600 
+                ${bgColorPicker(item)}`}
               onPress={functions[item]}
             >
               <Text className='text-lg text-center color-white'>{item}</Text>

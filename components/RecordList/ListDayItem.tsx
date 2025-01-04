@@ -16,7 +16,7 @@ export default function ListDayItem({
   flatAssets,
   onPress,
 }: ListDayItemProps) {
-  let formattedDate = dayjs(item.date).format('MMM DD ddd');
+  let formattedDate = dayjs(item.date).format('D MMM YYYY ddd');
   return (
     <View className='p-3 '>
       <View className='flex-row items-center justify-between px-3 py-1 -mx-3 rounded-3xl bg-zinc-300 dark:bg-zinc-500'>
