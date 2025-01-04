@@ -54,16 +54,7 @@ export default function Calendar() {
     variables: { book_id: currentBook.id },
   });
 
-  if (isPending || isFetching || !flatAssets)
-    return (
-      <View className='items-center justify-center flex-1 gap-2'>
-        <ActivityIndicator size='large' />
-        <Text>Loading data...</Text>
-      </View>
-    );
-
   if (isError) {
-    // const formattedError = formatApiError(error);
     log.error(error.message);
     // if (formattedError.status !== 404)
     return <Text>Sorry, something went wrong. Please try it again.</Text>;
@@ -97,11 +88,12 @@ export default function Calendar() {
         initialDate={visiableMonth}
         dayComponent={({ date, state }: { date: any; state: any }) => (
           <CalendarDay
+            isLoading={isFetching}
             date={date}
             state={state}
             selectedDate={selectedDay}
             onSelectDay={setSelectedDay}
-            recordData={data.results.find(
+            recordData={data?.results.find(
               (item: RecordsByDay) => item.date === date?.dateString
             )}
           />
@@ -109,12 +101,12 @@ export default function Calendar() {
         onMonthChange={handleMonthChange}
       />
       <View className='flex-1 p-2 rounded-lg bg-sky-100 dark:bg-sky-900'>
-        {data.results.find(
+        {data?.results.find(
           (item: RecordsByDay) => item.date === selectedDay
-        ) ? (
+        ) && flatAssets ? (
           <FlashList
             data={[
-              data.results.find(
+              data?.results.find(
                 (item: RecordsByDay) => item.date === selectedDay
               ) as RecordsByDay,
             ]}

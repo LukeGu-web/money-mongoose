@@ -1,8 +1,10 @@
 import { Text, View, Pressable } from 'react-native';
 import { DateData } from 'react-native-calendars';
 import { RecordsByDay } from 'api/record/types';
+import Skeleton from '../Skeleton/Skeleton';
 
 type CalendarDayType = {
+  isLoading?: boolean;
   date: (string & DateData) | undefined;
   state: 'selected' | 'disabled' | 'inactive' | 'today' | '' | undefined;
   recordData?: RecordsByDay;
@@ -11,6 +13,7 @@ type CalendarDayType = {
 };
 
 export default function CalendarDay({
+  isLoading = false,
   date,
   state,
   recordData,
@@ -41,14 +44,24 @@ export default function CalendarDay({
           {date?.day}
         </Text>
       </View>
-      <Text className='text-xs text-center color-green-600'>
-        {Math.abs(recordData?.sum_of_income as number) > 0 &&
-          '+' + recordData?.sum_of_income}
-      </Text>
-      <Text className='text-xs text-center color-red-600'>
-        {Math.abs(recordData?.sum_of_expense as number) > 0 &&
-          recordData?.sum_of_expense}
-      </Text>
+
+      {isLoading ? (
+        <View className='gap-2'>
+          <Skeleton className='rounded-sm bg-zinc-300' height={6} width={20} />
+          <Skeleton className='rounded-sm bg-zinc-300' height={6} width={20} />
+        </View>
+      ) : (
+        <View>
+          <Text className='text-xs text-center color-green-600'>
+            {Math.abs(recordData?.sum_of_income as number) > 0 &&
+              '+' + recordData?.sum_of_income}
+          </Text>
+          <Text className='text-xs text-center color-red-600'>
+            {Math.abs(recordData?.sum_of_expense as number) > 0 &&
+              recordData?.sum_of_expense}
+          </Text>
+        </View>
+      )}
     </Pressable>
   );
 }

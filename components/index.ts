@@ -29,6 +29,7 @@ export { default as RecordFrequencyBottomSheet } from 'components/BottomSheet/Re
 export { default as ScheduledRecordList } from 'components/ScheduledRecordList/ScheduledRecordList';
 export { default as SelectGroupBottomSheet } from 'components/BottomSheet/SelectGroupBottomSheet';
 export { default as Switch } from 'components/Switch/Switch';
+export { default as Skeleton } from 'components/Skeleton/Skeleton';
 export { default as Transfer } from 'components/Transfer/Trasnfer';
 export { default as ListDayItem } from 'components/RecordList/ListDayItem';
 export { default as LineChart } from 'components/Chart/Line';
