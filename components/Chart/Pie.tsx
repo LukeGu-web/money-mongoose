@@ -27,11 +27,12 @@ export default function Pie({
 }: PieProps) {
   if (data.length === 0) {
     return (
-      <View className='items-center justify-start flex-1 w-full p-2 bg-white dark:bg-black'>
-        <Image className='w-96 h-96' source={noDataImage} />
+      <View className='items-center justify-start flex-1 w-full gap-4 p-2 bg-white dark:bg-black'>
+        <Image className='w-96 h-72' source={noDataImage} />
         <Text className='text-lg font-medium dark:color-white'>
           No data to display
         </Text>
+        <TypeSelector Types={Types} type={type} onChangeType={onChangeType} />
       </View>
     );
   }
