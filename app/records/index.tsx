@@ -1,11 +1,15 @@
 import { StatusBar } from 'expo-status-bar';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { RecordList, RecordsFilter } from 'components';
 
 export default function Records() {
   const [filter, setFilter] = useState<string>('');
   const [search, setSearch] = useState<string>('');
+  const extra = useMemo(() => {
+    return filter + `&search=${search}`;
+  }, [filter, search]);
+
   return (
     <SafeAreaView
       style={{ flex: 1, backgroundColor: '#03045E' }}
@@ -13,10 +17,10 @@ export default function Records() {
     >
       <RecordsFilter
         search={search}
-        onSetFilter={(value: string) => setFilter(value)}
-        onSetSearch={(value: string) => setSearch(value)}
+        onSetFilter={setFilter}
+        onSetSearch={setSearch}
       />
-      <RecordList extra={filter + `&search=${search}`} />
+      <RecordList key={extra} extra={extra} />
       <StatusBar style='light' />
     </SafeAreaView>
   );

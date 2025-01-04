@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import { View, Text, Image, ActivityIndicator } from 'react-native';
 import { usePathname } from 'expo-router';
 import { FlashList } from '@shopify/flash-list';
@@ -32,15 +32,27 @@ export default function RecordList({
   const currentBook = useBookStore((state) => state.currentBook);
   const [page, setPage] = useState(1);
 
+  useEffect(() => {
+    setPage(1);
+  }, [extra]);
+
   const { isPending, isError, error, data, isFetching, isPlaceholderData } =
-    useGetAllRecords({ variables: { book_id: currentBook.id, page, extra } });
+    useGetAllRecords({
+      variables: {
+        book_id: currentBook.id,
+        page,
+        extra,
+      },
+      // Only fetch when we have a valid book_id
+      enabled: !!currentBook.id,
+    });
 
   const { data: flatAssets } = useGetFlatAssets({
     variables: { book_id: currentBook.id },
+    enabled: !!currentBook.id,
   });
 
   const resetRecord = useRecord((state) => state.resetRecord);
-
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
   const handlePressItem = useCallback(() => {
@@ -51,7 +63,13 @@ export default function RecordList({
     if (path !== '/record') resetRecord();
   };
 
-  if (isPending || isFetching || !flatAssets)
+  const handleEndReached = useCallback(() => {
+    if (!isPlaceholderData && data?.next && loadMore && !isFetching) {
+      setPage((old) => old + 1);
+    }
+  }, [isPlaceholderData, data?.next, loadMore, isFetching]);
+
+  if (isPending || !flatAssets) {
     return (
       <View
         className={`items-center justify-center flex-1 gap-2 ${bgColor} dark:${darkBgColor}`}
@@ -60,11 +78,21 @@ export default function RecordList({
         <Text>Loading data...</Text>
       </View>
     );
+  }
+
+  const renderFooter = () => {
+    if (isFetching) {
+      return <ActivityIndicator size='small' className='my-4' />;
+    }
+    return (
+      <Text className='w-full mt-4 text-center dark:color-white'>
+        - The End -
+      </Text>
+    );
+  };
 
   if (isError) {
-    // const formattedError = formatApiError(error);
     log.error(error.message);
-    // if (formattedError.status !== 404)
     return (
       <View
         className={`items-center justify-center flex-1 gap-2 ${bgColor} dark:${darkBgColor}`}
@@ -77,7 +105,7 @@ export default function RecordList({
   return (
     <View className={`flex-1 p-2 ${bgColor} dark:${darkBgColor}`}>
       <FlashList
-        data={data.results}
+        data={data?.results || []}
         renderItem={({ item }: { item: RecordsByDay }) => (
           <ListDayItem
             item={item}
@@ -86,17 +114,9 @@ export default function RecordList({
           />
         )}
         estimatedItemSize={50}
-        onEndReachedThreshold={5}
-        onEndReached={() => {
-          if (!isPlaceholderData && data.next && loadMore) {
-            setPage((old) => old + 1);
-          }
-        }}
-        ListFooterComponent={() => (
-          <Text className='w-full mt-4 text-center dark:color-white'>
-            - The End -
-          </Text>
-        )}
+        onEndReachedThreshold={0.5}
+        onEndReached={handleEndReached}
+        ListFooterComponent={renderFooter}
         ListEmptyComponent={() => (
           <View className='items-center justify-center flex-1 gap-4'>
             <Image className='w-32 h-32' source={noDataImage} />

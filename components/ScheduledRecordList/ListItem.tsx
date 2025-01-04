@@ -161,7 +161,9 @@ export default function ListItem({ item, flatAssets, onPress }: ListItemProps) {
             statusColorMap[item.status]
           }`}
         >
-          <Text className='text-xs color-white'>{item.status}</Text>
+          <Text className='text-xs color-white dark:color-black'>
+            {item.status}
+          </Text>
         </View>
       </View>
     </Pressable>
