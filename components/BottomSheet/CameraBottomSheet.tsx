@@ -17,7 +17,7 @@ import { formatApiError } from 'api/errorFormat';
 import { useUserStore } from 'core/stateHooks';
 import log from 'core/logger';
 import BottomSheet from './BottomSheet';
-import { successToaster } from 'core/toaster';
+import { successToaster, infoToaster } from 'core/toaster';
 
 type CameraBottomSheetProps = {
   bottomSheetModalRef: React.RefObject<BottomSheetModal>;
@@ -34,7 +34,6 @@ export default function CameraBottomSheet({
 
   const handleOpenCamera = () => {
     bottomSheetModalRef.current?.dismiss();
-    console.log('Camera permission:', permission);
     switch (permission?.status) {
       case 'undetermined':
         requestPermission();
@@ -51,44 +50,57 @@ export default function CameraBottomSheet({
               text: 'Cancel',
               style: 'cancel',
             },
-            { text: 'Go to settings', onPress: () => Linking.openSettings() },
+            { text: 'Go to Settings', onPress: () => Linking.openSettings() },
           ]
         );
     }
   };
 
   const handleOpenCameraRoll = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      // mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      base64: true,
-      quality: 0.5,
-    });
-
-    if (!result.canceled) {
-      const base64Image =
-        `data:${result.assets[0].mimeType};base64,` + result.assets[0].base64;
-      if (type === 'avatar') {
-        updateUserApi(
-          { id: user.id, avatar: base64Image },
-          {
-            onSuccess: (response) => {
-              successToaster('Update user avatar successfully');
-              log.success('Update user avatar success:', response);
-              setUser({ ...user, avatar: response.avatar });
-              bottomSheetModalRef.current?.dismiss();
-            },
-            onError: (error) => {
-              log.error(
-                'Upload image from gallery: Error: ',
-                formatApiError(error)
-              );
-            },
-          }
-        );
+    const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (permission?.granted) {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        allowsEditing: true,
+        base64: true,
+        quality: 0.5,
+      });
+      if (!result.canceled) {
+        const base64Image =
+          `data:${result.assets[0].mimeType};base64,` + result.assets[0].base64;
+        if (type === 'avatar') {
+          updateUserApi(
+            { id: user.id, avatar: base64Image },
+            {
+              onSuccess: (response) => {
+                successToaster('Update user avatar successfully');
+                log.success('Update user avatar success:', response);
+                setUser({ ...user, avatar: response.avatar });
+                bottomSheetModalRef.current?.dismiss();
+              },
+              onError: (error) => {
+                log.error(
+                  'Upload image from gallery: Error: ',
+                  formatApiError(error)
+                );
+              },
+            }
+          );
+        }
+      } else {
+        infoToaster('You did not select any image.');
       }
     } else {
-      alert('You did not select any image.');
+      return Alert.alert(
+        'Photos Permission',
+        `This app needs permission to access your camera roll to select photos.\n\nTo enable photos access:\n\n1. Click 'Go to Settings'\n2. Tap Photos\n3. Select 'Full Access' or 'Limited Access' `,
+        [
+          {
+            text: 'Cancel',
+            style: 'cancel',
+          },
+          { text: 'Go to Settings', onPress: () => Linking.openSettings() },
+        ]
+      );
     }
   };
 

@@ -51,7 +51,7 @@ export default function SettingsSection() {
                 text: 'Cancel',
                 style: 'cancel',
               },
-              { text: 'Go to settings', onPress: () => Linking.openSettings() },
+              { text: 'Go to Settings', onPress: () => Linking.openSettings() },
             ]
           );
         }

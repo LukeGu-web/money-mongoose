@@ -17,9 +17,6 @@ export default function DataSection() {
       [
         {
           text: 'Cancel',
-          onPress: () => {
-            console.log('Cancel erase data!');
-          },
           style: 'cancel',
         },
         {
