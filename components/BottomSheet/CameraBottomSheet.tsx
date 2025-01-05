@@ -1,4 +1,11 @@
-import { View, Text, Pressable, ActivityIndicator } from 'react-native';
+import {
+  Alert,
+  View,
+  Text,
+  Linking,
+  Pressable,
+  ActivityIndicator,
+} from 'react-native';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { router } from 'expo-router';
 import { useCameraPermissions } from 'expo-camera';
@@ -27,13 +34,32 @@ export default function CameraBottomSheet({
 
   const handleOpenCamera = () => {
     bottomSheetModalRef.current?.dismiss();
-    if (!permission?.granted) requestPermission();
-    router.push({ pathname: '/media/camera', params: { type } });
+    console.log('Camera permission:', permission);
+    switch (permission?.status) {
+      case 'undetermined':
+        requestPermission();
+        break;
+      case 'granted':
+        router.push({ pathname: '/media/camera', params: { type } });
+        break;
+      case 'denied':
+        return Alert.alert(
+          'Camera Permission',
+          `This app needs permission to access your camera to take photos.\n\nTo enable camera access:\n\n1. Click 'Go to Settings'\n2. Toggle Camera`,
+          [
+            {
+              text: 'Cancel',
+              style: 'cancel',
+            },
+            { text: 'Go to settings', onPress: () => Linking.openSettings() },
+          ]
+        );
+    }
   };
 
   const handleOpenCameraRoll = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      // mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       base64: true,
       quality: 0.5,

@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { View, Text, Pressable } from 'react-native';
+import { Alert, View, Text, Pressable, Linking } from 'react-native';
 import { router } from 'expo-router';
 import * as Notifications from 'expo-notifications';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -43,7 +43,17 @@ export default function SettingsSection() {
           await Notifications.requestPermissionsAsync();
         if (newStatus !== 'granted') {
           setIsEnabledReminder(false);
-          return;
+          return Alert.alert(
+            'Push Notification Permission',
+            `This app needs permission to send you daily reminders and important updates. \n\nTo enable notifications:\n\n1. Click 'Go to Settings'\n2. Tap 'Notifications'\n3. Turn on 'Allow Notifications'`,
+            [
+              {
+                text: 'Cancel',
+                style: 'cancel',
+              },
+              { text: 'Go to settings', onPress: () => Linking.openSettings() },
+            ]
+          );
         }
       }
 
