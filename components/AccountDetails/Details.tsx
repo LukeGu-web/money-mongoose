@@ -34,19 +34,12 @@ export default function Details() {
   }, [data]);
 
   const handleVerifyEmail = () => {
-    verifyEmailApi(null, {
+    verifyEmailApi(undefined, {
       onSuccess: () =>
         Alert.alert(
           'Verify your email',
           "We've just sent a verification email to your account. Please check your inbox (and spam folder, just in case) and follow the link provided to complete your registration.",
-          [
-            {
-              text: 'Ok',
-              onPress: () => {
-                console.log('Close alert');
-              },
-            },
-          ]
+          [{ text: 'OK' }]
         ),
     });
   };
@@ -58,9 +51,6 @@ export default function Details() {
       [
         {
           text: 'Cancel',
-          onPress: () => {
-            console.log('Cancel erase data!');
-          },
           style: 'cancel',
         },
         {

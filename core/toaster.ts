@@ -6,3 +6,10 @@ export const successToaster = (message: string) => {
     text1: message,
   });
 };
+
+export const infoToaster = (message: string) => {
+  Toast.show({
+    type: 'info',
+    text1: message,
+  });
+};

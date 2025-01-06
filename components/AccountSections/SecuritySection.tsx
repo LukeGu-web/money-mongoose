@@ -1,5 +1,6 @@
 import { useRef } from 'react';
-import { View, Text, Pressable } from 'react-native';
+import { Alert, View, Text, Linking, Pressable } from 'react-native';
+import * as LocalAuthentication from 'expo-local-authentication';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
@@ -22,6 +23,30 @@ export default function SecuritySection() {
   const handleLockTime = () => {
     bottomSheetModalRef.current?.present();
   };
+
+  const handleToggleFaceID = async () => {
+    if (!isEnabledAuth) {
+      const compatible = await LocalAuthentication.hasHardwareAsync();
+      if (!compatible) {
+        return Alert.alert(
+          'Authentication Permission',
+          `This app needs permission to access your Face ID to protect your data.\n\nTo enable Face ID:\n\n1. Click 'Go to Settings'\n2. Toggle Face ID`,
+          [
+            {
+              text: 'Cancel',
+              style: 'cancel',
+            },
+            { text: 'Go to Settings', onPress: () => Linking.openSettings() },
+          ]
+        );
+      } else {
+        setIsEnabledAuth(true);
+      }
+    } else {
+      setIsEnabledAuth(false);
+    }
+  };
+
   return (
     <View className='items-start justify-center flex-1 gap-2 mb-4 '>
       <Text className='color-zinc-600 dark:color-zinc-300'>Security</Text>
@@ -39,10 +64,7 @@ export default function SecuritySection() {
             />
             <Text className='text-lg dark:color-white'>FaceID/Fingerpint</Text>
           </View>
-          <Switch
-            onValueChange={() => setIsEnabledAuth(!isEnabledAuth)}
-            value={isEnabledAuth}
-          />
+          <Switch onValueChange={handleToggleFaceID} value={isEnabledAuth} />
         </View>
         {isEnabledAuth && (
           <View className='flex-row items-center justify-between px-4 py-3 border-b-2 border-white dark:border-black bg-zinc-300 dark:bg-zinc-900 border-x-2'>

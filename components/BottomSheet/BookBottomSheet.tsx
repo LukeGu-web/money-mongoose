@@ -43,7 +43,7 @@ export default function BookBottomSheet({
         `You cannot delete your current book. You have to switch to another book first.`,
         [
           {
-            text: 'Ok',
+            text: 'OK',
             onPress: () => bottomSheetModalRef.current?.dismiss(),
           },
         ]

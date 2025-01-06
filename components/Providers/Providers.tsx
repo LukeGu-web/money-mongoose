@@ -39,9 +39,10 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     if (Date.now() - lastAuthTimeRef.current < lockTime * 60000) return; // Prevent auth more than once lock time (minutes)
     try {
       const compatible = await LocalAuthentication.hasHardwareAsync();
-      log.info('BiometricSupported', compatible);
       if (compatible) {
-        await LocalAuthentication.supportedAuthenticationTypesAsync();
+        const support =
+          await LocalAuthentication.supportedAuthenticationTypesAsync();
+        log.info('Supported Authentication Types', support);
       }
       const savedBiometrics = await LocalAuthentication.isEnrolledAsync();
       if (!savedBiometrics) {
